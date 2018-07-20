@@ -89,6 +89,7 @@ RPS2=$RPS1
 # Homeshick
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
+homeshick --quiet refresh 2
 
 # Hub
 # Fix for git alias, see https://github.com/robbyrussell/oh-my-zsh/issues/766
