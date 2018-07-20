@@ -1,0 +1,17 @@
+# Files
+alias zshrc="vim ~/.zshrc"
+alias vimrc="vim ~/.vimrc"
+alias config="vim ~/.vim/config.vim"
+alias todo="vim ~/Documents/Todo.md"
+alias notes="vim ~/Documents/Notes.md"
+
+# Command aliases
+alias mvn="mvn-color"
+alias t="gnome-terminal"
+alias gaacm="git add -A && git commit -m"
+
+# Directories
+alias dl="cd ~/Downloads"
+
+# Clean terminal window
+alias :q='exit'
