@@ -82,6 +82,7 @@ let g:vim_markdown_new_list_item_indent = 0
 
 " vim-markdown-preview
 let vim_markdown_preview_github=1
+let vim_markdown_preview_use_xdg_open=1
 
 " nerdtree
 map <Leader>n :NERDTreeToggle<CR>
