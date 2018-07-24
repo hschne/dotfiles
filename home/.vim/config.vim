@@ -69,7 +69,7 @@ endif
 " colors
 let g:molokai_original = 1
 let g:rehash256 = 1
-silent! colorscheme molokai
+silent! colorscheme nord
 
 " vim-airline
 set encoding=utf-8

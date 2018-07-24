@@ -3,7 +3,7 @@ autoload -U add-zsh-hook
 export ZSH=$HOME/.oh-my-zsh
 setopt extended_glob
 
-ZSH_THEME="bullet-train"
+ZSH_THEME="spaceship"
 
 BULLETTRAIN_PROMPT_ORDER=(
  time
@@ -79,12 +79,6 @@ function zle-keymap-select() {
 }
 
 zle -N zle-keymap-select
-
-function vi_mode_prompt_info() {
-  echo "${${KEYMAP/vicmd/[% NORMAL]%}/(main|viins)/[% INSERT]%}"
-}
-RPS1='$(vi_mode_prompt_info)'
-RPS2=$RPS1
 
 # Homeshick
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"

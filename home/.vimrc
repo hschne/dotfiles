@@ -9,7 +9,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Graphics
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'arcticicestudio/nord-vim'
 
 " Settings
 Plugin 'tpope/vim-sensible'
