@@ -66,15 +66,16 @@ else " no gui
   endif
 endif
 
+set guifont=Fira\ Code\ Medium\ 10
 " colors
 let g:molokai_original = 1
 let g:rehash256 = 1
 silent! colorscheme nord
 
 " vim-airline
-set encoding=utf-8
 let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
+let g:airline_right_sep = ''
 
 " vim-markdown
 let g:vim_markdown_folding_disabled = 1
