@@ -18,6 +18,8 @@ set textwidth=0
 set wrapmargin=0
 set completeopt=menuone,menu,longest
 
+set termguicolors
+
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildmode=longest,list,full
 set wildmenu
