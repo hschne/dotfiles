@@ -1,100 +1,103 @@
-# Path to your oh-my-zsh installatio
-autoload -U add-zsh-hook
-export ZSH=$HOME/.oh-my-zsh
-setopt extended_glob
+# Antigen
+# 
+# Antigen is plugin manager of ZSH. 
+#
+# Website: http://antigen.sharats.me/
+source $HOME/antigen.zsh
 
-ZSH_THEME="spaceship"
+# Oh-my-Zsh
+#
+# The original ZSH plugin manager. 
+#
+# Website: https://ohmyz.sh/
+antigen use oh-my-zsh
 
-BULLETTRAIN_PROMPT_ORDER=(
- time
- status
- custom
- context
- dir
- perl
- #ruby
- #virtualenv
- #nvm
- #go
- git
- hg
- cmd_exec_time
-)
+# Plugins for oh-my-zsh
+#
+# Various plugins for different things, add aliases, auto-completions and stuff 
+# like that.
+#
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+antigen bundle ubuntu
+antigen bundle git
+antigen bundle mvn
 
-plugins=(
-  ubuntu
-  git 
-  git-extras
-  gitfast
-  github
-  docker-compose
-  docker
-  mvn
-)
+# Enable vi-mode
+#
+# Allows you to havigate your shell with vim-like keybindings and feel like a wizard
+# while doing it.
+#
+# See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
+antigen bundle vi-mode
 
-source $ZSH/oh-my-zsh.sh
+# Additional plugins, see GitHub 
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+
+# Spaceship theme
+#
+# The nicest prompt theme I could find. Adds wonderful git support, 
+# supports vi-mode and much more.
+#
+# Website: https://denysdovhan.com/spaceship-prompt/
+antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
+
+antigen apply
 
 # History Tweaks 
-setopt EXTENDED_HISTORY
+#
+# The main idea here is to avoid having a bunch of duplicates.
+# Additionally, the history size is increased. 
+#
+# See http://zsh.sourceforge.net/Doc/Release/Options.html
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
-
-HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 
-# PATH
-################################################################################
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/CloudStation/Synced/Scripts:$PATH"
-
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export PIPENV_VENV_IN_PROJECT=1 # Initialize pipenv in Project
-
-# Init Oh My Zsh
-################
-
-# Aliases
-################
-source $HOME/.aliases
-
-# CLI Tools and Tweaks
-######################
-
-# Disable scroll lock
+# Disable Scroll Lock 
+#
+# Needed to be able to do CTRL-S in vim in the terminal. 
+#
 # See https://unix.stackexchange.com/a/72092
 stty -ixon
 
-# Vim Mode
-bindkey -v
+# Speed up prompt redraw, useful when using vi-mode 
 export KEYTIMEOUT=1
 
-function zle-keymap-select() {
-  zle reset-prompt
-  zle -R
-}
+# Add custom aliases
+source $HOME/.aliases
 
-zle -N zle-keymap-select
+# Add custom scripts
+export PATH="$HOME/.scripts:$PATH"
 
 # Homeshick
+#
+# Homeshick is a dotfile manager written in Bash. Useful for 
+# keeping your settings backed up.
+#
+# Website: https://github.com/andsens/homeshick
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
 homeshick --quiet refresh 2
 
-# Hub
-# Fix for git alias, see https://github.com/robbyrussell/oh-my-zsh/issues/766
-function git() { hub $@; }
 
-# rbenv
+# Rbenv
+#
+# Rbenv is a version manager for Ruby. 
+#
+# Website: https://github.com/rbenv/rbenv
 export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+eval "$(rbenv init -)"
 
-# pyenv
+# Pyenv
+# 
+# Pyenv is a version manager for Python.
+#
+# Website: https://github.com/pyenv/pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
@@ -102,25 +105,34 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 # NVM
+#
+# The node version manager. 
+#
+# Website: https://github.com/creationix/nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
 
 # jEnv
+#
+# A version manager for Java. 
+#
+# Website: http://www.jenv.be/
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 # The Fuck
+#
+# The most magnificent thing you will ever see. Semantically correct
+# way of dealing with typos.
+#
+# Website: https://github.com/nvbn/thefuck
 eval $(thefuck --alias)
 
-# Enable FZF Keybindings
+# FZF
+#
+# FZF is a fuzzy command line finder. Great for finding files
+# and traversing your history.
+#
+# Website: https://github.com/junegunn/fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Color fix for xterm
-if [ "$TERM" = "xterm" ]; then
-    export TERM=xterm-256color
-fi
-
-
-
-

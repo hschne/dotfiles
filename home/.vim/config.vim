@@ -68,10 +68,7 @@ else " no gui
   endif
 endif
 
-set guifont=Fira\ Code\ Medium\ 10
 " colors
-let g:molokai_original = 1
-let g:rehash256 = 1
 silent! colorscheme nord
 
 " vim-airline
