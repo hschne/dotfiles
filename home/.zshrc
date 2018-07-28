@@ -30,7 +30,11 @@ antigen bundle mvn
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
 antigen bundle vi-mode
 
-# Additional plugins, see GitHub 
+# Syntax Highlighting and Autosuggestions
+#
+# Does what it says on the tin. See site for more information.
+#
+# Website: https://github.com/zsh-users
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 

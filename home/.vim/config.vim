@@ -30,7 +30,6 @@ set cmdheight=1
 
 filetype indent on
 
-
 " toggle hlsearch
 set hlsearch!
 nnoremap <F3> :noh<CR><CR>
@@ -83,23 +82,3 @@ let g:vim_markdown_new_list_item_indent = 0
 " vim-markdown-preview
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
-
-" nerdtree
-map <Leader>n :NERDTreeToggle<CR>
-
-" yaml indent
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-
-" easy align
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-" ctrl+p
-map <silent> <Leader>t :CtrlP()<CR>
-noremap <leader>b<space> :CtrlPBuffer<cr>
-let g:ctrlp_custom_ignore = '\v[\/]dist$'
-
-" yaml format
-let g:yaml_formatter_indent_collection=1
