@@ -141,3 +141,12 @@ eval $(thefuck --alias)
 #
 # Website: https://github.com/junegunn/fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+# Hub
+#
+# Hub makes working with Github easier. This is a fix for an 
+# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
+#
+# Website: https://hub.github.com/
+function git() { hub $@; }
