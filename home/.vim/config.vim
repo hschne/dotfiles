@@ -1,46 +1,47 @@
-" editor 
+" Options
+"
+" A number of options I like to use. See ':help options' for more information.
+" Allso note that a number of options might be set by plugins (e.g.
+" vim-sensible). 
 set number
 set wrap
 set showmode
 set smartcase
-set smarttab
 set smartindent
-set autoindent
 set softtabstop=2
 set shiftwidth=2
 set expandtab
-set incsearch
 set mouse=a
 set history=1000
 set clipboard=unnamedplus,autoselect
-set history=200
 set textwidth=0 
 set wrapmargin=0
 set completeopt=menuone,menu,longest
-
 set termguicolors
-
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildmode=longest,list,full
-set wildmenu
 set completeopt+=longest
-
-set t_Co=256
 set cmdheight=1
 
 filetype indent on
 
-" toggle hlsearch
+" Toggle Search Highlighting
+"
+" See https://stackoverflow.com/a/657457/2553104 for more info. 
 set hlsearch!
 nnoremap <F3> :noh<CR><CR>
 
-" deactivate arrow keys
+" Deachtivate Arrow Keys
+"
+" Disable arrow keys. Helps getting gud in vim. 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" syntastic
+" Syntastic
+"
+" Syntastic default settings. See ':help Syntastic' for more info. 
 map <Leader>s :SyntasticToggleMode<CR>
 
 set statusline+=%#warningmsg#
@@ -50,35 +51,30 @@ set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+let g:syntastic_check_on_wq = 0
 
-" supertab
-autocmd FileType *
-  \ if &omnifunc != '' |
-  \   call SuperTabChain(&omnifunc, "<c-p>") |
-  \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-  \ endif
-
-if has("gui_running")
-    imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-else " no gui
-  if has("unix")
-    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
-  endif
-endif
-
-" colors
+" Colorscheme
+"
+" Nord. Its beautiful. Note that 'silent! is required in order to allow an
+" automated installation process of vim and its plugins. 
 silent! colorscheme nord
 
 " vim-airline
+"
+" Settings for vim-airline. Use minimalist theme. 
 let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
 let g:airline_right_sep = ''
 
 " vim-markdown
+"
+" Settings for vim-markdown. Disable folding and fix list item behaviour. 
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
 
 " vim-markdown-preview
+"
+" Use github style preview. XDG open required to open non-chrome browsers on
+" Arch linux. 
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
