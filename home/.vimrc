@@ -78,6 +78,27 @@ Plugin 'plasticboy/vim-markdown'
 " See https://github.com/JamshedVesuna/vim-markdown-preview
 Plugin 'JamshedVesuna/vim-markdown-preview'
 
+" VimTex
+"
+" A lightweight plugin for nice latex support. 
+"
+" See https://github.com/lervag/vimtex
+Plugin 'lervag/vimtex'
+
+" UltiSnips
+"
+" A modern snippet engine. Doesn't come with any snippets though. 
+"
+" See https://github.com/SirVer/ultisnips
+Plugin 'SirVer/ultisnips'
+
+" Vim Snippets
+"
+" Community maintained snippets for lots of things. 
+"
+" See https://github.com/honza/vim-snippets
+Plugin 'honza/vim-snippets'
+
 call vundle#end()
 filetype plugin indent on
 syntax on
