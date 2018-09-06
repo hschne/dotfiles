@@ -70,11 +70,14 @@ stty -ixon
 
 # Fix new Tab on Arch
 #
-# When opening a new Tab in Gnome Terminal, it always opens in $HOME.
+# When opening a new Tab in Gnome Terminal, it always opens in $HOME. 
+# Only applies to Arch distros.
 #
 # For the bugreport see https://bugs.launchpad.net/ubuntu-gnome/+bug/1193993 
 # For fixes see  https://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
-. /etc/profile.d/vte.sh
+if [ -f "/etc/arch-release" ]; then
+  . /etc/profile.d/vte.sh
+fi
 
 # Speed up prompt redraw, useful when using vi-mode 
 export KEYTIMEOUT=1
