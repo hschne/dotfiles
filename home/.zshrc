@@ -15,8 +15,6 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/ubuntu", from:oh-my-zsh
-zplug "plugins/nvm", from:oh-my-zsh
-#zplug "plugins/rails", from:oh-my-zsh, defer:2 # Required for autocomplete to work
 
 # Enable vi-mode
 #
@@ -32,7 +30,7 @@ zplug "plugins/vi-mode", from:oh-my-zsh
 #
 # Website: https://github.com/zsh-users
 zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-completions", defer:0
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
 # Homeshick
@@ -45,12 +43,20 @@ zplug "andsens/homeshick", use:"homeshick.sh", defer:0
 zplug "andsens/homeshick", use:"completions", defer:0
 
 # NVM 
-#
-# ZSH Plugin for installing and configuring NVM. 
+# 
+# NVM is a version manager for node. This zsh plugin
+# takes care of the installation and configuration.
 # 
 # See https://github.com/lukechilds/zsh-nvm
-export NVM_LAZY_LOAD=true
 zplug "lukechilds/zsh-nvm"
+
+# Rbenv
+#
+# Rbenv is a version manager for Ruby. This zsh plugin manages
+# installation and configuration.
+#
+# Website: https://github.com/rbenv/rbenv
+zplug "cswl/zsh-rbenv"
 
 # Spaceship theme
 #
@@ -117,15 +123,6 @@ export PATH="$HOME/.scripts:$PATH"
 
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
-
-# Rbenv
-#
-# Rbenv is a version manager for Ruby. 
-#
-# Website: https://github.com/rbenv/rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-eval "$(rbenv init -)"
 
 # Pyenv
 # 
