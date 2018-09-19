@@ -16,6 +16,9 @@ alias dl="cd ~/Downloads"
 # Clean terminal window
 alias :q='exit'
 
+# Use bat
+alias cat='bat'
+
 # Directories
 alias -g ...='../..'
 alias -g ....='../../..'

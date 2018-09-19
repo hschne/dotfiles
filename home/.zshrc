@@ -61,19 +61,15 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:3
 # Website: https://github.com/nvbn/thefuck
 zplug "plugins/thefuck", from:oh-my-zsh
 
-# JG is a requirement for emoji-cli
-zplug "stedolan/jq", \
-    from:gh-r, \
-    as:command, \
-    rename-to:jq
+
 
 # Emoji-CLI
 #
 # Emojis for the command line. Yes, this is absolutely needed.
 #
 # Website: https://github.com/b4b4r07/emoji-cli
-zplug "b4b4r07/emoji-cli", \
-    on:"stedolan/jq"
+zplug "b4b4r07/emoji-cli", on:"stedolan/jq"
+zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 
 # Emojis for the command line, also super important.
 zplug "mrowa44/emojify", as:command, use:emojify
@@ -193,3 +189,12 @@ function git() { hub $@; }
 
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
+
+# Bat
+#
+# Bat is a replaqcement for cat that just looks dope.
+#
+# See https://github.com/sharkdp/bat
+export BAT_THEME="Monokai Extended"
+export BAT_STYLE="numbers,changes"
+
