@@ -14,9 +14,9 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/rails", from:oh-my-zsh, defer:2 # Defer required for autocomplete to work
 zplug "plugins/ubuntu", from:oh-my-zsh
-
+zplug "plugins/nvm", from:oh-my-zsh
+#zplug "plugins/rails", from:oh-my-zsh, defer:2 # Required for autocomplete to work
 
 # Enable vi-mode
 #
@@ -31,8 +31,26 @@ zplug "plugins/vi-mode", from:oh-my-zsh
 # Does what it says on the tin. See site for more information.
 #
 # Website: https://github.com/zsh-users
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-autosuggestions"  
+
+# Homeshick
+#
+# Homeshick is a dotfile manager written in Bash. Useful for 
+# keeping your settings backed up.
+#
+# Website: https://github.com/andsens/homeshick
+zplug "andsens/homeshick", use:"homeshick.sh", defer:0
+zplug "andsens/homeshick", use:"completions", defer:0
+
+# NVM 
+#
+# ZSH Plugin for installing and configuring NVM. 
+# 
+# See https://github.com/lukechilds/zsh-nvm
+export NVM_LAZY_LOAD=true
+zplug "lukechilds/zsh-nvm"
 
 # Spaceship theme
 #
@@ -67,6 +85,9 @@ export HISTFILE=~/.zsh_history # Required when using zplug
 export HISTSIZE=10000
 export SAVEHIST=10000
 
+# Enable advanced cd behaviour
+setopt auto_cd
+
 # Disable Scroll Lock 
 #
 # Needed to be able to do CTRL-S in vim in the terminal. 
@@ -94,16 +115,8 @@ source $HOME/.aliases
 # Add custom scripts
 export PATH="$HOME/.scripts:$PATH"
 
-# Homeshick
-#
-# Homeshick is a dotfile manager written in Bash. Useful for 
-# keeping your settings backed up.
-#
-# Website: https://github.com/andsens/homeshick
-source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-fpath=($HOME/.homesick/repos/homeshick/completions $fpath)
+# Refresh homeshick every two days
 homeshick --quiet refresh 2
-
 
 # Rbenv
 #
@@ -125,15 +138,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 export PATH="$HOME/.local/bin:$PATH"
-
-# NVM
-#
-# The node version manager. 
-#
-# Website: https://github.com/creationix/nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  
 
 # jEnv
 #
@@ -167,3 +171,9 @@ eval $(thefuck --alias)
 # Website: https://hub.github.com/
 function git() { hub $@; }
 
+# Autojump
+#
+# Autojump is a utility for navigating directories. It learns.
+#
+# Website: https://github.com/wting/autojump
+[[ -s /home/hans/.autojump/etc/profile.d/autojump.sh ]] && source /home/hans/.autojump/etc/profile.d/autojump.sh
