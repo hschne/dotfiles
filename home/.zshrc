@@ -14,9 +14,9 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 #
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
 #
-# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137,
-# thats why commit is frozen.
-zplug "plugins/vi-mode", from:oh-my-zsh, at:3cd8eaf, defer:0 
+# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137, 
+# which is why a fork is used.
+zplug "hschne/vi-mode"
 
 # Enhancd
 #
@@ -42,7 +42,6 @@ zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/ubuntu", from:oh-my-zsh
 
 # Syntax Highlighting and Autosuggestions
 #
@@ -166,6 +165,14 @@ export PATH="$HOME/.scripts:$PATH"
 
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
+
+# Hub
+#
+# Hub makes working with Github easier. This is a fix for an 
+# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
+#
+# Website: https://hub.github.com/
+function git() { hub $@; }
 
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
