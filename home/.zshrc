@@ -22,7 +22,10 @@ zplug "plugins/ubuntu", from:oh-my-zsh
 # while doing it.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-zplug "plugins/vi-mode", from:oh-my-zsh
+#
+# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137,
+# thats why commit is frozen.
+zplug "plugins/vi-mode", from:oh-my-zsh, at:3cd8eaf 
 
 # Syntax Highlighting and Autosuggestions
 #
@@ -65,7 +68,6 @@ zplug "cswl/zsh-rbenv"
 #
 # Website: https://denysdovhan.com/spaceship-prompt/
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
-
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
