@@ -15,3 +15,12 @@ alias dl="cd ~/Downloads"
 
 # Clean terminal window
 alias :q='exit'
+
+# Directories
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -- -='cd -'
+alias lsa='ls -lah'
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'

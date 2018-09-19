@@ -7,7 +7,33 @@ source $HOME/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
+# Enable vi-mode
+#
+# Allows you to havigate your shell with vim-like keybindings and feel like a wizard
+# while doing it.
+#
+# See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
+#
+# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137,
+# thats why commit is frozen.
+zplug "plugins/vi-mode", from:oh-my-zsh, at:3cd8eaf, defer:0 
+
+# Enhancd
+#
+# Helps you with cd. Alternative to autojump.
+# 
+# Website: https://github.com/b4b4r07/enhancd
 zplug "b4b4r07/enhancd", use:init.sh;
+
+# FZF
+#
+# FZF is a fuzzy command line finder. Great for finding files
+# and traversing your history.
+#
+# Website: https://github.com/junegunn/fzf
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
+zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 
 # Plugins from oh-my-zsh
 #
@@ -18,17 +44,6 @@ zplug "b4b4r07/enhancd", use:init.sh;
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/ubuntu", from:oh-my-zsh
 
-# Enable vi-mode
-#
-# Allows you to havigate your shell with vim-like keybindings and feel like a wizard
-# while doing it.
-#
-# See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-#
-# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137,
-# thats why commit is frozen.
-zplug "plugins/vi-mode", from:oh-my-zsh, at:3cd8eaf 
-
 # Syntax Highlighting and Autosuggestions
 #
 # Does what it says on the tin. See site for more information.
@@ -37,6 +52,15 @@ zplug "plugins/vi-mode", from:oh-my-zsh, at:3cd8eaf
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions", defer:0
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+
+# The Fuck
+#
+# The most magnificent thing you will ever see. Semantically correct
+# way of dealing with typos.
+#
+# Website: https://github.com/nvbn/thefuck
+zplug "plugins/thefuck", from:oh-my-zsh
 
 # Homeshick
 #
@@ -63,15 +87,20 @@ zplug "lukechilds/zsh-nvm"
 # Website: https://github.com/rbenv/rbenv
 zplug "cswl/zsh-rbenv"
 
-# FZF
+# Pyenv
+# 
+# Pyenv is a version manager for Python. 
+# This plugin adds initializes pyenv.
 #
-# FZF is a fuzzy command line finder. Great for finding files
-# and traversing your history.
+# Website: https://github.com/pyenv/pyenv
+zplug "plugins/pyenv", from:oh-my-zsh
+
+# jEnv
 #
-# Website: https://github.com/junegunn/fzf
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
-zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
+# A version manager for Java. 
+#
+# Website: http://www.jenv.be/
+zplug "plugins/jenv", from:oh-my-zsh
 
 # Spaceship theme
 #
@@ -138,49 +167,5 @@ export PATH="$HOME/.scripts:$PATH"
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 
-# Pyenv
-# 
-# Pyenv is a version manager for Python.
-#
-# Website: https://github.com/pyenv/pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
-export PATH="$HOME/.local/bin:$PATH"
-
-# jEnv
-#
-# A version manager for Java. 
-#
-# Website: http://www.jenv.be/
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
-# The Fuck
-#
-# The most magnificent thing you will ever see. Semantically correct
-# way of dealing with typos.
-#
-# Website: https://github.com/nvbn/thefuck
-eval $(thefuck --alias)
-
-
-# Hub
-#
-# Hub makes working with Github easier. This is a fix for an 
-# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
-#
-# Website: https://hub.github.com/
-function git() { hub $@; }
-
-# Autojump
-#
-# Autojump is a utility for navigating directories. It learns.
-#
-# Website: https://github.com/wting/autojump
-export AUTOJUMP_ROOT="$HOME/.autojump"
-[[ -s "$AUTOJUMP_ROOT/etc/profile.d/autojump.sh" ]] && source "$AUTOJUMP_ROOT/etc/profile.d/autojump.sh"
-
-export FZF_DEFAULT_OPTS='--height 50% --reverse --ansi'
+# Improve look of fzf, especially for enhancd
+export FZF_DEFAULT_OPTS='--height 50% --ansi'
