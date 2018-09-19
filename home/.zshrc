@@ -1,26 +1,22 @@
-# Antigen
+# Zplug
 # 
-# Antigen is plugin manager of ZSH. 
+# Zplug is a modern plugin manager for ZSH. 
 #
-# Website: http://antigen.sharats.me/
-source $HOME/antigen.zsh
+# Website: https://github.com/zplug/zplug
+source $HOME/.zplug/init.zsh
 
-# Oh-my-Zsh
-#
-# The original ZSH plugin manager. 
-#
-# Website: https://ohmyz.sh/
-antigen use oh-my-zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# Plugins for oh-my-zsh
+# Plugins from oh-my-zsh
 #
 # Various plugins for different things, add aliases, auto-completions and stuff 
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
-antigen bundle ubuntu
-antigen bundle git
-antigen bundle mvn
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/rails", from:oh-my-zsh, defer:2 # Defer required for autocomplete to work
+zplug "plugins/ubuntu", from:oh-my-zsh
+
 
 # Enable vi-mode
 #
@@ -28,15 +24,15 @@ antigen bundle mvn
 # while doing it.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-antigen bundle vi-mode
+zplug "plugins/vi-mode", from:oh-my-zsh
 
 # Syntax Highlighting and Autosuggestions
 #
 # Does what it says on the tin. See site for more information.
 #
 # Website: https://github.com/zsh-users
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-autosuggestions
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"  
 
 # Spaceship theme
 #
@@ -44,9 +40,17 @@ antigen bundle zsh-users/zsh-autosuggestions
 # supports vi-mode and much more.
 #
 # Website: https://denysdovhan.com/spaceship-prompt/
-antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
+zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
 
-antigen apply
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load
 
 # History Tweaks 
 #
@@ -59,7 +63,9 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
-HISTSIZE=10000
+export HISTFILE=~/.zsh_history # Required when using zplug
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 # Disable Scroll Lock 
 #
@@ -152,7 +158,6 @@ eval $(thefuck --alias)
 #
 # Website: https://github.com/junegunn/fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 
 # Hub
 #
