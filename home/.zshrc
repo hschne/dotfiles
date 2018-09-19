@@ -7,6 +7,8 @@ source $HOME/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
+zplug "b4b4r07/enhancd", use:init.sh;
+
 # Plugins from oh-my-zsh
 #
 # Various plugins for different things, add aliases, auto-completions and stuff 
@@ -60,6 +62,16 @@ zplug "lukechilds/zsh-nvm"
 #
 # Website: https://github.com/rbenv/rbenv
 zplug "cswl/zsh-rbenv"
+
+# FZF
+#
+# FZF is a fuzzy command line finder. Great for finding files
+# and traversing your history.
+#
+# Website: https://github.com/junegunn/fzf
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
+zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 
 # Spaceship theme
 #
@@ -154,13 +166,6 @@ eval "$(jenv init -)"
 # Website: https://github.com/nvbn/thefuck
 eval $(thefuck --alias)
 
-# FZF
-#
-# FZF is a fuzzy command line finder. Great for finding files
-# and traversing your history.
-#
-# Website: https://github.com/junegunn/fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Hub
 #
@@ -175,4 +180,7 @@ function git() { hub $@; }
 # Autojump is a utility for navigating directories. It learns.
 #
 # Website: https://github.com/wting/autojump
-[[ -s /home/hans/.autojump/etc/profile.d/autojump.sh ]] && source /home/hans/.autojump/etc/profile.d/autojump.sh
+export AUTOJUMP_ROOT="$HOME/.autojump"
+[[ -s "$AUTOJUMP_ROOT/etc/profile.d/autojump.sh" ]] && source "$AUTOJUMP_ROOT/etc/profile.d/autojump.sh"
+
+export FZF_DEFAULT_OPTS='--height 50% --reverse --ansi'
