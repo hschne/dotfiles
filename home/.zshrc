@@ -23,7 +23,7 @@ zplug "hschne/vi-mode"
 # Helps you with cd. Alternative to autojump.
 # 
 # Website: https://github.com/b4b4r07/enhancd
-zplug "b4b4r07/enhancd", use:init.sh;
+zplug "b4b4r07/enhancd", use:init.sh
 
 # FZF
 #
@@ -50,7 +50,7 @@ zplug "plugins/git", from:oh-my-zsh
 # Website: https://github.com/zsh-users
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions", defer:0
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 
 # The Fuck
@@ -61,6 +61,23 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 # Website: https://github.com/nvbn/thefuck
 zplug "plugins/thefuck", from:oh-my-zsh
 
+# JG is a requirement for emoji-cli
+zplug "stedolan/jq", \
+    from:gh-r, \
+    as:command, \
+    rename-to:jq
+
+# Emoji-CLI
+#
+# Emojis for the command line. Yes, this is absolutely needed.
+#
+# Website: https://github.com/b4b4r07/emoji-cli
+zplug "b4b4r07/emoji-cli", \
+    on:"stedolan/jq"
+
+# Emojis for the command line, also super important.
+zplug "mrowa44/emojify", as:command, use:emojify
+
 # Homeshick
 #
 # Homeshick is a dotfile manager written in Bash. Useful for 
@@ -68,7 +85,7 @@ zplug "plugins/thefuck", from:oh-my-zsh
 #
 # Website: https://github.com/andsens/homeshick
 zplug "andsens/homeshick", use:"homeshick.sh", defer:0
-zplug "andsens/homeshick", use:"completions", defer:0
+zplug "andsens/homeshick", use:"completions", defer:2
 
 # NVM 
 # 

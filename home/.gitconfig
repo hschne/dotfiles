@@ -21,7 +21,7 @@
 [core]
 	editor = vim
 [alias]
-    lg = !"git lg1"
+    lg = !"git log --oneline --color | emojify | less -r"
     lg1 = !"git lg1-specific --all"
     lg2 = !"git lg2-specific --all"
     lg3 = !"git lg3-specific --all"
