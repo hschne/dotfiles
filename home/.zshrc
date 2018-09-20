@@ -49,7 +49,7 @@ zplug "plugins/git", from:oh-my-zsh
 #
 # Website: https://github.com/zsh-users
 zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions", defer:0
+zplug "zsh-users/zsh-completions", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 
@@ -59,7 +59,7 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:3
 # way of dealing with typos.
 #
 # Website: https://github.com/nvbn/thefuck
-zplug "plugins/thefuck", from:oh-my-zsh
+zplug "plugins/thefuck", from:oh-my-zsh, defer:1
 
 
 
@@ -89,7 +89,7 @@ zplug "andsens/homeshick", use:"completions", defer:2
 # takes care of the installation and configuration.
 # 
 # See https://github.com/lukechilds/zsh-nvm
-zplug "lukechilds/zsh-nvm"
+zplug "lukechilds/zsh-nvm", defer:0
 
 # Rbenv
 #
@@ -97,7 +97,7 @@ zplug "lukechilds/zsh-nvm"
 # installation and configuration.
 #
 # Website: https://github.com/rbenv/rbenv
-zplug "cswl/zsh-rbenv"
+zplug "cswl/zsh-rbenv", defer:0
 
 # Pyenv
 # 
@@ -105,14 +105,14 @@ zplug "cswl/zsh-rbenv"
 # This plugin adds initializes pyenv.
 #
 # Website: https://github.com/pyenv/pyenv
-zplug "plugins/pyenv", from:oh-my-zsh
+zplug "plugins/pyenv", from:oh-my-zsh, defer:0
 
 # jEnv
 #
 # A version manager for Java. 
 #
 # Website: http://www.jenv.be/
-zplug "plugins/jenv", from:oh-my-zsh
+zplug "plugins/jenv", from:oh-my-zsh, defer:0
 
 # Spaceship theme
 #
