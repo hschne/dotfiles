@@ -45,11 +45,12 @@ zplug "plugins/git", from:oh-my-zsh
 
 # Syntax Highlighting and Autosuggestions
 #
-# Does what it says on the tin. See site for more information.
+# Does what it says on the tin. See site for more information. Take care
+# with those defers, these plugins tend to break other stuff.
 #
 # Website: https://github.com/zsh-users
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-completions", defer:2
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
 
