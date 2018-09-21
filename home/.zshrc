@@ -69,7 +69,7 @@ zplug "plugins/thefuck", from:oh-my-zsh, defer:1
 # Emojis for the command line. Yes, this is absolutely needed.
 #
 # Website: https://github.com/b4b4r07/emoji-cli
-zplug "b4b4r07/emoji-cli", on:"stedolan/jq"
+zplug "b4b4r07/emoji-cli", on:"stedolan/jq", defer:2
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 
 # Emojis for the command line, also super important.
