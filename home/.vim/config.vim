@@ -31,13 +31,20 @@ filetype indent on
 set hlsearch!
 nnoremap <F3> :noh<CR><CR>
 
-" Deachtivate Arrow Keys
+" Deactivate Arrow Keys
 "
 " Disable arrow keys. Helps getting gud in vim. 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
+
+" Line wrapping options
+"
+" All tips inspired by
+" https://agilesysadmin.net/how-to-manage-long-lines-in-vim/
+set showbreak=…
+set linebreak
 
 " Syntastic
 "
