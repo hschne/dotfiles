@@ -13,10 +13,7 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # while doing it.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-#
-# Currently causes interference with FZF, see https://github.com/robbyrussell/oh-my-zsh/issues/7137, 
-# which is why a fork is used.
-zplug "hschne/vi-mode"
+zplug "plugins/vi-mode", from:oh-my-zsh
 
 # Enhancd
 #
@@ -42,6 +39,8 @@ zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
+
+zplug "plugins/heroku", from:oh-my-zsh, defer:0
 
 # Syntax Highlighting and Autosuggestions
 #
@@ -198,4 +197,6 @@ export FZF_DEFAULT_OPTS='--height 50% --ansi'
 # See https://github.com/sharkdp/bat
 export BAT_THEME="Monokai Extended"
 export BAT_STYLE="numbers,changes"
+
+COMPLETION_WAITING_DOTS="true"
 
