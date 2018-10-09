@@ -145,6 +145,7 @@ setopt HIST_SAVE_NO_DUPS
 export HISTFILE=~/.zsh_history # Required when using zplug
 export HISTSIZE=10000
 export SAVEHIST=10000
+setopt share_history
 
 # Enable advanced cd behaviour
 setopt auto_cd
