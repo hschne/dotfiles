@@ -36,6 +36,13 @@ Plugin 'arcticicestudio/nord-vim'
 " See https://github.com/tpope/vim-sensible
 Plugin 'tpope/vim-sensible'
 
+" Vim-Surround
+"
+" Adds surround motions. Very useful. 
+"
+" See https://github.com/tpope/vim-surround
+Plugin 'tpope/vim-surround'
+
 " Syntastic
 "
 " Fantastic syntax checking for vim. 

@@ -9,6 +9,7 @@ alias notes="vim ~/Documents/Notes.md"
 alias mvn="mvn-color"
 alias t="gnome-terminal"
 alias gaacm="git add -A && git commit -m"
+alias wiki="tiddlywiki ~/.wiki --server 8099"
 
 # Directories
 alias dl="cd ~/Downloads"
