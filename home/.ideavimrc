@@ -1,4 +1,23 @@
+" Disable terminalsounds, see https://superuser.com/a/677312
 set visualbell
 set noerrorbells
 
+set incsearch hlsearch
+set ignorecase smartcase
+set clipboard=unnamed
+set scrolloff=5
+set showmode
+
+" Enable surround.vim
 set surround
+
+" Enable past, but only in insert
+imap <C-v> <Esc>:action $Paste<CR>
+
+" Clear search highlighting
+nnoremap <Leader>c :noh<cr>
+
+" Map useful idea functions
+map <C-e> :action RecentFiles<CR>
+map <C-s> :action SaveAll<CR>
+
