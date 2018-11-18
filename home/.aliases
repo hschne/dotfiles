@@ -6,7 +6,6 @@ alias todo="vim ~/Documents/Todo.md"
 alias notes="vim ~/Documents/Notes.md"
 
 # Command aliases
-alias mvn="mvn-color"
 alias t="gnome-terminal"
 alias gaacm="git add -A && git commit -m"
 alias wiki="tiddlywiki ~/.wiki --server 8099"

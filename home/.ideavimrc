@@ -17,7 +17,14 @@ imap <C-v> <Esc>:action $Paste<CR>
 " Clear search highlighting
 nnoremap <Leader>c :noh<cr>
 
-" Map useful idea functions
+" Recent file dialog
 map <C-e> :action RecentFiles<CR>
-map <C-s> :action SaveAll<CR>
 
+" Extend Selection 
+map <C-s> :action EditorSelectWord<CR>
+
+map <Leader>s :action SaveAll<CR>
+"TODO
+"<C-b> Go to declaration
+"<C-u> Go to super method
+"
