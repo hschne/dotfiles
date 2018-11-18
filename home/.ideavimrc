@@ -24,7 +24,6 @@ map <C-e> :action RecentFiles<CR>
 map <C-s> :action EditorSelectWord<CR>
 
 map <Leader>s :action SaveAll<CR>
-"TODO
-"<C-b> Go to declaration
-"<C-u> Go to super method
-"
+map <Leader>b :action GoToDeclaration<CR>
+map <Leader>u :action GoToSuperMethod<CR>
+
