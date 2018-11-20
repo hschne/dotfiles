@@ -25,11 +25,26 @@ set cmdheight=1
 
 filetype indent on
 
+
+" Line wrapping options
+"
+" All tips inspired by
+" https://agilesysadmin.net/how-to-manage-long-lines-in-vim/
+set showbreak=…
+set linebreak
+
+map <space> <leader>
+
 " Toggle Search Highlighting
 "
 " See https://stackoverflow.com/a/657457/2553104 for more info. 
 set hlsearch!
-nnoremap <F3> :noh<CR><CR>
+nnoremap <leader>c :noh<CR><CR>
+
+" Write to write protected stuff trick
+"
+" See https://dev.to/jovica/the-vim-trick-which-will-save-your-time-and-nerves-45pg
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 " Deactivate Arrow Keys
 "
@@ -38,13 +53,6 @@ noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
-
-" Line wrapping options
-"
-" All tips inspired by
-" https://agilesysadmin.net/how-to-manage-long-lines-in-vim/
-set showbreak=…
-set linebreak
 
 " Syntastic
 "
