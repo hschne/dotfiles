@@ -11,8 +11,8 @@ set showmode
 " Enable surround.vim
 set surround
 
-" Enable past, but only in insert
-imap <C-v> <Esc>:action $Paste<CR>
+" Map space to leader
+map <Space> <Leader>
 
 " Clear search highlighting
 nnoremap <Leader>c :noh<cr>
@@ -22,7 +22,7 @@ map <C-e> :action RecentFiles<CR>
 
 " Extend Selection 
 map <C-s> :action EditorSelectWord<CR>
-
+map <Leader>v :action $Paste<CR>
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GoToDeclaration<CR>
 map <Leader>u :action GoToSuperMethod<CR>
