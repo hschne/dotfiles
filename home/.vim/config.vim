@@ -25,11 +25,21 @@ set cmdheight=1
 
 filetype indent on
 
+
+" Line wrapping options
+"
+" All tips inspired by
+" https://agilesysadmin.net/how-to-manage-long-lines-in-vim/
+set showbreak=…
+set linebreak
+
+map <space> <leader>
+
 " Toggle Search Highlighting
 "
 " See https://stackoverflow.com/a/657457/2553104 for more info. 
 set hlsearch!
-nnoremap <Leader>c :noh<CR><CR>
+nnoremap <leader>c :noh<CR><CR>
 
 
 " Nifty trick to write to write protected files
