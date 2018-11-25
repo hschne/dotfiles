@@ -29,7 +29,15 @@ filetype indent on
 "
 " See https://stackoverflow.com/a/657457/2553104 for more info. 
 set hlsearch!
-nnoremap <F3> :noh<CR><CR>
+nnoremap <Leader>c :noh<CR><CR>
+
+
+" Nifty trick to write to write protected files
+"
+" See https://dev.to/jovica/the-vim-trick-which-will-save-your-time-and-nerves-45pg
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+
 
 " Deactivate Arrow Keys
 "
