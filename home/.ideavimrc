@@ -14,16 +14,18 @@ set surround
 " Map space to leader
 map <Space> <Leader>
 
-" Clear search highlighting
-nnoremap <Leader>c :noh<cr>
-
 " Recent file dialog
 map <C-e> :action RecentFiles<CR>
 
 " Extend Selection 
 map <C-s> :action EditorSelectWord<CR>
-map <Leader>v :action $Paste<CR>
+
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GoToDeclaration<CR>
 map <Leader>u :action GoToSuperMethod<CR>
+map <Leader>a :action Annotate<CR>
+map <Leader>d :action ActivateDatabaseToolWindow<CR>
+
+" Clear search highlighting
+nnoremap <Leader>c :noh<cr>
 
