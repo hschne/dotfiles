@@ -3,7 +3,6 @@
 " A number of options I like to use. See ':help options' for more information.
 " Allso note that a number of options might be set by plugins (e.g.
 " vim-sensible). 
-set number
 set wrap
 set showmode
 set smartcase
@@ -25,6 +24,18 @@ set cmdheight=1
 
 filetype indent on
 
+" Enable hybrid numbers. Autocmd triggers relative numbers only for active
+" buffer
+"
+" All the tricks stolen from here: 
+" https://jeffkreeftmeijer.com/vim-number/
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 
 " Line wrapping options
 "
