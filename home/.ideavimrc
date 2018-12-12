@@ -8,6 +8,10 @@ set clipboard=unnamed
 set scrolloff=5
 set showmode
 
+" Use hybrid line numbers
+" Well explained here: https://jeffkreeftmeijer.com/vim-number/
+set number relativenumber
+
 " Enable surround.vim
 set surround
 
@@ -21,11 +25,13 @@ map <C-e> :action RecentFiles<CR>
 map <C-s> :action EditorSelectWord<CR>
 
 map <Leader>s :action SaveAll<CR>
-map <Leader>b :action GoToDeclaration<CR>
-map <Leader>u :action GoToSuperMethod<CR>
+map <Leader>b :action GotoDeclaration<CR>
+map <Leader>u :action GotoSuperMethod<CR>
 map <Leader>a :action Annotate<CR>
 map <Leader>d :action ActivateDatabaseToolWindow<CR>
+map <Leader>p :action SelectInProjectView<CR>
+
+map <Leader>n :set number! relativenumber!<CR>
 
 " Clear search highlighting
 nnoremap <Leader>c :noh<cr>
-
