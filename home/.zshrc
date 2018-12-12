@@ -39,7 +39,6 @@ zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
-
 zplug "plugins/heroku", from:oh-my-zsh, defer:0
 
 # Syntax Highlighting and Autosuggestions
@@ -60,8 +59,6 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:3
 #
 # Website: https://github.com/nvbn/thefuck
 zplug "plugins/thefuck", from:oh-my-zsh, defer:1
-
-
 
 # Emoji-CLI
 #
@@ -201,3 +198,4 @@ export BAT_STYLE="numbers,changes"
 
 COMPLETION_WAITING_DOTS="true"
 
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
