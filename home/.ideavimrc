@@ -8,6 +8,10 @@ set clipboard=unnamed
 set scrolloff=5
 set showmode
 
+" More natural split behaviour 
+set splitbelow
+set splitright
+
 " Use hybrid line numbers
 " Well explained here: https://jeffkreeftmeijer.com/vim-number/
 set number relativenumber
