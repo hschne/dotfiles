@@ -119,6 +119,8 @@ zplug "plugins/jenv", from:oh-my-zsh, defer:0
 # Website: https://denysdovhan.com/spaceship-prompt/
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
 
+[[ -f "$HOME/.zplug.local" ]] && source "$HOME/.zplug.local"
+
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
     if read -q; then
