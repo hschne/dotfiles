@@ -24,6 +24,7 @@ map <Space> <Leader>
 
 " Recent file dialog
 map <C-e> :action RecentFiles<CR>
+map <C-n> :action GotoClass<CR>
 
 " Extend Selection 
 map <C-s> :action EditorSelectWord<CR>
@@ -35,7 +36,6 @@ map <Leader>a :action Annotate<CR>
 map <Leader>d :action ActivateDatabaseToolWindow<CR>
 map <Leader>p :action SelectInProjectView<CR>
 
-map <Leader>n :set number! relativenumber!<CR>
 
 " Clear search highlighting
 nnoremap <Leader>c :noh<cr>
