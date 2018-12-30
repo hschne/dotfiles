@@ -1,3 +1,6 @@
+# First things first, add locality script
+export PATH="$HOME/.scripts:$PATH"
+
 # Zplug
 # 
 # Zplug is a modern plugin manager for ZSH. 
@@ -119,7 +122,12 @@ zplug "plugins/jenv", from:oh-my-zsh, defer:0
 # Website: https://denysdovhan.com/spaceship-prompt/
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
 
-[[ -f "$HOME/.zplug.local" ]] && source "$HOME/.zplug.local"
+# Locality
+#
+# Useful if you have customizations that only apply to some workstations. 
+#
+# See: https://github.com/hschne/locality
+zplug_file=$(locality ./.zplug);  [[ -f $zplug_file ]] && source $zplug_file
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -173,9 +181,6 @@ export KEYTIMEOUT=1
 # Add custom aliases
 source $HOME/.aliases
 
-# Add custom scripts
-export PATH="$HOME/.scripts:$PATH"
-
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 
@@ -200,4 +205,4 @@ export BAT_STYLE="numbers,changes"
 
 COMPLETION_WAITING_DOTS="true"
 
-[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+file=$(locality "$HOME/.zshrc"); [[ -f $file ]] && source $file;

@@ -1,7 +1,3 @@
-# dotfiles
-
-dotfiles. These are mine. 
-
 # scripts
 
 A collection of all kinds of little scripts. Some stolen, some found, some I even made myself!
@@ -56,7 +52,6 @@ Kindly donated by StackExchange, see [here](https://askubuntu.com/a/217310/37681
 # Restore
 ./keybindings.pl -i /tmp/keys.csv
 ```
-
 
 
 
