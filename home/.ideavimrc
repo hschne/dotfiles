@@ -1,14 +1,16 @@
-" Source shared configuration
-source $HOME/.vim/shared.vim
+" Load settings that Ideavim shares with Vim
+source ~/.vim/shared.vim
+
+" Disable terminalsounds, see https://superuser.com/a/677312
+set visualbell
+set noerrorbells
 
 " Enable surround.vim
 set surround
 
-" Recent file dialog
+" Mappings to editor actions
 map <C-e> :action RecentFiles<CR>
 map <C-n> :action GotoClass<CR>
-
-" Extend Selection 
 map <C-s> :action EditorSelectWord<CR>
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GotoDeclaration<CR>

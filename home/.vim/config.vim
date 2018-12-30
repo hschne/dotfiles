@@ -1,41 +1,53 @@
+" Load settings that are shared with other Vim-Like instances, e.g. Ideavim
+source $HOME/.vim/shared.vim
+
 " Options
 "
-" A number of options I like to use. See ':help options' for more information.
-" Allso note that a number of options might be set by plugins (e.g.
+" See ':help options' for more information.
+" Also note that a number of options might be set by plugins (e.g.
 " vim-sensible). 
-set wrap
-set showmode
-set smartcase
-set smartindent
-set softtabstop=2
-set shiftwidth=2
+set cmdheight=1
+set completeopt+=longest
+set completeopt=menuone,menu,longest
 set expandtab
 set mouse=a
-set history=1000
-set clipboard=unnamedplus,autoselect
-set textwidth=0 
-set wrapmargin=0
-set completeopt=menuone,menu,longest
+set shiftwidth=2
+set smartindent
+set softtabstop=2
 set termguicolors
+set textwidth=0 
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildmode=longest,list,full
-set completeopt+=longest
-set cmdheight=1
+set wrapmargin=0
 
 filetype indent on
 
-" Enable hybrid numbers. Autocmd triggers relative numbers only for active
-" buffer
-"
-" All the tricks stolen from here: 
-" https://jeffkreeftmeijer.com/vim-number/
-:set number relativenumber
-
+" Autocmd triggers relative numbers only for active buffer. 
+" Autocmd is not supported in Ideavim, which is why this isn't in the shared
+" configuration
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+" Create some directories if it does not exist
+"
+" See https://stackoverflow.com/a/12488082/2553104
+if !isdirectory($HOME/".vim/swp")
+    silent call mkdir($HOME."/.vim/swp", "p")
+endif
+
+if !isdirectory($HOME/".vim/undo")
+    silent call mkdir($HOME."/.vim/undo", "p")
+endif
+
+" Save swapfiles/undofiles a specific directory
+"
+" See here: https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
+set directory=$HOME/.vim/swp//
+set undofile
+set undodir=$HOME/.vim/undodir//
 
 " Line wrapping options
 "
@@ -44,21 +56,10 @@ filetype indent on
 set showbreak=…
 set linebreak
 
-map <space> <leader>
-
-" Toggle Search Highlighting
-"
-" See https://stackoverflow.com/a/657457/2553104 for more info. 
-set hlsearch!
-nnoremap <leader>c :noh<CR><CR>
-
-
 " Nifty trick to write to write protected files
 "
 " See https://dev.to/jovica/the-vim-trick-which-will-save-your-time-and-nerves-45pg
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-
 
 " Deactivate Arrow Keys
 "

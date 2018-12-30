@@ -1,23 +1,34 @@
-set incsearch hlsearch
+" Common settings shared between various vim like editors
+
+" Options
+"
+" For more info type :help <keyword>
+set clipboard=unnamedplus,autoselect
+set history=1000
 set ignorecase smartcase
-set clipboard=unnamed
+set incsearch hlsearch
 set scrolloff=5
 set showmode
+set smartcase
 
-" More natural split behaviour 
+" More natural split behaviour
+"
+" See here: https://robots.thoughtbot.com/vim-splits-move-faster-and-more-naturally
 set splitbelow
 set splitright
 
-" Use hybrid line numbers
-" Well explained here: https://jeffkreeftmeijer.com/vim-number/
+" Enable hybrid numbers.
+"
+" All the tricks stolen from here: 
+" https://jeffkreeftmeijer.com/vim-number/
 set number relativenumber
 
 " Map space to leader
-map <Space> <Leader>
+map <Space> <leader>
 
-" Clear search highlighting
-nnoremap <Leader>c :noh<cr>
+" Toggle Search Highlighting
+"
+" See https://stackoverflow.com/a/657457/2553104 for more info. 
+set hlsearch!
+nnoremap <leader>c :noh<CR><CR>
 
-" Disable terminalsounds, see https://superuser.com/a/677312
-set visualbell
-set noerrorbells

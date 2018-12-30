@@ -44,6 +44,13 @@ Plugin 'tpope/vim-sensible'
 " See https://github.com/tpope/vim-surround
 Plugin 'tpope/vim-surround'
 
+" Vim-Unimpaired
+"
+" Adds a bunch of useful keybindings. 
+"
+" See https://github.com/tpope/vim-unimpaired
+Plugin 'tpope/vim-unimpaired'
+
 " Syntastic
 "
 " Fantastic syntax checking for vim. 
