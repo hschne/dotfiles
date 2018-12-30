@@ -51,6 +51,13 @@ Plugin 'tpope/vim-surround'
 " See https://github.com/tpope/vim-unimpaired
 Plugin 'tpope/vim-unimpaired'
 
+" Vim-Commentary
+"
+" Finally, easy commenting everywhere. 
+"
+" See https://github.com/tpope/vim-commentary
+Plugin 'tpope/vim-commentary'
+
 " Syntastic
 "
 " Fantastic syntax checking for vim. 
@@ -109,7 +116,8 @@ Plugin 'SirVer/ultisnips'
 
 " Vim Snippets
 "
-" Community maintained snippets for lots of things. 
+" Community maintained snippets for lots of things. Works together with
+" Ultisnips 
 "
 " See https://github.com/honza/vim-snippets
 Plugin 'honza/vim-snippets'
