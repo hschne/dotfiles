@@ -1,26 +1,8 @@
-" Disable terminalsounds, see https://superuser.com/a/677312
-set visualbell
-set noerrorbells
-
-set incsearch hlsearch
-set ignorecase smartcase
-set clipboard=unnamed
-set scrolloff=5
-set showmode
-
-" More natural split behaviour 
-set splitbelow
-set splitright
-
-" Use hybrid line numbers
-" Well explained here: https://jeffkreeftmeijer.com/vim-number/
-set number relativenumber
+" Source shared configuration
+source $HOME/.vim/shared.vim
 
 " Enable surround.vim
 set surround
-
-" Map space to leader
-map <Space> <Leader>
 
 " Recent file dialog
 map <C-e> :action RecentFiles<CR>
@@ -28,7 +10,6 @@ map <C-n> :action GotoClass<CR>
 
 " Extend Selection 
 map <C-s> :action EditorSelectWord<CR>
-
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GotoDeclaration<CR>
 map <Leader>u :action GotoSuperMethod<CR>
@@ -37,5 +18,3 @@ map <Leader>d :action ActivateDatabaseToolWindow<CR>
 map <Leader>p :action SelectInProjectView<CR>
 
 
-" Clear search highlighting
-nnoremap <Leader>c :noh<cr>
