@@ -127,7 +127,10 @@ zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
 # Useful if you have customizations that only apply to some workstations. 
 #
 # See: https://github.com/hschne/locality
-zplug_file=$(locality ./.zplug);  [[ -f $zplug_file ]] && source $zplug_file
+zplug "hschne/locality"
+
+# Can't use locality here, as it is only sourced after zplug load
+file="$HOME/.local.zplug"; [[ -f $file ]] && source $file;
 
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
@@ -205,4 +208,4 @@ export BAT_STYLE="numbers,changes"
 
 COMPLETION_WAITING_DOTS="true"
 
-file=$(locality "$HOME/.zshrc"); [[ -f $file ]] && source $file;
+locality-load "$HOME/.zshrc"
