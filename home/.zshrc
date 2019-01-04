@@ -107,13 +107,6 @@ zplug "cswl/zsh-rbenv", defer:0
 # Website: https://github.com/pyenv/pyenv
 zplug "plugins/pyenv", from:oh-my-zsh, defer:0
 
-# jEnv
-#
-# A version manager for Java. 
-#
-# Website: http://www.jenv.be/
-zplug "plugins/jenv", from:oh-my-zsh, defer:0
-
 # Spaceship theme
 #
 # The nicest prompt theme I could find. Adds wonderful git support, 
@@ -160,6 +153,12 @@ setopt share_history
 # Enable advanced cd behaviour
 setopt auto_cd
 
+# Disable waiting dots
+# 
+# This would print '...' while waiting for autocomplete, which is 
+# pretty annoying 
+COMPLETION_WAITING_DOTS="false"
+
 # Disable Scroll Lock 
 #
 # Needed to be able to do CTRL-S in vim in the terminal. 
@@ -198,14 +197,5 @@ function git() { hub $@; }
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
 
-# Bat
-#
-# Bat is a replaqcement for cat that just looks dope.
-#
-# See https://github.com/sharkdp/bat
-export BAT_THEME="Monokai Extended"
-export BAT_STYLE="numbers,changes"
-
-COMPLETION_WAITING_DOTS="true"
 
 locality-load "$HOME/.zshrc"

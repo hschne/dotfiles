@@ -47,7 +47,7 @@ endif
 " See here: https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
 set directory=$HOME/.vim/swp//
 set undofile
-set undodir=$HOME/.vim/undodir//
+set undodir=$HOME/.vim/undo//
 
 " Line wrapping options
 "

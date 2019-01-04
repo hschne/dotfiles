@@ -1,9 +1,9 @@
 # Files
+alias aliases="vim ~/.aliases"
 alias zshrc="vim ~/.zshrc"
 alias vimrc="vim ~/.vimrc"
 alias config="vim ~/.vim/config.vim"
 alias shared="vim ~/.vim/shared.vim"
-alias plugins="vim ~/.vim/plugins.vim"
 alias ideavimrc="vim ~/.ideavimrc"
 alias todo="vim ~/Documents/Todo.md"
 alias notes="vim ~/Documents/Notes.md"
@@ -16,11 +16,8 @@ alias wiki="tiddlywiki ~/.wiki --server 8099"
 # Directories
 alias dl="cd ~/Downloads"
 
-# Clean terminal window
+# Close terminal window
 alias :q='exit'
-
-# Use bat
-alias cat='bat'
 
 # Directories
 alias -g ...='../..'
