@@ -199,3 +199,8 @@ export FZF_DEFAULT_OPTS='--height 50% --ansi'
 
 
 locality-load "$HOME/.zshrc"
+
+# Enable colors for tmux
+#
+# See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
+export TERM=xterm-256color
