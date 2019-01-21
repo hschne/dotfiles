@@ -137,6 +137,9 @@ fi
 
 zplug load
 
+# Set editor to the obvious choice
+export EDITOR='vim'
+
 # History Tweaks 
 #
 # The main idea here is to avoid having a bunch of duplicates.
@@ -200,7 +203,7 @@ function git() { hub $@; }
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
 
-
+# Load machine local configuration
 locality-load "$HOME/.zshrc"
 
 # Enable colors for tmux
