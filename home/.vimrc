@@ -121,6 +121,13 @@ Plugin 'SirVer/ultisnips'
 " See https://github.com/honza/vim-snippets
 Plugin 'honza/vim-snippets'
 
+" Tmux Pane Navigation
+"
+" Seamlessly navigate between vim splits and tmux panes.
+"
+" See https://github.com/christoomey/vim-tmux-navigator
+Plugin 'christoomey/vim-tmux-navigator'
+
 call vundle#end()
 filetype plugin indent on
 syntax on

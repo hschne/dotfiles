@@ -26,6 +26,12 @@ set number relativenumber
 " Map space to leader
 map <Space> <leader>
 
+" Easier split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Toggle Search Highlighting
 "
 " See https://stackoverflow.com/a/657457/2553104 for more info. 

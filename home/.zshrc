@@ -18,6 +18,9 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
 
+# Enable system clipboard for Vi Mode
+zplug "kutsan/zsh-system-clipboard"
+
 # Enhancd
 #
 # Helps you with cd. Alternative to autojump.
