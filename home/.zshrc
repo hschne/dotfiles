@@ -46,6 +46,7 @@ zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/heroku", from:oh-my-zsh, defer:0
+zplug "plugins/rails", from:oh-my-zsh
 
 # Syntax Highlighting and Autosuggestions
 #
@@ -117,6 +118,14 @@ zplug "plugins/pyenv", from:oh-my-zsh, defer:0
 #
 # Website: https://denysdovhan.com/spaceship-prompt/
 zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
+
+# You-Should-Use
+#
+# Plugin that reminds you to use your aliases. Will notify you 
+# if there is an alias for some command that you use. 
+#
+# Website: https://github.com/MichaelAquilina/zsh-you-should-use#hardcore-mode
+zplug "MichaelAquilina/zsh-you-should-use"
 
 # Locality
 #
