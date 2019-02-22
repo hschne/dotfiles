@@ -192,6 +192,11 @@ source $HOME/.aliases
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 
+# Enable direnv
+#
+# See https://github.com/direnv/direnv
+eval "$(direnv hook zsh)"
+
 # Hub
 #
 # Hub makes working with Github easier. This is a fix for an 
@@ -210,3 +215,4 @@ locality-load "$HOME/.zshrc"
 #
 # See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
 export TERM=xterm-256color
+
