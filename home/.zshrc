@@ -1,5 +1,6 @@
 # First things first, add locality script
 export PATH="$HOME/.scripts:$PATH"
+export PATH="/usr/bin:$PATH"
 
 # Zplug
 # 
