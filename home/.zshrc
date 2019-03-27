@@ -124,7 +124,7 @@ zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
 # Plugin that reminds you to use your aliases. Will notify you 
 # if there is an alias for some command that you use. 
 #
-# Website: https://github.com/MichaelAquilina/zsh-you-should-use#hardcore-mode
+# Website: https://github.com/MichaelAquilina/zsh-you-should-use
 zplug "MichaelAquilina/zsh-you-should-use"
 
 # Locality
