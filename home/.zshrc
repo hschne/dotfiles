@@ -1,6 +1,5 @@
 # First things first, add locality script
 export PATH="$HOME/.scripts:$PATH"
-export PATH="/usr/bin:$PATH"
 
 # Zplug
 # 
@@ -226,3 +225,10 @@ locality-load "$HOME/.zshrc"
 # See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
 export TERM=xterm-256color
 
+# Enable bash completion script compatibility
+autoload bashcompinit
+bashcompinit
+
+# Export variables for stack
+export PATH="$HOME/.local/bin:$PATH"
+eval "$(stack --bash-completion-script stack)"

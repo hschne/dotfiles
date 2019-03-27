@@ -91,8 +91,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_sh_shellcheck_args="-x"
 
-let g:syntastic_haskell_checkers = ['hlint']
-
 " Colorscheme
 "
 " Nord. Its beautiful. Note that 'silent! is required in order to allow an
