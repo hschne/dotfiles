@@ -58,7 +58,6 @@ zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-autosuggestions", defer:2
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 
-
 # The Fuck
 #
 # The most magnificent thing you will ever see. Semantically correct
@@ -133,6 +132,13 @@ zplug "MichaelAquilina/zsh-you-should-use"
 #
 # See: https://github.com/hschne/locality
 zplug "hschne/locality"
+
+# fzf-git
+#
+# Nice, fuzzy autocompletions for git commands.  
+#
+# See: https://github.com/hschne/fzf-git
+zplug "hschne/fzf-git"
 
 # Can't use locality here, as it is only sourced after zplug load
 file="$HOME/.local.zplug"; [[ -f $file ]] && source $file;
