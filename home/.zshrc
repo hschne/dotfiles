@@ -235,6 +235,9 @@ export TERM=xterm-256color
 autoload bashcompinit
 bashcompinit
 
+# Enable you-should-use-hardcore mode
+export YSU_HARDCORE=1
+
 # Export variables for stack
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(stack --bash-completion-script stack)"
+[[ $(command -v "stack") != "" ]] && eval "$(stack --bash-completion-script stack)"
