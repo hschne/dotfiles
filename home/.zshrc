@@ -210,7 +210,7 @@ homeshick --quiet refresh 2
 # Enable direnv
 #
 # See https://github.com/direnv/direnv
-eval "$(direnv hook zsh)"
+[[ $(command -v "direnv") != "" ]] && eval "$(direnv hook zsh)"
 
 # Hub
 #
