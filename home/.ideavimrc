@@ -12,10 +12,7 @@ set surround
 map <C-e> :action RecentFiles<CR>
 map <C-n> :action GotoClass<CR>
 map <C-s> :action EditorSelectWord<CR>
-map <C-w>] :action TabShiftActions.ShiftRight<CR>
-map <C-w>[ :action TabShiftActions.ShiftLeft<CR>
-map <C-w>p :action TabShiftActions.ShiftUp<CR>
-map <C-w>; :action TabShiftActions.ShiftDown<CR>
+
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GotoDeclaration<CR>
 map <Leader>u :action GotoSuperMethod<CR>
@@ -23,4 +20,12 @@ map <Leader>a :action Annotate<CR>
 map <Leader>d :action ActivateDatabaseToolWindow<CR>
 map <Leader>p :action SelectInProjectView<CR>
 
-
+" Mappings for window navigation
+map <C-w>] :action TabShiftActions.ShiftRight<CR>
+map <C-w>[ :action TabShiftActions.ShiftLeft<CR>
+map <C-w>p :action TabShiftActions.ShiftUp<CR>
+map <C-w>; :action TabShiftActions.ShiftDown<CR>
+map <C-h> :action TabShiftActions.MoveFocusLeft<CR>
+map <C-j> :action TabShiftActions.MoveFocusDown<CR>
+map <C-k> :action TabShiftActions.MoveFocusUp<CR>
+map <C-l> :action TabShiftActions.MoveFocusRight<CR>
