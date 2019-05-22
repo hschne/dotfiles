@@ -12,6 +12,8 @@ set surround
 map <C-e> :action RecentFiles<CR>
 map <C-n> :action GotoClass<CR>
 map <C-s> :action EditorSelectWord<CR>
+map <C-w>] :action TabShiftActions.ShiftRight<CR>
+map <C-w>[ :action TabShiftActions.ShiftLeft<CR>
 map <Leader>s :action SaveAll<CR>
 map <Leader>b :action GotoDeclaration<CR>
 map <Leader>u :action GotoSuperMethod<CR>
