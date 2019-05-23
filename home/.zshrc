@@ -222,6 +222,7 @@ function git() { hub $@; }
 
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # Load machine local configuration
 locality-load "$HOME/.zshrc"

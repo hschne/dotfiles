@@ -31,7 +31,8 @@ filetype indent on
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
 
-" Create some directories if it does not exist
+" Create some directories if it does not exist. This is necessary in order to
+" simplify automatic installation
 "
 " See https://stackoverflow.com/a/12488082/2553104
 if !isdirectory($HOME/".vim/swp")
@@ -91,6 +92,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_sh_shellcheck_args="-x"
 
+let g:syntastic_tex_checkers=['chktex']
+
 " Colorscheme
 "
 " Nord. Its beautiful. Note that 'silent! is required in order to allow an
@@ -103,6 +106,25 @@ silent! colorscheme nord
 let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
 let g:airline_right_sep = ''
+
+" NERDTree
+" 
+" Settings for NERDtree. Keybindings and other tricks from their README. 
+map <Leader>n :NERDTreeToggle<CR>
+
+" Close nerdtree if last window
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" FZF
+"
+" Fore more information see https://github.com/junegunn/fzf.vim#customization
+nmap ; :Buffers<CR>
+nmap <Leader>: :History:<CR>
+nmap <Leader>/ :History/<CR>
+nmap <Leader>? :History/<CR>
+nmap <Leader>f :Rg<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>r :Tags<CR>
 
 " vim-markdown
 "

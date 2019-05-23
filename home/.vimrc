@@ -21,6 +21,14 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
+" Nerdtree
+"
+" Improves file navigation. The plugin adds git support. 
+"
+" Website: https://github.com/scrooloose/nerdtree
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
 " Nord
 "
 " An arctic color scheme. I think its beautiful. 
@@ -56,6 +64,13 @@ Plugin 'tpope/vim-unimpaired'
 "
 " See https://github.com/tpope/vim-commentary
 Plugin 'tpope/vim-commentary'
+
+" Fzf
+"
+" Fuzzy file searching for vim. 
+"
+" See https://github.com/junegunn/fzf.vim
+Plugin 'junegunn/fzf.vim'
 
 " Syntastic
 "
