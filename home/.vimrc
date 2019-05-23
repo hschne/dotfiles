@@ -65,6 +65,20 @@ Plugin 'tpope/vim-unimpaired'
 " See https://github.com/tpope/vim-commentary
 Plugin 'tpope/vim-commentary'
 
+" vim-gitgutter
+"
+" Displays git status indictars on on files
+"
+" See https://github.com/airblade/vim-gitgutter
+Plugin 'airblade/vim-gitgutter'
+
+" vim-buffkill
+" 
+" Better behaviour when closing buffers
+"
+" See https://github.com/qpkorr/vim-bufkill
+Plugin 'qpkorr/vim-bufkill'
+
 " Fzf
 "
 " Fuzzy file searching for vim. 

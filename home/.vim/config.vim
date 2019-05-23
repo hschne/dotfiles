@@ -19,6 +19,7 @@ set textwidth=0
 set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildmode=longest,list,full
 set wrapmargin=0
+set updatetime=100
 
 filetype indent on
 
@@ -111,6 +112,15 @@ let g:airline_right_sep = ''
 " 
 " Settings for NERDtree. Keybindings and other tricks from their README. 
 map <Leader>n :NERDTreeToggle<CR>
+
+" vim-gitgutter
+" 
+" Change the signs of the indicators
+let g:gitgutter_sign_added = '·'
+let g:gitgutter_sign_modified = '·'
+let g:gitgutter_sign_removed = '·'
+let g:gitgutter_sign_removed_first_line = '·'
+let g:gitgutter_sign_modified_removed = '·'
 
 " Close nerdtree if last window
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
