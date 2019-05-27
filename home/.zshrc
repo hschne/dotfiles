@@ -35,7 +35,6 @@ zplug "b4b4r07/enhancd", use:init.sh
 #
 # Website: https://github.com/junegunn/fzf
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf
 zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 
 # Plugins from oh-my-zsh

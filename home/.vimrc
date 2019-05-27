@@ -8,6 +8,8 @@ filetype off
 "
 " Website: git@github.com:VundleVim/Vundle.vim.git
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.zplug/bin/fzf
+
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -86,12 +88,12 @@ Plugin 'qpkorr/vim-bufkill'
 " See https://github.com/junegunn/fzf.vim
 Plugin 'junegunn/fzf.vim'
 
-" Syntastic
+" Ale
 "
-" Fantastic syntax checking for vim. 
+" Even more fantastic syntax checking for vim. 
 "
-" Website: https://github.com/vim-syntastic/syntastic
-Plugin 'scrooloose/syntastic'
+" Website: https://github.com/w0rp/ale
+Plugin 'w0rp/ale'
 
 " Tabular 
 "
