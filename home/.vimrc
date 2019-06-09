@@ -152,6 +152,13 @@ Plugin 'SirVer/ultisnips'
 " See https://github.com/honza/vim-snippets
 Plugin 'honza/vim-snippets'
 
+" bats.vim
+"
+" Bats syntax highlighting. 
+"
+" See https://github.com/aliou/bats.vim
+Plugin 'aliou/bats.vim'
+
 " Tmux Pane Navigation
 "
 " Seamlessly navigate between vim splits and tmux panes.
