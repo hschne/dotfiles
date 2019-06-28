@@ -10,11 +10,14 @@ alias notes="vim ~/Documents/Notes.md"
 
 # Command aliases
 alias t="gnome-terminal"
+
+# Git
+alias gmm="git merge master"
 alias gaacm="git add -A && git commit -m"
-alias wiki="tiddlywiki ~/.wiki --server 8099"
 
 # Directories
 alias dl="cd ~/Downloads"
+alias src="cd ~/Source"
 
 # Close terminal window
 alias :q='exit'
