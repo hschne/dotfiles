@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+GIT_CHECKOUT_COMMAND=${GIT_CHECKOUT_COMMAND:-"git checkout -b"}
+
+main() {
+  [[ -z $1 ]] && error "Branch name must not be empty"
+  local text=${1// /-}
+  text=$(echo "$text" | tr '[:upper:]' '[:lower:]')
+  local date
+  date=$(date +"%y-%m")
+  local branchname="$date-$text"
+
+  $GIT_CHECKOUT_COMMAND "$branchname"
+}
+
+error() {
+  local message=$1
+  local code=${2:-1}
+  echo "$message"
+  exit "$code"
+}
+
+main "$@"
