@@ -137,7 +137,14 @@ zplug "hschne/locality"
 # Nice, fuzzy autocompletions for git commands.  
 #
 # See: https://github.com/hschne/fzf-git
-zplug "hschne/fzf-git"
+zplug "hschne/fzf-git", defer:2
+
+# fzf-gcloud
+#
+# Fuzzy autocompletions for gcloud commands.  
+#
+# See: https://github.com/hschne/fzf-gcloud
+zplug "hschne/fzf-gcloud"
 
 # Can't use locality here, as it is only sourced after zplug load
 file="$HOME/.local.zplug"; [[ -f $file ]] && source $file;
