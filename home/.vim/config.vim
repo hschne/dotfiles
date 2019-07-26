@@ -78,23 +78,6 @@ noremap <Right> <Nop>
 set showbreak=…
 set linebreak
 
-" Syntastic
-"
-" Syntastic default settings. See ':help Syntastic' for more info. 
-map <Leader>s :SyntasticToggleMode<CR>
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_sh_shellcheck_args="-x"
-
-let g:syntastic_tex_checkers=['chktex']
-
 " Colorscheme
 "
 " Nord. Its beautiful. Note that 'silent! is required in order to allow an
