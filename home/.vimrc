@@ -158,7 +158,7 @@ Plug 'honza/vim-snippets'
 " Bats syntax highlighting. 
 "
 " See https://github.com/aliou/bats.vim
-Plugin 'aliou/bats.vim'
+Plug 'aliou/bats.vim', { 'for': 'bats' }
 
 " Tmux Pane Navigation
 "
