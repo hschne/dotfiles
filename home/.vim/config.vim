@@ -20,6 +20,7 @@ set wildignore+=*\\tmp\\*,*.swp,*.swo,*.zip,.git,.cabal-sandbox
 set wildmode=longest,list,full
 set wrapmargin=0
 set updatetime=100
+set enc=utf-8
 
 filetype indent on
 

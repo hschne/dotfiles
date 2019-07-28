@@ -1,0 +1,8 @@
+configuration {
+	font: "SauceCodePro Nerd Font 11";
+	show-icons: true;
+	terminal: "alacritty";
+	combi-modi: "window,run";
+	hide-scrollbar: true;
+}
+@import "/usr/share/rofi/themes/Arc-Dark.rasi"
