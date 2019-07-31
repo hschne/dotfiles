@@ -1,3 +1,11 @@
+[colors]
+background = #000
+background-alt = #333
+foreground = #ccffffff
+foreground-alt = #ccffffff
+red = #c9665e
+green = #0f0
+
 [bar/top]
 width = 100%
 height = 34
@@ -5,7 +13,7 @@ height = 34
 background = #00000000
 foreground = #ccffffff
 
-line-color = ${bar/bottom.background}
+line-color = ${colors.background}
 line-size = 16
 
 spacing = 2
@@ -21,7 +29,7 @@ modules-left = powermenu
 modules-right = pulseaudio backlight wireless-network battery date
 
 tray-position = right
-tray-background = #333
+tray-background = ${colors.background-alt}
 tray-padding = 5
 tray-scale = 1.0
 
@@ -30,10 +38,10 @@ bottom = true
 width = 100%
 height = 27
 
-background = ${bar/top.background}
-foreground = ${bar/top.foreground}
+background = ${colors.background}
+foreground = ${colors.foreground}
 
-line-color = ${bar/top.background}
+line-color = ${colors.background}
 line-size = 2
 
 spacing = 3
@@ -41,12 +49,10 @@ padding-right = 4
 module-margin-left = 0
 module-margin-right = 6
 
-font-0 = NotoSans-Regular:size=8;0
-font-1 = unifont:size=6;-3
-font-2 = FontAwesome:size=8;-2
-font-3 = NotoSans-Regular:size=8;-1
-font-4 = MaterialIcons:size=10;-1
-font-5 = Termsynu:size=8:antialias=false;0
+font-0 = SauceCodePro Nerd Font:size=10;-1
+font-1 = MaterialIcons:size=10;0
+font-2 = Termsynu:size=8:antialias=false;-2
+font-3 = FontAwesome:size=10;0
 
 modules-left = i3
 modules-right = cpu memory
@@ -65,7 +71,7 @@ bar-indicator-font = 3
 bar-indicator-foreground = #ff
 bar-fill = ─
 bar-fill-font = 3
-bar-fill-foreground = #c9665e
+bar-fill-foreground = ${colors.red}
 bar-empty = ─
 bar-empty-font = 3
 bar-empty-foreground = #44
@@ -105,12 +111,6 @@ animation-charging-framerate = 750
 [module/bspwm]
 type = internal/bspwm
 
-ws-icon-0 = term;
-ws-icon-1 = web;
-ws-icon-2 = code;
-ws-icon-3 = music;
-ws-icon-4 = irssi;
-ws-icon-default = 
 
 format = <label-state> <label-mode>
 
@@ -267,14 +267,15 @@ ramp-volume-3 = 
 [module/powermenu]
 type = custom/menu
 
-format-padding = 5
+format-padding = 2
 
 label-open = 
 label-close = 
+label-separator = |  
 
-menu-0-0 = Terminate WM
+menu-0-0 = Logout
 menu-0-0-foreground = #fba922
-menu-0-0-exec = i3 quit -1
+menu-0-0-exec = exit
 menu-0-1 = Reboot
 menu-0-1-foreground = #fba922
 menu-0-1-exec = menu_open-1
@@ -287,11 +288,11 @@ menu-1-0-foreground = #fba922
 menu-1-0-exec = menu_open-0
 menu-1-1 = Reboot
 menu-1-1-foreground = #fba922
-menu-1-1-exec = sudo reboot
+menu-1-1-exec = systemctl reboot
 
 menu-2-0 = Power off
 menu-2-0-foreground = #fba922
-menu-2-0-exec = sudo poweroff
+menu-2-0-exec = systemctl poweroff
 menu-2-1 = Cancel
 menu-2-1-foreground = #fba922
 menu-2-1-exec = menu_open-0
@@ -303,36 +304,50 @@ date = %%{F#999}%Y-%m-%d%%{F-}  %%{F#fff}%H:%M%%{F-}
 
 [module/i3]
 type = internal/i3
-format = <label-state> <label-mode>
+
+pin-workspaces = false
+strip-wsnumbers = true
 index-sort = true
-wrapping-scroll = false
+enable-click = true
+enable-scroll = true
+wrapping-scroll = true
+reverse-scroll = false
+fuzzy-match = true
 
-pin-workspaces = true
+ws-icon-0 = term;
+ws-icon-1 = web;
+ws-icon-2 = code;
+ws-icon-3 = file;
+ws-icon-4 = music;
+ws-icon-5 = coms;
+ws-icon-6 = edit;
+ws-icon-7 = torr;
+ws-icon-default = 
 
+format = <label-state> <label-mode>
+
+label-mode = %mode%
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${bar/top.background}
+label-mode-background = ${colors.background}
 
-; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${bar/top.background}
-label-focused-underline= #222
+label-focused = %icon%
+label-focused-foreground = ${colors.foreground}
+label-focused-background = ${colors.background}
+label-focused-underline = #b13f47
 label-focused-padding = 2
 
-; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused =  %icon%
+label-unfocused-foreground = ${colors.foreground}
+label-unfocused-background = ${colors.background}
 label-unfocused-padding = 2
 
-; visible = Active workspace on unfocused monitor
-label-visible = %index%
-label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible =  %icon% 
+label-visible-underline = #555555
+label-visible-padding = 2
 
-; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = #555 
+label-urgent =  %icon% 
+label-urgent-foreground = ${colors.foreground-alt}
+label-urgent-background = ${colors.background}
 label-urgent-padding = 2
-
 
 ; vim:ft=dosini
