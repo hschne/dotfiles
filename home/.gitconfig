@@ -44,3 +44,5 @@
   autosetuprebase = always
 [include]
   path = .gitconfig.local
+[hub]
+	protocol = ssh

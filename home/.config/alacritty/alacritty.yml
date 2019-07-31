@@ -96,12 +96,10 @@ font:
   normal:
     family: "SauceCodePro Nerd Font"
     style: Regular
-
   bold:
     style: Bold
-
-  #italic:
-    style: Italic
+  italic:
+    style: Regular
 
   # Point size
   size: 6.0

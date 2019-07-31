@@ -22,6 +22,12 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
+" Set system clipboard
+set clipboard=unnamedplus
+
+" Allow hiding of buffers
+set hidden
+
 filetype indent on
 
 " Autocmd triggers relative numbers only for active buffer. 
@@ -112,7 +118,7 @@ let g:gitgutter_sign_modified_removed = '·'
 " FZF
 "
 " Fore more information see https://github.com/junegunn/fzf.vim#customization
-nmap ; :Buffers<CR>
+nmap <Leader>b :Buffers<CR>
 nmap <Leader>: :History:<CR>
 nmap <Leader>/ :History/<CR>
 nmap <Leader>? :History/<CR>

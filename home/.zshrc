@@ -85,30 +85,6 @@ zplug "mrowa44/emojify", as:command, use:emojify
 zplug "andsens/homeshick", use:"homeshick.sh", defer:0
 zplug "andsens/homeshick", use:"completions", defer:2
 
-# NVM 
-# 
-# NVM is a version manager for node. This zsh plugin
-# takes care of the installation and configuration.
-# 
-# See https://github.com/lukechilds/zsh-nvm
-zplug "lukechilds/zsh-nvm", defer:0
-
-# Rbenv
-#
-# Rbenv is a version manager for Ruby. This zsh plugin manages
-# installation and configuration.
-#
-# Website: https://github.com/rbenv/rbenv
-zplug "cswl/zsh-rbenv", defer:0
-
-# Pyenv
-# 
-# Pyenv is a version manager for Python. 
-# This plugin adds initializes pyenv.
-#
-# Website: https://github.com/pyenv/pyenv
-zplug "plugins/pyenv", from:oh-my-zsh, defer:0
-
 # Spaceship theme
 #
 # The nicest prompt theme I could find. Adds wonderful git support, 
