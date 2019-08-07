@@ -222,6 +222,11 @@ bashcompinit
 # Enable you-should-use-hardcore mode
 export YSU_HARDCORE=1
 
-# Export variables for stack
-export PATH="$HOME/.local/bin:$PATH"
-[[ $(command -v "stack") != "" ]] && eval "$(stack --bash-completion-script stack)"
+# Enable ASDF
+#
+# See https://asdf-vm.com/
+. $HOME/.asdf/asdf.sh echo -e 
+. $HOME/.asdf/completions/asdf.bash
+
+
+
