@@ -160,6 +160,14 @@ Plug 'honza/vim-snippets'
 " See https://github.com/aliou/bats.vim
 Plug 'aliou/bats.vim', { 'for': 'bats' }
 
+
+" Vim Gutentags
+"
+" Automatically generate tags
+"
+" See https://github.com/ludovicchabant/vim-gutentags
+Plug 'ludovicchabant/vim-gutentags'
+
 " Tmux Pane Navigation
 "
 " Seamlessly navigate between vim splits and tmux panes.

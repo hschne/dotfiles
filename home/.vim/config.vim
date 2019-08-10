@@ -138,3 +138,12 @@ let g:vim_markdown_new_list_item_indent = 0
 " Arch linux. 
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
+
+" Gutentags 
+"
+" First, gutentags doesn't like VimPlug and needs manual setup, see
+" here: https://github.com/junegunn/vim-plug/issues/823
+"
+" We also set up the statusline
+autocmd! User vim-gutentags call gutentags#setup_gutentags()
+set statusline+=%{gutentags#statusline()}
