@@ -7,14 +7,15 @@ red = #c9665e
 green = #0f0
 
 [bar/top]
+monitor = ${env:MONITOR:}
 width = 100%
-height = 34
+height = 27
 
 background = #00000000
 foreground = #ccffffff
 
 line-color = ${colors.background}
-line-size = 16
+line-size = 2
 
 spacing = 2
 padding-right = 2
@@ -25,37 +26,13 @@ font-1 = MaterialIcons:size=10;0
 font-2 = Termsynu:size=8:antialias=false;-2
 font-3 = FontAwesome:size=10;0
 
-modules-left = powermenu 
+modules-left = i3 
 modules-right = pulseaudio backlight wireless-network battery date
 
 tray-position = right
 tray-background = ${colors.background-alt}
 tray-padding = 5
 tray-scale = 1.0
-
-[bar/bottom]
-bottom = true
-width = 100%
-height = 27
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-color = ${colors.background}
-line-size = 2
-
-spacing = 3
-padding-right = 4
-module-margin-left = 0
-module-margin-right = 6
-
-font-0 = SauceCodePro Nerd Font:size=10;-1
-font-1 = MaterialIcons:size=10;0
-font-2 = Termsynu:size=8:antialias=false;-2
-font-3 = FontAwesome:size=10;0
-
-modules-left = i3
-modules-right = cpu memory
 
 [module/backlight]
 type = internal/xbacklight
