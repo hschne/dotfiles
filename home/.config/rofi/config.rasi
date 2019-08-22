@@ -1,8 +1,10 @@
 configuration {
-	font: "SauceCodePro Nerd Font 11";
-	show-icons: true;
-	terminal: "alacritty";
-	combi-modi: "window,run";
-	hide-scrollbar: true;
+    font: "SauceCodePro Nerd Font 11";
+    show-icons: true;
+    icon-theme: "Numix-Circle";
+    terminal: "alacritty";
+    combi-modi: "window,run";
+    hide-scrollbar: true;
+    width: 40;
+    theme: ".config/rofi/nord";
 }
-@import "/usr/share/rofi/themes/Arc-Dark.rasi"

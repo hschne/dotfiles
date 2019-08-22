@@ -26,7 +26,11 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # start rofi
-bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -modi combi"
+# bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -modi combi"
+bindsym $mod+d exec "rofi -show drun -modi window,drun,run -sidebar-mode"
+
+# Bind alt tab
+bindsym Mod1+Tab exec "rofi -show window -modi window,drun,run -sidebar-mode"
 
 # change focus
 bindsym $mod+j focus down
@@ -164,11 +168,6 @@ mode "Resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start system tray
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
-
-# Set background 
-exec_always --no-startup-id $HOME/.config/i3/feh.sh
 
 # Lock
 bindsym $mod+Shift+o exec i3lock-fancy
@@ -188,9 +187,8 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
 
-# Configure gaps
+# Configure Gaps
 for_window [class=".*"] border pixel 2
-for_window [class=".unfocused"] border pixel 0
 
 gaps inner 14
 gaps outer 0
@@ -198,7 +196,6 @@ gaps outer 0
 smart_gaps inverse_outer
 
 smart_borders on
-
 
 # Borders
 # Generated using https://thomashunter.name/i3-configurator
@@ -212,3 +209,12 @@ client.background       #FFFFFF
 
 # Swap Esc-Caps
 exec setxkbmap -option caps:swapescape
+
+# Start system tray
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
+
+# Set background 
+exec --no-startup-id $HOME/.config/i3/feh.sh
+
+# Start compton
+exec_always --no-startup-id compton
