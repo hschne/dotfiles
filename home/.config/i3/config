@@ -16,6 +16,8 @@ set $mod Mod4
 set $font "SauceCodePro Nerd Font"
 font pango:monospace 8
 
+exec --no-startup-id $HOME/.screenlayout/screens.sh
+
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -35,8 +37,8 @@ bindsym Mod1+Tab exec "rofi -show window -modi window,drun,run -sidebar-mode"
 # change focus
 bindsym $mod+j focus down
 bindsym $mod+k focus up
-bindsym $mod+l focus left
-bindsym $mod+h focus right
+bindsym $mod+h focus left
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -55,6 +57,9 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+bindsym Control+Shift+Mod1+Left move workspace to output left
+bindsym Control+Shift+Mod1+Right move workspace to output right
 
 # split in horizontal orientation
 bindsym $mod+s split s
@@ -96,7 +101,7 @@ set $ws9 "9"
 set $ws10 "10"
 
 # switch to workspace
-bindsym $mod+1 workspace $ws1
+bindsym $mod+1 workspace $ws1 
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
 bindsym $mod+4 workspace $ws4
@@ -124,8 +129,6 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-
-
 # Shutdown menu
 #
 # See https://gist.github.com/pantuts/13623a7ba5e7e1c4ce44
@@ -138,7 +141,6 @@ mode "Exit (L)ogout, (R)eboot, (P)oweroff" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 bindsym $mod+Shift+e mode "Exit (L)ogout, (R)eboot, (P)oweroff"
 
 # resize window (you can also use the mouse for that)
@@ -201,6 +203,7 @@ smart_borders on
 # Generated using https://thomashunter.name/i3-configurator
 client.focused          #5E81AC #000000 #ECEFF4 #5E81AC   #5E81AC
 client.focused_inactive #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
+
 client.unfocused        #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
 client.urgent           #D08770 #2E3440 #ECEFF4 #D08770   #D08770
 client.placeholder      #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
@@ -213,8 +216,12 @@ exec setxkbmap -option caps:swapescape
 # Start system tray
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
 
-# Set background 
-exec --no-startup-id $HOME/.config/i3/feh.sh
+# Autostart programs
+exec --no-startup-id synology-cloud-station-drive
 
 # Start compton
 exec_always --no-startup-id compton
+
+# Set background 
+exec_always --no-startup-id $HOME/.config/i3/feh.sh
+
