@@ -213,11 +213,11 @@ client.background       #FFFFFF
 # Swap Esc-Caps
 exec setxkbmap -option caps:swapescape
 
-# Start system tray
+# Start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
 
-# Autostart programs
-exec --no-startup-id synology-cloud-station-drive
+# Start dunst 
+exec_always --no-startup-id dunst
 
 # Start compton
 exec_always --no-startup-id compton
@@ -225,3 +225,5 @@ exec_always --no-startup-id compton
 # Set background 
 exec_always --no-startup-id $HOME/.config/i3/feh.sh
 
+# Autostart user programs
+exec --no-startup-id synology-cloud-station-drive
