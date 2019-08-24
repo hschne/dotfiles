@@ -226,4 +226,4 @@ exec_always --no-startup-id compton
 exec_always --no-startup-id $HOME/.config/i3/feh.sh
 
 # Autostart user programs
-exec --no-startup-id synology-cloud-station-drive
+exec --no-startup-id rambox
