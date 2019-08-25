@@ -8,7 +8,7 @@ green = #8fbcbb
 blue = #5e81ac
 
 [bar/primary]
-monitor = ${env:MONITOR:on
+monitor = ${env:MONITOR:}
 width = 100%
 height = 30
 

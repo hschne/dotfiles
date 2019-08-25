@@ -5,6 +5,7 @@
 # set by alacritty itself.
 env:
   TERM: xterm-256color
+  WINIT_HIDPI_FACTOR: '1.5'
 
 window:
   # Window dimensions (changes require restart)
