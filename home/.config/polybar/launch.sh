@@ -6,9 +6,13 @@ killall -q polybar
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# Multi monitor support
-# See https://github.com/polybar/polybar/issues/763
-for m in $(polybar --list-monitors | cut -d":" -f1); do
-  MONITOR=$m polybar --reload top &
-done
+MONITOR1="$(xrandr --listmonitors | grep "0:" | cut -d ' ' -f6)"
+MONITOR2="$(xrandr --listmonitors | grep "1:" | cut -d ' ' -f6)"
 
+if [[ -n "$MONITOR1" ]]; then
+    MONITOR="$MONITOR1" polybar primary &
+fi
+
+if [[ -n "$MONITOR2" ]]; then
+    MONITOR="$MONITOR2" polybar secondary &
+fi
