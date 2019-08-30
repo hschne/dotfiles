@@ -147,29 +147,22 @@ bindsym $mod+Shift+e mode "Exit (L)ogout, (R)eboot, (P)oweroff"
 mode "Resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
         bindsym semicolon resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
-
 
 # Lock
 bindsym $mod+Shift+o exec i3lock-fancy
@@ -190,13 +183,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
 
 # Configure Gaps
-for_window [class=".*"] border pixel 2
-
-gaps inner 14
+for_window [class=".*"] border pixel 1
+gaps inner 10
 gaps outer 0
-
-smart_gaps inverse_outer
-
 smart_borders on
 
 # Borders
@@ -213,9 +202,6 @@ client.background       #FFFFFF
 # Swap Esc-Caps
 exec setxkbmap -option caps:swapescape
 
-# Start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
-
 # Start dunst 
 exec_always --no-startup-id dunst
 
@@ -224,6 +210,9 @@ exec_always --no-startup-id compton
 
 # Set background 
 exec_always --no-startup-id $HOME/.config/i3/feh.sh
+
+# Start polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
 
 # Autostart user programs
 exec --no-startup-id rambox
