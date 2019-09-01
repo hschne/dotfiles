@@ -100,6 +100,15 @@ set $ws8 "8:torr"
 set $ws9 "9"
 set $ws10 "10"
 
+# Assign windows to workspaces
+assign [class="(?i)firefox*"] $ws2
+assign [class="(?i)chromium"] $ws2
+assign [class="(?i)jetbrains*"] $ws3
+assign [class="Rambox"] $ws6
+# Workaround for Spotify, see https://github.com/i3/i3/issues/2060#issuecomment-155179472
+for_window [class="Spotify"] move to workspace $ws5
+for_window [class="Spotify"] focus
+
 # switch to workspace
 bindsym $mod+1 workspace $ws1 
 bindsym $mod+2 workspace $ws2
