@@ -208,22 +208,22 @@ client.placeholder      #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
 client.background       #FFFFFF
 
 # Start dunst 
-exec_always --no-startup-id dunst
+exec --no-startup-id dunst
 
 # Start compton
-exec_always --no-startup-id compton
+exec --no-startup-id compton
 
 # Set background 
-exec_always --no-startup-id $HOME/.config/i3/feh.sh
+exec --no-startup-id $HOME/.config/i3/feh.sh
 
 # Start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
+exec --no-startup-id $HOME/.config/polybar/launch.sh 
 
 # Start redshift
-exec_always --no-startup-id redshift
+exec --no-startup-id redshift
 
 # Station
-exec_always --no-startup-id station
+exec --no-startup-id station
 
 # Swap Esc-Caps
 exec setxkbmap -option caps:swapescape
