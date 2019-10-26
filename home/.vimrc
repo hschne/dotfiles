@@ -116,27 +116,6 @@ Plug 'ervandew/supertab'
 " See https://github.com/rhysd/vim-grammarous
 Plug 'rhysd/vim-grammarous'
 
-" Markdown
-"
-" Some nice to have functionality for writing markdown.
-"
-" See https://github.com/plasticboy/vim-markdown
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-
-" Markdown Preview
-"
-" Enables local markdown preview! 
-"
-" See https://github.com/JamshedVesuna/vim-markdown-preview
-Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
-
-" VimTex
-"
-" A lightweight plugin for nice latex support. 
-"
-" See https://github.com/lervag/vimtex
-Plug 'lervag/vimtex', { 'for': 'latex' }
-
 
 " UltiSnips
 "
@@ -153,13 +132,19 @@ Plug 'SirVer/ultisnips'
 " See https://github.com/honza/vim-snippets
 Plug 'honza/vim-snippets'
 
+" Prettier
+"
+" Better formatting for Vim
+"
+" See https://github.com/prettier/vim-prettier
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
 " bats.vim
 "
 " Bats syntax highlighting. 
 "
 " See https://github.com/aliou/bats.vim
 Plug 'aliou/bats.vim', { 'for': 'bats' }
-
 
 " Vim Gutentags
 "
@@ -174,6 +159,43 @@ Plug 'ludovicchabant/vim-gutentags'
 "
 " See https://github.com/christoomey/vim-tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
+
+" EditorConfig 
+"
+" Makes it so code is always formatted according to the conventions.
+"
+" See https://github.com/editorconfig/editorconfig-vim
+Plug 'editorconfig/editorconfig-vim'
+
+" Markdown
+"
+" Some nice to have functionality for writing markdown.
+"
+" See https://github.com/plasticboy/vim-markdown
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+
+" Markdown Preview
+"
+" Enables local markdown preview! 
+"
+" See https://github.com/JamshedVesuna/vim-markdown-preview
+Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
+
+
+" Emmet for Vim
+"
+" Enables quickly writing a bunch of HTML
+"
+" See https://github.com/mattn/emmet-vim
+Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+
+" VimTex
+"
+" A lightweight plugin for nice latex support. 
+"
+" See https://github.com/lervag/vimtex
+Plug 'lervag/vimtex', { 'for': 'latex' }
+
 
 call plug#end()
 

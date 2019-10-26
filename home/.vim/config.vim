@@ -147,3 +147,15 @@ let vim_markdown_preview_use_xdg_open=1
 " We also set up the statusline
 autocmd! User vim-gutentags call gutentags#setup_gutentags()
 set statusline+=%{gutentags#statusline()}
+
+
+" Prettier settings, no need to wrap like that
+let g:prettier#config#print_width = 120
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
+" Required to get Emmet and Ultisnips to work together
+" See here: https://github.com/mattn/emmet-vim/issues/232
+let g:user_emmet_install_global = 0
+autocmd FileType html,css  EmmetInstall
+autocmd FileType html,css imap <TAB> <plug>(emmet-expand-abbr)
