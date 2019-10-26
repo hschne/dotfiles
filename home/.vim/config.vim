@@ -78,6 +78,12 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Custom save key
+"
+" Because :w is just too much
+nnoremap <C-S> :update<CR>
+inoremap <C-S> <Esc>:update<CR>gi
+
 " Line wrapping options
 "
 " All tips inspired by
@@ -154,8 +160,8 @@ let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
-" Required to get Emmet and Ultisnips to work together
-" See here: https://github.com/mattn/emmet-vim/issues/232
-let g:user_emmet_install_global = 0
-autocmd FileType html,css  EmmetInstall
-autocmd FileType html,css imap <TAB> <plug>(emmet-expand-abbr)
+"Update Emet key
+let g:user_emmet_leader_key = '<C-e>'
+
+" Auto pairs
+let g:AutoPairsShortcutToggle = '<C-w>t'

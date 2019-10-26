@@ -88,6 +88,8 @@ Plug 'qpkorr/vim-bufkill'
 " See https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf.vim'
 
+
+Plug 'jiangmiao/auto-pairs'
 " Ale
 "
 " Even more fantastic syntax checking for vim. 
@@ -188,6 +190,12 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 "
 " See https://github.com/mattn/emmet-vim
 Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+
+
+" Bootstrap Snippets
+"
+" See https://github.com/jvanja/vim-bootstrap4-snippets
+Plug 'jvanja/vim-bootstrap4-snippets', { 'for': 'html' }
 
 " VimTex
 "
