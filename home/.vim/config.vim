@@ -78,6 +78,12 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Custom save key
+"
+" Because :w is just too much
+nnoremap <C-S> :update<CR>
+inoremap <C-S> <Esc>:update<CR>gi
+
 " Line wrapping options
 "
 " All tips inspired by
@@ -147,3 +153,15 @@ let vim_markdown_preview_use_xdg_open=1
 " We also set up the statusline
 autocmd! User vim-gutentags call gutentags#setup_gutentags()
 set statusline+=%{gutentags#statusline()}
+
+
+" Prettier settings, no need to wrap like that
+let g:prettier#config#print_width = 120
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
+"Update Emet key
+let g:user_emmet_leader_key = '<C-e>'
+
+" Auto pairs
+let g:AutoPairsShortcutToggle = '<C-w>t'

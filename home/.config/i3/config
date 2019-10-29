@@ -27,8 +27,7 @@ bindsym $mod+Return exec alacritty
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start rofi
-# bindsym $mod+d exec "rofi -combi-modi window,drun -show combi -modi combi"
+# Start rofi
 bindsym $mod+d exec "rofi -show drun -modi window,drun,run -sidebar-mode"
 
 # Bind alt tab
@@ -62,7 +61,7 @@ bindsym Control+Shift+Mod1+Left move workspace to output left
 bindsym Control+Shift+Mod1+Right move workspace to output right
 
 # split in horizontal orientation
-bindsym $mod+s split s
+bindsym $mod+s split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -104,7 +103,7 @@ set $ws10 "10"
 assign [class="(?i)firefox*"] $ws2
 assign [class="(?i)chromium"] $ws2
 assign [class="(?i)jetbrains*"] $ws3
-assign [class="Rambox"] $ws6
+assign [class="Station"] $ws6
 # Workaround for Spotify, see https://github.com/i3/i3/issues/2060#issuecomment-155179472
 for_window [class="Spotify"] move to workspace $ws5
 for_window [class="Spotify"] focus
@@ -177,19 +176,19 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Shift+o exec i3lock-fancy
 
 # # Brightness
-# bindsym XF86MonBrightnessUp exec xbacklight -inc 10 
-# bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
 
 # # Media Player
-# bindsym XF86AudioPlay exec playerctl play-pause
-# bindsym XF86AudioPause exec playerctl pause
-# bindsym XF86AudioPrev exec playerctl previous
-# bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec playerctl next
 
 # # Volume Controls
-# bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
-# bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
-# bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
 
 # Configure Gaps
 for_window [class=".*"] border pixel 1
@@ -208,18 +207,24 @@ client.placeholder      #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
 
 client.background       #FFFFFF
 
+# Start dunst 
+exec --no-startup-id dunst
+
+# Start compton
+exec --no-startup-id compton
+
+# Set background 
+exec --no-startup-id $HOME/.config/i3/feh.sh
+
+# Start polybar
+exec --no-startup-id $HOME/.config/polybar/launch.sh 
+
+# Start redshift
+exec --no-startup-id redshift
+
+# Station
+exec --no-startup-id station
+
 # Swap Esc-Caps
 exec setxkbmap -option caps:swapescape
 exec setxkbmap -option compose:ralt
-
-# Start dunst 
-exec_always --no-startup-id dunst
-
-# Start compton
-exec_always --no-startup-id compton
-
-# Set background 
-exec_always --no-startup-id $HOME/.config/i3/feh.sh
-
-# Start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
