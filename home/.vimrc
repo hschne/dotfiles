@@ -200,14 +200,12 @@ Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 " See https://github.com/JamshedVesuna/vim-markdown-preview
 Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 
-
 " Emmet for Vim
 "
 " Enables quickly writing a bunch of HTML
 "
 " See https://github.com/mattn/emmet-vim
-Plug 'adriaanzon/vim-emmet-ultisnips'
-"" Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
 
 " CSS Colors
 "

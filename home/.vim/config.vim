@@ -185,12 +185,10 @@ let g:vim_markdown_new_list_item_indent = 0
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
-" Ultisnips
-"
-"
+" Set ultisnips triggers
 let g:UltiSnipsExpandTrigger="<tab>"                                            
 let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"   
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"      
 
 " Gutentags 
 "
@@ -205,6 +203,9 @@ set statusline+=%{gutentags#statusline()}
 let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+
+"Update Emet key
+let g:user_emmet_leader_key = '<C-e>'
 
 " Auto pairs
 let g:AutoPairsShortcutToggle = '<C-w>t'
