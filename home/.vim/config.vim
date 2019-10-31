@@ -22,6 +22,10 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
+" Enable smartcase for searches.
+set smartcase
+set ignorecase
+
 " Set system clipboard
 set clipboard=unnamedplus
 
@@ -78,12 +82,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Custom save key
-"
-" Because :w is just too much
-nnoremap <C-S> :update<CR>
-inoremap <C-S> <Esc>:update<CR>gi
-
 " Line wrapping options
 "
 " All tips inspired by
@@ -91,26 +89,66 @@ inoremap <C-S> <Esc>:update<CR>gi
 set showbreak=…
 set linebreak
 
-" Colorscheme
+" ##############################################################################
 "
-" Nord. Its beautiful. Note that 'silent! is required in order to allow an
-" automated installation process of vim and its plugins. 
+" Nord Colorscheme
+"
+" ##############################################################################
+" silent! is required in order to allow an automated installation.
 silent! colorscheme nord
 
+" ##############################################################################
+" 
 " vim-airline
 "
-" Settings for vim-airline. Use minimalist theme. 
+" ##############################################################################
 let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
 let g:airline_right_sep = ''
 
+" ##############################################################################
+"
+" Easy Motion 
+"
+" ##############################################################################
+
+let g:EasyMotion_startofline = 0
+let g:EasyMotion_smartcase = 1
+" Use most default mappings
+map <Leader> <Plug>(easymotion-prefix)
+
+" Custom mappings
+nmap s <Plug>(easymotion-overwin-f)
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+map  <Leader>f <Plug>(easymotion-bd-fl)
+map  <Leader>t <Plug>(easymotion-bd-tl)
+
+" Set colors and use color scheme colors
+hi link EasyMotionTarget WarningMsg
+hi link EasyMotionShade  Comment
+hi link EasyMotionTarget2First MatchParen
+hi link EasyMotionTarget2Second MatchParen
+hi link EasyMotionMoveHL Search
+hi link EasyMotionIncSearch Search
+
+" ##############################################################################
+" 
 " NERDTree
 " 
-" Settings for NERDtree. Keybindings and other tricks from their README. 
-map <Leader>n :NERDTreeToggle<CR>
+" ##############################################################################
 
+map <leader><leader>n :NERDTreeToggle<CR>
+
+" Close nerdtree if last window
+ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" ##############################################################################
+" 
 " vim-gitgutter
 " 
+" ##############################################################################
+
 " Change the signs of the indicators
 let g:gitgutter_sign_added = '·'
 let g:gitgutter_sign_modified = '·'
@@ -118,19 +156,21 @@ let g:gitgutter_sign_removed = '·'
 let g:gitgutter_sign_removed_first_line = '·'
 let g:gitgutter_sign_modified_removed = '·'
 
-" Close nerdtree if last window
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
+" ##############################################################################
+"
 " FZF
 "
-" Fore more information see https://github.com/junegunn/fzf.vim#customization
-nmap <Leader>b :Buffers<CR>
-nmap <Leader>: :History:<CR>
-nmap <Leader>/ :History/<CR>
-nmap <Leader>? :History/<CR>
-nmap <Leader>f :Rg<CR>
-nmap <Leader>t :Files<CR>
-nmap <Leader>r :Tags<CR>
+" ##############################################################################
+ 
+" Various custom keybindings. 
+" For more information see https://github.com/junegunn/fzf.vim#customization
+nmap <Leader><Leader>b :Buffers<CR>
+nmap <Leader><Leader>: :History:<CR>
+nmap <Leader><Leader>/ :History/<CR>
+nmap <Leader><Leader>? :History/<CR>
+nmap <Leader><Leader>f :Rg<CR>
+nmap <Leader><Leader>t :Files<CR>
+nmap <Leader><Leader>r :Tags<CR>
 
 " vim-markdown
 "
@@ -145,6 +185,13 @@ let g:vim_markdown_new_list_item_indent = 0
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
+" Ultisnips
+"
+"
+let g:UltiSnipsExpandTrigger="<tab>"                                            
+let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"   
+
 " Gutentags 
 "
 " First, gutentags doesn't like VimPlug and needs manual setup, see
@@ -154,14 +201,10 @@ let vim_markdown_preview_use_xdg_open=1
 autocmd! User vim-gutentags call gutentags#setup_gutentags()
 set statusline+=%{gutentags#statusline()}
 
-
 " Prettier settings, no need to wrap like that
 let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-
-"Update Emet key
-let g:user_emmet_leader_key = '<C-e>'
 
 " Auto pairs
 let g:AutoPairsShortcutToggle = '<C-w>t'

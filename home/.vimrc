@@ -67,6 +67,18 @@ Plug 'tpope/vim-unimpaired'
 " See https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 
+" Vim-Repeat
+"
+" Allow repeating of easymotions motion.
+Plug 'tpope/vim-repeat'
+
+" Vim-EasyMotion
+"
+" Makes navigation a breeze
+"
+" See https://github.com/easymotion/vim-easymotion
+ Plug 'easymotion/vim-easymotion'
+
 " vim-gitgutter
 "
 " Displays git status indictars on on files
@@ -89,6 +101,11 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'junegunn/fzf.vim'
 
 
+" Auto-Pairs
+"
+" Automatically create pairs for braces, quotes...
+"
+" See https://github.com/jiangmiao/auto-pairs
 Plug 'jiangmiao/auto-pairs'
 " Ale
 "
@@ -189,7 +206,13 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 " Enables quickly writing a bunch of HTML
 "
 " See https://github.com/mattn/emmet-vim
-Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+Plug 'adriaanzon/vim-emmet-ultisnips'
+"" Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+
+" CSS Colors
+"
+" Shows hex colors in the editor
+Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 
 
 " Bootstrap Snippets
