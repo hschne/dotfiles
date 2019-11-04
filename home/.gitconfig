@@ -46,3 +46,5 @@
   path = .gitconfig.local
 [hub]
 	protocol = ssh
+[mergetool]
+	keepBackup = false
