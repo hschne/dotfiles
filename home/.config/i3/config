@@ -225,5 +225,5 @@ exec --no-startup-id redshift
 exec --no-startup-id station
 
 # Swap Esc-Caps
-exec --no-startup-id setxkbmap -option caps:swapescape
-exec --no-startup-id setxkbmap -option compose:ralt
+exec_always "setxkbmap -option caps:swapescape""
+exec_always "setxkbmap -option compose:ralt""
