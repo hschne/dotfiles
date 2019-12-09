@@ -100,6 +100,13 @@ Plug 'airblade/vim-gitgutter'
 " See https://github.com/qpkorr/vim-bufkill
 Plug 'qpkorr/vim-bufkill'
 
+" vim-smoothie
+"
+" Smooth scrolling for Vim. Much wow. 
+"
+" https://github.com/psliwka/vim-smoothie
+Plug 'psliwka/vim-smoothie'
+
 " Fzf
 "
 " Fuzzy file searching for vim. 

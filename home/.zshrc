@@ -227,6 +227,3 @@ export PATH="$HOME/.local/bin:$PATH"
 # See https://asdf-vm.com/
 . $HOME/.asdf/asdf.sh echo -e 
 . $HOME/.asdf/completions/asdf.bash
-
-
-
