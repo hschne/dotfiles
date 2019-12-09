@@ -185,10 +185,23 @@ let g:vim_markdown_new_list_item_indent = 0
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
-" Set ultisnips triggers
-let g:UltiSnipsExpandTrigger="<tab>"                                            
-let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"      
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Gutentags 
 "
@@ -205,7 +218,4 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 "Update Emet key
-let g:user_emmet_leader_key = '<C-e>'
-
-" Auto pairs
-let g:AutoPairsShortcutToggle = '<C-w>t'
+let g:user_emmet_leader_key = ','

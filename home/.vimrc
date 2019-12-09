@@ -38,6 +38,13 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Website: https://git.io/nord-vim
 Plug 'arcticicestudio/nord-vim'
 
+" Rainbow Parentheses
+"
+" Because color makes everything better. 
+"
+" See https://github.com/junegunn/rainbow_parentheses.vim
+Plug 'junegunn/rainbow_parentheses.vim'
+
 " Vim-Sensible
 "
 " Some sensible default settings, so you don't have to set everything
@@ -135,13 +142,7 @@ Plug 'ervandew/supertab'
 " See https://github.com/rhysd/vim-grammarous
 Plug 'rhysd/vim-grammarous'
 
-
-" UltiSnips
-"
-" A modern snippet engine. Doesn't come with any snippets though. 
-"
-" See https://github.com/SirVer/ultisnips
-Plug 'SirVer/ultisnips'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Vim Snippets
 "
