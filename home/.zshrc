@@ -1,6 +1,7 @@
 # First things first, add locality script
 export PATH="$HOME/.scripts:$PATH"
 
+
 # Zplug
 # 
 # Zplug is a modern plugin manager for ZSH. 
@@ -9,14 +10,6 @@ export PATH="$HOME/.scripts:$PATH"
 source $HOME/.zplug/init.zsh
 
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-
-# Enable vi-mode
-#
-# Allows you to havigate your shell with vim-like keybindings and feel like a wizard
-# while doing it.
-#
-# See https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/vi-mode/vi-mode.plugin.zsh
-zplug "plugins/vi-mode", from:oh-my-zsh
 
 # Enable system clipboard for Vi Mode
 zplug "kutsan/zsh-system-clipboard"
@@ -85,14 +78,6 @@ zplug "mrowa44/emojify", as:command, use:emojify
 zplug "andsens/homeshick", use:"homeshick.sh", defer:0
 zplug "andsens/homeshick", use:"completions", defer:2
 
-# Spaceship theme
-#
-# The nicest prompt theme I could find. Adds wonderful git support, 
-# supports vi-mode and much more.
-#
-# Website: https://denysdovhan.com/spaceship-prompt/
-zplug "denysdovhan/spaceship-prompt", use:spaceship.zsh, as:theme
-
 # You-Should-Use
 #
 # Plugin that reminds you to use your aliases. Will notify you 
@@ -133,6 +118,11 @@ if ! zplug check --verbose; then
 fi
 
 zplug load
+
+# Activate vi mode and set some shortcuts
+bindkey -v
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
 
 # Set editor to the obvious choice
 export EDITOR='vim'
@@ -227,3 +217,10 @@ export PATH="$HOME/.local/bin:$PATH"
 # See https://asdf-vm.com/
 . $HOME/.asdf/asdf.sh echo -e 
 . $HOME/.asdf/completions/asdf.bash
+
+# Starship Prompt
+#
+# Minimal fast prompt. The spiritual successor to spaceship prompt.  
+#
+# See https://github.com/starship/starship
+eval "$(starship init zsh)"
