@@ -1,6 +1,8 @@
 # First things first, add locality script
 export PATH="$HOME/.scripts:$PATH"
 
+# First of all, enable vi mode
+bindkey -v
 
 # Zplug
 # 
@@ -27,7 +29,6 @@ zplug "b4b4r07/enhancd", use:init.sh
 # and traversing your history.
 #
 # Website: https://github.com/junegunn/fzf
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 
 # Plugins from oh-my-zsh
@@ -100,13 +101,6 @@ zplug "hschne/locality"
 # See: https://github.com/hschne/fzf-git
 zplug "hschne/fzf-git", defer:2
 
-# fzf-gcloud
-#
-# Fuzzy autocompletions for gcloud commands.  
-#
-# See: https://github.com/hschne/fzf-gcloud
-zplug "hschne/fzf-gcloud"
-
 # Can't use locality here, as it is only sourced after zplug load
 file="$HOME/.local.zplug"; [[ -f $file ]] && source $file;
 
@@ -120,9 +114,6 @@ fi
 zplug load
 
 # Activate vi mode and set some shortcuts
-bindkey -v
-bindkey '^r' history-incremental-search-backward
-bindkey '^s' history-incremental-search-forward
 
 # Set editor to the obvious choice
 export EDITOR='vim'
@@ -145,6 +136,8 @@ setopt share_history
 
 # Enable advanced cd behaviour
 setopt auto_cd
+
+
 
 # Disable waiting dots
 # 
@@ -177,6 +170,7 @@ export KEYTIMEOUT=1
 source $HOME/.custom.zsh
 source $HOME/.aliases
 
+
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 
@@ -196,9 +190,6 @@ function git() { hub $@; }
 # Improve look of fzf, especially for enhancd
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-
-# Load machine local configuration
-locality-load "$HOME/.zshrc"
 
 # Enable colors for tmux
 #
