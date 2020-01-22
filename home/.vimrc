@@ -213,7 +213,7 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 " Enables quickly writing a bunch of HTML
 "
 " See https://github.com/mattn/emmet-vim
-Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+Plug 'mattn/emmet-vim', { 'for': ['html','css','javascript'] }
 
 " CSS Colors
 "

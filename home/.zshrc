@@ -1,27 +1,25 @@
 # First things first, add locality script
 export PATH="$HOME/.scripts:$PATH"
 
-# First of all, enable vi mode
+# Activate vi mode and set some shortcuts
 bindkey -v
 
-# Zplug
-# 
-# Zplug is a modern plugin manager for ZSH. 
-#
-# Website: https://github.com/zplug/zplug
-source $HOME/.zplug/init.zsh
+# Enable autocomplete and bash compatibilty
+autoload compinit && compinit
+autoload bashcompinit
+bashcompinit
 
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+# Zinit
+#
+# Zinit is a modern plugin manager for ZSH. 
+#
+# Website: https://github.com/zdharma/zinit
+source "$HOME/.zinit/bin/zinit.zsh"
 
 # Enable system clipboard for Vi Mode
-zplug "kutsan/zsh-system-clipboard"
-
-# Enhancd
 #
-# Helps you with cd. Alternative to autojump.
-# 
-# Website: https://github.com/b4b4r07/enhancd
-zplug "b4b4r07/enhancd", use:init.sh
+# See https://github.com/kutsan/zsh-system-clipboard
+zinit load "kutsan/zsh-system-clipboard"
 
 # FZF
 #
@@ -29,7 +27,10 @@ zplug "b4b4r07/enhancd", use:init.sh
 # and traversing your history.
 #
 # Website: https://github.com/junegunn/fzf
-zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
+zinit ice from"gh-r" as"program"
+zinit load junegunn/fzf-bin
+zinit ice pick"shell/completion.zsh" src"shell/key-bindings.zsh"
+zinit load junegunn/fzf
 
 # Plugins from oh-my-zsh
 #
@@ -37,9 +38,9 @@ zplug "junegunn/fzf", use:"shell/*.zsh", defer:2
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/heroku", from:oh-my-zsh, defer:0
-zplug "plugins/rails", from:oh-my-zsh
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit snippet OMZ::plugins/heroku/heroku.plugin.zsh
+zinit snippet OMZ::plugins/rails/rails.plugin.zsh
 
 # Syntax Highlighting and Autosuggestions
 #
@@ -47,9 +48,9 @@ zplug "plugins/rails", from:oh-my-zsh
 # with those defers, these plugins tend to break other stuff.
 #
 # Website: https://github.com/zsh-users
-zplug "zsh-users/zsh-completions"
-zplug "zsh-users/zsh-autosuggestions", defer:2
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
+zinit load zsh-users/zsh-completions
+zinit load zsh-users/zsh-autosuggestions
+zinit load zsh-users/zsh-syntax-highlighting
 
 # The Fuck
 #
@@ -57,18 +58,18 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:3
 # way of dealing with typos.
 #
 # Website: https://github.com/nvbn/thefuck
-zplug "plugins/thefuck", from:oh-my-zsh, defer:1
+zinit snippet OMZ::plugins/thefuck/thefuck.plugin.zsh
 
 # Emoji-CLI
 #
 # Emojis for the command line. Yes, this is absolutely needed.
 #
 # Website: https://github.com/b4b4r07/emoji-cli
-zplug "b4b4r07/emoji-cli", on:"stedolan/jq", defer:2
-zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
+zinit ice from"gh-r" as"program" mv "jq* -> jq"; zinit load "stedolan/jq"
+zinit ice has'jq'; zinit load "b4b4r07/emoji-cli"
 
 # Emojis for the command line, also super important.
-zplug "mrowa44/emojify", as:command, use:emojify
+zinit ice as"program" pick"emojify"; zinit load "mrowa44/emojify"
 
 # Homeshick
 #
@@ -76,8 +77,8 @@ zplug "mrowa44/emojify", as:command, use:emojify
 # keeping your settings backed up.
 #
 # Website: https://github.com/andsens/homeshick
-zplug "andsens/homeshick", use:"homeshick.sh", defer:0
-zplug "andsens/homeshick", use:"completions", defer:2
+zinit ice pick"homeshick.sh"; zinit load "andsens/homeshick"
+zinit ice pick"completions"; zinit load "andsens/homeshick"
 
 # You-Should-Use
 #
@@ -85,35 +86,37 @@ zplug "andsens/homeshick", use:"completions", defer:2
 # if there is an alias for some command that you use. 
 #
 # Website: https://github.com/MichaelAquilina/zsh-you-should-use
-zplug "MichaelAquilina/zsh-you-should-use"
+zinit ice pick"you-should-use.plugin.zsh"; zinit load "MichaelAquilina/zsh-you-should-use"
 
 # Locality
 #
 # Useful if you have customizations that only apply to some workstations. 
 #
 # See: https://github.com/hschne/locality
-zplug "hschne/locality"
+zinit load "hschne/locality"
 
 # fzf-git
 #
 # Nice, fuzzy autocompletions for git commands.  
 #
 # See: https://github.com/hschne/fzf-git
-zplug "hschne/fzf-git", defer:2
+zinit ice pick"fzf-git.plugin.zsh"; zinit load "hschne/fzf-git"
 
-# Can't use locality here, as it is only sourced after zplug load
-file="$HOME/.local.zplug"; [[ -f $file ]] && source $file;
+# fzf-tab 
+#
+# Replace all tab completions with fzf
+#
+# See https://github.com/Aloxaf/fzf-tab
+zinit load "Aloxaf/fzf-tab"
 
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
 
-zplug load
+# Enhancd
+#
+# Helps you with cd. Alternative to autojump.
+# 
+# Website: https://github.com/b4b4r07/enhancd
+zinit light "b4b4r07/enhancd"
 
-# Activate vi mode and set some shortcuts
 
 # Set editor to the obvious choice
 export EDITOR='vim'
@@ -136,8 +139,6 @@ setopt share_history
 
 # Enable advanced cd behaviour
 setopt auto_cd
-
-
 
 # Disable waiting dots
 # 
@@ -196,9 +197,6 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 # See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
 export TERM=xterm-256color
 
-# Enable bash completion script compatibility
-autoload bashcompinit
-bashcompinit
 
 # Export variables for stack
 export PATH="$HOME/.local/bin:$PATH"
@@ -215,3 +213,13 @@ export PATH="$HOME/.local/bin:$PATH"
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+
+
+# Install ZInit if its not already there
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    command mkdir -p $HOME/.zinit
+    command git clone https://github.com/zdharma/zinit $HOME/.zinit/bin && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f"
+fi
