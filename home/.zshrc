@@ -215,3 +215,5 @@ export PATH="$HOME/.local/bin:$PATH"
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+
+locality-load "$HOME/.zshrc"

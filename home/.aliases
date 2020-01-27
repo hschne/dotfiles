@@ -28,7 +28,7 @@ alias zua="zapier users:add"
 alias zul="zapier users:links"
 alias zup="zapier upload"
 alias zur="zapier users:links"
-alias zv="zapier validates"
+alias zv="zapier validate"
 alias zver="zapier versions"
 
 
