@@ -166,12 +166,6 @@ Plug 'honza/vim-snippets'
 " See https://github.com/prettier/vim-prettier
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
-" bats.vim
-"
-" Bats syntax highlighting. 
-"
-" See https://github.com/aliou/bats.vim
-Plug 'aliou/bats.vim', { 'for': 'bats' }
 
 " Vim Gutentags
 "
@@ -194,13 +188,6 @@ Plug 'christoomey/vim-tmux-navigator'
 " See https://github.com/editorconfig/editorconfig-vim
 Plug 'editorconfig/editorconfig-vim'
 
-" Markdown
-"
-" Some nice to have functionality for writing markdown.
-"
-" See https://github.com/plasticboy/vim-markdown
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-
 " Markdown Preview
 "
 " Enables local markdown preview! 
@@ -213,18 +200,32 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 " Enables quickly writing a bunch of HTML
 "
 " See https://github.com/mattn/emmet-vim
-Plug 'mattn/emmet-vim', { 'for': ['html','css'] }
+Plug 'mattn/emmet-vim', { 'for': ['html','css','javascript', 'javascriptreact'] }
 
 " CSS Colors
 "
 " Shows hex colors in the editor
 Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 
+Plug 'maxmellon/vim-jsx-pretty'
+" Polyglot
+"
+" All the language packs you'll ever need.
+"
+" See https://github.com/sheerun/vim-polyglot
+Plug 'sheerun/vim-polyglot'
 
 " Bootstrap Snippets
 "
 " See https://github.com/jvanja/vim-bootstrap4-snippets
 Plug 'jvanja/vim-bootstrap4-snippets', { 'for': 'html' }
+
+" bats.vim
+"
+" Bats syntax highlighting. 
+"
+" See https://github.com/aliou/bats.vim
+Plug 'aliou/bats.vim', { 'for': 'bats' }
 
 " VimTex
 "
@@ -242,3 +243,5 @@ syntax on
 " Load additional configuration 
 source $HOME/.vim/config.vim
 
+let g:polyglot_disabled = ['jsx']
+let g:vim_jsx_pretty_colorful_config = 1

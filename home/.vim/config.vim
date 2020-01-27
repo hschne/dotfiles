@@ -199,6 +199,14 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" Ale
+let g:ale_fixers = { 'javascript': ['prettier', 'eslint'] }
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
@@ -215,7 +223,13 @@ set statusline+=%{gutentags#statusline()}
 " Prettier settings, no need to wrap like that
 let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+autocmd BufWritePre *.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
-"Update Emet key
+"Update Emmet key
 let g:user_emmet_leader_key = ','
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+
