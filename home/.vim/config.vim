@@ -185,6 +185,7 @@ let g:vim_markdown_new_list_item_indent = 0
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
+" coc-vim
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -233,3 +234,8 @@ let g:user_emmet_settings = {
 \  },
 \}
 
+" Syntax highlighting macro
+" See https://vim.fandom.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
