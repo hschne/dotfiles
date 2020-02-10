@@ -75,7 +75,7 @@ zinit snippet OMZ::plugins/thefuck/thefuck.plugin.zsh
 # Emojis for the command line. Yes, this is absolutely needed.
 #
 # Website: https://github.com/b4b4r07/emoji-cli
-zinit ice from"gh-r" as"program" mv "jq* -> jq"; zinit load "stedolan/jq"
+zinit ice from"gh-r" as"program" mv "jq-* -> jq"; zinit load "stedolan/jq"
 zinit ice has'jq'; zinit load "b4b4r07/emoji-cli"
 
 # Emojis for the command line, also super important.
