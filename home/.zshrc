@@ -68,6 +68,7 @@ zinit load zsh-users/zsh-syntax-highlighting
 # way of dealing with typos.
 #
 # Website: https://github.com/nvbn/thefuck
+zinit ice wait'1' lucid
 zinit snippet OMZ::plugins/thefuck/thefuck.plugin.zsh
 
 # Emoji-CLI

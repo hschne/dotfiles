@@ -89,11 +89,19 @@ noremap <Right> <Nop>
 set showbreak=…
 set linebreak
 
+" Show syntax group with F10
+"
+" See https://vim.fandom.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 " ##############################################################################
 "
 " Nord Colorscheme
 "
 " ##############################################################################
+"
 " silent! is required in order to allow an automated installation.
 silent! colorscheme nord
 
@@ -108,7 +116,7 @@ let g:airline_right_sep = ''
 
 " ##############################################################################
 "
-" Easy Motion 
+" EasyMotion 
 "
 " ##############################################################################
 
@@ -141,7 +149,7 @@ hi link EasyMotionIncSearch Search
 map <leader><leader>n :NERDTreeToggle<CR>
 
 " Close nerdtree if last window
- autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " ##############################################################################
 " 
@@ -158,7 +166,7 @@ let g:gitgutter_sign_modified_removed = '·'
 
 " ##############################################################################
 "
-" FZF
+" fzf-vim
 "
 " ##############################################################################
  
@@ -172,19 +180,34 @@ nmap <Leader><Leader>f :Rg<CR>
 nmap <Leader><Leader>t :Files<CR>
 nmap <Leader><Leader>r :Tags<CR>
 
+
+" ##############################################################################
+"
 " vim-markdown
 "
-" Settings for vim-markdown. Disable folding and fix list item behaviour. 
+" ##############################################################################
+"
+" Disable folding and fix list item behaviour. 
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
 
+" ##############################################################################
+"
 " vim-markdown-preview
 "
-" Use github style preview. XDG open required to open non-chrome browsers on
-" Arch linux. 
+" ##############################################################################
+"
+" Use github style preview. XDG open required to open non-chrome browsers on Arch linux. 
 let vim_markdown_preview_github=1
 let vim_markdown_preview_use_xdg_open=1
 
+" ##############################################################################
+"
+" coc-vim
+"
+" ##############################################################################
+"
+" Custom tab completion, compatible with snippets
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
@@ -199,19 +222,36 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+" ##############################################################################
+"
 " Ale
+"
+" ##############################################################################
+"
+" Custom fixers
 let g:ale_fixers = { 'javascript': ['prettier', 'eslint'] }
+" Making it pretty
 let g:ale_sign_error = '❌'
 let g:ale_sign_warning = '⚠️'
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
-" Supertab
+" Custom linting behaviour
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+
+" ##############################################################################
+"
+" Super Tab
+"
+" ##############################################################################
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
-" Gutentags 
+" ##############################################################################
+"
+" Gutentags
+"
+" ##############################################################################
 "
 " First, gutentags doesn't like VimPlug and needs manual setup, see
 " here: https://github.com/junegunn/vim-plug/issues/823
@@ -225,7 +265,12 @@ let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
-"Update Emmet key
+" ##############################################################################
+"
+" emmet-vim
+"
+" ##############################################################################
+" Custom key and jsx Settings
 let g:user_emmet_leader_key = ','
 let g:user_emmet_settings = {
 \  'javascript' : {
@@ -233,3 +278,11 @@ let g:user_emmet_settings = {
 \  },
 \}
 
+" ##############################################################################
+"
+" Polyglot
+"
+" ##############################################################################
+
+" We use vimtex instead of latex box
+let g:polyglot_disabled = ['latex']

@@ -1,3 +1,4 @@
+
 set nocompatible
 filetype off
 
@@ -149,6 +150,11 @@ Plug 'ervandew/supertab'
 " See https://github.com/rhysd/vim-grammarous
 Plug 'rhysd/vim-grammarous'
 
+" Coc.vim
+"
+" Language server capabilities for Vim
+"
+" See https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Vim Snippets
@@ -207,7 +213,6 @@ Plug 'mattn/emmet-vim', { 'for': ['html','css','javascript', 'javascriptreact'] 
 " Shows hex colors in the editor
 Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 
-Plug 'maxmellon/vim-jsx-pretty'
 " Polyglot
 "
 " All the language packs you'll ever need.
@@ -234,7 +239,6 @@ Plug 'aliou/bats.vim', { 'for': 'bats' }
 " See https://github.com/lervag/vimtex
 Plug 'lervag/vimtex', { 'for': 'latex' }
 
-
 call plug#end()
 
 filetype plugin indent on
@@ -243,5 +247,3 @@ syntax on
 " Load additional configuration 
 source $HOME/.vim/config.vim
 
-let g:polyglot_disabled = ['jsx']
-let g:vim_jsx_pretty_colorful_config = 1
