@@ -87,6 +87,13 @@ Plug 'tpope/vim-repeat'
 " See https://github.com/easymotion/vim-easymotion
  Plug 'easymotion/vim-easymotion'
 
+" vim-peekaboo
+"
+" Displays previous of registers
+"
+" See https://github.com/junegunn/vim-peekaboo
+Plug 'junegunn/vim-peekaboo'
+
 " vim-gitgutter
 "
 " Displays git status indictars on on files
@@ -115,6 +122,13 @@ Plug 'psliwka/vim-smoothie'
 " See https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf.vim'
 
+
+" vim-asterisk
+"
+" Better handling of * searches
+"
+" See https://github.com/haya14busa/vim-asterisk
+Plug 'haya14busa/vim-asterisk'
 
 " Auto-Pairs
 "

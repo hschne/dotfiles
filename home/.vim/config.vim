@@ -25,6 +25,7 @@ set enc=utf-8
 " Enable smartcase for searches.
 set smartcase
 set ignorecase
+set hlsearch
 
 " Set system clipboard
 set clipboard=unnamedplus
@@ -82,6 +83,8 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Clear search using excape
+noremap <ESC> :noh<CR><ESC>
 " Line wrapping options
 "
 " All tips inspired by
@@ -286,3 +289,29 @@ let g:user_emmet_settings = {
 
 " We use vimtex instead of latex box
 let g:polyglot_disabled = ['latex']
+
+
+" ##############################################################################
+"
+" vim-tex
+"
+" ##############################################################################
+
+" Set default for partial tex files
+let g:tex_flavor = "latex"
+
+
+" ##############################################################################
+"
+" vim-asterisk
+"
+" ##############################################################################
+map *   <Plug>(asterisk-*)
+map #   <Plug>(asterisk-#)
+map g*  <Plug>(asterisk-g*)
+map g#  <Plug>(asterisk-g#)
+map z*  <Plug>(asterisk-z*)
+map gz* <Plug>(asterisk-gz*)
+map z#  <Plug>(asterisk-z#)
+map gz# <Plug>(asterisk-gz#)
+let g:asterisk#keeppos = 1
