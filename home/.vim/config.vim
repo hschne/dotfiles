@@ -83,8 +83,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Clear search using excape
-noremap <ESC> :noh<CR><ESC>
 " Line wrapping options
 "
 " All tips inspired by
