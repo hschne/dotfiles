@@ -123,6 +123,13 @@ Plug 'psliwka/vim-smoothie'
 Plug 'junegunn/fzf.vim'
 
 
+" is.vim
+"
+" Better handling of searches, mostly used to auto clear search
+"
+" See https://github.com/haya14busa/is.vim
+Plug 'haya14busa/is.vim'
+
 " vim-asterisk
 "
 " Better handling of * searches

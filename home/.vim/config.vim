@@ -83,8 +83,6 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Clear search using excape
-noremap <ESC> :noh<CR><ESC>
 " Line wrapping options
 "
 " All tips inspired by
@@ -306,12 +304,8 @@ let g:tex_flavor = "latex"
 " vim-asterisk
 "
 " ##############################################################################
-map *   <Plug>(asterisk-*)
-map #   <Plug>(asterisk-#)
-map g*  <Plug>(asterisk-g*)
-map g#  <Plug>(asterisk-g#)
-map z*  <Plug>(asterisk-z*)
-map gz* <Plug>(asterisk-gz*)
-map z#  <Plug>(asterisk-z#)
-map gz# <Plug>(asterisk-gz#)
+map *  <Plug>(asterisk-z*)<Plug>(is-nohl-1)
+map g* <Plug>(asterisk-gz*)<Plug>(is-nohl-1)
+map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
+map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
 let g:asterisk#keeppos = 1
