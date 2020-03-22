@@ -48,6 +48,7 @@ zinit load junegunn/fzf
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+zinit snippet OMZ::lib/git.zsh
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 zinit snippet OMZ::plugins/heroku/heroku.plugin.zsh
 zinit snippet OMZ::plugins/rails/rails.plugin.zsh
@@ -105,13 +106,6 @@ zinit ice pick"you-should-use.plugin.zsh"; zinit load "MichaelAquilina/zsh-you-s
 #
 # See: https://github.com/hschne/locality
 zinit load "hschne/locality"
-
-# fzf-git
-#
-# Nice, fuzzy autocompletions for git commands.  
-#
-# See: https://github.com/hschne/fzf-git
-zinit ice pick"fzf-git.plugin.zsh"; zinit load "hschne/fzf-git"
 
 # fzf-tab 
 #

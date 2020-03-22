@@ -13,6 +13,7 @@ alias t="gnome-terminal"
 
 # Git
 alias gmm="git merge master"
+alias gmd="git merge develope"
 alias gaacm="git add -A && git commit -m"
 
 # Zapier
@@ -35,6 +36,10 @@ alias zver="zapier versions"
 # Directories
 alias dl="cd ~/Downloads"
 alias src="cd ~/Source"
+alias mt="cd ~/Source/meistertask"
+alias mm="cd ~/Source/mindmeister"
+alias mtzap="cd ~/Source/meistertask-zapier"
+alias mtzen="cd ~/Source/meistertask-zendesk"
 
 # Close terminal window
 alias :q='exit'
@@ -43,7 +48,5 @@ alias :q='exit'
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -- -='cd -'
-alias lsa='ls -lah'
-alias l='ls -lah'
 alias ll='ls -lh'
 alias la='ls -lAh'
