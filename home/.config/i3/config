@@ -99,7 +99,7 @@ set $ws10 "10"
 assign [class="(?i)firefox*"] $ws2
 assign [class="(?i)chromium"] $ws2
 assign [class="(?i)jetbrains*"] $ws3
-assign [class="Station"] $ws6
+assign [class="Slack"] $ws6
 # Workaround for Spotify, see https://github.com/i3/i3/issues/2060#issuecomment-155179472
 for_window [class="Spotify"] move to workspace $ws5
 for_window [class="Spotify"] focus
@@ -222,7 +222,7 @@ exec --no-startup-id xbanish
 exec --no-startup-id redshift
 
 # Station
-exec --no-startup-id station
+exec --no-startup-id slack
 
 # Swap Esc-Caps
 exec_always "setxkbmap -option caps:swapescape"
