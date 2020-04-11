@@ -86,7 +86,7 @@ font:
   bold:
     style: Bold
   italic:
-    style: Regular
+    style: Italic
 
   # Point size
   size: 8.5

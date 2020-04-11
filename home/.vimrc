@@ -229,6 +229,11 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 " See https://github.com/mattn/emmet-vim
 Plug 'mattn/emmet-vim', { 'for': ['html','css','javascript', 'javascriptreact'] }
 
+" Styled Components Highlighting
+
+" See https://github.com/styled-components/vim-styled-components
+Plug 'styled-components/vim-styled-components', { 'for': ['javascriptreact'], 'branch': 'main' }
+
 " CSS Colors
 "
 " Shows hex colors in the editor
