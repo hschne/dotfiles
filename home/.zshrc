@@ -145,6 +145,9 @@ setopt share_history
 # Enable advanced cd behaviour
 setopt auto_cd
 
+# Needed for some substitutions
+setopt re_match_pcre
+
 # Disable waiting dots
 # 
 # This would print '...' while waiting for autocomplete, which is 
