@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+
+# Helper script for TMUX. 
+
+# Taken from https://github.com/junegunn/fzf/wiki/Examples#tmux
+fs() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | \
+    fzf --query="$1" --select-1 --exit-0) &&
+  tmux switch-client -t "$session"
+}
+
+fs "$@"
+
