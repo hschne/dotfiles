@@ -208,6 +208,7 @@ Plug 'christoomey/vim-tmux-navigator'
 " See https://github.com/editorconfig/editorconfig-vim
 Plug 'editorconfig/editorconfig-vim'
 
+Plug 'vimwiki/vimwiki'
 " Markdown Preview
 "
 " Enables local markdown preview! 

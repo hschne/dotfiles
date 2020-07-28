@@ -5,8 +5,11 @@ alias vimrc="vim ~/.vimrc"
 alias config="vim ~/.vim/config.vim"
 alias shared="vim ~/.vim/shared.vim"
 alias ideavimrc="vim ~/.ideavimrc"
-alias todo="vim ~/Documents/Todo.md"
-alias notes="vim ~/Documents/Notes.md"
+alias todo="vim ~/Documents/wiki/tasks.wiki"
+alias diary="vim ~/Documents/wiki/diary/diary.wiki"
+alias wiki="vim ~/Documents/wiki/index.wiki"
+alias tasks="vim ~/Documents/wiki/tasks.wiki"
+alias scratch="vim ~/Documents/wiki/scratchpad.wiki"
 
 # Command aliases
 alias t="gnome-terminal"
