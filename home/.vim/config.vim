@@ -311,10 +311,14 @@ map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
 let g:asterisk#keeppos = 1
 
 
-let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown'}]
+let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'main', 'ext': '.md' }]
+let g:vimwiki_global_ext = 0
+
 command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
-    " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+    " automatically update links on read, write diary
+    autocmd BufWrite,BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+    autocmd BufRead wiki.wiki silent! !git pull > /dev/null&
+    autocmd BufWritePost *.wiki silent! ! git add % ; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet &
 augroup end

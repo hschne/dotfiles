@@ -7,7 +7,7 @@ alias shared="vim ~/.vim/shared.vim"
 alias ideavimrc="vim ~/.ideavimrc"
 alias todo="vim ~/Documents/wiki/tasks.wiki"
 alias diary="vim ~/Documents/wiki/diary/diary.wiki"
-alias wiki="vim ~/Documents/wiki/index.wiki"
+alias wiki="vim ~/Documents/wiki/wiki.wiki"
 alias tasks="vim ~/Documents/wiki/tasks.wiki"
 alias scratch="vim ~/Documents/wiki/scratchpad.wiki"
 
