@@ -319,6 +319,6 @@ augroup vimwikigroup
     autocmd!
     " automatically update links on read, write diary
     autocmd BufWrite,BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
-    autocmd BufRead wiki.wiki silent! !git pull > /dev/null&
-    autocmd BufWritePost *.wiki silent! ! git add % ; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet &
+    autocmd BufRead $HOME/Source/wiki/wiki.md' silent! !git pull > /dev/null&
+    autocmd BufWritePost $HOME/Source/wiki/*.md silent! ! git add % ; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet &
 augroup end
