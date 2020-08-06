@@ -314,7 +314,11 @@ let g:asterisk#keeppos = 1
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'main', 'ext': '.md' }]
 let g:vimwiki_global_ext = 0
 
+" Automatically source vimrc when saving it
+autocmd BufWritePost ~/.vimrc so ~/.vimrc
+
 command! Diary VimwikiDiaryIndex
+
 augroup vimwikigroup
     autocmd!
     " automatically update links on read, write diary
