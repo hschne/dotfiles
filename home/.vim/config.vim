@@ -322,7 +322,7 @@ command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
     " automatically update links on read, write diary
-    autocmd BufWrite,BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
-    autocmd BufRead $HOME/Source/wiki/wiki.md' silent! !git pull > /dev/null&
-    autocmd BufWritePost $HOME/Source/wiki/*.md silent! ! git add % ; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet &
+    autocmd BufWrite,BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+    autocmd BufRead $HOME/Source/wiki/wiki.md' silent! ! 'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git pull > /dev/null& ; fi'
+    autocmd BufWritePost $HOME/Source/wiki/*.md silent! '! if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ; git add % ; git commit -m "Auto commit of %:t." "%" --quiet ; git push --quiet & ; fi'
 augroup end
