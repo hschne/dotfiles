@@ -311,7 +311,7 @@ map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
 let g:asterisk#keeppos = 1
 
 
-let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'main', 'ext': '.md' }]
+let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md' }]
 let g:vimwiki_global_ext = 0
 
 " Automatically source vimrc when saving it
