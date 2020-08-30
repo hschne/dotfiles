@@ -100,13 +100,6 @@ zinit ice pick"completions"; zinit load "andsens/homeshick"
 # Website: https://github.com/MichaelAquilina/zsh-you-should-use
 zinit ice pick"you-should-use.plugin.zsh"; zinit load "MichaelAquilina/zsh-you-should-use"
 
-# Locality
-#
-# Useful if you have customizations that only apply to some workstations. 
-#
-# See: https://github.com/hschne/locality
-zinit load "hschne/locality"
-
 # fzf-tab 
 #
 # Replace all tab completions with fzf
@@ -161,17 +154,6 @@ COMPLETION_WAITING_DOTS="false"
 # See https://unix.stackexchange.com/a/72092
 stty -ixon
 
-# Fix new Tab on Arch
-#
-# When opening a new Tab in Gnome Terminal, it always opens in $HOME. 
-# Only applies to Arch distros.
-#
-# For the bugreport see https://bugs.launchpad.net/ubuntu-gnome/+bug/1193993 
-# For fixes see  https://unix.stackexchange.com/questions/93476/gnome-terminal-keep-track-of-directory-in-new-tab
-if [ -f "/etc/arch-release" ]; then
-  . /etc/profile.d/vte.sh
-fi
-
 # Speed up prompt redraw, useful when using vi-mode 
 export KEYTIMEOUT=1
 
@@ -221,8 +203,6 @@ export PATH="$HOME/.local/bin:$PATH"
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
-
-locality-load "$HOME/.zshrc"
 
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 

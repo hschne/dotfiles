@@ -48,3 +48,6 @@
 	protocol = ssh
 [mergetool]
 	keepBackup = false
+[user]
+	email = hans.schnedlitz@gmail.com
+	name = hschne
