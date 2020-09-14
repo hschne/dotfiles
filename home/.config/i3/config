@@ -207,13 +207,13 @@ client.background       #FFFFFF
 exec --no-startup-id dunst
 
 # Start compton
-exec --no-startup-id compton
+exec --no-startup-id picom --config $HOME/.config/picom/picom.conf
 
 # Set background 
 exec_always --no-startup-id $HOME/.config/i3/feh.sh
 
 # Start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh 
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Enable cursor hiding
 exec --no-startup-id xbanish 
