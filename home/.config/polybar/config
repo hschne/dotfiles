@@ -26,7 +26,7 @@ font-0 = SauceCodePro Nerd Font:size=10;1
 font-1 = MaterialIcons:size=10;3
 
 modules-left = i3 
-modules-right = pulseaudio backlight wireless-network battery date pomo
+modules-right = pulseaudio backlight wireless-network battery pomo date
 
 tray-position = right
 tray-background = ${colors.background}
@@ -254,5 +254,6 @@ label-urgent-padding = 2
 type = custom/script
 interval = 1
 exec = ~/.scripts/pomo clock
+click-left = ~/.scripts/pomo pause
 
 ; vim:ft=dosini

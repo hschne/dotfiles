@@ -37,7 +37,7 @@ alias zver="zapier versions"
 
 # Pomodoro
 alias posta="pomo start"
-alias pop="pomo start"
+alias pop="pomo pause"
 alias por="pomo restart"
 alias posto="pomo stop"
 
