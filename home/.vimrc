@@ -256,7 +256,7 @@ Plug 'aliou/bats.vim', { 'for': 'bats' }
 " A lightweight plugin for nice latex support. 
 "
 " See https://github.com/lervag/vimtex
-Plug 'lervag/vimtex', { 'for': 'latex' }
+Plug 'lervag/vimtex', { 'for': 'tex' }
 
 call plug#end()
 
