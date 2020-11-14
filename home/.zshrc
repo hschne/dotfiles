@@ -37,10 +37,7 @@ zinit load "kutsan/zsh-system-clipboard"
 # and traversing your history.
 #
 # Website: https://github.com/junegunn/fzf
-zinit ice from"gh-r" as"program"
-zinit load junegunn/fzf-bin
-zinit ice pick"shell/completion.zsh" src"shell/key-bindings.zsh"
-zinit load junegunn/fzf
+zinit pack src"shell/key-bindings.zsh" for fzf 
 
 # Plugins from oh-my-zsh
 #
