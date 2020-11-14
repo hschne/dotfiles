@@ -22,6 +22,10 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
+" Fix mouse not working beyond column 220
+" See https://stackoverflow.com/a/19253251
+set ttymouse=sgr
+
 " Enable smartcase for searches.
 set smartcase
 set ignorecase
