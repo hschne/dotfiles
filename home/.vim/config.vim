@@ -63,6 +63,7 @@ endif
 " Save swapfiles/undofiles a specific directory
 "
 " See here: https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
+set noswapfile
 set directory=$HOME/.vim/swp//
 set undofile
 set undodir=$HOME/.vim/undo//
