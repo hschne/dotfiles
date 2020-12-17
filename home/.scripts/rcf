@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+main() {
+  local branch 
+  local base_commit 
+  local changed_files
+  branch=$(git branch --show-current)
+  base_commit=$(git merge-base "$branch" master)
+  changed_files=$(git diff --name-only "$base_commit")
+
+  echo "$changed_files" | xargs -r rubocop -A --force-exclusion
+}
+
+main "$@"
