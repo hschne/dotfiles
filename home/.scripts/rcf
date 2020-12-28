@@ -8,7 +8,9 @@ main() {
   base_commit=$(git merge-base "$branch" master)
   changed_files=$(git diff --name-only "$base_commit")
 
-  echo "$changed_files" | xargs -r rubocop -A --force-exclusion
+  if [[ -n $changed_files ]]; then
+    echo "$changed_files" | xargs rubocop -A --force-exclusion
+  fi
 }
 
 main "$@"
