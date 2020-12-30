@@ -60,6 +60,9 @@ if !isdirectory($HOME/".vim/undo")
     silent call mkdir($HOME."/.vim/undo", "p")
 endif
 
+" Automatically source vimrc when saving it
+autocmd BufWritePost ~/.vimrc so ~/.vimrc
+
 " Save swapfiles/undofiles a specific directory
 "
 " See here: https://medium.com/@Aenon/vim-swap-backup-undo-git-2bf353caa02f
@@ -315,12 +318,22 @@ map #  <Plug>(asterisk-z#)<Plug>(is-nohl-1)
 map g# <Plug>(asterisk-gz#)<Plug>(is-nohl-1)
 let g:asterisk#keeppos = 1
 
+" ##############################################################################
+"
+" vim-autopair
+"
+" ##############################################################################
+" The default shortcut involves Alt, which doesn't really work with term
+" emulators
+let g:AutoPairsShortcutToggle = '<C-p>' 
 
+" ##############################################################################
+"
+" vimwiki
+"
+" ##############################################################################
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md', 'auto_diary_index': 1 }]
 let g:vimwiki_global_ext = 0
-
-" Automatically source vimrc when saving it
-autocmd BufWritePost ~/.vimrc so ~/.vimrc
 
 command! Diary VimwikiDiaryIndex
 
