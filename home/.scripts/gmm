@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+
+main() {
+  main_branch=$(git branch -r | grep -Po 'HEAD -> \K.*$' | sed 's|origin/||')
+  git pull $main_branch
+  git merge $main_branch
+}
+
+main "$@"
