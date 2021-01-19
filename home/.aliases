@@ -15,7 +15,6 @@ alias scratch="vim ~/Documents/wiki/scratchpad.md"
 alias t="gnome-terminal"
 
 # Git
-alias gmm="git merge $(git branch -r | grep -Po 'HEAD -> \K.*$' | sed 's|origin/||')"
 alias gmd="git merge develop"
 alias gaacm="git add -A && git commit -m"
 
