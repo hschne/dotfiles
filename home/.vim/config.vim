@@ -105,6 +105,11 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" Close all buffers except current
+"
+" See https://stackoverflow.com/a/57712826/2553104
+nnoremap <leader>ca :w <bar> %bd <bar> e# <bar> bd# <CR>
+
 " ##############################################################################
 "
 " Nord Colorscheme
@@ -340,6 +345,8 @@ command! Diary VimwikiDiaryIndex
 augroup vimwikigroup
     autocmd!
 
-    autocmd BufRead $HOME/Source/wiki/wiki.md' silent! ! 'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git pull > /dev/null& ; fi'
-    autocmd BufWritePost $HOME/Source/wiki/*.md silent! '! if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 ; git add % ; git commit -m "Auto commit of %:t." "%" --quiet ; git push --quiet & ; fi'
+    autocmd BufWrite,BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
+    autocmd BufRead $HOME/Documents/wiki/wiki.md silent! !'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git pull > /dev/null& ; fi'
+    autocmd BufWritePost $HOME/Documents/wiki/* silent!  !'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git add %; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet & ; fi'
+
 augroup end

@@ -1,0 +1,185 @@
+#! /usr/bin/env bash
+
+set -Eeuo pipefail
+
+TAGS='TODO,FIXME'
+INCLUDE_GLOB=
+EXCLUDE_GLOB=
+PORCELAIN=
+AUTHOR=
+AUTHOR_MAIL=
+REVERSE=0
+
+mochma() {
+  parse_args "$@"
+
+  inside_work_tree || die 'Not a git repository'
+
+  local files; files=$(git ls-files)
+  [[ -n $EXCLUDE_GLOB ]] && files=$(echo "$files" | grep -vE "$EXCLUDE_GLOB" )
+  [[ -n $INCLUDE_GLOB ]] && files=$(echo "$files" | grep -E "$INCLUDE_GLOB" )
+
+  tags_regex=${TAGS//,/:|}
+  # Append true, as the grep command may return non zero codes in passsing instances
+  # We don't want to fail the entire program, and adding this avoids that
+  files=$(echo "$files" | xargs git --no-pager grep -rn -E $tags_regex ) || true
+
+  local blames=()
+  while IFS=$'\n' read -r line; do
+    annotated_line=$(get_blame "$line")
+    blames+=("$annotated_line")
+  done <<< "$files"
+
+  local filtered_blames=()
+  if [[ -n $AUTHOR ]] || [[ -n $AUTHOR_MAIL ]]; then 
+    for blame in "${blames[@]}"; do
+      if [[ -n "$AUTHOR" ]]; then 
+        local author_name; author_name=$(echo "$blame" | cut -d',' -f4)
+        [[ "$author_name" == "$AUTHOR" ]] && filtered_blames+=("$blame");
+      fi
+      if [[ -n "$AUTHOR_MAIL" ]]; then 
+        local author_mail; author_mail=$(echo "$blame" | cut -d',' -f5)
+        [[ "$author_mail" == "$AUTHOR_MAIL" ]] && filtered_blames+=("$blame");
+      fi
+    done
+  else
+    filtered_blames=("${blames[@]}")
+  fi
+
+  local sorted_blames=()
+  if [[ "$REVERSE" == 1 ]]; then 
+    mapfile -t sorted_blames < <(printf '%s\n' "${filtered_blames[@]}" | tac)
+  else
+    sorted_blames=("${filtered_blames[@]}")
+  fi
+
+  for blame in "${sorted_blames[@]}"; do
+    if [[ -n $PORCELAIN ]]; then 
+      echo "$blame"
+    else
+      print_blame "$blame"
+     
+
+      local count="${#sorted_blames[@]}"
+    fi
+  done
+
+
+  [[ -z $PORCELAIN ]] && printf "Found %s items ✅\n" "$count"
+}
+
+# Argument parsing, ripped from SO
+# See https://stackoverflow.com/a/28466267/2553104
+parse_args() {
+  local OPTARG
+  while getopts hprt:a:-: OPT; do
+    if [ "$OPT" = "-" ]; then   
+      OPT="${OPTARG%%=*}"      
+      OPTARG="${OPTARG#$OPT}" 
+      OPTARG="${OPTARG#=}"   
+    fi
+   # shellcheck disable=SC2214
+    case "$OPT" in
+      h | help )     usage ;;
+      exclude )      needs_arg; EXCLUDE_GLOB="$OPTARG" ;;
+      include )      needs_arg; INCLUDE_GLOB="$OPTARG" ;;
+      t | tags )     needs_arg; TAGS="$OPTARG" ;;
+      a | author )   needs_arg; AUTHOR="$OPTARG" ;;
+      author-mail )  needs_arg; AUTHOR_MAIL="$OPTARG" ;;
+      r | reverse )  REVERSE=1 ;;
+      p | porcelain )PORCELAIN=1 ;;
+      ??* )          die "Illegal option --$OPT" ;;  # bad long option
+      \? )           exit 2 ;;  # bad short option (error reported via getopts)
+    esac
+  done
+  shift $((OPTIND-1))
+}
+
+
+get_blame() {
+  local line=$1
+  local file line_number text comment matcher
+  file=$(echo "$line" | cut -d':' -f1)
+  line_number=$(echo "$line" | cut -d':' -f2)
+
+  tags_regex=${TAGS//,/\\|}
+  text=$(echo "$line" | cut -d':' -f3- | sed -e "s/^.*\($tags_regex\): \(.*$\)/\1\/\2/")
+  matcher=${text%%/*}
+  comment="${text#*/}"
+
+  local blame
+  blame=$(git blame --porcelain -L "$line_number","$line_number" "$file")
+  local commit author_name author_mail timestamp
+  commit=$(echo "$blame" | head -n 1 | cut -d' ' -f1)
+  author_name=$(echo "$blame" | grep '^author ' | sed 's/author \(.*\)/\1/')
+  author_mail=$(echo "$blame" | grep '^author-mail ' | sed 's/author-mail \(.*\)/\1/')
+  author_mail=${author_mail:1:-1}
+  timestamp=$(echo "$blame" | grep '^author-time ' | sed 's/author-time \(.*\)/\1/')
+
+  printf "%s,%s,%s,%s,%s,%s,%s,\"%s\"\n" \
+    "$file" "$line_number" "$commit" "$author_name" "$author_mail" "$timestamp" "$matcher" "$comment" 
+}
+
+print_blame() {
+  local line=$1
+  local file line_number matcher comment commit author_name author_mail timestamp
+
+  file=$(echo "$line" | cut -d',' -f1)
+  line_number=$(echo "$line" | cut -d',' -f2)
+  commit=$(echo "$line" | cut -d',' -f3)
+  author_name=$(echo "$line" | cut -d',' -f4)
+  author_mail=$(echo "$line" | cut -d',' -f5)
+  timestamp=$(echo "$line" | cut -d',' -f6)
+
+  local pretty_time
+  pretty_time=$(date -d "@$timestamp")
+
+  matcher=$(echo "$line" | cut -d',' -f7)
+  comment=$(echo "$line" | awk -vFPAT='([^,]*)|("[^"]+")' -vOFS=, '{print $8}')
+
+  local temp sanitized_comment
+  temp="${comment%\"}"
+  sanitized_comment="${temp#\"}"
+
+  local yellow="\e[33m"
+  local default="\e[0m"
+  printf "${yellow}%s${default}: %s\n" "$matcher" "$sanitized_comment" 
+  printf "%2s=> %s:%s\n" "" "$file" "$line_number"
+  printf "%2s=> On %s by %s <%s> in %s\n" "" "$pretty_time" "$author_name" "$author_mail" "$commit"
+  echo
+}
+
+usage () {
+  cat <<EOF
+
+Usage: mochma [options] 
+
+A tickgit clone written in bash
+
+Input control: 
+      --include=GLOB     Include only files specified by the pattern
+      --exclude=GLOB     Exclude files specified by the pattern
+  -t, --tags=TAGS        Set tags to scan for. Default is 'TODO,FIXME'
+
+Output control:
+  -a, --author=NAME      Limit output to author
+      --author-mail=MAIL Limit output to author
+  -r, --reverse          Reverse the output
+  -p, --porcelain        Produce machine readable output
+
+Misc: 
+  -h, --help             Exclude a number of files from being parsed
+EOF
+
+  exit 0
+}
+
+inside_work_tree() { git rev-parse --is-inside-work-tree >/dev/null 2>&1; }
+
+needs_arg() { if [ -z "$OPTARG" ]; then die "No arg for --$OPT option"; fi; }
+
+die() { echo "$*" >&2; exit 1; } 
+
+sourced() { [ "${0}" != "${BASH_SOURCE[0]}" ];  }
+
+if ! sourced; then mochma "$@"; fi
