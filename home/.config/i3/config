@@ -187,10 +187,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%
 bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle-mute # Toggle muting
 
 # Configure Gaps
-for_window [class=".*"] border pixel 1
+for_window [class=".*"] border pixel 2
 gaps inner 10
 gaps outer 0
-smart_borders on
 
 # Borders
 # Generated using https://thomashunter.name/i3-configurator
