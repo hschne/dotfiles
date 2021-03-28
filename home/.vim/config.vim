@@ -91,6 +91,10 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+" Simpler multi line navigation
+nnoremap k gk
+nnoremap j gj
+
 " Line wrapping options
 "
 " All tips inspired by
@@ -339,14 +343,3 @@ let g:AutoPairsShortcutToggle = '<C-p>'
 " ##############################################################################
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md', 'auto_diary_index': 1 }]
 let g:vimwiki_global_ext = 0
-
-command! Diary VimwikiDiaryIndex
-
-augroup vimwikigroup
-    autocmd!
-
-    autocmd BufWrite,BufRead,BufNewFile diary.md VimwikiDiaryGenerateLinks
-    autocmd BufRead $HOME/Documents/wiki/wiki.md silent! !'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git pull > /dev/null& ; fi'
-    autocmd BufWritePost $HOME/Documents/wiki/* silent!  !'if [ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1; git add %; git commit -m "Auto commit of %:t." "%" --quiet; git push --quiet & ; fi'
-
-augroup end

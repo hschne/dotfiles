@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+main() {
+  cd ~/Documents/wiki && git pull
+  "$HOME/.homesick/repos/homeshick/bin/homeshick" pull dotfiles
+  "$HOME/.homesick/repos/homeshick/bin/homeshick" link dotfiles 
+}
+
+main "$@"
