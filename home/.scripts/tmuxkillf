@@ -9,8 +9,10 @@ tmuxkillf () {
   target_sessions=$(tmux ls | \
     cut -d: -f1 | \
     sed "/$current_session/d" | \
-    fzf --exit-0 --query="$1" --multi --exit-0) || return $?
+    fzf --exit-0 --query="$1" --multi --exit-0) 
 
+  [[ -z $target_sessions ]] && exit 0
+  
   for session in $target_sessions; do
     session=${session%%:*}
     tmux kill-session -t "$session"

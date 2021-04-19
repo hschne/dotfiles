@@ -23,7 +23,7 @@ ftpane() {
     echo "$panes" \
       | grep -v "$current_pane" \
       | fzf +m --reverse
-  )" || return
+  )" || return 0
 
   target_window="$(
     echo "$target" \
@@ -42,6 +42,8 @@ ftpane() {
     tmux select-pane -t "$target_window.$target_pane" \
       && tmux select-window -t "$target_window"
   fi
+
+  return 0
 }
 
-ftpane
+ftpane 
