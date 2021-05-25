@@ -51,5 +51,6 @@
 [user]
 	email = hans.schnedlitz@gmail.com
 	name = hschne
+	signingKey = 6CEE7EBFBB1CC003
 [init]
 	templatedir = ~/.scripts/git-templates
