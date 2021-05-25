@@ -1,2 +1,4 @@
+command_timout = 1000
+
 [gcloud]
 disabled = true
