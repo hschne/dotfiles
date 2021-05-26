@@ -9,7 +9,7 @@ main() {
   changed_files=$(git diff --name-only "$base_commit")
 
   if [[ -n $changed_files ]]; then
-    echo "$changed_files" | xargs rubocop -A --force-exclusion
+    echo "$changed_files" | xargs bundle exec rubocop -A --force-exclusion
   fi
 }
 
