@@ -226,6 +226,10 @@ exec --no-startup-id redshift
 # Station
 exec --no-startup-id slack
 
+# Autostart
+exec --no-startup-id syncthingtray --wait
+
 # Swap Esc-Caps
 exec_always "setxkbmap -option caps:swapescape"
 exec_always "setxkbmap -option compose:ralt"
+
