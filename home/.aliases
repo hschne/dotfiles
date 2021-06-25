@@ -10,6 +10,12 @@ alias tasks="vim ~/Documents/wiki/tasks.md"
 alias diary="vim ~/Documents/wiki/diary/diary.md"
 alias goals="vim ~/Documents/wiki/goals/goals.md"
 alias wiki="vim ~/Documents/wiki/home.md"
+
+alias lists="vim ~/Documents/wiki/lists/"
+alias media="vim ~/Documents/wiki/lists/media.md"
+alias ideas="vim ~/Documents/wiki/lists/ideas.md"
+alias places="vim ~/Documents/wiki/lists/places.md"
+
 alias scratch="vim ~/Documents/wiki/scratchpad.md"
 
 # Command aliases
