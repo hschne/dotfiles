@@ -234,9 +234,11 @@ Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 
 " Polyglot
 "
-" All the language packs you'll ever need.
+" All the language packs you'll ever need. Disable config must come before
+" loading the plugin.
 "
 " See https://github.com/sheerun/vim-polyglot
+let g:polyglot_disabled = ['latex']
 Plug 'sheerun/vim-polyglot'
 
 " Bootstrap Snippets
