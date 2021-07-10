@@ -201,6 +201,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
 
+export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 
 gqrb() {
