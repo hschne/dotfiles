@@ -83,6 +83,9 @@ set linebreak
 " See https://dev.to/jovica/the-vim-trick-which-will-save-your-time-and-nerves-45pg
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
+" Autosave on focus lost
+:au FocusLost * silent! wa
+
 " Deactivate Arrow Keys
 "
 " Disable arrow keys. Helps getting gud in vim. 
