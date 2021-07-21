@@ -204,16 +204,4 @@ eval "$(starship init zsh)"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 
-gqrb() {
-  git set-upstream
-  git fetch origin "$@:$@" && git pull && git rebase "$@"
-}
-
-gbir() {
-  git rebase -i --autosquash $(git merge-base --fork-point "$@" $(git rev-parse --abbrev-ref HEAD))
-}
-
-gfu() {
-  git commit --amend --no-edit
-}
-
+source "$HOME/.scripts/gitscripts"
