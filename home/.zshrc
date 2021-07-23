@@ -15,9 +15,8 @@ fi
 bindkey -v
 
 # Enable autocomplete and bash compatibilty
-autoload compinit && compinit
-autoload bashcompinit
-bashcompinit
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 
 # Zinit
 #
@@ -104,7 +103,6 @@ zinit ice pick"you-should-use.plugin.zsh"; zinit load "MichaelAquilina/zsh-you-s
 # See https://github.com/Aloxaf/fzf-tab
 zinit load "Aloxaf/fzf-tab"
 
-
 # Enhancd
 #
 # Helps you with cd. Alternative to autojump.
@@ -112,6 +110,12 @@ zinit load "Aloxaf/fzf-tab"
 # Website: https://github.com/b4b4r07/enhancd
 zinit light "b4b4r07/enhancd"
 
+# Timewarrior
+#
+# Completions to work with timewarrior
+zinit ice pick"timewarrior.zsh"; zinit light "svenXY/timewarrior"
+# We need to source these completions, because zinit mistakes them as compdefs
+source "$HOME/.zinit/plugins/svenXY---timewarrior/_timew" 
 
 # Set editor to the obvious choice
 export EDITOR='vim'
@@ -205,3 +209,4 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 
 source "$HOME/.scripts/gitscripts"
+
