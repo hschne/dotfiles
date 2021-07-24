@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+gqrb() {
+  git set-upstream
+  git fetch origin "$@" && git pull && git rebase "$@"
+}
+
+gbir() {
+  git rebase -i --autosquash $(git merge-base --fork-point "$@" $(git rev-parse --abbrev-ref HEAD))
+}
+
+gfu() {
+  git commit --amend --no-edit
+}
+
+gtag() {
+  git tag --sort version:refname | tail -n 1
+}
+
+gdifft() {
+  local latest_tag=$(git tag --sort version:refname | tail -n 1)
+  local main=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  git diff origin/$main $latest_tag
+}
+
+gdtag() {
+  local latest_tag=$(git tag --sort version:refname | tail -n 1)
+  git tag -d $latest_tag
+}
+
+gntag() {
+  local latest_tag=$(git tag --sort version:refname | tail -n 1)
+  local level
+  case "$1" in 
+    major)
+      level=1; ;;
+    minor)
+      level=2; ;;
+    *)
+      level=3; ;;
+  esac
+  local new_tag=$(_increment_version $latest_tag $level)
+  git tag $new_tag
+}
+
+function _increment_version() {
+  local delimiter=.
+  local array=($(echo "$1" | tr $delimiter '\n'))
+  array[$2]=$((array[$2]+1))
+  echo $(local IFS=$delimiter ; echo "${array[*]}")
+}
