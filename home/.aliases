@@ -6,6 +6,7 @@ alias config="vim ~/.vim/config.vim"
 alias shared="vim ~/.vim/shared.vim"
 alias ideavimrc="vim ~/.ideavimrc"
 alias todo="vim ~/Documents/wiki/tasks.md"
+alias work="vim ~/Documents/wiki/work.md"
 alias tasks="vim ~/Documents/wiki/tasks.md"
 alias diary="vim ~/Documents/wiki/diary/diary.md"
 alias goals="vim ~/Documents/wiki/goals/goals.md"
@@ -16,7 +17,7 @@ alias media="vim ~/Documents/wiki/lists/media.md"
 alias ideas="vim ~/Documents/wiki/lists/ideas.md"
 alias places="vim ~/Documents/wiki/lists/places.md"
 
-alias scratch="vim ~/Documents/wiki/scratchpad.md"
+alias notes="vim ~/Documents/wiki/scratchpad.md"
 
 # Command aliases
 alias t="gnome-terminal"
@@ -28,8 +29,8 @@ alias gaacm="git add -A && git commit -m"
 # Docker
 alias dcu="docker-compose up"
 alias dcd="docker-compose down"
-alias dcsa="docker-compose start"
-alias dcso="docker-compose stop"
+alias dca="docker-compose start"
+alias dco="docker-compose stop"
 
 # Zapier
 alias zd="zapier describe"

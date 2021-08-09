@@ -41,6 +41,7 @@ gntag() {
   esac
   local new_tag=$(_increment_version $latest_tag $level)
   git tag $new_tag
+  echo $new_tag
 }
 
 function _increment_version() {
