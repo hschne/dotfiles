@@ -1,164 +1,140 @@
-//----------------------
-// Theme Settings 
-//----------------------
+/**
+ * Nordic rofi theme
+ * Adapted by undiabler <undiabler@gmail.com>
+ *
+ * Nord Color palette imported from https://www.nordtheme.com/
+ *
+ */
 
-//----------------------
-// Colors
-//----------------------
+configuration {
+	width: 30;
+	line-margin: 10;
+	lines: 6;
+	columns: 2;
+
+    display-ssh:    " " ;
+    display-run:    " " ;
+    display-drun:   " ";
+    display-window: " " ;
+    display-combi:  " ";
+    show-icons:     true;
+}
 
 * {
-    nord0:			 #2E3440;
-    nord1: 			 #3B4252;
-    nord2: 			 #434C5E;
-    nord3: 			 #4C566A;
-    nord4: 			 #D8DEE9;
-    nord5:  			 #E5E9F0;
-    nord6:  			 #ECEFF4;
-    nord7: 			 #8FBCBB;
-    nord8:   			 #88C0D0;
-    nord9:  			 #81A1C1;
-    nord10: 			 #5E81AC;
-    nord11: 			 #BF616A;
-    nord12: 			 #D08770;
-    nord13: 			 #EBCB8B;
-    nord14: 			 #A3BE8C;
-    nord15: 			 #B48EAD;
-    background:                  @nord0;
-    foreground:                  @nord4;
-    selected-normal-foreground:  @nord4;
-    normal-foreground:           @foreground;
-    alternate-normal-background: @nord0;
-    selected-urgent-foreground:  @nord4;
-    urgent-foreground:           @foreground;
-    alternate-urgent-background: @nord0;
-    active-foreground:           @foreground;
-    selected-active-foreground:  @foreground;
-    alternate-active-background: @nord0;
-    bordercolor:                 @nord10;
-    alternate-normal-foreground: @foreground;
-    normal-background:           @background;
-    selected-normal-background:  @nord3;
-    border-color:                @nord10;
-    spacing:                     2;
-    separatorcolor:              @blue;
-    urgent-background:           @background;
-    selected-urgent-background:  @nord3;
-    alternate-urgent-foreground: @urgent-foreground;
-    background-color:            @background;
-    alternate-active-foreground: @active-foreground;
-    active-background:           @background;
-    selected-active-background:  @nord3;
+	nord0: #2e3440;
+	nord1: #3b4252;
+	nord2: #434c5e;
+	nord3: #4c566a;
+
+	nord4: #d8dee9;
+	nord5: #e5e9f0;
+	nord6: #eceff4;
+
+	nord7: #8fbcbb;
+	nord8: #88c0d0;
+	nord9: #81a1c1;
+	nord10: #5e81ac;
+	nord11: #bf616a;
+
+	nord12: #d08770;
+	nord13: #ebcb8b;
+	nord14: #a3be8c;
+	nord15: #b48ead;
+
+    foreground:  @nord9;
+    backlight:   #ccffeedd;
+    background-color:  transparent;
+    
+    highlight:     underline bold #eceff4;
+
+    transparent: rgba(46,52,64,0);
 }
 
-//----------------------
-// Style
-//----------------------
+window {
+    location: center;
+    anchor:   center;
+    transparency: "screenshot";
+    padding: 10px;
+    border:  0px;
+    border-radius: 6px;
 
-#window {
-    background-color: @background;
+    background-color: @transparent;
+    spacing: 0;
+    children:  [mainbox];
+    orientation: horizontal;
 }
 
-#mainbox {
-    border:  2;
+mainbox {
+    spacing: 0;
+    children: [ inputbar, message, listview ];
+}
+
+message {
+    color: @nord0;
     padding: 5;
+    border-color: @foreground;
+    border:  0px 2px 2px 2px;
+    background-color: @nord7;
 }
 
-#message {
-    border:       2px 2px 2px ;
-    border-color: @separatorcolor;
-    padding:      10 ;
+inputbar {
+    color: @nord6;
+    padding: 11px;
+    background-color: #3b4252;
+
+    border: 1px;
+    border-radius:  6px 6px 0px 0px;
+    border-color: @nord10;
 }
 
-#textbox {
-    text-color: @foreground;
+entry, prompt, case-indicator {
+    text-font: inherit;
+    text-color:inherit;
 }
 
-#listview {
-    fixed-height: 0;
-    padding:	  5 0 0;
-    spacing:      5px ;
+prompt {
+    margin: 0px 0.3em 0em 0em ;
 }
 
-#element {
-    border:  0;
-    padding: 3px ;
+listview {
+    padding: 8px;
+    border-radius: 0px 0px 6px 6px;
+    border-color: @nord10;
+    border: 0px 1px 1px 1px;
+    background-color: rgba(46,52,64,0.9);
+    dynamic: false;
 }
 
-#element.normal.normal {
-    background-color: @normal-background;
-    text-color:       @normal-foreground;
+element {
+    padding: 3px;
+    vertical-align: 0.5;
+    border-radius: 4px;
+    background-color: transparent;
+    color: @foreground;
+    text-color: rgb(216, 222, 233);
 }
 
-#element.normal.urgent {
-    background-color: @urgent-background;
-    text-color:       @urgent-foreground;
+element selected.normal {
+	background-color: @nord7;
+	text-color: #2e3440;
 }
 
-#element.normal.active {
-    background-color: @active-background;
-    text-color:       @active-foreground;
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
 }
 
-#element.selected.normal {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
+button {
+    padding: 6px;
+    color: @foreground;
+    horizontal-align: 0.5;
+
+    border: 2px 0px 2px 2px;
+    border-radius: 4px 0px 0px 4px;
+    border-color: @foreground;
 }
 
-#element.selected.urgent {
-    background-color: @selected-urgent-background;
-    text-color:       @selected-urgent-foreground;
-}
-
-#element.selected.active {
-    background-color: @selected-active-background;
-    text-color:       @selected-active-foreground;
-}
-
-#element.alternate.normal {
-    background-color: @alternate-normal-background;
-    text-color:       @alternate-normal-foreground;
-}
-
-#element.alternate.urgent {
-    background-color: @alternate-urgent-background;
-    text-color:       @alternate-urgent-foreground;
-}
-
-#element.alternate.active {
-    background-color: @alternate-active-background;
-    text-color:       @alternate-active-foreground;
-}
-
-
-button { 
-    padding: 8px 2px;   
-    text-color:       @selected-normal-foreground;
-}	
-
-#button.selected {
-    background-color: @selected-normal-background;
-    text-color:       @selected-normal-foreground;
-}
-
-#inputbar {
-    spacing:    5;
-    text-color: @normal-foreground;
-    padding:    5px ;
-    border:	0 0 1;
-    border-color: @separatorcolor;
-}
-
-#case-indicator {
-    spacing:    0;
-    text-color: @normal-foreground;
-}
-
-#entry {
-    spacing:    0;
-    text-color: @normal-foreground;
-}
-
-#prompt {
-    spacing:    0;
-    text-color: @normal-foreground;
+button selected normal {
+    border: 2px 0px 2px 2px;
+    border-color: @foreground;
 }

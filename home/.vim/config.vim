@@ -22,6 +22,9 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
+" Set column ruler
+set colorcolumn=120
+
 " Fix mouse not working beyond column 220
 " See https://stackoverflow.com/a/19253251
 set ttymouse=sgr
