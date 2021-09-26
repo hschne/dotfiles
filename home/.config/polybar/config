@@ -26,7 +26,7 @@ font-0 = SauceCodePro Nerd Font:size=10;1
 font-1 = MaterialIcons:size=10;3
 
 modules-left = i3 
-modules-right = pulseaudio backlight wireless-network battery pomo date
+modules-right = pulseaudio backlight wireless-network battery pomo date powermenu
 
 tray-position = right
 tray-background = ${colors.background}
@@ -52,7 +52,7 @@ font-0 = SauceCodePro Nerd Font:size=10;1
 font-1 = MaterialIcons:size=10;3
 
 modules-left = i3 
-modules-right = pulseaudio backlight wireless-network battery date
+modules-right = pulseaudio backlight wireless-network battery date powermenu
 
 [module/backlight]
 type = internal/xbacklight
@@ -164,7 +164,7 @@ bar-used-empty-foreground = #444444
 
 [module/wireless-network]
 type = internal/network
-interface = ${env:DEFAULT_NETWORK_INTERFACE:wlp2s0}
+interface = ${env:DEFAULT_NETWORK_INTERFACE:wlan0}
 interval = 3.0
 ping-interval = 10
 
@@ -255,5 +255,33 @@ type = custom/script
 interval = 1
 exec = ~/.scripts/pomo clock
 click-left = ~/.scripts/pomo pause
+
+[module/powermenu]
+type = custom/menu
+expand-right = true
+
+menu-0-0 = reboot
+menu-0-0-exec = menu-open-1
+menu-0-1 = shutdown
+menu-0-1-exec = menu-open-2
+
+menu-1-0 = back
+menu-1-0-exec = menu-open-0
+menu-1-1 = reboot
+menu-1-1-exec = systemctl reboot
+
+menu-2-0 = shutdown
+menu-2-0-exec = systemctl poweroff
+menu-2-1 = back
+menu-2-1-exec = menu-open-0
+
+format-spacing = 1 
+format-background = ${colors.background}
+format-foreground = ${colors.foreground}
+format-padding = 1
+
+label-open = 
+label-close = 
+label-separator = |
 
 ; vim:ft=dosini
