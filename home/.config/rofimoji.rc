@@ -1,2 +1,4 @@
 action = copy
+skin-tone = neutral
+no-frecency=True
 clipboarder = xclip
