@@ -28,10 +28,10 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # Start rofi
-bindsym $mod+d exec "rofi -show drun -modi window,drun,run -sidebar-mode"
+bindsym $mod+d exec "rofi -show drun -modi drun,emoji:rofimoji,run,window -sidebar-mode"
 
 # Bind alt tab
-bindsym Mod1+Tab exec "rofi -show window -modi window,drun,run -sidebar-mode"
+bindsym Mod1+Tab exec "rofi -show window -modi drun,emoji:rofimoji,run,window -sidebar-mode"
 
 # change focus
 bindsym $mod+j focus down
