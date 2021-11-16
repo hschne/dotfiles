@@ -21,11 +21,4 @@ map <Leader>d :action ActivateDatabaseToolWindow<CR>
 map <Leader>p :action SelectInProjectView<CR>
 
 " Mappings for window navigation
-map <C-h> :action TabShiftActions.MoveFocusLeft<CR>
-map <C-j> :action TabShiftActions.MoveFocusDown<CR>
-map <C-k> :action TabShiftActions.MoveFocusUp<CR>
-map <C-l> :action TabShiftActions.MoveFocusRight<CR>
-map <C-w>H :action TabShiftActions.ShiftLeft<CR>
-map <C-w>J :action TabShiftActions.ShiftDown<CR>
-map <C-w>K :action TabShiftActions.ShiftUp<CR>
-map <C-w>L :action TabShiftActions.ShiftRight<CR>
+nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
