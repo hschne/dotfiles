@@ -34,24 +34,31 @@ gdtag() {
 }
 
 gntag() {
-  local latest_tag=$(git tag --sort version:refname | tail -n 1)
-  local level
-  case "$1" in 
-    major)
-      level=1; ;;
-    minor)
-      level=2; ;;
-    *)
-      level=3; ;;
-  esac
-  local new_tag=$(_increment_version $latest_tag $level)
-  git tag $new_tag
-  echo $new_tag
+  local latest_tag new_tag
+  latest_tag=$(git tag --sort version:refname | tail -n 1)
+  new_tag=$(date +"%y.%m.%d")
+  if [[ "$latest_tag" == "$new_tag" ]]; then 
+    new_tag=$(_increment_micro "$latest_tag")
+  fi
+  git tag "$new_tag"
+  echo "$new_tag"
 }
 
-function _increment_version() {
-  local delimiter=.
-  local array=($(echo "$1" | tr $delimiter '\n'))
-  array[$2]=$((array[$2]+1))
-  echo $(local IFS=$delimiter ; echo "${array[*]}")
+function _increment_micro() {
+  local day micro delimiter array day_array
+  delimiter=.
+  array=($(echo "$1" | tr $delimiter '\n'))
+  day=${array[3]}
+  if [[ "$day" == *"_"* ]]; then
+    day_array=($(echo "$day" | tr "_" '\n'))
+    day=${day_array[1]}
+    micro=${day_array[2]}
+    ((micro+=1))
+    day="${day}_${micro}"
+  else
+    micro="1"
+    day="${day}_${micro}"
+  fi
+  array[3]="$day"
+  echo "$(local IFS=$delimiter ; echo "${array[*]}")"
 }
