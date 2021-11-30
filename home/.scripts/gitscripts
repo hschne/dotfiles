@@ -36,7 +36,7 @@ gdtag() {
 gntag() {
   local latest_tag new_tag
   latest_tag=$(git tag --sort version:refname | tail -n 1)
-  new_tag=$(date +"%y.%m.%d")
+  new_tag="v$(date +"%y.%m.%d")"
   if [[ "$latest_tag" == "$new_tag" ]]; then 
     new_tag=$(_increment_micro "$latest_tag")
   fi
