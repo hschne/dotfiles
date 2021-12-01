@@ -17,6 +17,7 @@
 	insteadOf = git@github.com:/ghc/packages/
 [core]
 	editor = vim
+	excludesfile = /home/hschne/.gitignore
 [alias]
     lg = !"git log --oneline --color | emojify | less -r"
     lg1 = !"git lg1-specific --all"
