@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Create a new note in the notes directory. Prefixed with the current date.
+main() {
+  local path=$(dirname "$1")
+  local filename=$(basename "$1")
+  local base_path="$HOME/Documents/wiki"
+  mkdir -p "$base_path/$path"
+  $EDITOR "$base_path/$path/$(date +'%F')-$filename"
+}
+
+main "$@"
