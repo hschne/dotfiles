@@ -6,5 +6,6 @@ configuration {
     combi-modi: "window,run";
     hide-scrollbar: true;
     width: 40;
-    theme: ".config/rofi/nord";
 }
+
+@theme "nord"

@@ -1,0 +1,68 @@
+#=============================================================================
+# basic.toml --- basic configuration example for SpaceVim
+# Copyright (c) 2016-2021 Wang Shidong & Contributors
+# Author: Wang Shidong < wsdjeg at 163.com >
+# URL: https://spacevim.org
+# License: GPLv3
+#=============================================================================
+
+# All SpaceVim option below [option] section
+[options]
+    # set spacevim theme. by default colorscheme layer is not loaded,
+    # if you want to use more colorscheme, please load the colorscheme
+    # layer
+    colorscheme = "nord"
+    colorscheme_bg = "dark"
+    # Disable guicolors in basic mode, many terminal do not support 24bit
+    # true colors
+    enable_guicolors = false
+    # Disable statusline separator, if you want to use other value, please
+    # install nerd fonts
+    statusline_separator = "arrow"
+    statusline_iseparator = "bar"
+    buffer_index_type = 4
+    windows_index_type = 3
+    enable_tabline_filetype_icon = false
+    enable_statusline_mode = false
+    statusline_unicode = false
+    # Enable vim compatible mode, avoid changing origin vim key bindings
+    vimcompatible = true
+    bootstrap_after = "myspacevim#after"
+    snippet_engine = "neosnippet"
+    # Autocomplete
+    autocomplete_method = "coc"
+    # Filenamanger
+    filemanager = "nerdtree"
+    enable_filetree_gitstatus = true
+    filetree_direction = 'left'
+
+[[layers]]
+name = "default"
+
+[[layers]]
+name = 'core'
+enable_smooth_scrolling = true
+
+[[layers]]
+name = 'autocomplete'
+auto-completion-return-key-behavior = "smart"
+auto-completion-tab-key-behavior = "smart"
+auto_completion_delay = 200
+auto_completion_complete_with_key_sequence = "nil"
+
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+
+[[layers]]
+name = "colorscheme"
+
+[[layers]]
+name = "fzf"
+
+[[layers]]
+name = 'git'
+
+[[layers]]
+name = 'VersionControl'
