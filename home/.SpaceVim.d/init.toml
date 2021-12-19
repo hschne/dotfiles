@@ -36,6 +36,7 @@
     enable_filetree_gitstatus = true
     filetree_direction = 'left'
 
+
 [[layers]]
 name = "default"
 
@@ -66,3 +67,6 @@ name = 'git'
 
 [[layers]]
 name = 'VersionControl'
+
+[[layers]]
+name = "tmux"
