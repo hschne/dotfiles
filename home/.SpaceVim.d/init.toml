@@ -70,3 +70,6 @@ name = 'VersionControl'
 
 [[layers]]
 name = "tmux"
+
+[[custom_plugins]]
+repo = 'vimwiki/vimwiki'

@@ -169,9 +169,11 @@ hi link EasyMotionIncSearch Search
 " NERDTree
 " 
 " ##############################################################################
-
+let g:NERDTreeChDirMode = 2
 map <leader><leader>n :NERDTreeToggle<CR>
-
+map <leader><leader>r :NERDTreeFind<cr>
+" Start Nerdtree automaticalliiy
+autocmd VimEnter * NERDTree
 " Close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
