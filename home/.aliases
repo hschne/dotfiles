@@ -9,6 +9,7 @@ alias ideavimrc="vim ~/.ideavimrc"
 # Wiki
 alias todo="vim ~/Documents/wiki/tasks.md"
 alias work="vim ~/Documents/wiki/work.md"
+alias work/="vim ~/Documents/wiki/work/"
 alias note="vim ~/Documents/wiki/scratchpad.md"
 alias notes="vim ~/Documents/wiki/notes/"
 alias diary="vim ~/Documents/wiki/diary/diary.md"
