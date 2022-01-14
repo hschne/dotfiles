@@ -31,6 +31,20 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+" Startify
+"
+" sets a start screen for vim
+"
+" Website: https://github.com/mhinz/vim-startify
+Plug 'mhinz/vim-startify'
+
+" Dev Icons
+"
+" Nice icons everywhere
+"
+" See https://github.com/ryanoasis/vim-devicons
+Plug 'ryanoasis/vim-devicons'
+
 " Nord
 "
 " An arctic color scheme. I think its beautiful. 

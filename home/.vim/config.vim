@@ -22,8 +22,6 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
-" Set to auto change directory to current files 
-set autochdir
 " Set column ruler
 set colorcolumn=120
 
@@ -138,7 +136,7 @@ silent! colorscheme nord
 " ##############################################################################
 let g:airline_theme='minimalist'
 let g:airline_powerline_fonts = 1
-let g:airline_right_sep = ''
+let g:airline#extensions#tabline#enabled = 1
 
 " ##############################################################################
 "
@@ -172,6 +170,7 @@ hi link EasyMotionIncSearch Search
 " 
 " ##############################################################################
 let g:NERDTreeChDirMode = 2
+let g:NERDTreeMinimalUI=1
 map <leader><leader>n :NERDTreeToggle<CR>
 map <leader><leader>r :NERDTreeFind<cr>
 
@@ -351,3 +350,37 @@ let g:AutoPairsShortcutToggle = '<C-p>'
 " ##############################################################################
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md', 'auto_diary_index': 1 }]
 let g:vimwiki_global_ext = 0
+
+" ##############################################################################
+"
+" startify
+"
+" ##############################################################################
+let g:startify_session_autoload = 1
+let g:startify_session_delete_buffers = 1
+let g:startify_change_to_vcs_root = 1
+let g:startify_session_persistence = 1
+let g:startify_enable_special = 1
+let g:startify_custom_header = [
+            \'   __     __  ______  __       __   ',
+            \'  |  \   |  \|      \|  \     /  \  ',
+            \'  | $$   | $$ \$$$$$$| $$\   /  $$  ',
+            \'  | $$   | $$  | $$  | $$$\ /  $$$  ',
+            \'   \$$\ /  $$  | $$  | $$$$\  $$$$  ',
+            \'    \$$\  $$   | $$  | $$\$$ $$ $$  ',
+            \'     \$$ $$   _| $$_ | $$ \$$$| $$  ',
+            \'      \$$$   |   $$ \| $$  \$ | $$  ',
+            \'       \$     \$$$$$$ \$$      \$$  ',
+            \]                      
+
+" Open Startify when opened as window
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') 
+        \ | execute 'NERDTreeToggle' argv()[0] | wincmd w | bd | Startify | execute 'cd '.argv()[0] 
+        \ | endif
+
+
+" DevIcons
+function! StartifyEntryFormat()
+  return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+
