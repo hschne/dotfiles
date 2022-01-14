@@ -22,6 +22,8 @@ set wrapmargin=0
 set updatetime=100
 set enc=utf-8
 
+" Set to auto change directory to current files 
+set autochdir
 " Set column ruler
 set colorcolumn=120
 
@@ -172,8 +174,7 @@ hi link EasyMotionIncSearch Search
 let g:NERDTreeChDirMode = 2
 map <leader><leader>n :NERDTreeToggle<CR>
 map <leader><leader>r :NERDTreeFind<cr>
-" Start Nerdtree automaticalliiy
-autocmd VimEnter * NERDTree
+
 " Close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
