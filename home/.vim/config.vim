@@ -42,15 +42,6 @@ set hidden
 
 filetype indent on
 
-" Autocmd triggers relative numbers only for active buffer. 
-" Autocmd is not supported in Ideavim, which is why this isn't in the shared
-" configuration
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
-
 " Create some directories if it does not exist. This is necessary in order to
 " simplify automatic installation
 "
@@ -172,7 +163,6 @@ hi link EasyMotionIncSearch Search
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMinimalUI=1
 map <leader><leader>n :NERDTreeToggle<CR>
-map <leader><leader>r :NERDTreeFind<cr>
 
 " Close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -291,7 +281,11 @@ let g:ale_fix_on_save = 1
 autocmd! User vim-gutentags call gutentags#setup_gutentags()
 set statusline+=%{gutentags#statusline()}
 
-" Prettier settings, no need to wrap like that
+" ##############################################################################
+"
+" Pretier
+"
+" ##############################################################################
 let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.css,*.less,*.scss,*.json,*.graphql,*.markdown,*.vue,*.yaml,*.html PrettierAsync
@@ -308,12 +302,6 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
-
-" ##############################################################################
-"
-" Polyglot
-"
-" ##############################################################################
 
 " We use vimtex instead of latex box
 
@@ -356,6 +344,7 @@ au filetype vimwiki silent! iunmap <buffer> <Tab>
 " ##############################################################################
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
+let g:startify_change_to_dir = 1
 let g:startify_change_to_vcs_root = 1
 let g:startify_session_persistence = 1
 let g:startify_enable_special = 1
@@ -377,7 +366,11 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in
         \ | endif
 
 
-" DevIcons
+" ##############################################################################
+"
+" DevIcons + Startify
+"
+" ##############################################################################
 function! StartifyEntryFormat()
   return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction

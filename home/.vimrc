@@ -128,7 +128,6 @@ Plug 'qpkorr/vim-bufkill'
 " See https://github.com/junegunn/fzf.vim
 Plug 'junegunn/fzf.vim'
 
-
 " is.vim
 "
 " Better handling of searches, mostly used to auto clear search
@@ -142,13 +141,6 @@ Plug 'haya14busa/is.vim'
 "
 " See https://github.com/haya14busa/vim-asterisk
 Plug 'haya14busa/vim-asterisk'
-
-" Auto-Pairs
-"
-" Automatically create pairs for braces, quotes...
-"
-" See https://github.com/jiangmiao/auto-pairs
-" Plug 'jiangmiao/auto-pairs'
 
 " Ale
 "
