@@ -148,7 +148,8 @@ Plug 'haya14busa/vim-asterisk'
 " Automatically create pairs for braces, quotes...
 "
 " See https://github.com/jiangmiao/auto-pairs
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+
 " Ale
 "
 " Even more fantastic syntax checking for vim. 
@@ -162,13 +163,6 @@ Plug 'w0rp/ale'
 "
 " See https://github.com/godlygeek/tabular
 Plug 'godlygeek/tabular' 
-
-" Supertab
-"
-" Tab autocompletions for vim. 
-"
-" See https://github.com/ervandew/supertab
-Plug 'ervandew/supertab'
 
 " Grammarous
 "
@@ -184,6 +178,13 @@ Plug 'rhysd/vim-grammarous'
 " See https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Ultisnips
+"
+" Snippet Engine
+"
+" See https://github.com/SirVer/ultisnips
+Plug  'SirVer/ultisnips'
+
 " Vim Snippets
 "
 " Community maintained snippets for lots of things. Works together with
@@ -198,7 +199,6 @@ Plug 'honza/vim-snippets'
 "
 " See https://github.com/prettier/vim-prettier
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-
 
 " Vim Gutentags
 "
@@ -254,11 +254,6 @@ Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 " See https://github.com/sheerun/vim-polyglot
 let g:polyglot_disabled = ['latex']
 Plug 'sheerun/vim-polyglot'
-
-" Bootstrap Snippets
-"
-" See https://github.com/jvanja/vim-bootstrap4-snippets
-Plug 'jvanja/vim-bootstrap4-snippets', { 'for': 'html' }
 
 " bats.vim
 "

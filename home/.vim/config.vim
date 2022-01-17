@@ -248,6 +248,18 @@ endfunction
 let g:coc_snippet_next = '<tab>'
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
+
+" ##############################################################################
+"
+" Ultisnips
+"
+" ##############################################################################
+"
+" Custom tab completion, compatible with snippets
+let g:UltiSnipsExpandTrigger="<tab>"                                            
+let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"     
+
 " ##############################################################################
 "
 " Ale
@@ -268,13 +280,6 @@ let g:ale_fix_on_save = 1
 
 " ##############################################################################
 "
-" Super Tab
-"
-" ##############################################################################
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
-" ##############################################################################
-"
 " Gutentags
 "
 " ##############################################################################
@@ -289,7 +294,7 @@ set statusline+=%{gutentags#statusline()}
 " Prettier settings, no need to wrap like that
 let g:prettier#config#print_width = 120
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+autocmd BufWritePre *.css,*.less,*.scss,*.json,*.graphql,*.markdown,*.vue,*.yaml,*.html PrettierAsync
 
 " ##############################################################################
 "
@@ -336,20 +341,13 @@ let g:asterisk#keeppos = 1
 
 " ##############################################################################
 "
-" vim-autopair
-"
-" ##############################################################################
-" The default shortcut involves Alt, which doesn't really work with term
-" emulators
-let g:AutoPairsShortcutToggle = '<C-p>' 
-
-" ##############################################################################
-"
 " vimwiki
 "
 " ##############################################################################
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md', 'auto_diary_index': 1 }]
 let g:vimwiki_global_ext = 0
+" See https://github.com/vimwiki/vimwiki/issues/845#issuecomment-683423984
+au filetype vimwiki silent! iunmap <buffer> <Tab>
 
 " ##############################################################################
 "
