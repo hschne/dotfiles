@@ -21,6 +21,7 @@ set wildmode=longest,list,full
 set wrapmargin=0
 set updatetime=100
 set enc=utf-8
+set autochdir
 
 " Set column ruler
 set colorcolumn=120
@@ -344,7 +345,7 @@ au filetype vimwiki silent! iunmap <buffer> <Tab>
 " ##############################################################################
 let g:startify_session_autoload = 1
 let g:startify_session_delete_buffers = 1
-let g:startify_change_to_dir = 1
+let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
 let g:startify_session_persistence = 1
 let g:startify_enable_special = 1
