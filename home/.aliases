@@ -22,6 +22,12 @@ alias media="vim ~/Documents/wiki/lists/media.md"
 alias ideas="vim ~/Documents/wiki/lists/ideas.md"
 alias places="vim ~/Documents/wiki/lists/places.md"
 
+# Homeshick
+alias hcd="homeshick cd dotfiles"
+alias hpd="homeshick push dotfiles"
+alias hld="homeshick link dotfiles"
+alias htd="homeshick track dotfiles"
+
 # Git
 alias gmd="git merge develop"
 alias gaacm="git add -A && git commit -m"

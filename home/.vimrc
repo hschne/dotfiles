@@ -38,6 +38,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Website: https://github.com/mhinz/vim-startify
 Plug 'mhinz/vim-startify'
 
+Plug 'francoiscabrol/ranger.vim'
 " Dev Icons
 "
 " Nice icons everywhere

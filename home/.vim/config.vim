@@ -376,3 +376,5 @@ function! StartifyEntryFormat()
   return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
 endfunction
 
+let g:ranger_map_keys = 0
+map <leader><leader>r :Ranger<CR>.
