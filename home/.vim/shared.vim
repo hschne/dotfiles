@@ -24,8 +24,8 @@ set splitright
 set number relativenumber
 
 " Map space to leader
-let mapleader = " "
-let maplocalleader="\<space>"
+let mapleader = "\<Space>"
+let maplocalleader="\<Space>"
 
 " Easier split navigation
 nnoremap <C-J> <C-W><C-J>

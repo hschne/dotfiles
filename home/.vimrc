@@ -38,7 +38,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 " Website: https://github.com/mhinz/vim-startify
 Plug 'mhinz/vim-startify'
 
-Plug 'francoiscabrol/ranger.vim'
 " Dev Icons
 "
 " Nice icons everywhere
@@ -52,6 +51,20 @@ Plug 'ryanoasis/vim-devicons'
 "
 " Website: https://git.io/nord-vim
 Plug 'arcticicestudio/nord-vim'
+
+" vim-which-key
+"
+" Display keybindings like in spacevim
+" 
+" See https://github.com/liuchengxu/vim-which-key
+Plug 'liuchengxu/vim-which-key'
+
+" Ranger
+"
+" Provides a nice ranger integration.
+"
+" See https://github.com/francoiscabrol/ranger.vim
+Plug 'francoiscabrol/ranger.vim'
 
 " Rainbow Parentheses
 "

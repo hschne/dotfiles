@@ -23,6 +23,11 @@ set updatetime=100
 set enc=utf-8
 set autochdir
 
+" Tweak command line 
+set noshowmode  
+set noshowcmd  
+set shortmess+=F 
+
 " Set column ruler
 set colorcolumn=120
 
@@ -163,7 +168,7 @@ hi link EasyMotionIncSearch Search
 " ##############################################################################
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMinimalUI=1
-map <leader><leader>n :NERDTreeToggle<CR>
+map <leader>nt :NERDTreeToggle<CR>
 
 " Close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -377,4 +382,23 @@ function! StartifyEntryFormat()
 endfunction
 
 let g:ranger_map_keys = 0
-map <leader><leader>r :Ranger<CR>.
+map <leader>r<leader>o :Ranger<CR>.
+
+" ##############################################################################
+" 
+" vim-which-key
+"
+" ##############################################################################
+set timeoutlen=200
+let g:which_key_map = {}
+let g:which_key_map.n = { 'name' : '+nerdtree' }
+let g:which_key_map.n.t = 'toggle-nerdtree'
+
+call which_key#register('<Space>', "g:which_key_map")
+
+let g:which_key_sep = '→'
+
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  '<Space>'<CR>
+
+
