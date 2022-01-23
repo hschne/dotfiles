@@ -21,7 +21,6 @@ set wildmode=longest,list,full
 set wrapmargin=0
 set updatetime=100
 set enc=utf-8
-set autochdir
 
 " Tweak command line 
 set noshowmode  
@@ -230,21 +229,23 @@ let vim_markdown_preview_use_xdg_open=1
 " ##############################################################################
 "
 " Custom tab completion, compatible with snippets
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
+" use <tab> for trigger completion and navigate to the next complete item
 function! s:check_back_space() abort
   let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-
+let g:coc_global_extensions = [
+            \ 'coc-ultisnips',
+            \ 'coc-solargraph',
+            \ ]
 " ##############################################################################
 "
 " Ultisnips
@@ -252,9 +253,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " ##############################################################################
 "
 " Custom tab completion, compatible with snippets
-let g:UltiSnipsExpandTrigger="<tab>"                                            
-let g:UltiSnipsJumpForwardTrigger="<tab>"                                       
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"     
+let g:UltiSnipsExpandTrigger = "<nop>"
 
 " ##############################################################################
 "
