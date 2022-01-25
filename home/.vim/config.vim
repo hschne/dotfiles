@@ -116,6 +116,9 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 " See https://stackoverflow.com/a/57712826/2553104
 nnoremap <leader>ca :w <bar> %bd <bar> e# <bar> bd# <CR>
 
+" Formatting Commands
+autocmd FileType json nnoremap <buffer><silent><localleader>f :%!jq .<cr>
+
 " ##############################################################################
 "
 " Nord Colorscheme
@@ -143,7 +146,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:EasyMotion_startofline = 0
 let g:EasyMotion_smartcase = 1
 " Use most default mappings
-map <Leader> <Plug>(easymotion-prefix)
+map <Leader>e <Plug>(easymotion-prefix)
 
 " Custom mappings
 nmap s <Plug>(easymotion-overwin-f)
@@ -381,6 +384,7 @@ function! StartifyEntryFormat()
 endfunction
 
 let g:ranger_map_keys = 0
+<<<<<<< HEAD
 map <leader>r<leader>o :Ranger<CR>.
 
 " ##############################################################################
@@ -400,4 +404,7 @@ let g:which_key_sep = '→'
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  '<Space>'<CR>
 
+=======
+map <leader><leader>r :Ranger<CR>.
+>>>>>>> 9730b27 (Update dotfiles)
 
