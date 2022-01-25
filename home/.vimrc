@@ -189,7 +189,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Snippet Engine
 "
 " See https://github.com/SirVer/ultisnips
-Plug  'SirVer/ultisnips'
+" Plug  'SirVer/ultisnips'
 
 " Vim Snippets
 "

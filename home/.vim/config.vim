@@ -243,12 +243,19 @@ inoremap <silent><expr> <Tab>
       \ <SID>check_back_space() ? "\<Tab>" :
       \ coc#refresh()
 
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_snippet_next = '<Tab>'
+let g:coc_snippet_prev = '<S-Tab>'
 
 let g:coc_global_extensions = [
-            \ 'coc-ultisnips',
+            \ 'coc-snippets',
             \ 'coc-solargraph',
             \ ]
+
+xmap <leader>x  <Plug>(coc-convert-snippet)
 " ##############################################################################
 "
 " Ultisnips
@@ -256,7 +263,6 @@ let g:coc_global_extensions = [
 " ##############################################################################
 "
 " Custom tab completion, compatible with snippets
-let g:UltiSnipsExpandTrigger = "<nop>"
 
 " ##############################################################################
 "
@@ -344,6 +350,7 @@ let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index'
 let g:vimwiki_global_ext = 0
 " See https://github.com/vimwiki/vimwiki/issues/845#issuecomment-683423984
 au filetype vimwiki silent! iunmap <buffer> <Tab>
+au filetype vimwiki silent! iunmap <buffer> <CR>
 
 " ##############################################################################
 "
