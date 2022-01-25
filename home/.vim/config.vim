@@ -384,7 +384,6 @@ function! StartifyEntryFormat()
 endfunction
 
 let g:ranger_map_keys = 0
-<<<<<<< HEAD
 map <leader>r<leader>o :Ranger<CR>.
 
 " ##############################################################################
@@ -403,8 +402,4 @@ let g:which_key_sep = '→'
 
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  '<Space>'<CR>
-
-=======
-map <leader><leader>r :Ranger<CR>.
->>>>>>> 9730b27 (Update dotfiles)
 
