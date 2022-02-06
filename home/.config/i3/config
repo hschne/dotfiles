@@ -217,13 +217,16 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 # Start pomo notifications
 exec --no-startup-id $HOME/.scripts/pomo notify
 
+# Start pomo notifications
+exec --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/wiki/reminders.txt
+
 # Enable cursor hiding
 exec --no-startup-id xbanish 
 
 # Start redshift
 exec --no-startup-id redshift
 
-# Station
+# Slack
 exec --no-startup-id slack
 
 # Autostart
