@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+main() {
+  file="$1"
+  local reminders=$(cat "$file")
+  local current=1
+  local total=$(cat "$file" | wc -l)
+  local interval=1800 # 30 Minutes
+  while :
+  do
+    sleep "$interval" # Sleep at the beginning, we don't want to immediatly show notifications on startup
+    line=$(sed -n "$current"p "$file")
+    notify-send "Don't forget to..." "$line!" 
+    current=$((current+1))
+    [ "$current" -gt "$total" ] && current=1
+  done
+}
+
+main "$@"
