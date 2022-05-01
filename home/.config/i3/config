@@ -205,8 +205,8 @@ client.background       #FFFFFF
 # Start dunst 
 exec --no-startup-id dunst
 
-# Start compton
-exec --no-startup-id picom --config $HOME/.config/picom/picom.conf
+# Start picom
+exec --no-startup-id picom --config $HOME/.config/picom/picom.conf 
 
 # Set background 
 exec_always --no-startup-id $HOME/.config/i3/feh.sh
