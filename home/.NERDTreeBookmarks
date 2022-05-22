@@ -1,7 +1,7 @@
 dl ~/Downloads
-mt ~/Source/meistertask
-rmp ~/Source/rails-mini-profiler
 todo ~/Documents/wiki/tasks.md
 wiki ~/Documents/wiki
 work ~/Documents/wiki/work.md
+mt ~/Source/meistertask
 
+rmp ~/Source/rails-mini-profiler

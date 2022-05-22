@@ -114,6 +114,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 " Close all buffers except current
 "
 " See https://stackoverflow.com/a/57712826/2553104
+nnoremap <leader>bd :BD <CR>
 nnoremap <leader>ca :w <bar> %bd <bar> e# <bar> bd# <CR>
 
 " Formatting Commands
@@ -237,6 +238,8 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
+
+let g:coc_node_path = trim(system('which node'))
 
 inoremap <silent><expr> <Tab>
       \ pumvisible() ? "\<C-n>" :
