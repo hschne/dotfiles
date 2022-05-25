@@ -226,9 +226,6 @@ exec --no-startup-id xbanish
 # Start redshift
 exec --no-startup-id redshift
 
-# Slack
-exec --no-startup-id slack
-
 # Autostart
 exec --no-startup-id syncthingtray --wait
 
