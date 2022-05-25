@@ -147,7 +147,7 @@ mode "Exit (L)ogout, (R)eboot, (P)oweroff" {
 }
 bindsym $mod+Shift+e mode "Exit (L)ogout, (R)eboot, (P)oweroff"
 
-# resize window (you can also use the mouse for that)
+# eesize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
@@ -233,6 +233,6 @@ exec --no-startup-id syncthingtray --wait
 exec --no-startup-id easyeffects --gapplication-service
 
 # Swap Esc-Caps
-exec_always "setxkbmap -option caps:swapescape"
-exec_always "setxkbmap -option compose:ralt"
+exec_always --no-startup-id setxkbmap -option caps:swapescape
+exec_always --no-startup-id setxkbmap -option compose:ralt
 
