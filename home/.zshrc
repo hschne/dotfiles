@@ -194,9 +194,9 @@ export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 
 source "$HOME/.scripts/gitscripts"
 
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
+
