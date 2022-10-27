@@ -1,3 +1,7 @@
+[include]
+	path = git-personal.conf
+[includeIf "gitdir:~/Source/meister/"]
+	path = git-work.conf
 [pager]
 	diff = diff-so-fancy | less --tabs=1,5 -RFX
 	show = diff-so-fancy | less --tabs=1,5 -RFX
@@ -49,9 +53,8 @@
 	protocol = ssh
 [mergetool]
 	keepBackup = false
-[user]
-	email = hans.schnedlitz@gmail.com
-	name = hschne
-	signingKey = 6CEE7EBFBB1CC003
 [init]
 	templatedir = ~/.scripts/git-templates
+[user]
+	name = Hans Schnedlitz
+	email = hans@meisterlabs.com

@@ -6,21 +6,67 @@ k9s:
   logoless: false
   crumbsless: false
   readOnly: false
+  noExitOnCtrlC: false
   noIcons: false
   logger:
-    tail: 100
+    tail: 1000
     buffer: 5000
-    sinceSeconds: 60
+    sinceSeconds: -1
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: minikube
-  currentCluster: minikube
+  currentContext: gke_meisterlabs-staging_europe-west1_meistertask-staging
+  currentCluster: gke_meisterlabs-staging_europe-west1_meistertask-staging
   clusters:
+    gke_meisterlabs-prod_europe-west3_meistertask-production:
+      namespace:
+        active: production
+        lockFavorites: false
+        favorites:
+        - prod
+        - production
+        - default
+      view:
+        active: pod
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.31
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
+    gke_meisterlabs-staging_europe-west1_accounts-staging:
+      namespace:
+        active: default
+        lockFavorites: false
+        favorites:
+        - all
+        - leia
+        - default
+      view:
+        active: pod
+      featureGates:
+        nodeShell: false
+      shellPod:
+        image: busybox:1.35.0
+        command: []
+        args: []
+        namespace: default
+        limits:
+          cpu: 100m
+          memory: 100Mi
+      portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meisternote-staging-istio:
       namespace:
-        active: chewie
+        active: default
+        lockFavorites: false
         favorites:
+        - istio-system
+        - all
         - chewie
         - kube-system
         - default
@@ -39,13 +85,20 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: solo
+        active: develop
+        lockFavorites: false
         favorites:
-        - solo
+        - jarjar
+        - kube-system
         - all
         - default
+        - tank
+        - master
+        - develop
+        - leia
+        - hal
       view:
-        active: pod
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
@@ -60,6 +113,7 @@ k9s:
     minikube:
       namespace:
         active: default
+        lockFavorites: false
         favorites:
         - all
         - default
