@@ -23,8 +23,8 @@ k9s:
         active: production
         lockFavorites: false
         favorites:
-        - prod
         - production
+        - all
         - default
       view:
         active: pod
@@ -41,7 +41,7 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_accounts-staging:
       namespace:
-        active: default
+        active: all
         lockFavorites: false
         favorites:
         - all
@@ -85,9 +85,10 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: develop
+        active: jarjar
         lockFavorites: false
         favorites:
+        - chewie
         - jarjar
         - kube-system
         - all
@@ -96,9 +97,8 @@ k9s:
         - master
         - develop
         - leia
-        - hal
       view:
-        active: pods
+        active: pod
       featureGates:
         nodeShell: false
       shellPod:
