@@ -1,3 +1,4 @@
-action = copy
+action = [copy]
+files = [emojis]
 skin-tone = neutral
 clipboarder = xclip

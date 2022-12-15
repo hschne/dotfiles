@@ -15,8 +15,8 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: gke_meisterlabs-staging_europe-west1_meistertask-staging
-  currentCluster: gke_meisterlabs-staging_europe-west1_meistertask-staging
+  currentContext: gke_meisterlabs-prod_europe-west3_meistertask-production
+  currentCluster: gke_meisterlabs-prod_europe-west3_meistertask-production
   clusters:
     gke_meisterlabs-prod_europe-west3_meistertask-production:
       namespace:
@@ -85,9 +85,10 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: jarjar
+        active: all
         lockFavorites: false
         favorites:
+        - hal
         - chewie
         - jarjar
         - kube-system
@@ -95,8 +96,6 @@ k9s:
         - default
         - tank
         - master
-        - develop
-        - leia
       view:
         active: pod
       featureGates:

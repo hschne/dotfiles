@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+ucs() {
+  kubectl config use-context gke_meisterlabs-staging_europe-west1_meistertask-staging
+}
+
+ucp() {
+  kubectl config use-context gke_meisterlabs-prod_europe-west3_meistertask-production
+}
+
+rcst() {
+  ucs
+  kubectl -n $1 exec -it console-0 -- bin/rails console
+}
+
+rcpr() {
+  ucp
+  kubectl -n $1 exec -it console-0 -- bin/rails console
+}
+
+

@@ -193,6 +193,7 @@ export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 
 source "$HOME/.scripts/gitscripts"
+source "$HOME/.scripts/kubescripts"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
