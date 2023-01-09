@@ -15,7 +15,7 @@ rcst() {
 
 rcpr() {
   ucp
-  kubectl -n $1 exec -it console-0 -- bin/rails console
+  kubectl -n production exec -it console-0 -- bin/rails console
 }
 
 
