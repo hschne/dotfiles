@@ -85,9 +85,10 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: all
+        active: hal
         lockFavorites: false
         favorites:
+        - develop
         - hal
         - chewie
         - jarjar
