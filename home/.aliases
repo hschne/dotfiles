@@ -63,10 +63,10 @@ alias posto="pomo stop"
 # Directories
 alias dl="cd ~/Downloads"
 alias src="cd ~/Source"
-alias mt="cd ~/Source/meister/meistertask"
-alias mth="cd ~/Source/meister/meistertask-helm"
-alias mtw="cd ~/Source/meister/meistertask-web"
-alias mm="cd ~/Source/meister/mindmeister"
+alias mt="cd ~/Source/work/meistertask"
+alias mth="cd ~/Source/work/meistertask-helm"
+alias mtw="cd ~/Source/work/meistertask-web"
+alias mm="cd ~/Source/work/mindmeister"
 
 # Close terminal window
 alias :q='exit'
