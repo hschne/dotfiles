@@ -20,7 +20,7 @@ k9s:
   clusters:
     gke_meisterlabs-prod_europe-west3_meistertask-production:
       namespace:
-        active: production
+        active: all
         lockFavorites: false
         favorites:
         - production
@@ -85,9 +85,10 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: hal
+        active: all
         lockFavorites: false
         favorites:
+        - leia
         - develop
         - hal
         - chewie
@@ -96,9 +97,8 @@ k9s:
         - all
         - default
         - tank
-        - master
       view:
-        active: pod
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
