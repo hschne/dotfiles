@@ -8,6 +8,7 @@ k9s:
   readOnly: false
   noExitOnCtrlC: false
   noIcons: false
+  skipLatestRevCheck: false
   logger:
     tail: 1000
     buffer: 5000
@@ -15,14 +16,15 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: gke_meisterlabs-prod_europe-west3_meistertask-production
-  currentCluster: gke_meisterlabs-prod_europe-west3_meistertask-production
+  currentContext: gke_meisterlabs-staging_europe-west1_meistertask-staging
+  currentCluster: gke_meisterlabs-staging_europe-west1_meistertask-staging
   clusters:
     gke_meisterlabs-prod_europe-west3_meistertask-production:
       namespace:
         active: all
         lockFavorites: false
         favorites:
+        - refinery
         - production
         - all
         - default
@@ -38,6 +40,7 @@ k9s:
         limits:
           cpu: 100m
           memory: 100Mi
+        labels: {}
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_accounts-staging:
       namespace:
@@ -59,44 +62,22 @@ k9s:
         limits:
           cpu: 100m
           memory: 100Mi
-      portForwardAddress: localhost
-    gke_meisterlabs-staging_europe-west1_meisternote-staging-istio:
-      namespace:
-        active: default
-        lockFavorites: false
-        favorites:
-        - istio-system
-        - all
-        - chewie
-        - kube-system
-        - default
-      view:
-        active: pods
-      featureGates:
-        nodeShell: false
-      shellPod:
-        image: busybox:1.31
-        command: []
-        args: []
-        namespace: default
-        limits:
-          cpu: 100m
-          memory: 100Mi
+        labels: {}
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
         active: all
         lockFavorites: false
         favorites:
+        - default
+        - refinery
+        - grafana
         - leia
         - develop
         - hal
         - chewie
         - jarjar
         - kube-system
-        - all
-        - default
-        - tank
       view:
         active: pods
       featureGates:
@@ -109,26 +90,7 @@ k9s:
         limits:
           cpu: 100m
           memory: 100Mi
-      portForwardAddress: localhost
-    minikube:
-      namespace:
-        active: default
-        lockFavorites: false
-        favorites:
-        - all
-        - default
-      view:
-        active: services
-      featureGates:
-        nodeShell: false
-      shellPod:
-        image: busybox:1.31
-        command: []
-        args: []
-        namespace: default
-        limits:
-          cpu: 100m
-          memory: 100Mi
+        labels: {}
       portForwardAddress: localhost
   thresholds:
     cpu:
