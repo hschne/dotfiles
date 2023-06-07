@@ -50,15 +50,6 @@ zi load zsh-users/zsh-completions
 zi load zsh-users/zsh-autosuggestions
 zi load zsh-users/zsh-syntax-highlighting
 
-# The Fuck
-#
-# The most magnificent thing you will ever see. Semantically correct
-# way of dealing with typos.
-#
-# Website: https://github.com/nvbn/thefuck
-zi ice wait'1' lucid
-zi snippet OMZ::plugins/thefuck/thefuck.plugin.zsh
-
 # Emoji-CLI
 #
 # Emojis for the command line. Yes, this is absolutely needed.
@@ -188,6 +179,14 @@ export PATH="$HOME/.local/bin:$PATH"
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+
+# The Fuck
+#
+# The most magnificent thing you will ever see. Semantically correct
+# way of dealing with typos.
+#
+# Website: https://github.com/nvbn/thefuck
+eval $(thefuck --alias)
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
