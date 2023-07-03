@@ -205,7 +205,6 @@ nmap <Leader><Leader>f :Rg<CR>
 nmap <Leader><Leader>t :Files<CR>
 nmap <Leader><Leader>r :Tags<CR>
 
-
 " ##############################################################################
 "
 " vim-markdown
@@ -215,16 +214,6 @@ nmap <Leader><Leader>r :Tags<CR>
 " Disable folding and fix list item behaviour. 
 let g:vim_markdown_folding_disabled = 1
 let g:vim_markdown_new_list_item_indent = 0
-
-" ##############################################################################
-"
-" vim-markdown-preview
-"
-" ##############################################################################
-"
-" Use github style preview. XDG open required to open non-chrome browsers on Arch linux. 
-let vim_markdown_preview_github=1
-let vim_markdown_preview_use_xdg_open=1
 
 " ##############################################################################
 "
@@ -259,13 +248,6 @@ let g:coc_global_extensions = [
             \ ]
 
 xmap <leader>x  <Plug>(coc-convert-snippet)
-" ##############################################################################
-"
-" Ultisnips
-"
-" ##############################################################################
-"
-" Custom tab completion, compatible with snippets
 
 " ##############################################################################
 "
@@ -319,19 +301,6 @@ let g:user_emmet_settings = {
 \      'extends' : 'jsx',
 \  },
 \}
-
-" We use vimtex instead of latex box
-
-
-" ##############################################################################
-"
-" vim-tex
-"
-" ##############################################################################
-
-" Set default for partial tex files
-let g:tex_flavor = "latex"
-
 
 " ##############################################################################
 "

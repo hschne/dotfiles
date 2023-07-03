@@ -170,26 +170,12 @@ Plug 'w0rp/ale'
 " See https://github.com/godlygeek/tabular
 Plug 'godlygeek/tabular' 
 
-" Grammarous
-"
-" Because I still suck in english.
-"
-" See https://github.com/rhysd/vim-grammarous
-Plug 'rhysd/vim-grammarous'
-
 " Coc.vim
 "
 " Language server capabilities for Vim
 "
 " See https://github.com/neoclide/coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Ultisnips
-"
-" Snippet Engine
-"
-" See https://github.com/SirVer/ultisnips
-" Plug  'SirVer/ultisnips'
 
 " Vim Snippets
 "
@@ -220,20 +206,8 @@ Plug 'ludovicchabant/vim-gutentags'
 " See https://github.com/christoomey/vim-tmux-navigator
 Plug 'christoomey/vim-tmux-navigator'
 
-" EditorConfig 
-"
-" Makes it so code is always formatted according to the conventions.
-"
-" See https://github.com/editorconfig/editorconfig-vim
-Plug 'editorconfig/editorconfig-vim'
-
+" Vimwiki
 Plug 'vimwiki/vimwiki'
-" Markdown Preview
-"
-" Enables local markdown preview! 
-"
-" See https://github.com/JamshedVesuna/vim-markdown-preview
-Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 
 " Emmet for Vim
 "
@@ -241,11 +215,6 @@ Plug 'JamshedVesuna/vim-markdown-preview', { 'for': 'markdown' }
 "
 " See https://github.com/mattn/emmet-vim
 Plug 'mattn/emmet-vim', { 'for': ['html','css','javascript', 'javascriptreact'] }
-
-" Styled Components Highlighting
-
-" See https://github.com/styled-components/vim-styled-components
-Plug 'styled-components/vim-styled-components', { 'for': ['javascriptreact'], 'branch': 'main' }
 
 " CSS Colors
 "
@@ -260,20 +229,6 @@ Plug 'ap/vim-css-color', { 'for': ['html', 'css'] }
 " See https://github.com/sheerun/vim-polyglot
 let g:polyglot_disabled = ['latex']
 Plug 'sheerun/vim-polyglot'
-
-" bats.vim
-"
-" Bats syntax highlighting. 
-"
-" See https://github.com/aliou/bats.vim
-Plug 'aliou/bats.vim', { 'for': 'bats' }
-
-" VimTex
-"
-" A lightweight plugin for nice latex support. 
-"
-" See https://github.com/lervag/vimtex
-Plug 'lervag/vimtex', { 'for': 'tex' }
 
 call plug#end()
 
