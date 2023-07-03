@@ -172,6 +172,7 @@ hi link EasyMotionIncSearch Search
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeMinimalUI=1
 map <leader>nt :NERDTreeToggle<CR>
+nmap <leader>nf :NERDTreeFind<CR>
 
 " Close nerdtree if last window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -269,20 +270,7 @@ let g:ale_fix_on_save = 1
 
 " ##############################################################################
 "
-" Gutentags
-"
-" ##############################################################################
-"
-" First, gutentags doesn't like VimPlug and needs manual setup, see
-" here: https://github.com/junegunn/vim-plug/issues/823
-"
-" We also set up the statusline
-autocmd! User vim-gutentags call gutentags#setup_gutentags()
-set statusline+=%{gutentags#statusline()}
-
-" ##############################################################################
-"
-" Pretier
+" Prettier
 "
 " ##############################################################################
 let g:prettier#config#print_width = 120

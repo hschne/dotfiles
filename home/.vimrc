@@ -192,13 +192,6 @@ Plug 'honza/vim-snippets'
 " See https://github.com/prettier/vim-prettier
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
-" Vim Gutentags
-"
-" Automatically generate tags
-"
-" See https://github.com/ludovicchabant/vim-gutentags
-Plug 'ludovicchabant/vim-gutentags'
-
 " Tmux Pane Navigation
 "
 " Seamlessly navigate between vim splits and tmux panes.
