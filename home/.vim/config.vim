@@ -166,19 +166,6 @@ hi link EasyMotionIncSearch Search
 
 " ##############################################################################
 " 
-" NERDTree
-" 
-" ##############################################################################
-let g:NERDTreeChDirMode = 2
-let g:NERDTreeMinimalUI=1
-map <leader>nt :NERDTreeToggle<CR>
-nmap <leader>nf :NERDTreeFind<CR>
-
-" Close nerdtree if last window
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" ##############################################################################
-" 
 " vim-gitgutter
 " 
 " ##############################################################################
@@ -336,12 +323,6 @@ let g:startify_custom_header = [
             \'       \$     \$$$$$$ \$$      \$$  ',
             \]                      
 
-" Open Startify when opened as window
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') 
-        \ | execute 'NERDTreeToggle' argv()[0] | wincmd w | bd | Startify | execute 'cd '.argv()[0] 
-        \ | endif
-
-
 " ##############################################################################
 "
 " DevIcons + Startify
@@ -352,7 +333,8 @@ function! StartifyEntryFormat()
 endfunction
 
 let g:ranger_map_keys = 0
-map <leader>r<leader>o :Ranger<CR>.
+let g:ranger_replace_netrw = 1
+map <leader>ro :Ranger<CR>.
 
 " ##############################################################################
 " 
@@ -361,11 +343,7 @@ map <leader>r<leader>o :Ranger<CR>.
 " ##############################################################################
 set timeoutlen=200
 let g:which_key_map = {}
-let g:which_key_map.n = { 'name' : '+nerdtree' }
-let g:which_key_map.n.t = 'toggle-nerdtree'
-
 call which_key#register('<Space>', "g:which_key_map")
-
 let g:which_key_sep = '→'
 
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>

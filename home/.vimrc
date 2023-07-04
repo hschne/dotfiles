@@ -23,14 +23,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Nerdtree
-"
-" Improves file navigation. The plugin adds git support. 
-"
-" Website: https://github.com/scrooloose/nerdtree
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
 " Startify
 "
 " sets a start screen for vim
@@ -61,10 +53,11 @@ Plug 'liuchengxu/vim-which-key'
 
 " Ranger
 "
-" Provides a nice ranger integration.
+" Provides a nice ranger integration. Bclose is a dependency.
 "
 " See https://github.com/francoiscabrol/ranger.vim
 Plug 'francoiscabrol/ranger.vim'
+ Plug 'rbgrouleff/bclose.vim'
 
 " Rainbow Parentheses
 "
