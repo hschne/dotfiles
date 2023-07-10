@@ -115,7 +115,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 "
 " See https://stackoverflow.com/a/57712826/2553104
 nnoremap <leader>bd :BD <CR>
-nnoremap <leader>ca :w <bar> %bd <bar> e# <bar> bd# <CR>
+nnoremap <leader>ba :w <bar> %bd <bar> e# <bar> bd# <CR>
 
 " Formatting Commands
 autocmd FileType json nnoremap <buffer><silent><localleader>f :%!jq .<cr>

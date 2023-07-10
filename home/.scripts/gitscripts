@@ -17,6 +17,14 @@ gtag() {
   git tag --sort version:refname | tail -n 1
 }
 
+wgcl() {
+  git clone "$1"
+  cd "$(basename "$1" .git)"
+  git remote add original "$1"
+  git remote set-url origin $(echo "$1" | sed 's/git@github.com/git@github-work/')
+  cd ..
+}
+
 gptag() {
   latest_tag=$(git tag --sort version:refname | tail -n 1)
   git push origin "$latest_tag"

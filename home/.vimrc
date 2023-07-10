@@ -57,7 +57,7 @@ Plug 'liuchengxu/vim-which-key'
 "
 " See https://github.com/francoiscabrol/ranger.vim
 Plug 'francoiscabrol/ranger.vim'
- Plug 'rbgrouleff/bclose.vim'
+Plug 'rbgrouleff/bclose.vim'
 
 " Rainbow Parentheses
 "
