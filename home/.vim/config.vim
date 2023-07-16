@@ -139,32 +139,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " ##############################################################################
-"
-" EasyMotion 
-"
-" ##############################################################################
-
-let g:EasyMotion_startofline = 0
-let g:EasyMotion_smartcase = 1
-" Use most default mappings
-map <Leader>e <Plug>(easymotion-prefix)
-
-" Custom mappings
-nmap s <Plug>(easymotion-overwin-f)
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
-map  <Leader>f <Plug>(easymotion-bd-fl)
-map  <Leader>t <Plug>(easymotion-bd-tl)
-
-" Set colors and use color scheme colors
-hi link EasyMotionTarget WarningMsg
-hi link EasyMotionShade  Comment
-hi link EasyMotionTarget2First MatchParen
-hi link EasyMotionTarget2Second MatchParen
-hi link EasyMotionMoveHL Search
-hi link EasyMotionIncSearch Search
-
-" ##############################################################################
 " 
 " vim-gitgutter
 " 
@@ -232,6 +206,11 @@ let g:coc_snippet_prev = '<S-Tab>'
 
 let g:coc_global_extensions = [
             \ 'coc-snippets',
+            \ 'coc-tsserver',
+            \ 'coc-eslint',
+            \ 'coc-json',
+            \ 'coc-prettier',
+            \ 'coc-css',
             \ 'coc-solargraph',
             \ ]
 
@@ -335,16 +314,3 @@ endfunction
 let g:ranger_map_keys = 0
 let g:ranger_replace_netrw = 1
 map <leader>ro :Ranger<CR>.
-
-" ##############################################################################
-" 
-" vim-which-key
-"
-" ##############################################################################
-set timeoutlen=200
-let g:which_key_map = {}
-call which_key#register('<Space>', "g:which_key_map")
-let g:which_key_sep = '→'
-
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  '<Space>'<CR>

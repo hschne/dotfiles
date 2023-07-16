@@ -44,13 +44,6 @@ Plug 'ryanoasis/vim-devicons'
 " Website: https://git.io/nord-vim
 Plug 'arcticicestudio/nord-vim'
 
-" vim-which-key
-"
-" Display keybindings like in spacevim
-" 
-" See https://github.com/liuchengxu/vim-which-key
-Plug 'liuchengxu/vim-which-key'
-
 " Ranger
 "
 " Provides a nice ranger integration. Bclose is a dependency.
@@ -99,20 +92,6 @@ Plug 'tpope/vim-commentary'
 "
 " Allow repeating of easymotions motion.
 Plug 'tpope/vim-repeat'
-
-" Vim-EasyMotion
-"
-" Makes navigation a breeze
-"
-" See https://github.com/easymotion/vim-easymotion
- Plug 'easymotion/vim-easymotion'
-
-" vim-peekaboo
-"
-" Displays previous of registers
-"
-" See https://github.com/junegunn/vim-peekaboo
-Plug 'junegunn/vim-peekaboo'
 
 " vim-gitgutter
 "
