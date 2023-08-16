@@ -1,9 +1,10 @@
 return {
-  { "nordtheme/vim" },
+  { "EdenEast/nightfox.nvim" },
+  { "norcalli/nvim-colorizer.lua" },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "nord",
+      colorscheme = "nordfox",
     },
   },
 }
