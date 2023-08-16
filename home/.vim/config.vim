@@ -274,10 +274,6 @@ let g:asterisk#keeppos = 1
 " ##############################################################################
 let g:vimwiki_list = [{'path': '~/Documents/wiki', 'syntax': 'markdown', 'index': 'home', 'ext': '.md', 'auto_diary_index': 1 }]
 let g:vimwiki_global_ext = 0
-" See https://github.com/vimwiki/vimwiki/issues/845#issuecomment-683423984
-au filetype vimwiki silent! iunmap <buffer> <Tab>
-au filetype vimwiki silent! iunmap <buffer> <CR>
-au BufNewFile ~/Documents/wiki/diary/*.md :silent 0r !~/.scripts/diary.sh
 
 " ##############################################################################
 "
