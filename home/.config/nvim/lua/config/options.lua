@@ -10,9 +10,9 @@ vim.opt.showbreak = "…"
 
 -- Improve swapfiles
 vim.opt.swapfile = false
-vim.opt.directory = vim.fn.expand("~/.local/share/nvim/swp")
+vim.opt.directory = vim.fn.expand("$HOME/.local/share/.nvim/swp/")
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.local/share/nvim/undo")
+vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 -- Configure Vimwiki
 vim.g.vimwiki_list = {
   {

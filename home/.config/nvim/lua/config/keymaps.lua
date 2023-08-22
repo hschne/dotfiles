@@ -7,3 +7,10 @@ vim.keymap.set(
   require("telescope").extensions.notify.notify,
   { noremap = true, silent = true, desc = "Notifications" }
 )
+
+vim.keymap.set(
+  "n",
+  "<leader>w<leader>t",
+  "<cmd>VimwikiToggleListItem<cr>",
+  { noremap = true, silent = true, desc = "Notifications" }
+)
