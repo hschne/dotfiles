@@ -50,17 +50,6 @@ zi load zsh-users/zsh-completions
 zi load zsh-users/zsh-autosuggestions
 zi load zsh-users/zsh-syntax-highlighting
 
-# Emoji-CLI
-#
-# Emojis for the command line. Yes, this is absolutely needed.
-#
-# Website: https://github.com/b4b4r07/emoji-cli
-zi ice from"gh-r" as"program" mv "jq-* -> jq"; zi load "stedolan/jq"
-zi ice has'jq'; zi load "b4b4r07/emoji-cli"
-
-# Emojis for the command line, also super important.
-zi ice as"program" pick"emojify"; zi load "mrowa44/emojify"
-
 # Homeshick
 #
 # Homeshick is a dotfile manager written in Bash. Useful for 
@@ -85,15 +74,9 @@ zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-
 # See https://github.com/Aloxaf/fzf-tab
 zi load "Aloxaf/fzf-tab"
 
-# Timewarrior
-#
-# Completions to work with timewarrior
-zi ice pick"timewarrior.zsh"; zi light "svenXY/timewarrior"
-# We need to source these completions, because zi mistakes them as compdefs
-source "$HOME/.zi/plugins/svenXY---timewarrior/_timew" 
 
 # Set editor to the obvious choice
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # History Tweaks 
 #
@@ -144,7 +127,16 @@ homeshick --quiet refresh 2
 # Enable direnv
 #
 # See https://github.com/direnv/direnv
+export DIRENV_LOG_FORMAT= # Mute direnv log format
 [[ $(command -v "direnv") != "" ]] && eval "$(direnv hook zsh)"
+
+
+# Zoxide 
+#
+# Autojump alternative
+#
+# See https://github.com/ajeetdsouza/zoxide
+[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh)"
 
 # Hub
 #
@@ -179,14 +171,6 @@ export PATH="$HOME/.local/bin:$PATH"
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
-
-# The Fuck
-#
-# The most magnificent thing you will ever see. Semantically correct
-# way of dealing with typos.
-#
-# Website: https://github.com/nvbn/thefuck
-eval $(thefuck --alias)
 
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
