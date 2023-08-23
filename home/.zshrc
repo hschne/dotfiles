@@ -133,10 +133,10 @@ export DIRENV_LOG_FORMAT= # Mute direnv log format
 
 # Zoxide 
 #
-# Autojump alternative
+# Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
 #
 # See https://github.com/ajeetdsouza/zoxide
-[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh)"
+[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --no-aliases)"
 
 # Hub
 #
