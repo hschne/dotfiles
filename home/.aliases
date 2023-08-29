@@ -44,8 +44,6 @@ alias pop="pomo pause"
 alias por="pomo restart"
 alias pot="pomo stop"
 
-alias zo='__zoxide_zi'
-
 # Directories
 alias dl="cd ~/Downloads"
 alias src="cd ~/Source"

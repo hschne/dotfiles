@@ -136,7 +136,7 @@ export DIRENV_LOG_FORMAT= # Mute direnv log format
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
 #
 # See https://github.com/ajeetdsouza/zoxide
-[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --no-aliases)"
+[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
 
 # Hub
 #
@@ -184,3 +184,4 @@ if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/h
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
 
+[[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"

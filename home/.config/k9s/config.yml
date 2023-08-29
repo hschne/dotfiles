@@ -16,8 +16,8 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: gke_meisterlabs-prod_europe-west3_mindmeister-production
-  currentCluster: gke_meisterlabs-prod_europe-west3_mindmeister-production
+  currentContext: gke_meisterlabs-staging_europe-west1_accounts-staging
+  currentCluster: gke_meisterlabs-staging_europe-west1_accounts-staging
   clusters:
     gke_meisterlabs-prod_europe-west3_meistertask-production:
       namespace:
@@ -29,7 +29,7 @@ k9s:
         - all
         - default
       view:
-        active: pod
+        active: contexts
       featureGates:
         nodeShell: false
       shellPod:
@@ -66,14 +66,16 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_accounts-staging:
       namespace:
-        active: all
+        active: jarjar
         lockFavorites: false
         favorites:
+        - develop
+        - jarjar
         - all
         - leia
         - default
       view:
-        active: pod
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:

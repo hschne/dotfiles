@@ -10,7 +10,7 @@ vim.keymap.set(
 
 vim.keymap.set(
   "n",
-  "<leader>w<leader>t",
+  "<leader>w<leader>c",
   "<cmd>VimwikiToggleListItem<cr>",
-  { noremap = true, silent = true, desc = "Notifications" }
+  { noremap = true, silent = true, desc = "Complete/Toggle Checklist Item" }
 )
