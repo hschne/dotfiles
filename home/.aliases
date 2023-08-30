@@ -1,26 +1,30 @@
+# Nvim
+alias vim="nvim"
+alias vi="nvim"
+
 # Files
-alias aliases="nvim ~/.aliases"
-alias zshrc="nvim ~/.zshrc"
-alias vimrc="nvim ~/.vimrc"
-alias config="nvim ~/.vim/config.vim"
-alias shared="nvim ~/.vim/shared.vim"
-alias ideavimrc="nvim ~/.ideavimrc"
+alias aliases="$EDITOR ~/.aliases"
+alias zshrc="$EDITOR ~/.zshrc"
+alias vimrc="$EDITOR ~/.vimrc"
+alias nvimrc="$EDITOR ~/.config/nvim/init.lua"
+alias tmuxrc="$EDITOR ~/.tmux.conf"
+alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
 
 # Wiki
-alias todo="nvim ~/Documents/wiki/tasks.md"
-alias work="nvim ~/Documents/wiki/work.md"
-alias work/="nvim ~/Documents/wiki/work/"
-alias note="nvim ~/Documents/wiki/scratchpad.md"
-alias notes="nvim ~/Documents/wiki/notes/"
-alias diary="nvim ~/Documents/wiki/diary/diary.md"
-alias goals="nvim ~/Documents/wiki/goals/goals.md"
-alias wiki="nvim ~/Documents/wiki/home.md"
+alias todo="$EDITOR ~/Documents/wiki/tasks.md"
+alias work="$EDITOR ~/Documents/wiki/work.md"
+alias work/="$EDITOR ~/Documents/wiki/work/"
+alias note="$EDITOR ~/Documents/wiki/scratchpad.md"
+alias notes="$EDITOR ~/Documents/wiki/notes/"
+alias diary="$EDITOR ~/Documents/wiki/diary/diary.md"
+alias goals="$EDITOR ~/Documents/wiki/goals/goals.md"
+alias wiki="$EDITOR ~/Documents/wiki/home.md"
 
 ## Lists
-alias lists="nvim ~/Documents/wiki/lists/"
-alias media="nvim ~/Documents/wiki/lists/media.md"
-alias ideas="nvim ~/Documents/wiki/lists/ideas.md"
-alias places="nvim ~/Documents/wiki/lists/places.md"
+alias lists="$EDITOR ~/Documents/wiki/lists/"
+alias media="$EDITOR ~/Documents/wiki/lists/media.md"
+alias ideas="$EDITOR ~/Documents/wiki/lists/ideas.md"
+alias places="$EDITOR ~/Documents/wiki/lists/places.md"
 
 # Homeshick
 alias hcd="homeshick cd dotfiles"
@@ -29,7 +33,7 @@ alias hld="homeshick link dotfiles"
 alias htd="homeshick track dotfiles"
 
 # Git
-alias gmd="git merge develop"
+alias gmt="git mergetool"
 alias gaacm="git add -A && git commit -m"
 
 # Docker
@@ -47,10 +51,8 @@ alias pot="pomo stop"
 # Directories
 alias dl="cd ~/Downloads"
 alias src="cd ~/Source"
-alias mt="cd ~/Source/meister/meistertask"
-alias mth="cd ~/Source/meister/meistertask-helm"
-alias mtw="cd ~/Source/meister/meistertask-web"
-alias mm="cd ~/Source/meister/mindmeister"
+alias docs="cd ~/Documents"
+alias pics="cd ~/Pictures"
 
 # Close terminal window
 alias :q='exit'
