@@ -4,8 +4,8 @@ return {
     opts = {
       ensure_installed = {
         "bash-language-server",
-        "dockerls",
-        "docker_compose_language_service",
+        "docker-compose-language-service",
+        "dockerfile-language-server",
         "emmet_ls",
         "eslint",
         "html",
@@ -14,7 +14,7 @@ return {
         "rubocop",
         "solargraph",
         "shellcheck",
-        "yamlls",
+        "yaml-language-server",
       },
     },
   },
