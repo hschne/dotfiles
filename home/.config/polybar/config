@@ -258,7 +258,7 @@ click-left = ~/.scripts/polybar/pomo pause
 
 [module/redshift]
 type = custom/script
-format-prefix = ""
+format-prefix = " "
 interval=1
 exec = ~/.scripts/polybar/redshift.sh temperature 
 click-left = ~/.scripts/polybar/redshift.sh toggle
