@@ -10,6 +10,7 @@ return {
         "eslint-lsp",
         "html-lsp",
         "json-lsp",
+        "prettierd",
         "rubocop",
         "solargraph",
         "shellcheck",
