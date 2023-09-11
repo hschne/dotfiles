@@ -223,9 +223,6 @@ exec --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/wiki/reminders.txt
 # Enable cursor hiding
 exec --no-startup-id xbanish 
 
-# Start redshift
-exec --no-startup-id redshift
-
 # Autostart
 exec --no-startup-id syncthingtray --wait
 
