@@ -16,7 +16,8 @@ set $mod Mod4
 set $font "SauceCodePro Nerd Font"
 font pango:monospace 8
 
-exec --no-startup-id bash $HOME/.screenlayout/screens.sh
+# Load screen layout
+exec --no-startup-id autorandr -c
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
