@@ -4,6 +4,7 @@ return {
     opts = {
       ensure_installed = {
         "bash-language-server",
+        "css-lsp",
         "docker-compose-language-service",
         "dockerfile-language-server",
         "emmet-ls",
