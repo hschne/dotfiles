@@ -6,19 +6,17 @@ return {
       build = "make",
       config = function()
         require("telescope").load_extension("fzf")
-        require("telescope").load_extension "file_browser"
+        require("telescope").load_extension("file_browser")
       end,
     },
     setup = {
       extensions = {
         file_browser = {
           theme = "ivy",
-          -- disables netrw and use telescope-file-browser in its place
-          hijack_netrw = true
-
+          hijack_netrw = true,
         },
-      }
-    }
+      },
+    },
   },
   {
     "nvim-telescope/telescope-file-browser.nvim",
@@ -28,8 +26,8 @@ return {
       {
         "<leader>fO",
         "<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>",
-        desc = "Telescope File Browser in Current Directory"
-      }
+        desc = "Telescope File Browser in Current Directory",
+      },
     },
   },
 }
