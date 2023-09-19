@@ -18,7 +18,7 @@
 [url "git@github.com:/ghc/packages-"]
 	insteadOf = git@github.com:/ghc/packages/
 [core]
-	editor = vim
+	editor = nvim
 	excludesfile = /home/hschne/.gitignore
 [alias]
     lg = !"git log --oneline --color | emojify | less -r"
