@@ -6,16 +6,7 @@ return {
       build = "make",
       config = function()
         require("telescope").load_extension("fzf")
-        require("telescope").load_extension("file_browser")
       end,
-    },
-    setup = {
-      extensions = {
-        file_browser = {
-          theme = "ivy",
-          hijack_netrw = true,
-        },
-      },
     },
   },
   {
@@ -29,5 +20,17 @@ return {
         desc = "Telescope File Browser in Current Directory",
       },
     },
+    config = function()
+      require("telescope").setup({
+        extensions = {
+          file_browser = {
+            hijack_netrw = true,
+            hidden = { file_browser = true, folder_browser = true },
+            depth = 1,
+          },
+        }
+      })
+      require("telescope").load_extension("file_browser")
+    end
   },
 }
