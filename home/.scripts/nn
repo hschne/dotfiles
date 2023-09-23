@@ -2,11 +2,19 @@
 
 # Create a new note in the notes directory. Prefixed with the current date.
 main() {
-  local path=$(dirname "$1")
-  local filename=$(basename "$1")
-  local base_path="$HOME/Documents/wiki"
-  mkdir -p "$base_path/$path"
-  $EDITOR "$base_path/$path/$(date +'%F')-$filename"
+	[[ -z $1 ]] && error "Note name must not be empty"
+
+	local name=${1// /-}
+	name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
+	local base_path="$HOME/Documents/wiki/notes"
+	$EDITOR "$base_path/$(date +'%y-%m-%d')-$name.md"
+}
+
+error() {
+	local message=$1
+	local code=${2:-1}
+	echo "$message"
+	exit "$code"
 }
 
 main "$@"
