@@ -24,6 +24,7 @@ return {
       require("telescope").setup({
         extensions = {
           file_browser = {
+            grouped = true,
             hijack_netrw = true,
             hidden = { file_browser = true, folder_browser = true },
             depth = 1,
