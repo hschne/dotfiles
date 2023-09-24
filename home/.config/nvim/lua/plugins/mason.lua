@@ -7,7 +7,6 @@ return {
         "css-lsp",
         "docker-compose-language-service",
         "dockerfile-language-server",
-        "efm",
         "emmet-ls",
         "eslint-lsp",
         "html-lsp",
