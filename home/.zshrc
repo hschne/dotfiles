@@ -138,17 +138,22 @@ export DIRENV_LOG_FORMAT= # Mute direnv log format
 # See https://github.com/ajeetdsouza/zoxide
 [[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
 
-# Hub
-#
-# Hub makes working with Github easier. This is a fix for an 
-# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
-#
-# Website: https://hub.github.com/
-function git() { hub $@; }
 
-# Improve look of fzf, especially for enhancd
+# Navi
+#
+# Cheatsheets for the command line.
+#
+# See https://github.com/denisidoro/navi
+[[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
+
+# Improve look of fzf, use rg
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
+# Use tmux popup of in tmux
+export FZF_TMUX_OPTS='-p60%,50%'
 
 # Enable colors for tmux
 #
@@ -172,16 +177,6 @@ export PATH="$HOME/.local/bin:$PATH"
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
 
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
-
 source "$HOME/.scripts/gitscripts"
-source "$HOME/.scripts/kubescripts"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
-
-[[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
