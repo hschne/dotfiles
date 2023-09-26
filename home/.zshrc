@@ -117,7 +117,6 @@ stty -ixon
 export KEYTIMEOUT=1
 
 # Add custom aliases
-source $HOME/.custom.zsh
 source $HOME/.aliases
 
 
