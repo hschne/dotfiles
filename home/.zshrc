@@ -180,3 +180,4 @@ eval "$(starship init zsh)"
 source "$HOME/.scripts/gitscripts"
 
 
+export PATH=$PATH:/home/hschne/.spicetify
