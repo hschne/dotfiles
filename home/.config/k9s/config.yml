@@ -16,8 +16,8 @@ k9s:
     fullScreenLogs: false
     textWrap: false
     showTime: false
-  currentContext: gke_meisterlabs-staging_europe-west1_accounts-staging
-  currentCluster: gke_meisterlabs-staging_europe-west1_accounts-staging
+  currentContext: gke_meisterlabs-prod_europe-west3_meistertask-production
+  currentCluster: gke_meisterlabs-prod_europe-west3_meistertask-production
   clusters:
     gke_meisterlabs-prod_europe-west3_meistertask-production:
       namespace:
@@ -29,7 +29,7 @@ k9s:
         - all
         - default
       view:
-        active: contexts
+        active: pods
       featureGates:
         nodeShell: false
       shellPod:
@@ -90,9 +90,10 @@ k9s:
       portForwardAddress: localhost
     gke_meisterlabs-staging_europe-west1_meistertask-staging:
       namespace:
-        active: all
+        active: hal
         lockFavorites: false
         favorites:
+        - all
         - default
         - refinery
         - grafana
@@ -101,9 +102,8 @@ k9s:
         - hal
         - chewie
         - jarjar
-        - kube-system
       view:
-        active: pods
+        active: contexts
       featureGates:
         nodeShell: false
       shellPod:

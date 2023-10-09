@@ -178,5 +178,9 @@ eval "$(starship init zsh)"
 
 source "$HOME/.scripts/gitscripts"
 
-
+export PATH="$HOME/go/bin:$PATH"
+export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
+source "$HOME/.scripts/kubescripts"
+if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
 export PATH=$PATH:/home/hschne/.spicetify
