@@ -13,20 +13,20 @@ alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias zshrc="$EDITOR ~/.zshrc"
 
 # Wiki
-alias todo="$EDITOR ~/Documents/wiki/tasks.md"
-alias brag/="$EDITOR ~/Documents/wiki/notes/brag.md"
-alias work="$EDITOR ~/Documents/wiki/work.md"
-alias work/="$EDITOR ~/Documents/wiki/work/"
-alias notes="$EDITOR ~/Documents/wiki/notes/"
-alias diary="$EDITOR ~/Documents/wiki/diary/diary.md"
-alias goals="$EDITOR ~/Documents/wiki/goals/goals.md"
-alias wiki="$EDITOR ~/Documents/wiki/home.md"
+alias todo="$EDITOR ~/Documents/Wiki/tasks.md"
+alias brag/="$EDITOR ~/Documents/Wiki/notes/brag.md"
+alias work="$EDITOR ~/Documents/Wiki/work.md"
+alias work/="$EDITOR ~/Documents/Wiki/work/"
+alias notes="$EDITOR ~/Documents/Wiki/notes/"
+alias diary="$EDITOR ~/Documents/Wiki/diary/diary.md"
+alias goals="$EDITOR ~/Documents/Wiki/goals/goals.md"
+alias wiki="$EDITOR ~/Documents/Wiki/home.md"
 
 ## Lists
-alias lists="$EDITOR ~/Documents/wiki/lists/"
-alias media="$EDITOR ~/Documents/wiki/lists/media.md"
-alias ideas="$EDITOR ~/Documents/wiki/lists/ideas.md"
-alias places="$EDITOR ~/Documents/wiki/lists/places.md"
+alias lists="$EDITOR ~/Documents/Wiki/lists/"
+alias media="$EDITOR ~/Documents/Wiki/lists/media.md"
+alias ideas="$EDITOR ~/Documents/Wiki/lists/ideas.md"
+alias places="$EDITOR ~/Documents/Wiki/lists/places.md"
 
 # Homeshick
 alias hcd="homeshick cd dotfiles"
