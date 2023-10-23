@@ -129,7 +129,6 @@ homeshick --quiet refresh 2
 export DIRENV_LOG_FORMAT= # Mute direnv log format
 [[ $(command -v "direnv") != "" ]] && eval "$(direnv hook zsh)"
 
-
 # Zoxide 
 #
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
@@ -137,13 +136,23 @@ export DIRENV_LOG_FORMAT= # Mute direnv log format
 # See https://github.com/ajeetdsouza/zoxide
 [[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
 
-
 # Navi
 #
 # Cheatsheets for the command line.
 #
 # See https://github.com/denisidoro/navi
 [[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
+
+# Hub makes working with Github easier. This is a fix for an 
+# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
+#
+# Website: https://hub.github.com/
+function git() { hub $@; }
+
+# Spictify
+#
+# See https://github.com/spicetify/spicetify-cli
+export PATH=$PATH:/home/hschne/.spicetify
 
 # Improve look of fzf, use rg
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
@@ -154,20 +163,20 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind '
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p60%,50%'
 
-# Enable colors for tmux
-#
-# See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
-export TERM=xterm-256color
-
-
-# Export variables for stack
-export PATH="$HOME/.local/bin:$PATH"
-
 # Enable ASDF
 #
 # See https://asdf-vm.com/
 . $HOME/.asdf/asdf.sh echo -e 
 . $HOME/.asdf/completions/asdf.bash
+
+# Export variables for scripts
+export PATH="$HOME/.local/bin:$PATH"
+source "$HOME/.scripts/gitscripts"
+
+# Enable colors for tmux
+#
+# See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
+export TERM=xterm-256color
 
 # Starship Prompt
 #
@@ -176,11 +185,3 @@ export PATH="$HOME/.local/bin:$PATH"
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
 
-source "$HOME/.scripts/gitscripts"
-
-export PATH="$HOME/go/bin:$PATH"
-export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
-source "$HOME/.scripts/kubescripts"
-if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
-export PATH=$PATH:/home/hschne/.spicetify
