@@ -34,7 +34,8 @@ gdtag() {
 }
 
 gnb() {
-  [[ -z $1 ]] && error "Branch name must not be empty"
+  [[ -z $1 ]] && echo "Branch name must not be empty" && return
+
   local text=${1// /-}
   text=$(echo "$text" | tr '[:upper:]' '[:lower:]')
   local date
@@ -46,11 +47,9 @@ gnb() {
 
 gmm() {
   main_branch=$(git branch -r | grep -Po 'HEAD -> \K.*$' | sed 's|origin/||')
-  git pull $main_branch
-  git merge $main_branch
+  git pull "$main_branch"
+  git merge "$main_branch"
 }
-
-
 
 gntag() {
   local latest_tag new_tag
@@ -81,11 +80,3 @@ function _increment_micro() {
   array[3]="$day"
   echo "$(local IFS=$delimiter ; echo "${array[*]}")"
 }
-
-error() {
-  local message=$1
-  local code=${2:-1}
-  echo "$message"
-  exit "$code"
-}
-
