@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-main() {
-  cd ~/Documents/wiki && git add . && git commit -m "Update wiki" && git push
-}
-
-main "$@"

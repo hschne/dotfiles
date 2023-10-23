@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+# Fix rubocop issues on changed files, compared to master
 main() {
   local branch 
   local base_commit 
   local changed_files
   branch=$(git branch --show-current)
-  base_commit=$(git merge-base "$branch" master)
+  main_branch=$(git branch -r | grep -Po 'HEAD -> \K.*$' | sed 's|origin/||')
+  base_commit=$(git merge-base "$branch" "$main_branch")
   changed_files=$(git diff --name-only "$base_commit")
 
   if [[ -n $changed_files ]]; then
