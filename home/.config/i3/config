@@ -215,11 +215,8 @@ exec_always --no-startup-id $HOME/.config/i3/feh.sh
 # Start polybar
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
-# Start pomo notifications
-exec --no-startup-id $HOME/.scripts/pomo notify
-
-# Start pomo notifications
-exec --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/wiki/reminders.txt
+# Start nudlsieb
+exec_always --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/Wiki/reminders.md
 
 # Enable cursor hiding
 exec --no-startup-id xbanish 
