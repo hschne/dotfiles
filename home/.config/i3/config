@@ -216,7 +216,7 @@ exec_always --no-startup-id $HOME/.config/i3/feh.sh
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Start nudlsieb
-exec_always --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/Wiki/reminders.md
+exec --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/Wiki/reminders.md
 
 # Enable cursor hiding
 exec --no-startup-id xbanish 
