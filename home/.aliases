@@ -67,4 +67,4 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 
 # Pandock!
-alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/core'
+alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/latex'
