@@ -1,6 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "RRethy/nvim-treesitter-endwise"
+    },
     opts = {
       indent = { enable = false }, -- Indent with Treesitter is fucked, use classic Vim instead
       endwise = { enable = true },
@@ -12,5 +15,4 @@ return {
       opt.foldlevel = 99
     end
   },
-  { "RRethy/nvim-treesitter-endwise", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 }
