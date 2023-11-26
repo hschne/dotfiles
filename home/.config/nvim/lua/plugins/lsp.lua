@@ -4,9 +4,9 @@ return {
     opts = {
       servers = {
         html = {
-          filetypes = { "html", "eruby" }
-        }
-      }
-    }
-  }
+          filetypes = { "html", "eruby" },
+        },
+      },
+    },
+  },
 }
