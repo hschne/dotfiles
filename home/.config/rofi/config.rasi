@@ -1,7 +1,6 @@
 configuration {
-    font: "SauceCodePro Nerd Font 11";
+    font: "SauceCodePro NF 11";
     show-icons: true;
-    icon-theme: "Numix-Circle";
     terminal: "alacritty";
     combi-modi: "window,run";
     hide-scrollbar: true;

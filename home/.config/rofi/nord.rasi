@@ -12,12 +12,12 @@ configuration {
 	lines: 6;
 	columns: 2;
 
-    display-ssh:    " " ;
-    display-run:    " " ;
-    display-drun:   " ";
-    display-window: " " ;
-    display-combi:  " ";
-    show-icons:     true;
+  display-ssh:    " " ;
+  display-run:    " " ;
+  display-drun:   " ";
+  display-window: " " ;
+  display-combi:  " ";
+  show-icons:     true;
 }
 
 * {
@@ -41,26 +41,21 @@ configuration {
 	nord14: #a3be8c;
 	nord15: #b48ead;
 
-    foreground:  @nord9;
-    backlight:   #ccffeedd;
-    background-color:  transparent;
-    
-    highlight:     underline bold #eceff4;
+  foreground:  @nord9;
+  backlight:   #ccffeedd;
+  background-color:  transparent;
 
-    transparent: rgba(46,52,64,0);
+  highlight:     underline bold #eceff4;
+  transparent: rgba(46,52,64,0);
 }
 
 window {
     location: center;
     anchor:   center;
-    transparency: "screenshot";
-    padding: 10px;
+    transparency: "real";
     border:  0px;
-    border-radius: 6px;
 
     background-color: @transparent;
-    spacing: 0;
-    children:  [mainbox];
     orientation: horizontal;
 }
 
@@ -80,10 +75,9 @@ message {
 inputbar {
     color: @nord6;
     padding: 11px;
-    background-color: #3b4252;
+    background-color: @nord1;
 
     border: 1px;
-    border-radius:  6px 6px 0px 0px;
     border-color: @nord10;
 }
 
@@ -98,7 +92,6 @@ prompt {
 
 listview {
     padding: 8px;
-    border-radius: 0px 0px 6px 6px;
     border-color: @nord10;
     border: 0px 1px 1px 1px;
     background-color: rgba(46,52,64,0.9);
@@ -116,12 +109,16 @@ element {
 
 element selected.normal {
 	background-color: @nord7;
-	text-color: #2e3440;
+	text-color: @nord0;
 }
 
 element-text, element-icon {
     background-color: inherit;
     text-color:       inherit;
+}
+
+element-icon {
+  padding: 4px 4px;
 }
 
 button {
@@ -130,7 +127,6 @@ button {
     horizontal-align: 0.5;
 
     border: 2px 0px 2px 2px;
-    border-radius: 4px 0px 0px 4px;
     border-color: @foreground;
 }
 
