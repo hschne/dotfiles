@@ -83,7 +83,7 @@ scrolling:
 # change the `it` value in terminfo when altering this setting.
 font:
   normal:
-    family: "SauceCodePro Nerd Font"
+    family: "SauceCodePro NF"
     style: Regular
   bold:
     style: Bold

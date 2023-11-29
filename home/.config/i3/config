@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-set $font "SauceCodePro Nerd Font"
+set $font "SauceCodePro NF"
 font pango:monospace 8
 
 # Load screen layout
