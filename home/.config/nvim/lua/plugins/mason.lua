@@ -15,6 +15,7 @@ return {
         "rubocop",
         "solargraph",
         "shellcheck",
+        "stylua",
         "yaml-language-server",
       },
     },
