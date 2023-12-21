@@ -6,7 +6,7 @@ main() {
 
 	local name=${1// /-}
 	name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-	local base_path="$HOME/Documents/wiki/notes"
+	local base_path="$HOME/Documents/Wiki/notes"
 	$EDITOR "$base_path/$(date +'%y-%m-%d')-$name.md"
 }
 
