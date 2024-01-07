@@ -26,6 +26,7 @@ return {
           file_browser = {
             grouped = true,
             hijack_netrw = true,
+            respect_gitignore = false,
             hidden = { file_browser = true, folder_browser = true },
             depth = 1,
             mappings = {
@@ -33,11 +34,11 @@ return {
                 -- Change for consistency with Vim, Tmux
                 ["n"] = require("telescope._extensions.file_browser.actions").create,
               },
-            }
-          }
-        }
+            },
+          },
+        },
       })
       require("telescope").load_extension("file_browser")
-    end
+    end,
   },
 }

@@ -8,6 +8,10 @@ bindkey -v
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
 # Zi
 #
 # Zi is a modern plugin manager for ZSH. 
