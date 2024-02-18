@@ -175,6 +175,8 @@ export FZF_TMUX_OPTS='-p60%,50%'
 
 # Export variables for scripts
 export PATH="$HOME/.local/bin:$PATH"
+export FLYCTL_INSTALL="/home/hschne/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
 source "$HOME/.scripts/gitscripts"
 
 # Enable colors for tmux

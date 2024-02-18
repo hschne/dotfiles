@@ -1,7 +1,7 @@
 return {
-  'anuvyklack/pretty-fold.nvim',
+  "anuvyklack/pretty-fold.nvim",
   opts = {
     keep_indentation = true,
-    fill_char = '━',
-  }
+    fill_char = "━",
+  },
 }
