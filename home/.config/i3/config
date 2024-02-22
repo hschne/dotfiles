@@ -99,8 +99,9 @@ set $ws10 "10"
 # Assign windows to workspaces
 assign [class="(?i)firefox*"] $ws2
 assign [class="(?i)chromium"] $ws2
-assign [class="(?i)jetbrains*"] $ws3
-assign [class="Slack"] $ws6
+assign [class="(?i)code-oss"] $ws3
+assign [class="(?i) org.gnome.Nautilus "] $ws4
+
 # Workaround for Spotify, see https://github.com/i3/i3/issues/2060#issuecomment-155179472
 for_window [class="Spotify"] move to workspace $ws5
 for_window [class="Spotify"] focus
