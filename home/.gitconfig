@@ -5,6 +5,7 @@
 	helper = cache
 [push]
 	default = simple
+	autoSetupRemote = true
 [url "git://github.com/ghc/packages-"]
 	insteadOf = git://github.com/ghc/packages/
 [url "http://github.com/ghc/packages-"]
@@ -30,27 +31,28 @@
     hist-specific = log --graph --full-history --pretty=format:'%Cred%h%Creset %ad %s %C(yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short
   choutr = checkout
 [merge]
-	tool = vimdiff
-[mergetool "meld"]
-    # Choose one of these 2 lines (not both!) explained below.
-    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
-    cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+	tool = nvimdiff
+	conflictStyle = zdiff3
+[mergetool "nvimdiff"]
+  cmd = nvim -d "$LOCAL" "$MERGED" "$REMOTE"
 [diff]
-	tool = vimdiff
+	tool = nvimdiff
+	algorithm = histogram
 [difftool]
     prompt = false
-[difftool "meld"]
-    cmd = meld "$LOCAL" "$REMOTE"
 [branch]
   autosetuprebase = always
+	sort = -committerdate
 [include]
   path = .gitconfig.local
 [hub]
 	protocol = ssh
 [mergetool]
 	keepBackup = false
+	prompt = false
 [init]
 	templatedir = ~/.scripts/git-templates
+	defaultBranch = main
 [user]
 	email = hans.schnedlitz@gmail.com
 	name = hschne

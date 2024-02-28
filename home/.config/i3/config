@@ -221,6 +221,8 @@ exec --no-startup-id $HOME/.scripts/nudlsieb $HOME/Documents/Wiki/reminders.md
 
 # Enable cursor hiding
 exec --no-startup-id xbanish 
+# Disable middle mouse pasting
+exec --no-startup-id xmousepasteblock 
 
 # Autostart
 exec --no-startup-id syncthingtray --wait

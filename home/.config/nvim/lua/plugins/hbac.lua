@@ -3,6 +3,6 @@ return {
   config = {
     autoclose = true,
     threshold = 3,
-    close_buffers_with_windows = true,
+    close_buffers_with_windows = false,
   },
 }
