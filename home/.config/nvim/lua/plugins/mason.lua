@@ -11,6 +11,7 @@ return {
         "eslint-lsp",
         "html-lsp",
         "json-lsp",
+        "stylelint-lsp",
         "prettierd",
         "rubocop",
         "solargraph",

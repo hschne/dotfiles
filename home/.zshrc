@@ -191,3 +191,7 @@ export TERM=xterm-256color
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
 
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
