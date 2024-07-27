@@ -5,6 +5,8 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "scss",
       })
+      -- Use markdown parser for vimwiki files
+      vim.treesitter.language.register("markdown", "vimwiki")
     end,
     config = function()
       local opt = vim.opt
