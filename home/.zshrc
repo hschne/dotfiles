@@ -6,7 +6,6 @@ bindkey -v
 
 # Enable autocomplete and bash compatibilty
 autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
 
 autoload edit-command-line
 zle -N edit-command-line
@@ -123,15 +122,8 @@ export KEYTIMEOUT=1
 # Add custom aliases
 source $HOME/.aliases
 
-
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
-
-# Enable direnv
-#
-# See https://github.com/direnv/direnv
-export DIRENV_LOG_FORMAT= # Mute direnv log format
-[[ $(command -v "direnv") != "" ]] && eval "$(direnv hook zsh)"
 
 # Zoxide 
 #
@@ -167,17 +159,17 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind '
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p60%,50%'
 
-# Enable ASDF
-#
-# See https://asdf-vm.com/
-. $HOME/.asdf/asdf.sh echo -e 
-. $HOME/.asdf/completions/asdf.bash
+# Activate Mise
+eval "$(~/.local/bin/mise activate zsh)"
+source $HOME/.config/completions/mise.zsh
 
 # Export variables for scripts
 export PATH="$HOME/.local/bin:$PATH"
 export FLYCTL_INSTALL="/home/hschne/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 source "$HOME/.scripts/gitscripts"
+# Load global environment variables
+source "$HOME/.env"
 
 # Enable colors for tmux
 #
@@ -190,8 +182,3 @@ export TERM=xterm-256color
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
-
-
-export WASMTIME_HOME="$HOME/.wasmtime"
-
-export PATH="$WASMTIME_HOME/bin:$PATH"
