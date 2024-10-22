@@ -77,7 +77,6 @@ zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-
 # See https://github.com/Aloxaf/fzf-tab
 zi load "Aloxaf/fzf-tab"
 
-
 # Set editor to the obvious choice
 export EDITOR='nvim'
 
