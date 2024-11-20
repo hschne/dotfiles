@@ -2,6 +2,10 @@
 alias vim="nvim"
 alias vi="nvim"
 
+# Bat
+alias cat="bat"
+alias ccat="cat"
+
 # Files
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"
