@@ -13,14 +13,4 @@ vim.opt.directory = vim.fn.expand("$HOME/.local/share/.nvim/swp/")
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
--- Configure Vimwiki
-vim.g.vimwiki_list = {
-  {
-    path = "~/Documents/wiki",
-    syntax = "markdown",
-    index = "home",
-    ext = ".md",
-    auto_diary_index = 1,
-  },
-}
-vim.g.vimwiki_global_ext = 1
+vim.opt.textwidth = 120
