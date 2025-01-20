@@ -12,5 +12,3 @@ vim.opt.swapfile = false
 vim.opt.directory = vim.fn.expand("$HOME/.local/share/.nvim/swp/")
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
-
-vim.opt.textwidth = 120
