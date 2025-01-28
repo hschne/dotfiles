@@ -6,7 +6,7 @@ require 'fileutils'
 
 class TimeTracker < Thor
   def self.exit_on_failure?
-    true
+    false
   end
 
   desc 'log TIME *TAGS', 'Log time entry with duration (format: minutes or HH:MM) and tags'
@@ -15,18 +15,17 @@ class TimeTracker < Thor
     current_date = Date.today.strftime('%Y/%m/%d')
     file_path = get_file_path
     FileUtils.mkdir_p(File.dirname(file_path))
-    entry = [current_date, minutes, tags.join(', ')]
+
+    formatted_minutes = format_minutes(minutes)
+    entry = [current_date, formatted_minutes, tags.join(', ')]
 
     File.open(file_path, 'a') do |file|
       file.puts(CSV.generate_line(entry))
     end
 
-    formatted_time = format_minutes(minutes)
-    puts "Successfully logged #{formatted_time} with tags: #{tags.join(', ')}"
+    puts "Successfully logged #{formatted_minutes} with tags: #{tags.join(', ')}"
   rescue ArgumentError => e
     puts "Error: #{e.message}"
-  rescue StandardError => e
-    puts "Error occurred: #{e.message}"
   end
 
   desc 'summary *TAGS', 'Summarize time spent on specified tags, optionally within a date range'
@@ -41,7 +40,6 @@ class TimeTracker < Thor
       return
     end
 
-    # Handle predefined ranges
     if options[:range]
       start_date, end_date = calculate_date_range(options[:range])
     else
@@ -60,11 +58,11 @@ class TimeTracker < Thor
       if tags.empty? || tags.all? { |tag| entry_tags.include?(tag) }
         # Convert HH:MM to minutes for calculations
         hours, minutes = row[1].split(':').map(&:to_i)
-        total_minutes = (hours * 60) + minutes
+        total_minutes += (hours * 60) + minutes
 
         matching_entries << {
           date: date.strftime('%Y/%m/%d'),
-          time: row[1], # Use the original HH:MM format
+          time: row[1],
           tags: row[2]
         }
       end
@@ -78,10 +76,9 @@ class TimeTracker < Thor
     # Print summary
     puts "\nTime Summary:"
     puts '-------------'
-    puts "Date Range: #{start_date.strftime('%Y/%m/%d')} to #{end_date.strftime('%Y/%m/%d')}"
-    puts "Range Type: #{options[:range] || 'custom'}"
-    puts "Tags: #{tags.empty? ? 'All' : tags.join(', ')}"
     puts "Total Time: #{format_minutes(total_minutes)}"
+    puts "Tags: #{tags.empty? ? 'All' : tags.join(', ')}"
+    puts "Date: #{start_date.strftime('%Y/%m/%d')} to #{end_date.strftime('%Y/%m/%d')}"
 
     puts "\nMatching Entries:"
     puts '----------------'
@@ -141,29 +138,23 @@ class TimeTracker < Thor
   end
 
   def parse_time(time_input)
-    if time_input.include?(':')
-      hours, minutes = time_input.split(':').map(&:to_i)
-      total_minutes = (hours * 60) + minutes
-    else
-      total_minutes = Integer(time_input) * 60
-    end
+    total_minutes = if time_input.include?(':')
+                      hours, minutes = time_input.split(':').map(&:to_i)
+                      (hours * 60) + minutes
+                    else
+                      hours = Integer(time_input)
+                      hours * 60
+                    end
 
-    (total_minutes / 15.0).round
-    hours = rounded_minutes / 60
-    minutes = rounded_minutes % 60
-    format('%d:%02d', hours, minutes)
+    (total_minutes / 15.0).round * 15
   rescue ArgumentError
-    raise ArgumentError, "Time must be in format 'HH' or 'HH:MM'"
+    raise ArgumentError, "Time must be in format 'hours' or 'HH:MM'"
   end
 
-  def format_minutes(minutes)
-    hours = minutes / 60
-    remaining_minutes = minutes % 60
-    if remaining_minutes == 0
-      "#{hours}h"
-    else
-      "#{hours}h #{remaining_minutes}m"
-    end
+  def format_minutes(total_minutes)
+    hours = total_minutes / 60
+    minutes = total_minutes % 60
+    format('%d:%02d', hours, minutes)
   end
 
   default_task :log
