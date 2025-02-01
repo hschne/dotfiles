@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Print out a progress bar for how much of the year is already gone.
+FIRST=$(date --date="$(date +%Y)-01-01 00:00:00" +%s)
+LAST=$(date --date="$(date +%Y)-12-31 23:59:59" +%s)
+NOW=$(date +%s)
+
+RESYEAR=$((LAST - FIRST))
+RESNOW=$((NOW - FIRST))
+
+PERCENT=$(((RESNOW * 100) / RESYEAR + 9))
+PERCENT_ROUNDED=$((PERCENT / 10 * 10))
+
+BAR_LENGTH=10
+FILLED_LENGTH=$((PERCENT_ROUNDED / 10))
+EMPTY_LENGTH=$((BAR_LENGTH - FILLED_LENGTH))
+
+FILLED_BAR=$(printf '%*s' "$FILLED_LENGTH" " " | sed 's/ /█/g')
+EMPTY_BAR=$(printf '%*s' "$EMPTY_LENGTH" " " | sed 's/ /░/g')
+
+echo "${FILLED_BAR}${EMPTY_BAR} ${PERCENT}%"
