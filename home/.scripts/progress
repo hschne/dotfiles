@@ -15,7 +15,7 @@ BAR_LENGTH=10
 FILLED_LENGTH=$((PERCENT_ROUNDED / 10))
 EMPTY_LENGTH=$((BAR_LENGTH - FILLED_LENGTH))
 
-FILLED_BAR=$(printf '%*s' "$FILLED_LENGTH" " " | sed 's/ /█/g')
-EMPTY_BAR=$(printf '%*s' "$EMPTY_LENGTH" " " | sed 's/ /░/g')
+FILLED_BAR=$(printf '%*s' "$FILLED_LENGTH" " " | sed 's/ /󰨓/g')
+EMPTY_BAR=$(printf '%*s' "$EMPTY_LENGTH" " " | sed 's/ /󰧟/g')
 
 echo "${FILLED_BAR}${EMPTY_BAR} ${PERCENT}%"

@@ -252,8 +252,7 @@ label-urgent-padding = 2
 
 [module/progress]
 type = custom/script
-format-prefix = "📅"
-interval = 300
+format-prefix = "󰭧 " 
 exec = ~/.scripts/progress
 
 [module/redshift]
