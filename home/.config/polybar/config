@@ -26,7 +26,7 @@ font-0 = SauceCodePro NF:size=10;1
 font-1 = MaterialIcons:size=10;3
 
 modules-left = i3 
-modules-right = pulseaudio backlight wireless-network battery pomo redshift date powermenu
+modules-right = pulseaudio backlight wireless-network battery redshift date progress powermenu
 
 tray-position = right
 tray-background = ${colors.background}
@@ -140,8 +140,8 @@ ramp-coreload-7-foreground = #ff5555
 type = internal/date
 format-background = ${colors.background}
 format-foreground = ${colors.foreground}
-date =  %Y-%m-%d %H:%M%
-date-alt =  %A, %d %B %Y %H:%M:%S
+date =  %H:%M%
+date-alt = %Y-%m-%d %H:%M:%S
 
 [module/memory]
 type = internal/memory
@@ -173,15 +173,15 @@ label-connected = %essid%
 label-disconnected =    not connected
 label-disconnected-foreground = ${colors.red}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = 󰤯
+ramp-signal-1 = 󰤟
+ramp-signal-2 = 󰤢
+ramp-signal-3 = 󰤥
+ramp-signal-4 = 󰤨
 
-animation-packetloss-0 = 
+animation-packetloss-0 = 󱚵
 animation-packetloss-0-foreground = #ffa64c
-animation-packetloss-1 = 
+animation-packetloss-1 = 󱚵
 animation-packetloss-1-foreground = ${colors.foreground}
 animation-packetloss-framerate = 500
 
@@ -217,7 +217,7 @@ reverse-scroll = false
 fuzzy-match = true
 
 ws-icon-0 = term;
-ws-icon-1 = web;
+ws-icon-1 = web;󰈹
 ws-icon-2 = code;
 ws-icon-3 = file;
 ws-icon-4 = music;
@@ -250,16 +250,16 @@ label-urgent-foreground = ${colors.red}
 label-urgent-background = ${colors.background}
 label-urgent-padding = 2
 
-[module/pomo]
+[module/progress]
 type = custom/script
-interval = 1
-exec = ~/.scripts/polybar/pomo clock
-click-left = ~/.scripts/polybar/pomo pause
+format-prefix = "📅"
+interval = 300
+exec = ~/.scripts/progress
 
 [module/redshift]
 type = custom/script
 format-prefix = " "
-interval=1
+interval=5
 exec = ~/.scripts/polybar/redshift.sh temperature 
 click-left = ~/.scripts/polybar/redshift.sh toggle
 
