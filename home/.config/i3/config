@@ -29,10 +29,10 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # Start rofi
-bindsym $mod+d exec "rofi -show drun -modi drun,emoji:rofimoji,run,window -sidebar-mode"
+bindsym $mod+d exec "rofi -show drun -modi drun,emoji:rofimoji,run,window -sidebar-mode -dpi 168" 
 
 # Bind alt tab
-bindsym Mod1+Tab exec "rofi -show window -modi drun,emoji:rofimoji,run,window -sidebar-mode"
+bindsym Mod1+Tab exec "rofi -show window -modi drun,emoji:rofimoji,run,window -sidebar-mode 168" 
 
 # change focus
 bindsym $mod+j focus down
@@ -174,8 +174,8 @@ bindsym $mod+r mode "resize"
 bindsym $mod+Shift+o exec betterlockscreen -l blur
 
 # # Brightness
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10 
+bindsym XF86MonBrightnessUp exec brightnessctl s "10%+"
+bindsym XF86MonBrightnessDown exec brightnessctl s "10%-"
 
 # # Media Player
 bindsym XF86AudioPlay exec playerctl play-pause
