@@ -158,10 +158,6 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind '
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p60%,50%'
 
-# Activate Mise
-eval "$(~/.local/bin/mise activate zsh)"
-source $HOME/.config/completions/mise.zsh
-
 # Export variables for scripts
 export PATH="$HOME/.local/bin:$PATH"
 export FLYCTL_INSTALL="/home/hschne/.fly"
