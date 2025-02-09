@@ -5,7 +5,7 @@ export PATH="$HOME/.scripts:$PATH"
 bindkey -v
 
 # Enable autocomplete and bash compatibilty
-autoload -U +X compinit && compinit
+autoload -U +X compinit && compinit -i
 
 autoload edit-command-line
 zle -N edit-command-line
@@ -138,17 +138,6 @@ homeshick --quiet refresh 2
 # See https://github.com/denisidoro/navi
 [[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
 
-# Hub makes working with Github easier. This is a fix for an 
-# issue with zsh, see https://github.com/robbyrussell/oh-my-zsh/issues/766
-#
-# Website: https://hub.github.com/
-function git() { hub $@; }
-
-# Spictify
-#
-# See https://github.com/spicetify/spicetify-cli
-export PATH=$PATH:/home/hschne/.spicetify
-
 # Improve look of fzf, use rg
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
@@ -157,6 +146,9 @@ export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p60%,50%'
+
+# Set up asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # Export variables for scripts
 export PATH="$HOME/.local/bin:$PATH"

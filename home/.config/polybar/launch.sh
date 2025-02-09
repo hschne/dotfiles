@@ -12,9 +12,11 @@ MONITOR1="$(xrandr --listmonitors | grep "0:" | cut -d ' ' -f6)"
 MONITOR2="$(xrandr --listmonitors | grep "1:" | cut -d ' ' -f6)"
 
 if [[ -n "$MONITOR1" ]]; then
-    MONITOR="$MONITOR1" polybar primary &
+  MONITOR="$MONITOR1" polybar primary &
+  MONITOR="$MONITOR1" polybar bottom &
 fi
 
 if [[ -n "$MONITOR2" ]]; then
-    MONITOR="$MONITOR2" polybar secondary &
+  MONITOR="$MONITOR2" polybar secondary &
+  MONITOR="$MONITOR1" polybar bottom &
 fi

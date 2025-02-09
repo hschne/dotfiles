@@ -45,6 +45,7 @@ alias htd="homeshick track dotfiles"
 # Git
 alias gmt="git mergetool"
 alias gaacm="git add -A && git commit -m"
+alias gcl="gh repo clone"
 
 # Docker
 alias dcu="docker-compose up"

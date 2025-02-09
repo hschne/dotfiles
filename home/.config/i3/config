@@ -224,9 +224,6 @@ exec --no-startup-id xbanish
 # Disable middle mouse pasting
 exec --no-startup-id xmousepasteblock 
 
-# Autostart
-exec --no-startup-id syncthingtray --wait
-
 # Easyeffects
 exec --no-startup-id easyeffects --gapplication-service
 

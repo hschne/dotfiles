@@ -11,7 +11,7 @@ blue = #5e81ac
 monitor = ${env:MONITOR:}
 dpi = ${xrdb:Xft.dpi:-1}
 width = 100%
-height = 30
+height = 40
 
 background = ${colors.background}
 foreground = ${colors.foreground}
@@ -21,13 +21,44 @@ line-color = ${colors.red}
 
 spacing = 2
 padding-right = 2
+padding-left = 2
 module-margin = 2
 
 font-0 = SauceCodePro NF:size=10;1
 font-1 = MaterialIcons:size=10;3
 
 modules-left = i3 
-modules-right = pulseaudio brightnessctl wireless-network battery redshift date progress powermenu
+modules-right = pulseaudio brightnessctl redshift wireless-network powermenu
+
+tray-position = right
+tray-background = ${colors.background}
+tray-padding = 2
+tray-scale = 1.0
+
+[bar/bottom]
+monitor = ${env:MONITOR:}
+dpi = ${xrdb:Xft.dpi:-1}
+width = 100%
+height = 40
+bottom=true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = ${colors.red}
+
+spacing = 2
+padding-top = 5
+padding-right = 2
+padding-left = 2
+module-margin = 2
+
+font-0 = SauceCodePro NF:size=10;5
+font-1 = MaterialIcons:size=10;5
+
+modules-left = battery cpu memory temperature 
+modules-right = progress date
 
 tray-position = right
 tray-background = ${colors.background}
@@ -122,33 +153,26 @@ animation-charging-framerate = 750
 [module/cpu]
 type = internal/cpu
 interval = 0.5
-format = <label> <ramp-coreload>
-label = CPU
+format = <label>
+label = 󰘚  %percentage%%
 
-ramp-coreload-0 = ▁
-ramp-coreload-0-font = 2
-ramp-coreload-0-foreground = #aaff77
-ramp-coreload-1 = ▂
-ramp-coreload-1-font = 2
-ramp-coreload-1-foreground = #aaff77
-ramp-coreload-2 = ▃
-ramp-coreload-2-font = 2
-ramp-coreload-2-foreground = #aaff77
-ramp-coreload-3 = ▄
-ramp-coreload-3-font = 2
-ramp-coreload-3-foreground = #aaff77
-ramp-coreload-4 = ▅
-ramp-coreload-4-font = 2
-ramp-coreload-4-foreground = #fba922
-ramp-coreload-5 = ▆
-ramp-coreload-5-font = 2
-ramp-coreload-5-foreground = #fba922
-ramp-coreload-6 = ▇
-ramp-coreload-6-font = 2
-ramp-coreload-6-foreground = #ff5555
-ramp-coreload-7 = █
-ramp-coreload-7-font = 2
-ramp-coreload-7-foreground = #ff5555
+[module/memory]
+type = internal/memory
+format = <label> 
+label= 󰍛  %gb_used%
+interval = 0.5
+
+[module/temperature]
+type = internal/temperature
+interval = 0.5
+format = <label>
+label = 󰈸 %temperature-c%
+label-warn-foreground = ${colors.red}
+
+thermal-zone = 0
+hwmon-path = /sys/devices/virtual/thermal/thermal_zone0/hwmon1/temp1_input
+base-temperature = 20
+warn-temperature = 60
 
 [module/date]
 type = internal/date
@@ -157,24 +181,6 @@ format-foreground = ${colors.foreground}
 date =  %H:%M%
 date-alt = %Y-%m-%d %H:%M:%S
 
-[module/memory]
-type = internal/memory
-format = <label> <bar-used>
-label = RAM
-
-bar-used-width = 30
-bar-used-foreground-0 = #aaff77
-bar-used-foreground-1 = #aaff77
-bar-used-foreground-2 = #fba922
-bar-used-foreground-3 = #ff5555
-bar-used-indicator = |
-bar-used-indicator-font = 6
-bar-used-indicator-foreground = #ff
-bar-used-fill = ─
-bar-used-fill-font = 6
-bar-used-empty = ─
-bar-used-empty-font = 6
-bar-used-empty-foreground = #444444
 
 [module/wireless-network]
 type = internal/network
@@ -242,16 +248,12 @@ ws-icon-default = 
 
 format = <label-state> <label-mode>
 
-label-mode = %mode%
-label-mode-padding = 2
-label-mode-background = ${colors.background}
-
 label-focused = %icon%
 label-focused-foreground = ${colors.blue}
 label-focused-background = ${colors.background}
 label-focused-padding = 2
 
-label-unfocused =  %icon%
+label-unfocused = %icon%
 label-unfocused-foreground = ${colors.foreground}
 label-unfocused-background = ${colors.background}
 label-unfocused-padding = 2
