@@ -60,11 +60,6 @@ font-1 = MaterialIcons:size=10;5
 modules-left = battery cpu memory temperature 
 modules-right = progress date
 
-tray-position = right
-tray-background = ${colors.background}
-tray-padding = 2
-tray-scale = 1.0
-
 [bar/secondary]
 monitor = ${env:MONITOR:}
 width = 100%
