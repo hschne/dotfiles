@@ -10,6 +10,7 @@ alias ccat="cat"
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"
 alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.yml"
+alias polybarrc="$EDITOR ~/.config/polybar/config"
 alias nvimrc="$EDITOR ~/.config/nvim/lua"
 alias nvimconfg="$EDITOR ~/.config/nvim/lua/config/"
 alias nvimplugs="$EDITOR ~/.config/nvim/lua/plugins/"
@@ -19,9 +20,6 @@ alias zshrc="$EDITOR ~/.zshrc"
 
 # Wiki
 alias todo="$EDITOR ~/Documents/Wiki/tasks.md"
-alias tt="$EDITOR ~/Documents/Wiki/time.md"
-alias tweets="$EDITOR ~/Documents/Wiki/lists/tweets.md"
-alias ideas="$EDITOR ~/Documents/Wiki/lists/ideas.md"
 alias scratch="$EDITOR ~/Documents/Wiki/scratchpad.md"
 alias work="$EDITOR ~/Documents/Wiki/work.md"
 alias work/="$EDITOR ~/Documents/Wiki/work/"
@@ -31,10 +29,12 @@ alias goals="$EDITOR ~/Documents/Wiki/goals/goals.md"
 alias wiki="$EDITOR ~/Documents/Wiki/home.md"
 
 ## Lists
+alias ideas="$EDITOR ~/Documents/Wiki/lists/ideas.md"
 alias lists="$EDITOR ~/Documents/Wiki/lists/"
 alias media="$EDITOR ~/Documents/Wiki/lists/media.md"
-alias ideas="$EDITOR ~/Documents/Wiki/lists/ideas.md"
 alias places="$EDITOR ~/Documents/Wiki/lists/places.md"
+alias tweets="$EDITOR ~/Documents/Wiki/lists/tweets.md"
+alias tweets="$EDITOR ~/Documents/Wiki/lists/books.md"
 
 # Homeshick
 alias hcd="homeshick cd dotfiles"
@@ -45,7 +45,10 @@ alias htd="homeshick track dotfiles"
 # Git
 alias gmt="git mergetool"
 alias gaacm="git add -A && git commit -m"
-alias gcl="gh repo clone"
+alias gcl="git clone"
+
+# Github CLI
+alias ghcl="gh repo clone"
 
 # Docker
 alias dcu="docker-compose up"
