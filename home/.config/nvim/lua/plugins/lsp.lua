@@ -12,7 +12,7 @@ return {
         },
         rubocop = {
           mason = false,
-          cmd = { "bundle", "exec", "rubocop", "--lsp" },
+          cmd = { "asdf exec bundle", "exec", "rubocop", "--lsp" },
         },
       },
     },

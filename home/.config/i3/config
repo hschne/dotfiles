@@ -34,7 +34,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec "rofi -show drun -modi drun,emoji:rofimoji,run,window -sidebar-mode -dpi 168" 
 
 # Bind alt tab
-bindsym Mod1+Tab exec "rofi -show window -modi drun,emoji:rofimoji,run,window -sidebar-mode 168" 
+bindsym Mod1+Tab exec "rofi -show window -modi drun,emoji:rofimoji,run,window -sidebar-mode -dpi 168" 
 
 # change focus
 bindsym $mod+j focus down
