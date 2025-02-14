@@ -1,0 +1,150 @@
+
+/*
+ * Tokyonight colorscheme for rofi
+ * User: w8ste
+ */
+
+
+configuration {
+	width: 30;
+	line-margin: 10;
+	lines: 6;
+	columns: 2;
+
+  display-ssh:    " " ;
+  display-run:    " " ;
+  display-drun:   " ";
+  display-window: " " ;
+  display-emoji: "󰞅 " ;
+  display-combi:  " ";
+  show-icons:     true;
+}
+
+* {
+    bg: #1a1b26;
+    hl: #7da6ff;
+    fg: #a9b1d6;
+    blue: #7aa2f7;
+    ug: #0B2447;
+
+    foreground:  @fg;
+    backlight:   #ccffeedd;
+    background-color: @bg;
+
+    highlight:     underline bold #eceff4;
+    transparent: rgba(46,52,64,0);
+}
+
+window {
+    location: center;
+    anchor:   center;
+    transparency: "real";
+    border:  0px;
+    border-radius: 0px;
+
+    background-color: @transparent;
+    orientation: horizontal;
+}
+
+mainbox {
+    spacing: 0;
+    children: [ inputbar, message, listview ];
+}
+
+inputbar {
+    color: @fg;
+    padding: 11px;
+    border: 3px 3px 2px 3px;
+    border-color: @blue;
+    border-radius: 6px 6px 0px 0px;
+}
+
+message {
+    border-color: @fg;
+    padding: 10;
+    border:  0px 2px 2px 2px;
+}
+
+entry, prompt, case-indicator {
+    text-font: inherit;
+    text-color: inherit;
+}
+
+entry {
+    cursor: pointer;
+}
+
+prompt {
+    margin: 0px 5px 0px 0px;
+}
+
+listview {
+    layout: vertical;
+    padding: 8px;
+    lines: 12;
+    columns: 1;
+    border: 0px 3px 3px 3px; 
+    border-radius: 0px 0px 6px 6px;
+    border-color: @blue;
+    dynamic: false;
+}
+
+element {
+    padding: 3px;
+    vertical-align: 0.5;
+    border-radius: 4px;
+    background-color: transparent;
+    color: @foreground;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+element-icon {
+  padding: 5px 10px;
+}
+
+element selected.normal {
+    color: @bg;
+    background-color: @hl;
+}
+
+element normal active {
+    background-color: @hl;
+    color: @ug;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color: inherit;
+}
+
+element normal urgent {
+    background-color: @fg;
+}
+
+element selected active {
+    background: @hl;
+    foreground: @bg;
+}
+
+button {
+    padding: 6px;
+    color: @fg;
+    horizonatal-align: 0.5;
+
+    border: 2px 0px 2px 2px;
+    border-radius: 4px 0px 0px 4px;
+    border-color: @fg;
+}
+
+button selected normal {
+    border: 2px 0px 2px 2px;
+    border-color: @fg;
+}
+
+scrollbar {
+    enabled: true;
+} 

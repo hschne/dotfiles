@@ -7,4 +7,4 @@ configuration {
     width: 40;
 }
 
-@theme "nord"
+@theme "tokyonight"
