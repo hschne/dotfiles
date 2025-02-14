@@ -1,7 +1,16 @@
 return {
-  { "zidhuss/neotest-minitest" },
   {
     "nvim-neotest/neotest",
-    opts = { adapters = { "neotest-minitest" } },
+    lazy = true,
+    dependencies = {
+      "zidhuss/neotest-minitest",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-minitest"),
+        },
+      })
+    end,
   },
 }

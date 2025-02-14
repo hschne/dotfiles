@@ -21,8 +21,6 @@ exec --no-startup-id autorandr -c
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-floating_minimum_size 75 x 50
-floating_maximum_size 640 x 480
 
 # start a terminal
 bindsym $mod+Return exec alacritty
