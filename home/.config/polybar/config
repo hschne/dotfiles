@@ -1,11 +1,11 @@
 [colors]
-background = #2e3440
-background-alt = #4c566a
-foreground = #eceff4
-foreground-alt = #eceff
-red = #c9665e
-green = #8fbcbb
-blue = #5e81ac
+background = #1a1b26
+background-alt = #444b6a
+foreground = #a9b1d6
+foreground-alt = #acb0d0
+red = #f7768e
+green = #9ece6a
+blue = #7aa2f7
 
 [bar/primary]
 monitor = ${env:MONITOR:}
