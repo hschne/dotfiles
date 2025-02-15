@@ -60,9 +60,11 @@ inputbar {
 }
 
 message {
-    border-color: @fg;
     padding: 10;
     border:  0px 2px 2px 2px;
+    color: @fg;
+    border-color: @hl;
+    enabled: true;
 }
 
 entry, prompt, case-indicator {
@@ -88,6 +90,12 @@ listview {
     border-color: @blue;
     dynamic: false;
 }
+
+textbox {
+    border: 0px; 
+    color: @fg;
+    background-color: @bg;
+  }
 
 element {
     padding: 3px;
