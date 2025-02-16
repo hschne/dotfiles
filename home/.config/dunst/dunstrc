@@ -30,7 +30,14 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "300x20-10+40"
+
+    width = 300
+    height = (0, 300)
+    origin = top-right
+    offset = (10, 37)
+
+    gaps = true
+    gap_size = 10
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -42,7 +49,7 @@
     # The transparency of the window.  Range: [0; 100].
     # This option will only work if a compositing window manager is
     # present (e.g. xcompmgr, compiz, etc.).
-    transparency = 10
+    transparency = 15
 
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
@@ -52,7 +59,7 @@
     # Draw a line of "separator_height" pixel height between two
     # notifications.
     # Set to 0 to disable.
-    separator_height = 2
+    separator_height = 0
 
     # Padding between text and separator.
     padding = 10
@@ -62,10 +69,11 @@
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 2
+    frame_width = 1
 
     # Defines color of the frame around the notification window.
-    frame_color = "#5e81ac"
+    frame_color = "#7da6ff"
+
 
     # Define a color for the separator.
     # possible values are:
@@ -239,21 +247,21 @@
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#2e3440"
-    foreground = "#d8dee9"
+    background = "#1a1b26"
+    foreground = "#a9b1d6"
     timeout = 10
     icon = "hwinfo"
 
 [urgency_normal]
-    background = "#2e3440"
-    foreground = "#d8dee9"
+    background = "#1a1b26"
+    foreground = "#a9b1d6"
     timeout = 10
     icon = "user-info"
 
 [urgency_critical]
-    background = "#2e3440"
-    foreground = "#ffffff"
-    frame_color = "#bf616a"
+    background = "#1a1b26"
+    foreground = "#a9b1d6"
+    frame_color = "#f7768e"
     timeout = 0
     icon = "system-error"
 
