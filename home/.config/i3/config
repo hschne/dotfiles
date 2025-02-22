@@ -189,20 +189,20 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Configure Gaps
-for_window [class=".*"] border pixel 2
+for_window [class=".*"] border pixel 1
 gaps inner 10
 gaps outer 0
 
 # Borders
 # Generated using https://thomashunter.name/i3-configurator
-client.focused          #5E81AC #000000 #ECEFF4 #5E81AC   #5E81AC
-client.focused_inactive #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
+client.focused          #bb9af7 #1a1b26 #a9b1d6 #bb9af7   #bb9af7
+client.focused_inactive #32344a #32344a #a9b1d6 #32344a   #32344a
 
-client.unfocused        #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
-client.urgent           #D08770 #2E3440 #ECEFF4 #D08770   #D08770
-client.placeholder      #2E3440 #2E3440 #ECEFF4 #2E3440   #2E3440
+client.unfocused        #32344a #32344a #a9b1d6 #32344a   #32344a
+client.urgent           #ff9e64 #32344a #a9b1d6 #ff9e64   #ff9e64
+client.placeholder      #32344a #32344a #a9b1d6 #32344a   #32344a
 
-client.background       #FFFFFF
+client.background       #a9b1d6
 
 # Start dunst 
 exec --no-startup-id dunst

@@ -112,6 +112,28 @@ class TimeTracker < Thor
     end
   end
 
+  desc 'tags', 'List all unique tags used in time entries'
+  def tags
+    file_path = get_file_path
+
+    unless File.exist?(file_path)
+      puts 'No time entries found.'
+      return
+    end
+
+    all_tags = Set.new
+    CSV.foreach(file_path) do |row|
+      entry_tags = row[2].split(', ')
+      all_tags.merge(entry_tags)
+    end
+
+    return if all_tags.empty?
+
+    all_tags.sort.each do |tag|
+      puts tag
+    end
+  end
+
   private
 
   def calculate_date_range(range_type)

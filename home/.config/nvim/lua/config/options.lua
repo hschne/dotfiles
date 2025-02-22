@@ -14,4 +14,3 @@ vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
 -- Expand cc command
-vim.cmd([[cab cc CodeCompanion]])

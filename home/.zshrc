@@ -131,6 +131,13 @@ homeshick --quiet refresh 2
 # See https://github.com/ajeetdsouza/zoxide
 [[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
 
+# Walk
+#
+# See https://github.com/antonmedv/walk 
+function lk {
+  cd "$(walk "$@")"
+}
+
 # Navi
 #
 # Cheatsheets for the command line.
@@ -169,3 +176,4 @@ export TERM=xterm-256color
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+fpath=(~/.zsh/completions $fpath)
