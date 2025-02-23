@@ -48,6 +48,7 @@
 [user]
 	email = hello@hansschnedlitz.com
 	name = hschne
+	signingkey = E90CCFE9DBF10EB3
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -55,3 +56,7 @@
 	smudge = git-lfs smudge -- %f
 [pull]
 	rebase = true
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
