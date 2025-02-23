@@ -67,7 +67,7 @@ y = 0
 style = "Italic"
 
 [font.normal]
-family = "SauceCodePro NF"
+family = "SauceCodePro NFM"
 style = "Regular"
 
 [font.offset]

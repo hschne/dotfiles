@@ -135,7 +135,7 @@ homeshick --quiet refresh 2
 #
 # See https://github.com/antonmedv/walk 
 function lk {
-  cd "$(walk "$@")"
+  cd "$(walk --icons "$@")"
 }
 
 # Navi
@@ -176,4 +176,3 @@ export TERM=xterm-256color
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
-fpath=(~/.zsh/completions $fpath)

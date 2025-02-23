@@ -6,9 +6,6 @@ alias vi="nvim"
 alias cat="bat"
 alias ccat="cat"
 
-# Walk
-alias walk="walk --icons"
-
 # Files
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"
