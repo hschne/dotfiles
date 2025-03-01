@@ -34,7 +34,7 @@ alias lists="$EDITOR ~/Documents/Wiki/lists/"
 alias media="$EDITOR ~/Documents/Wiki/lists/media.md"
 alias places="$EDITOR ~/Documents/Wiki/lists/places.md"
 alias tweets="$EDITOR ~/Documents/Wiki/lists/tweets.md"
-alias tweets="$EDITOR ~/Documents/Wiki/lists/books.md"
+alias books="$EDITOR ~/Documents/Wiki/lists/books.md"
 
 # Homeshick
 alias hcd="homeshick cd dotfiles"
