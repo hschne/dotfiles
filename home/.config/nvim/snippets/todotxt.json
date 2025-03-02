@@ -1,0 +1,7 @@
+{
+  "Boilerplate Component": {
+    "prefix": "now",
+    "description": "Current Date",
+    "body": ["${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"]
+  }
+}
