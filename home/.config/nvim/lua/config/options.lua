@@ -14,3 +14,10 @@ vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
 -- Expand cc command
+-- Add filetype for todo
+vim.filetype.add({
+  filename = {
+    ["todo.txt"] = "todotxt",
+    ["todo.done.txt"] = "todotxt",
+  },
+})
