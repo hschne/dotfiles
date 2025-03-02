@@ -10,62 +10,69 @@ return {
     end,
     ft = "todotxt",
     keys = {
-      { "<leader>T", "", desc = "+todo" },
+      { "<leader>o", "", desc = "+todo" },
       {
-        "<leader>Tt",
+        "<leader>ot",
         function()
           require("todotxt").open_todo_file()
         end,
         desc = "Open Todo",
       },
       {
-        "<leader>Ts",
+        "<leader>os",
         function()
           require("todotxt").sort_tasks()
         end,
-        desc = "Sort alphabetically",
+        desc = "Sort Alphabetically",
       },
       {
-        "<leader>Tp",
+        "<leader>op",
         function()
           require("todotxt").sort_tasks_by_priority()
         end,
-        desc = "Sort by priority",
+        desc = "Sort by Priority",
       },
       {
-        "<leader>To",
+        "<leader>oP",
         function()
           require("todotxt").sort_tasks_by_project()
         end,
-        desc = "Sort by project",
+        desc = "Sort by Project",
       },
       {
-        "<leader>Td",
+        "<leader>od",
         function()
           require("todotxt").sort_tasks_by_due_date()
         end,
-        desc = "Sort by due date",
+        desc = "Sort by Due Date",
       },
       {
-        "<leader>Ta",
+        "<leader>oa",
         function()
-          require("todotxt").move_done_tasks()()
+          require("todotxt").move_done_tasks()
         end,
-        desc = "Archive done tasks",
+        desc = "Archive Done Tasks",
+      },
+      {
+        "<C-c><C-v>",
+        function()
+          require("todotxt").capture_todo()
+        end,
+        desc = "Create New Todo",
       },
       {
         "<C-c><C-c>",
         function()
           require("todotxt").toggle_todo_state()
         end,
-        desc = "Toggle Task",
+        desc = "Toggle Task State",
       },
       {
         "<C-c><C-x>",
         function()
           require("todotxt").cycle_priority()
         end,
-        desc = "Toggle Task Priority",
+        desc = "Toggle task Priority",
       },
     },
   },
