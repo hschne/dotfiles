@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Toggle profile
+main() {
+  command=$1
+  if [ "$command" = "toggle" ]; then
+    toggle
+  else
+    cat "$HOME/.profile"
+  fi
+}
+
+toggle() {
+  local current_profile
+  local new_profile
+  current_profile=$(cat "$HOME/.profile")
+  if [ "$current_profile" = "default" ]; then
+    new_profile="meister"
+  else
+    new_profile="default"
+  fi
+
+  # Set new profile environment variable
+  echo "$new_profile" >"$HOME/.profile"
+  # Update default firefox profile
+  firefox_directory="$HOME/.mozilla/firefox"
+  new_firefox_profile=$(basename "$(find "$firefox_directory" -maxdepth 1 -type d | grep -i ".*\.$new_profile.*")")
+  sed -i "s/Default=.*/Default=$new_firefox_profile/g" "$firefox_directory/profiles.ini"
+
+  # Switch GitHub auth
+  gh auth switch >/dev/null
+  echo "$new_profile"
+}
+
+main "$@"

@@ -233,4 +233,3 @@ exec --no-startup-id easyeffects --gapplication-service
 # Swap Esc-Caps
 exec_always --no-startup-id setxkbmap -option caps:swapescape
 exec_always --no-startup-id setxkbmap -option compose:ralt
-

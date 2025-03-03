@@ -55,7 +55,7 @@ font-0 = SauceCodePro NF:size=10;5
 font-1 = MaterialIcons:size=10;5
 
 modules-left = cpu memory temperature
-modules-right = updates progress date
+modules-right = updates profile progress date
 
 [bar/secondary]
 monitor = ${env:MONITOR:}
@@ -259,6 +259,13 @@ type = custom/script
 format-prefix = "󰚰 " 
 interval=3600
 exec = ~/.scripts/updates
+
+[module/profile]
+type = custom/script
+format-prefix = "󰀄 "
+interval=5
+exec = ~/.scripts/profile
+click-left = ~/.scripts/profile toggle
 
 [module/progress]
 type = custom/script
