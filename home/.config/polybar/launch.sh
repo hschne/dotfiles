@@ -17,6 +17,6 @@ if [[ -n "$MONITOR1" ]]; then
 fi
 
 if [[ -n "$MONITOR2" ]]; then
-  MONITOR="$MONITOR2" polybar secondary &
-  MONITOR="$MONITOR1" polybar bottom &
+  MONITOR="$MONITOR2" polybar primary &
+  MONITOR="$MONITOR2" polybar bottom &
 fi
