@@ -46,8 +46,8 @@
 	templatedir = ~/.scripts/git-templates
 	defaultBranch = main
 [user]
-	email = hello@hansschnedlitz.com
 	name = hschne
+	email = hello@hansschnedlitz.com
 	signingkey = E90CCFE9DBF10EB3
 [filter "lfs"]
 	process = git-lfs filter-process
@@ -60,3 +60,5 @@
 	gpgsign = true
 [tag]
 	gpgSign = true
+[includeIf "gitdir:~/Source/meister/**"]
+  path = ~/.gitconfig-meister
