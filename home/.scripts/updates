@@ -1,11 +1,7 @@
 #!/bin/sh
 
-if ! updates=$(yay -Qum 2>/dev/null | wc -l); then
+if ! updates=$(yay -Qyu 2>/dev/null | wc -l); then
   updates=0
 fi
 
-if [ "$updates" -gt 5 ]; then
-  echo "$updates available"
-else
-  echo ""
-fi
+echo "$updates"

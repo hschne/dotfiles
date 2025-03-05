@@ -176,3 +176,9 @@ export TERM=xterm-256color
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+
+# Gcloud SDK
+export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
+if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
+

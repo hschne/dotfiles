@@ -257,7 +257,7 @@ label-urgent-padding = 2
 [module/updates]
 type = custom/script
 format-prefix = "󰚰 " 
-interval=3600
+interval=5
 exec = ~/.scripts/updates
 
 [module/profile]

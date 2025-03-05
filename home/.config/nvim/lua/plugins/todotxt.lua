@@ -1,11 +1,11 @@
 return {
   {
-    "phrmendes/todotxt.nvim",
+    "hschne/todo.nvim",
+    dir = "~/Source/todox.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "arnarg/tree-sitter-todotxt" },
     config = function()
-      require("todotxt").setup({
-        todotxt = os.getenv("HOME") .. "/Documents/Wiki/todo.txt",
-        donetxt = os.getenv("HOME") .. "/Documents/Wiki/todo.done.txt",
+      require("todox").setup({
+        todo_files = { vim.env.HOME .. "/Documents/Wiki/todo.txt" },
       })
     end,
     ft = "todotxt",
@@ -14,63 +14,63 @@ return {
       {
         "<leader>ot",
         function()
-          require("todotxt").open_todo_file()
+          require("todox").open_todo_file()
         end,
         desc = "Open Todo",
       },
       {
         "<leader>os",
         function()
-          require("todotxt").sort_tasks()
+          require("todox").sort_tasks()
         end,
         desc = "Sort Alphabetically",
       },
       {
         "<leader>op",
         function()
-          require("todotxt").sort_tasks_by_priority()
+          require("todox").sort_tasks_by_priority()
         end,
         desc = "Sort by Priority",
       },
       {
         "<leader>oP",
         function()
-          require("todotxt").sort_tasks_by_project()
+          require("todox").sort_tasks_by_project()
         end,
         desc = "Sort by Project",
       },
       {
         "<leader>od",
         function()
-          require("todotxt").sort_tasks_by_due_date()
+          require("todox").sort_tasks_by_due_date()
         end,
         desc = "Sort by Due Date",
       },
       {
         "<leader>oa",
         function()
-          require("todotxt").move_done_tasks()
+          require("todox").move_done_tasks()
         end,
         desc = "Archive Done Tasks",
       },
       {
         "<C-c><C-v>",
         function()
-          require("todotxt").capture_todo()
+          require("todox").capture_todo()
         end,
         desc = "Create New Todo",
       },
       {
         "<C-c><C-c>",
         function()
-          require("todotxt").toggle_todo_state()
+          require("todox").toggle_todo_state()
         end,
         desc = "Toggle Task State",
       },
       {
         "<C-c><C-x>",
         function()
-          require("todotxt").cycle_priority()
+          require("todox").cycle_priority()
         end,
         desc = "Toggle task Priority",
       },

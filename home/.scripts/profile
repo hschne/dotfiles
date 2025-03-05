@@ -23,6 +23,7 @@ toggle() {
   # Set new profile environment variable
   echo "$new_profile" >"$HOME/.profile"
   # Update default firefox profile
+
   firefox_directory="$HOME/.mozilla/firefox"
   new_firefox_profile=$(basename "$(find "$firefox_directory" -maxdepth 1 -type d | grep -i ".*\.$new_profile.*")")
   sed -i "s/Default=.*/Default=$new_firefox_profile/g" "$firefox_directory/profiles.ini"

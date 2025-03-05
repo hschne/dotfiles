@@ -20,7 +20,6 @@ alias zshrc="$EDITOR ~/.zshrc"
 
 # Wiki
 alias todo="$EDITOR ~/Documents/Wiki/todo.txt"
-alias done="$EDITOR ~/Documents/Wiki/done.txt"
 alias scratch="$EDITOR ~/Documents/Wiki/scratchpad.md"
 alias work/="$EDITOR ~/Documents/Wiki/work/"
 alias notes="$EDITOR ~/Documents/Wiki/notes/"
