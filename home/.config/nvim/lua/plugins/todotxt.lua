@@ -1,48 +1,65 @@
 return {
   {
     "hschne/todo.nvim",
+    lazy = false,
     dir = "~/Source/todox.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "arnarg/tree-sitter-todotxt" },
     config = function()
       require("todox").setup({
-        todo_files = { vim.env.HOME .. "/Documents/Wiki/todo.txt" },
+        todo_files = {
+          vim.env.HOME .. "/Documents/Wiki/todo.txt",
+          vim.env.HOME .. "/Documents/Wiki/todo-meister.txt",
+        },
       })
     end,
-    ft = "todotxt",
     keys = {
       { "<leader>o", "", desc = "+todo" },
       {
         "<leader>ot",
         function()
-          require("todox").open_todo_file()
+          require("todox").open_todo()
         end,
         desc = "Open Todo",
       },
       {
+        "<leader>oT",
+        function()
+          require("todox").open_done()
+        end,
+        desc = "Open Done",
+      },
+      {
         "<leader>os",
         function()
-          require("todox").sort_tasks()
+          require("todox").sort_by("name")
         end,
         desc = "Sort Alphabetically",
       },
       {
         "<leader>op",
         function()
-          require("todox").sort_tasks_by_priority()
+          require("todox").sort_by("priority")
         end,
         desc = "Sort by Priority",
       },
       {
         "<leader>oP",
         function()
-          require("todox").sort_tasks_by_project()
+          require("todox").sort_by("project")
+        end,
+        desc = "Sort by Project",
+      },
+      {
+        "<leader>oc",
+        function()
+          require("todox").sort_by("context")
         end,
         desc = "Sort by Project",
       },
       {
         "<leader>od",
         function()
-          require("todox").sort_tasks_by_due_date()
+          require("todox").sort_by("due")
         end,
         desc = "Sort by Due Date",
       },
@@ -54,7 +71,7 @@ return {
         desc = "Archive Done Tasks",
       },
       {
-        "<C-c><C-v>",
+        "<C-c>n",
         function()
           require("todox").capture_todo()
         end,
@@ -68,11 +85,19 @@ return {
         desc = "Toggle Task State",
       },
       {
-        "<C-c><C-x>",
+        "<C-c>p",
         function()
-          require("todox").cycle_priority()
+          require("todox").add_priority()
         end,
-        desc = "Toggle task Priority",
+        desc = "Add Priority",
+      },
+      {
+        "<C-c>b",
+        function()
+          require("todox").add_project_tag()
+        end,
+        mode = { "n", "v" },
+        desc = "Add Project Tag",
       },
     },
   },

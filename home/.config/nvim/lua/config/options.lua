@@ -13,17 +13,6 @@ vim.opt.directory = vim.fn.expand("$HOME/.local/share/.nvim/swp/")
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
--- Expand cc command
--- Add filetype for todo
-vim.filetype.add({
-  filename = {
-    ["todo.txt"] = "todotxt",
-    ["todo.done.txt"] = "todotxt",
-    ["todo-meister.txt"] = "todotxt",
-    ["todo-meister.done.txt"] = "todotxt",
-  },
-})
-
 -- This is a dummy, test this out with silicon nvim
 function get_selected_code_block_language()
   -- Get visual selection range
