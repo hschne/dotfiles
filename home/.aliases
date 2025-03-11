@@ -6,7 +6,10 @@ alias vi="nvim"
 alias cat="bat"
 alias ccat="cat"
 
-# Files
+# Open
+alias open="xdg-open"
+
+# Config Files
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"
 alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.toml"
@@ -48,18 +51,13 @@ alias gcl="git clone"
 
 # Github CLI
 alias ghcl="gh repo clone"
+alias ghpr="gh pr create --editor"
 
 # Docker
 alias dcu="docker-compose up"
 alias dcd="docker-compose down"
 alias dca="docker-compose start"
 alias dco="docker-compose stop"
-
-# Pomodoro
-alias pos="pomo start"
-alias pop="pomo pause"
-alias por="pomo restart"
-alias pot="pomo stop"
 
 # Directories
 alias dl="cd ~/Downloads"

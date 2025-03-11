@@ -5,6 +5,7 @@ export PATH="$HOME/.scripts:$PATH"
 bindkey -v
 
 # Enable autocomplete and bash compatibilty
+fpath=(~/.config/completions $fpath)
 autoload -U +X compinit && compinit -i
 
 autoload edit-command-line
