@@ -1,0 +1,222 @@
+#!/bin/bash
+
+# set-default - A script to set default applications for files using xdg-mime
+# Usage: set-default [options] [file]
+# Options:
+#   -d, --desktop NAME    Specify desktop file directly
+#   -m, --mime TYPE       Specify mime type directly
+#   -v, --verbose         Enable verbose output
+#   -h, --help            Show this help message
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Global variables
+verbose=false
+desktop_file=""
+mime_type=""
+file_path=""
+
+main() {
+  process_arguments "$@"
+  check_dependencies
+  validate_inputs
+  select_desktop_file
+  set_default_application
+}
+
+process_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    -d | --desktop)
+      desktop_file="$2"
+      log "Desktop file specified: $desktop_file"
+      shift 2
+      ;;
+    -m | --mime)
+      mime_type="$2"
+      log "MIME type specified: $mime_type"
+      shift 2
+      ;;
+    -v | --verbose)
+      verbose=true
+      log "Verbose mode enabled"
+      shift
+      ;;
+    -h | --help)
+      print_usage
+      exit_script 0
+      ;;
+    *)
+      if [[ -z "$file_path" ]]; then
+        file_path="$1"
+        log "File path: $file_path"
+      else
+        error "Too many arguments. Use --help to show usage."
+      fi
+      shift
+      ;;
+    esac
+  done
+}
+
+# Validate inputs and detect mime type if needed
+validate_inputs() {
+  # If no mime type is provided, detect it from the file
+  if [[ -z "$mime_type" && -n "$file_path" ]]; then
+    if [[ ! -f "$file_path" ]]; then
+      error "File '$file_path' does not exist"
+    fi
+    mime_type=$(xdg-mime query filetype "$file_path")
+    log "Detected mime type: $mime_type"
+  elif [[ -z "$mime_type" && -z "$file_path" && -z "$desktop_file" ]]; then
+    error "Either a file or a mime type must be specified"
+  fi
+}
+
+# Select desktop file via fzf or validate provided one
+select_desktop_file() {
+  # If no desktop file is provided, use fzf to select one
+  if [[ -z "$desktop_file" ]]; then
+    # Create a temporary file for desktop entries
+    temp_file=$(mktemp)
+    log "Created temporary file: $temp_file"
+
+    # Get all desktop files and their names, deduplicating by app name
+    log "Finding available applications and deduplicating..."
+    declare -A app_map
+    while read -r path; do
+      name=$(get_app_name "$path")
+      if [[ -n "$name" && -z "${app_map[$name]}" ]]; then
+        app_map["$name"]="$path"
+        echo "$name|$path" >>"$temp_file"
+      fi
+    done < <(get_desktop_files)
+
+    # Use fzf to select an application
+    if [[ "$verbose" == true ]]; then
+      echo -e "${YELLOW}Select an application with fzf:${NC}"
+    fi
+    selection=$(cat "$temp_file" | sort | column -t -s "|" | fzf --height=40% --layout=reverse)
+    rm "$temp_file"
+    log "Removed temporary file"
+
+    if [[ -z "$selection" ]]; then
+      error "No application selected, exiting."
+    fi
+
+    # Extract the desktop file path from the selection
+    desktop_path=$(echo "$selection" | awk '{print $NF}')
+    desktop_file=$(basename "$desktop_path")
+    app_name=$(get_app_name "$desktop_path")
+    log "Selected desktop file: $desktop_file"
+    log "Application name: $app_name"
+  else
+    # Check if the provided desktop file exists
+    desktop_found=false
+    app_name=""
+
+    # Search for the desktop file in standard locations
+    log "Searching for specified desktop file: $desktop_file"
+    for dir in /usr/share/applications /usr/local/share/applications ~/.local/share/applications; do
+      desktop_path=""
+      if [[ -f "$dir/$desktop_file" ]]; then
+        desktop_path="$dir/$desktop_file"
+        desktop_found=true
+        break
+      elif [[ -f "$dir/$desktop_file.desktop" ]]; then
+        desktop_path="$dir/$desktop_file.desktop"
+        desktop_file="$desktop_file.desktop"
+        desktop_found=true
+        break
+      fi
+    done
+
+    if [[ "$desktop_found" == false ]]; then
+      error "Desktop file '$desktop_file' not found"
+    fi
+
+    app_name=$(get_app_name "$desktop_path")
+    log "Found desktop file: $desktop_path"
+    log "Application name: $app_name"
+  fi
+}
+
+# Set the default application
+set_default_application() {
+  log "Setting $desktop_file as default for $mime_type"
+
+  if xdg-mime default "$desktop_file" "$mime_type"; then
+    current_default=$(xdg-mime query default "$mime_type")
+    log "Current default for $mime_type: $current_default"
+
+    if [[ -n "$file_path" ]]; then
+      # If file was provided, include it in the success message
+      echo -e "Default application ${GREEN}$app_name${NC} set for file ${YELLOW}$(basename "$file_path")${NC} (${YELLOW}$mime_type${NC})"
+    else
+      # If only mime type was provided
+      echo -e "Default application ${GREEN}$app_name${NC} set for filetype ${YELLOW}$mime_type${NC}"
+    fi
+  else
+    error "Failed to set default application."
+  fi
+}
+
+# Print usage information
+print_usage() {
+  echo "Usage: set-default [options] [file]"
+  echo "Options:"
+  echo "  -d, --desktop NAME    Specify desktop file directly"
+  echo "  -m, --mime TYPE       Specify mime type directly"
+  echo "  -v, --verbose         Enable verbose output"
+  echo "  -h, --help            Show this help message"
+}
+
+# Log message if verbose is enabled
+log() {
+  if [[ "$verbose" == true ]]; then
+    echo -e "${BLUE}[INFO]${NC} $1"
+  fi
+}
+
+# Print error and exit
+error() {
+  echo -e "${RED}[ERROR]${NC} $1" >&2
+  exit_script 1
+}
+
+# Exit function to handle cleanup and final messages
+exit_script() {
+  local exit_code=$1
+
+  # Add any cleanup here if needed
+
+  exit "$exit_code"
+}
+
+# Check if required dependencies are installed
+check_dependencies() {
+  for cmd in xdg-mime fzf; do
+    if ! command -v $cmd &>/dev/null; then
+      error "$cmd is not installed. Please install it and try again."
+    fi
+  done
+  log "All dependencies are installed"
+}
+
+get_desktop_files() {
+  log "Searching for desktop files in standard locations..."
+  find /usr/share/applications /usr/local/share/applications ~/.local/share/applications \
+    -name "*.desktop" 2>/dev/null | sort
+}
+
+get_app_name() {
+  local desktop_file="$1"
+  grep -m 1 "^Name=" "$desktop_file" 2>/dev/null | cut -d= -f2
+}
+
+main "$@"

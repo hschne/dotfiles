@@ -1,0 +1,86 @@
+#compdef set-default
+
+# zsh completion for set-default script
+# Place this file in a directory in your $fpath, e.g. /usr/local/share/zsh/site-functions/_set-default
+# or in ~/.zsh/completions/_set-default (and ensure this directory is in your fpath)
+
+_set_default() {
+  local curcontext="$curcontext" state line
+  typeset -A opt_args
+
+  _arguments -C \
+    '--help[Show help message]' \
+    '--verbose[Enable verbose output]' \
+    '--desktop[Specify desktop file directly]:desktop file:->desktop_files' \
+    '--mime[Specify mime type directly]:mime type:->mime_types' \
+    '*:file:_files'
+
+  case $state in
+    desktop_files)
+      local -a desktop_files
+      # Find all desktop files in standard locations
+      desktop_files=($(find /usr/share/applications /usr/local/share/applications ~/.local/share/applications -name "*.desktop" 2>/dev/null | xargs -I{} basename {} .desktop 2>/dev/null))
+      _describe 'desktop files' desktop_files
+      ;;
+    mime_types)
+      local -a mime_types
+      # Common mime types - this list could be expanded
+      mime_types=(
+        'application/pdf:PDF Document'
+        'application/zip:ZIP Archive'
+        'application/x-tar:TAR Archive'
+        'application/x-gzip:GZIP Archive'
+        'application/x-bzip2:BZIP2 Archive'
+        'application/x-rar-compressed:RAR Archive'
+        'application/x-7z-compressed:7Z Archive'
+        'application/msword:MS Word Document'
+        'application/vnd.ms-excel:MS Excel Spreadsheet'
+        'application/vnd.ms-powerpoint:MS PowerPoint Presentation'
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document:DOCX Document'
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:XLSX Spreadsheet'
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation:PPTX Presentation'
+        'application/vnd.oasis.opendocument.text:OpenDocument Text'
+        'application/vnd.oasis.opendocument.spreadsheet:OpenDocument Spreadsheet'
+        'application/vnd.oasis.opendocument.presentation:OpenDocument Presentation'
+        'text/plain:Plain Text'
+        'text/html:HTML Document'
+        'text/css:CSS Stylesheet'
+        'text/javascript:JavaScript File'
+        'text/xml:XML Document'
+        'text/csv:CSV File'
+        'image/jpeg:JPEG Image'
+        'image/png:PNG Image'
+        'image/gif:GIF Image'
+        'image/svg+xml:SVG Image'
+        'image/webp:WebP Image'
+        'image/tiff:TIFF Image'
+        'audio/mpeg:MP3 Audio'
+        'audio/ogg:OGG Audio'
+        'audio/wav:WAV Audio'
+        'audio/flac:FLAC Audio'
+        'video/mp4:MP4 Video'
+        'video/mpeg:MPEG Video'
+        'video/webm:WebM Video'
+        'video/x-matroska:MKV Video'
+        'video/quicktime:QuickTime Video'
+      )
+      
+      # Also try to get mime types from /etc/mime.types if available
+      if [[ -f /etc/mime.types ]]; then
+        while read -r line; do
+          # Skip comments and empty lines
+          [[ "$line" =~ ^# || -z "$line" ]] && continue
+          # Extract mime type
+          local mime=$(echo "$line" | awk '{print $1}')
+          if [[ -n "$mime" ]]; then
+            mime_types+=("$mime:$mime")
+          fi
+        done < /etc/mime.types
+      fi
+      
+      _describe 'mime types' mime_types
+      ;;
+  esac
+}
+
+_set_default "$@"
