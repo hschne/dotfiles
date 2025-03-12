@@ -3,7 +3,7 @@ return {
     "hschne/todo.nvim",
     lazy = false,
     dir = "~/Source/todox.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "arnarg/tree-sitter-todotxt" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("todox").setup({
         todo_files = {
@@ -22,7 +22,7 @@ return {
         desc = "Open Todo",
       },
       {
-        "<leader>oT",
+        "<leader>od",
         function()
           require("todox").open_done()
         end,
@@ -30,74 +30,79 @@ return {
       },
       {
         "<leader>os",
+        "",
+        desc = "+sort",
+      },
+      {
+        "<leader>osa",
         function()
           require("todox").sort_by("name")
         end,
-        desc = "Sort Alphabetically",
+        desc = "+sort",
       },
       {
-        "<leader>op",
+        "<leader>osp",
         function()
           require("todox").sort_by("priority")
         end,
         desc = "Sort by Priority",
       },
       {
-        "<leader>oP",
+        "<leader>oso",
         function()
           require("todox").sort_by("project")
         end,
         desc = "Sort by Project",
       },
       {
-        "<leader>oc",
+        "<leader>osc",
         function()
           require("todox").sort_by("context")
         end,
-        desc = "Sort by Project",
+        desc = "Sort by Context",
       },
       {
-        "<leader>od",
+        "<leader>osd",
         function()
           require("todox").sort_by("due")
         end,
         desc = "Sort by Due Date",
       },
       {
-        "<leader>oa",
-        function()
-          require("todox").move_done_tasks()
-        end,
-        desc = "Archive Done Tasks",
-      },
-      {
-        "<C-c>n",
-        function()
-          require("todox").capture_todo()
-        end,
-        desc = "Create New Todo",
-      },
-      {
-        "<C-c><C-c>",
+        "<leader>ox",
         function()
           require("todox").toggle_todo_state()
         end,
         desc = "Toggle Task State",
       },
       {
-        "<C-c>p",
+        "<leader>oc",
+        function()
+          require("todox").move_done_tasks()
+        end,
+        desc = "Archive Done Tasks",
+      },
+      {
+        "<leader>oa",
         function()
           require("todox").add_priority()
         end,
         desc = "Add Priority",
       },
       {
-        "<C-c>b",
+        "<leader>op",
         function()
           require("todox").add_project_tag()
         end,
         mode = { "n", "v" },
         desc = "Add Project Tag",
+      },
+      {
+        "<C-c><C-n>",
+        function()
+          require("todox").capture_todo()
+        end,
+        desc = "Create New Todo",
       },
     },
   },
