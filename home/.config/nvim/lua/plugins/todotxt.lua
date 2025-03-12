@@ -98,7 +98,7 @@ return {
         desc = "Add Project Tag",
       },
       {
-        "<C-c><C-n>",
+        "<C-t><C-t>",
         function()
           require("todox").capture_todo()
         end,
