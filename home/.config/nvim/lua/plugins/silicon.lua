@@ -39,7 +39,7 @@ return {
         desc = "Copy Image of Buffer",
       },
       {
-        "<leader>Sy",
+        "<leader>Ss",
         function()
           require("silicon").visualise_api({ show_buf = true })
         end,

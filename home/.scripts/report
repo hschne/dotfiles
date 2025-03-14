@@ -1,0 +1,44 @@
+#!/bin/bash
+
+main() {
+  if [ $# -ne 1 ]; then
+    echo -e "Error: Usage: $0 <markdown_file>"
+    exit 1
+  fi
+
+  input_file="$1"
+  if [ ! -f "$input_file" ]; then
+    echo -e "Error: File '$input_file' not found"
+    exit 1
+  fi
+
+  extension="${input_file##*.}"
+  if [[ ! "$extension" =~ ^(md|markdown)$ ]]; then
+    echo -e "'$input_file' must be a markdown file."
+    exit 1
+  fi
+
+  input_dir=$(cd "$(dirname "$input_file")" && pwd)
+  input_filename=$(basename "$input_file")
+  filename="${input_filename%.*}"
+  output_file="${input_dir}/${filename}.pdf"
+
+  docker run --rm \
+    -v "${input_dir}:/data" \
+    -u "$(id -u):$(id -g)" \
+    pandoc/extra \
+    "/data/${input_filename}" \
+    -o "/data/${filename}.pdf" \
+    --template eisvogel \
+    --listings \
+    -V linkcolor=blue
+
+  if [ $? -eq 0 ]; then
+    echo -e "${output_file}"
+  else
+    echo -e "${RED}Error${NC}: PDF generation failed."
+    exit 1
+  fi
+}
+
+main "$@"

@@ -101,6 +101,7 @@ assign [class="(?i)firefox*"] $ws2
 assign [class="(?i)chromium"] $ws2
 assign [class="(?i)spotify"] $ws5
 assign [class="(?i)slack"] $ws6
+assign [class="(?i)signal"] $ws6
 assign [class="(?i)discord"] $ws6
 
 # Workaround for Spotify, see https://github.com/i3/i3/issues/2060#issuecomment-155179472
