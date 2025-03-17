@@ -13,7 +13,12 @@ return {
       })
     end,
     keys = {
-      { "<leader>o", "", desc = "+todo" },
+      { "<leader>T", "", desc = "+todo" },
+      {
+        "<leader>o",
+        "",
+        desc = "Open File",
+      },
       {
         "<leader>ot",
         function()
@@ -29,26 +34,26 @@ return {
         desc = "Open Done",
       },
       {
-        "<leader>os",
+        "<leader>Ts",
         "",
         desc = "+sort",
       },
       {
-        "<leader>osa",
+        "<leader>Tsn",
         function()
           require("todox").sort_by("name")
         end,
         desc = "+sort",
       },
       {
-        "<leader>osp",
+        "<leader>Tsp",
         function()
           require("todox").sort_by("priority")
         end,
         desc = "Sort by Priority",
       },
       {
-        "<leader>oso",
+        "<leader>TsP",
         function()
           require("todox").sort_by("project")
         end,
@@ -69,28 +74,23 @@ return {
         desc = "Sort by Due Date",
       },
       {
-        "<leader>ox",
-        function()
-          require("todox").toggle_todo_state()
-        end,
-        desc = "Toggle Task State",
-      },
-      {
-        "<leader>oc",
+        "<leader>Ta",
         function()
           require("todox").move_done_tasks()
         end,
         desc = "Archive Done Tasks",
       },
       {
-        "<leader>oa",
-        "<cmd>lua require('todox').add_priority()<cr>",
+        "<leader>Tp",
+        function()
+          require("todox").add_priority()
+        end,
         mode = { "n", "v" },
         desc = "Add Priority",
         noremap = true,
       },
       {
-        "<leader>op",
+        "<leader>TP",
         function()
           require("todox").add_project_tag()
         end,
@@ -98,11 +98,33 @@ return {
         desc = "Add Project Tag",
       },
       {
-        "<C-x><C-x>",
+        "<leader>Tn",
+        function()
+          require("todox").capture_todo()
+        end,
+        desc = "Create New Task",
+      },
+      {
+        "<leader>Tx",
+        function()
+          require("todox").toggle_todo_state()
+        end,
+        desc = "Toggle Task State",
+      },
+
+      {
+        "<C-x><C-n>",
         function()
           require("todox").capture_todo()
         end,
         desc = "Create New Todo",
+      },
+      {
+        "<C-x><C-x>",
+        function()
+          require("todox").toggle_todo_state()
+        end,
+        desc = "Toggle Task State",
       },
     },
   },
