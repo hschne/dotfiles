@@ -2,10 +2,12 @@ return {
   {
     "narutoxy/silicon.lua",
     requires = { "nvim-lua/plenary.nvim" },
+    dir = "~/Source/silicon.lua",
     opts = {
       output = vim.env.HOME .. "/Downloads/Code_${year}${month}${date}${time}.png",
       windowControls = false,
       bgColor = "#9aa5ce",
+      font = "SauceCodePro Nerd Font",
     },
     keys = {
       {
@@ -25,7 +27,7 @@ return {
       {
         "<leader>Ss",
         function()
-          require("silicon").visualise_api({})
+          require("silicon").visualise_api()
         end,
         mode = { "v" },
         desc = "Create Image of Selection",

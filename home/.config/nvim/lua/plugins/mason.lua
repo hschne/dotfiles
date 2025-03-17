@@ -13,6 +13,7 @@ return {
         "json-lsp",
         "stylelint-lsp",
         "shellcheck",
+        "sqlfmt",
         "stylua",
         "yaml-language-server",
       },

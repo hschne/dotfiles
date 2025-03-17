@@ -21,15 +21,20 @@ alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias zshrc="$EDITOR ~/.zshrc"
 
-# Wiki
+# Directories
+alias dl="cd ~/Downloads"
+alias src="cd ~/Source"
+alias docs="cd ~/Documents"
+alias wrt="cd ~/Documents/Wiki/notes/writing/"
+alias pic="cd ~/Pictures"
+alias wiki="cd ~/Documents/Wiki/notes/"
+alias notes="cd ~/Documents/Wiki/notes/"
+
+# Notes
 alias todo="$EDITOR ~/Documents/Wiki/todo.txt"
 alias todom="$EDITOR ~/Documents/Wiki/todo-meister.txt"
 alias scratch="$EDITOR ~/Documents/Wiki/scratchpad.md"
 alias work/="$EDITOR ~/Documents/Wiki/work/"
-alias notes="$EDITOR ~/Documents/Wiki/notes/"
-alias diary="$EDITOR ~/Documents/Wiki/diary/diary.md"
-alias goals="$EDITOR ~/Documents/Wiki/goals/goals.md"
-alias wiki="$EDITOR ~/Documents/Wiki/home.md"
 
 ## Lists
 alias ideas="$EDITOR ~/Documents/Wiki/lists/ideas.md"
@@ -60,12 +65,6 @@ alias dcd="docker-compose down"
 alias dca="docker-compose start"
 alias dco="docker-compose stop"
 
-# Directories
-alias dl="cd ~/Downloads"
-alias src="cd ~/Source"
-alias docs="cd ~/Documents"
-alias writing="cd ~/Documents/Wiki/notes/writing/"
-alias pics="cd ~/Pictures"
 
 # Close terminal window
 alias :q='exit'

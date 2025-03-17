@@ -3,12 +3,12 @@ return {
     "hschne/todo.nvim",
     lazy = false,
     dir = "~/Source/todox.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "ibhagwan/fzf-lua" },
     config = function()
       require("todox").setup({
         todo_files = {
-          vim.env.HOME .. "/Documents/Wiki/todo.txt",
-          vim.env.HOME .. "/Documents/Wiki/todo-meister.txt",
+          "~/Documents/Wiki/todo.txt",
+          "~/Documents/Wiki/todo-meister.txt",
         },
       })
     end,
@@ -84,10 +84,10 @@ return {
       },
       {
         "<leader>oa",
-        function()
-          require("todox").add_priority()
-        end,
+        "<cmd>lua require('todox').add_priority()<cr>",
+        mode = { "n", "v" },
         desc = "Add Priority",
+        noremap = true,
       },
       {
         "<leader>op",
