@@ -7,6 +7,7 @@ return {
     config = function()
       require("todox").setup({
         todo_files = {
+          "./todo.txt",
           "~/Documents/Wiki/todo.txt",
           "~/Documents/Wiki/todo-meister.txt",
         },
@@ -60,14 +61,14 @@ return {
         desc = "Sort by Project",
       },
       {
-        "<leader>osc",
+        "<leader>Tsc",
         function()
           require("todox").sort_by("context")
         end,
         desc = "Sort by Context",
       },
       {
-        "<leader>osd",
+        "<leader>Tsd",
         function()
           require("todox").sort_by("due")
         end,
@@ -76,7 +77,7 @@ return {
       {
         "<leader>Ta",
         function()
-          require("todox").move_done_tasks()
+          require("todox").archive_done_tasks()
         end,
         desc = "Archive Done Tasks",
       },
