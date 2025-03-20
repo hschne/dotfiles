@@ -6,6 +6,13 @@ alias vi="nvim"
 alias cat="bat"
 alias ccat="cat"
 
+# Bat
+alias find="fd"
+alias ffind="find"
+
+# Tmuxinator
+alias mux="tmuxinator"
+
 # Open
 alias open="xdg-open"
 
@@ -29,6 +36,7 @@ alias wrt="cd ~/Documents/Wiki/notes/writing/"
 alias pic="cd ~/Pictures"
 alias wiki="cd ~/Documents/Wiki/notes/"
 alias notes="cd ~/Documents/Wiki/notes/"
+alias cheats="cd ~/.local/share/navi/cheats/hschne__cheats/cheats"
 
 # Notes
 alias todo="$EDITOR ~/Documents/Wiki/todo.txt"

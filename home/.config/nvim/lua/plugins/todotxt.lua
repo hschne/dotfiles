@@ -14,7 +14,6 @@ return {
       })
     end,
     keys = {
-      { "<leader>T", "", desc = "+todo" },
       {
         "<leader>fo",
         function()
@@ -29,6 +28,7 @@ return {
         end,
         desc = "Open Done",
       },
+      { "<leader>T", "", desc = "+todo" },
       {
         "<leader>Ts",
         "",
