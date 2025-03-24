@@ -7,7 +7,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>p", "<cmd>PickColor<cr>", desc = "Color Picker" },
+      { "<leader>pc", "<cmd>PickColor<cr>", desc = "Color Picker", { silent = true } },
     },
   },
 }
