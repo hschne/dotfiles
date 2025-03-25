@@ -1,8 +1,7 @@
 #!/bin/sh
 
-yay -S 2>/dev/null
-
-if ! updates=$(yay -Qyu 2>/dev/null | wc -l); then
+updates=$(yay -Qyu 2>/dev/null | wc -l)
+if [ "$updates" -lt "3" ]; then
   updates=0
 fi
 

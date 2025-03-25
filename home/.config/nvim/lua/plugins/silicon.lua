@@ -4,8 +4,10 @@ return {
     requires = { "nvim-lua/plenary.nvim" },
     dir = "~/Source/silicon.lua",
     opts = {
-      output = vim.env.HOME .. "/Downloads/Code_${year}${month}${date}${time}.png",
+      output = vim.env.HOME .. "/Pictures/Screenshots/Code_${year}${month}${date}${time}.png",
       windowControls = false,
+      lineNumber = false,
+      gobble = true,
       bgColor = "#9aa5ce",
       font = "SauceCodePro Nerd Font",
     },
