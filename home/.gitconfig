@@ -1,8 +1,13 @@
+[column]
+  ui = auto
+[init]
+  defaultBranch = main
 [credential]
 	helper = cache
 [push]
 	default = simple
-	autoSetupRemote = true
+  autoSetupRemote = true
+  followTags = true
 [core]
 	editor = nvim
 	excludesfile = /home/hschne/.gitignore
@@ -10,8 +15,8 @@
 [interactive]
     diffFilter = delta --color-only
 [delta]
-    navigate = true  # use n and N to move between diff sections
-    syntax-theme=Nord
+    navigate = true 
+    syntax-theme=TwoDark
     line-numbers=true
 [alias]
     lg = !"git log --oneline --color | emojify | less -r"
@@ -30,15 +35,15 @@
   cmd = nvim -d "$LOCAL" "$MERGED" "$REMOTE"
 [diff]
 	algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
 [difftool]
     prompt = false
 [branch]
   autosetuprebase = always
 	sort = -committerdate
-[include]
-  path = .gitconfig.local
-[hub]
-	protocol = ssh
+
 [mergetool]
 	keepBackup = false
 	prompt = false
@@ -54,11 +59,22 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
 [pull]
 	rebase = true
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
 [commit]
 	gpgsign = true
 [tag]
 	gpgSign = true
+  sort = version:refname
+[include]
+  path = .gitconfig.local
 [includeIf "gitdir:~/Source/meister/**"]
   path = ~/.gitconfig-meister
