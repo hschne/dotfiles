@@ -5,7 +5,7 @@ return {
   },
   keys = {
     {
-      "<leader>fC",
+      "<leader>oc",
       "<cmd>Cheato<cr>",
       desc = "Open cheat sheet",
       { silent = true },

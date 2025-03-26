@@ -2,7 +2,7 @@ return {
   {
     "narutoxy/silicon.lua",
     requires = { "nvim-lua/plenary.nvim" },
-    dir = "~/Source/silicon.lua",
+    dir = "~/Source/forks/silicon.lua",
     opts = {
       output = vim.env.HOME .. "/Pictures/Screenshots/Code_${year}${month}${date}${time}.png",
       windowControls = false,
@@ -13,13 +13,14 @@ return {
     },
     keys = {
       {
-        "<leader>S",
+        "<leader>p",
         "",
         mode = { "n", "v" },
-        desc = "+silicon",
+        desc = "+utilities",
       },
       {
-        "<leader>Sy",
+        "<leader>py",
+
         function()
           require("silicon").visualise_api({ to_clip = true })
         end,
@@ -27,7 +28,7 @@ return {
         desc = "Copy Image of Selection",
       },
       {
-        "<leader>Ss",
+        "<leader>ps",
         function()
           require("silicon").visualise_api()
         end,
@@ -35,7 +36,7 @@ return {
         desc = "Create Image of Selection",
       },
       {
-        "<leader>Sy",
+        "<leader>py",
         function()
           require("silicon").visualise_api({ to_clip = true, show_buf = true })
         end,
@@ -43,7 +44,7 @@ return {
         desc = "Copy Image of Buffer",
       },
       {
-        "<leader>Ss",
+        "<leader>ps",
         function()
           require("silicon").visualise_api({ show_buf = true })
         end,

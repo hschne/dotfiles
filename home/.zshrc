@@ -77,6 +77,13 @@ zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-
 #
 # See https://github.com/Aloxaf/fzf-tab
 zi load "Aloxaf/fzf-tab"
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'fzf-tab-preview $realpath'
+zstyle ':fzf-tab:complete:bat:*' fzf-preview 'fzf-tab-preview $realpath'
 
 # Set editor to the obvious choice
 export EDITOR='nvim'
@@ -182,4 +189,3 @@ eval "$(starship init zsh)"
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
 if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
-

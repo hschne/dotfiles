@@ -15,14 +15,14 @@ return {
     end,
     keys = {
       {
-        "<leader>fo",
+        "<leader>ot",
         function()
           require("todox").open_todo()
         end,
         desc = "Open Todo",
       },
       {
-        "<leader>fd",
+        "<leader>od",
         function()
           require("todox").open_done()
         end,
