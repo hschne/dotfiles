@@ -39,6 +39,11 @@ main() {
     echo -e "${RED}Error${NC}: PDF generation failed."
     exit 1
   fi
+
+  if [ -n "$2" ]; then
+    local output_file="$2"
+    mv "$input_file" "$output_file"
+  fi
 }
 
 main "$@"
