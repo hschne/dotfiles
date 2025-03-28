@@ -83,6 +83,7 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'fzf-tab-preview $realpath'
+zstyle ':fzf-tab:complete:cp:*' fzf-preview 'fzf-tab-preview $realpath'
 zstyle ':fzf-tab:complete:bat:*' fzf-preview 'fzf-tab-preview $realpath'
 
 # Set editor to the obvious choice
@@ -95,14 +96,14 @@ export EDITOR='nvim'
 #
 # See http://zsh.sourceforge.net/Doc/Release/Options.html
 setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY_TIME
+setopt SHARE_HISTORY
 export HISTFILE=~/.zsh_history # Required when using zplug
 export HISTSIZE=10000
 export SAVEHIST=10000
-setopt share_history
 
 # Enable advanced cd behaviour
 setopt auto_cd
@@ -155,12 +156,20 @@ function lk {
 
 # Improve look of fzf, use rg
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
+# Add nord colors
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
+	--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
+	--color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7aa2f7
+	--color=info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7 
+	--color=marker:#73daca,spinner:#73daca,header:#73daca'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p60%,50%'
+# Load custom FZF Widgets
+source ~/.scripts/custom-fzf-widgets.zsh
 
 # Set up asdf
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
