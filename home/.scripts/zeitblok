@@ -139,16 +139,23 @@ class TimeTracker < Thor
     end
 
     command = args.first
+    current_word = args.last || ''
+    args[-2] if args.size >= 2
 
     case command
     when 'summary'
-      # If the current word is an option (starts with -)
-      if args.last.start_with?('-')
-        puts '--from=[Start date (format: YYYY-MM-DD)]'
-        puts '--to=[End date (format: YYYY-MM-DD)]'
-        puts '--range=[Predefined date range]:(day week month year)'
+      if current_word.start_with?('-')
+        options = [
+          '--from=[Start date (format: YYYY-MM-DD)]',
+          '--to=[End date (format: YYYY-MM-DD)]',
+          '--range=[Predefined date range]:(day week month year)'
+        ]
+
+        # Filter options by the current partial input
+        matching_options = options.select { |opt| opt.start_with?(current_word) }
+        puts matching_options.join("\n")
       else
-        # Complete with tags
+        # Not typing an option, complete with tags
         all_tags = get_tags
         puts all_tags.sort.join("\n") unless all_tags.empty?
       end
@@ -159,97 +166,14 @@ class TimeTracker < Thor
         puts all_tags.sort.join("\n") unless all_tags.empty?
       end
     when 'completion'
-      # Only option for completion is shell type
-      if args.last.start_with?('-')
-        puts '--shell=[Shell type]:(zsh bash)'
-        puts '-s=[Shell type]:(zsh bash)'
+      if current_word.start_with?('-')
+        options = [
+          '--shell=[Shell type]:(zsh bash)',
+          '-s=[Shell type]:(zsh bash)'
+        ]
+        matching_options = options.select { |opt| opt.start_with?(current_word) }
+        puts matching_options.join("\n")
       end
-    else
-      ''
-    end
-  end
-
-  desc 'completion', 'Generate shell completion script'
-  method_option :shell, aliases: '-s', type: :string, required: true, enum: %w[bash zsh], desc: 'Shell type'
-  def completion
-    shell = options[:shell]
-
-    case shell
-    when 'zsh'
-      puts %{
-# ZSH Completion for TimeTracker
-_zeitblok() {
-  local line state
-
-  # Define how arguments should be processed
-  _arguments -C \
-    '1: :->command' \
-    '*: :->args'
-
-  case $state in
-    command)
-      # Get list of commands from __complete with no arguments
-      local -a commands
-      commands=("${(@f)$(zeitblok __complete)}")
-      _describe -t commands 'zeitblok commands' commands
-      ;;
-    args)
-      # Pass all current words to __complete
-      local cmd_args
-      cmd_args=("${words[@]:1}")
-      local -a completions
-      completions=("${(@f)$(zeitblok __complete $cmd_args)}")
-
-      if [[ ${#completions} -eq 0 ]]; then
-        _files
-        return
-      fi
-
-      # If completions contain : format as descriptions, otherwise as simple values
-      if [[ "${completions[1]}" == *:* ]]; then
-        _describe -t values 'values' completions
-      else
-        _values 'values' $completions
-      fi
-      ;;
-  esac
-}
-
-compdef _zeitblok zeitblok
-}
-    when 'bash'
-      puts %{
-# Bash completion for TimeTracker
-_zeitblok() {
-  local cur prev words cword
-  _init_completion || return
-
-  # Get current command line and build completion request
-  local requestComp="${words[0]} __complete ${words[@]:1}"
-
-  # Execute the command, get completions
-  local IFS=$'\n'
-  local completions=($(eval $requestComp 2>/dev/null))
-
-  if [ ${#completions[@]} -eq 0 ]; then
-    COMPREPLY=()
-    return
-  fi
-
-  # Extract the parts before : for simple word completion
-  if [[ "${completions[0]}" == *:* ]]; then
-    local words=()
-    for comp in "${completions[@]}"; do
-      words+=("${comp%%:*}")
-    done
-    COMPREPLY=($(compgen -W "${words[*]}" -- "$cur"))
-  else
-    COMPREPLY=($(compgen -W "${completions[*]}" -- "$cur"))
-  fi
-}
-
-complete -F _zeitblok zeitblok
-}
     end
   end
 
