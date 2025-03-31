@@ -91,5 +91,5 @@ alias la='ls -lAh'
 alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/extra'
 
 # Zeitblok
-alias zb='zeitblok.rb'
-alias zbl='zeitblok.rb log'
+alias zb='zeitblok'
+alias zbl='zeitblok log'

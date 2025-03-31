@@ -164,6 +164,8 @@ class TimeTracker < Thor
         puts '--shell=[Shell type]:(zsh bash)'
         puts '-s=[Shell type]:(zsh bash)'
       end
+    else
+      ''
     end
   end
 
@@ -177,23 +179,40 @@ class TimeTracker < Thor
       puts %{
 # ZSH Completion for TimeTracker
 _zeitblok() {
-  local words
-  words=("${=words[1,CURRENT]}")
+  local line state
 
-  echo "Truncated words[*]: ${words[*]},"
-  local requestComp="${words[1]} __complete ${words[2,-1]}"
+  # Define how arguments should be processed
+  _arguments -C \
+    '1: :->command' \
+    '*: :->args'
 
-  local completions
-  completions=(${(f)"$(eval $requestComp 2>/dev/null)"})
+  case $state in
+    command)
+      # Get list of commands from __complete with no arguments
+      local -a commands
+      commands=("${(@f)$(zeitblok __complete)}")
+      _describe -t commands 'zeitblok commands' commands
+      ;;
+    args)
+      # Pass all current words to __complete
+      local cmd_args
+      cmd_args=("${words[@]:1}")
+      local -a completions
+      completions=("${(@f)$(zeitblok __complete $cmd_args)}")
 
-  echo "completion output: ${out}"
+      if [[ ${#completions} -eq 0 ]]; then
+        _files
+        return
+      fi
 
-  if [ ${#completions} -eq 0 ]; then
-    _files
-    return
-  fi
-
-  _describe -t zeitblok-commands 'zeitblok commands' completions
+      # If completions contain : format as descriptions, otherwise as simple values
+      if [[ "${completions[1]}" == *:* ]]; then
+        _describe -t values 'values' completions
+      else
+        _values 'values' $completions
+      fi
+      ;;
+  esac
 }
 
 compdef _zeitblok zeitblok
