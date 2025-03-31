@@ -120,7 +120,51 @@ class TimeTracker < Thor
       return
     end
 
-    all_tags.sort.join("\n")
+    puts all_tags.join("\n")
+  end
+
+  desc '__complete *ARGS', 'Process current command line for shell completion'
+  def __complete(*args)
+    # If no args, we're completing the main commands
+    if args.empty?
+      commands = {
+        'log' => 'Log time entry with duration (format: minutes or HH:MM) and tags',
+        'summary' => 'Summarize time spent on specified tags, optionally within a date range',
+        'edit' => 'Open the time tracking file in your default editor',
+        'tags' => 'List all unique tags used in time entries',
+        'completion' => 'Generate shell completion script'
+      }
+      commands.each { |cmd, desc| puts "#{cmd}:#{desc}" }
+      return
+    end
+
+    command = args.first
+
+    case command
+    when 'summary'
+      # If the current word is an option (starts with -)
+      if args.last.start_with?('-')
+        puts '--from=[Start date (format: YYYY-MM-DD)]'
+        puts '--to=[End date (format: YYYY-MM-DD)]'
+        puts '--range=[Predefined date range]:(day week month year)'
+      else
+        # Complete with tags
+        all_tags = get_tags
+        puts all_tags.sort.join("\n") unless all_tags.empty?
+      end
+    when 'log'
+      # For log command, first arg is time, rest are tags
+      if args.size > 1
+        all_tags = get_tags
+        puts all_tags.sort.join("\n") unless all_tags.empty?
+      end
+    when 'completion'
+      # Only option for completion is shell type
+      if args.last.start_with?('-')
+        puts '--shell=[Shell type]:(zsh bash)'
+        puts '-s=[Shell type]:(zsh bash)'
+      end
+    end
   end
 
   desc 'completion', 'Generate shell completion script'
@@ -133,42 +177,23 @@ class TimeTracker < Thor
       puts %{
 # ZSH Completion for TimeTracker
 _zeitblok() {
-  local -a commands options
+  local words
+  words=("${=words[1,CURRENT]}")
 
-  _arguments -C \
-    '1: :->command' \
-    '*: :->args'
+  echo "Truncated words[*]: ${words[*]},"
+  local requestComp="${words[1]} __complete ${words[2,-1]}"
 
-  case $state in
-    command)
-      local -a cmds
-      cmds=($(zeitblok complete commands))
-      _describe -t commands 'zeitblok commands' cmds
-      ;;
-    args)
-      case $line[1] in
-        summary)
-          local -a opts
-          opts=($(zeitblok complete options summary))
-          _arguments -s $opts
+  local completions
+  completions=(${(f)"$(eval $requestComp 2>/dev/null)"})
 
-          # Complete tags
-          local -a tags
-          tags=($(zeitblok complete tags))
-          _values 'tags' $tags
-          ;;
-        log)
-          # For the first argument (time), we don't provide completion
-          if (( CURRENT > 2 )); then
-            # Complete tags for subsequent arguments
-            local -a tags
-            tags=($(zeitblok complete tags))
-            _values 'tags' $tags
-          fi
-          ;;
-      esac
-      ;;
-  esac
+  echo "completion output: ${out}"
+
+  if [ ${#completions} -eq 0 ]; then
+    _files
+    return
+  fi
+
+  _describe -t zeitblok-commands 'zeitblok commands' completions
 }
 
 compdef _zeitblok zeitblok
@@ -180,61 +205,32 @@ _zeitblok() {
   local cur prev words cword
   _init_completion || return
 
-  if [ $cword -eq 1 ]; then
-    # Complete commands
-    COMPREPLY=($(compgen -W "$(zeitblok complete commands | cut -d':' -f1)" -- "$cur"))
-    return 0
+  # Get current command line and build completion request
+  local requestComp="${words[0]} __complete ${words[@]:1}"
+
+  # Execute the command, get completions
+  local IFS=$'\n'
+  local completions=($(eval $requestComp 2>/dev/null))
+
+  if [ ${#completions[@]} -eq 0 ]; then
+    COMPREPLY=()
+    return
   fi
 
-  case ${words[1]} in
-    summary)
-      if [[ "$cur" == -* ]]; then
-        # Complete options
-        COMPREPLY=($(compgen -W "$(zeitblok complete options summary | cut -d'=' -f1)" -- "$cur"))
-      else
-        # Complete tags
-        COMPREPLY=($(compgen -W "$(zeitblok complete tags)" -- "$cur"))
-      fi
-      ;;
-    log)
-      if [ $cword -gt 2 ]; then
-        # Complete tags after the time argument
-        COMPREPLY=($(compgen -W "$(zeitblok complete tags)" -- "$cur"))
-      fi
-      ;;
-  esac
+  # Extract the parts before : for simple word completion
+  if [[ "${completions[0]}" == *:* ]]; then
+    local words=()
+    for comp in "${completions[@]}"; do
+      words+=("${comp%%:*}")
+    done
+    COMPREPLY=($(compgen -W "${words[*]}" -- "$cur"))
+  else
+    COMPREPLY=($(compgen -W "${completions[*]}" -- "$cur"))
+  fi
 }
 
 complete -F _zeitblok zeitblok
 }
-    end
-  end
-
-  desc 'complete TYPE [COMMAND]', 'Return completion information of specified type'
-  def complete(type, command = nil)
-    case type
-    when 'commands'
-      commands = {
-        'log' => 'Log time entry with duration (format: minutes or HH:MM) and tags',
-        'summary' => 'Summarize time spent on specified tags, optionally within a date range',
-        'edit' => 'Open the time tracking file in your default editor',
-        'tags' => 'List all unique tags used in time entries',
-        'completion' => 'Generate shell completion script',
-        'complete' => 'Return completion information of specified type'
-      }
-      commands.each { |cmd, desc| puts "#{cmd}:#{desc}" }
-
-    when 'options'
-      case command
-      when 'summary'
-        puts '--from=[Start date (format: YYYY-MM-DD)]'
-        puts '--to=[End date (format: YYYY-MM-DD)]'
-        puts '--range=[Predefined date range]:(day week month year)'
-      end
-
-    when 'tags'
-      all_tags = get_tags
-      tags.sort.join("\n") unless all_tags.empty?
     end
   end
 
@@ -250,7 +246,6 @@ complete -F _zeitblok zeitblok
       entry_tags = row[2].split(', ')
       all_tags.merge(entry_tags)
     end
-    puts all_tags
 
     all_tags
   end
