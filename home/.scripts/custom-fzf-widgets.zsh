@@ -31,9 +31,10 @@ custom-history-widget() {
         }
         
         # Lots of padding to align with color codes
-        cmd_id_colored = sprintf("%18s", gray cmd_id reset)
+        cmd_id_padded = sprintf("%5s", cmd_id)
+        cmd_id_colored = sprintf("%-18s", gray cmd_id_padded reset)
         $1 = cmd_id_colored
-        time_str_colored = sprintf("%18s", gray time_str reset)
+        time_str_colored = sprintf("%-18s", gray time_str reset)
         $2 = time_str_colored
         
         # Save original line and process for deduplication
@@ -45,7 +46,7 @@ custom-history-widget() {
     n=2
   fi
   selected="$(fc -rl $fc_opts -t '%s' 1 | awk "$awk_filter" |
-    FZF_DEFAULT_OPTS=$(__fzf_defaults "" "-n1..,.. --scheme=history --bind=ctrl-r:toggle-sort --wrap-sign '\t↳ ' --highlight-line ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m") \
+    FZF_DEFAULT_OPTS=$(__fzf_defaults "" "-n3.. --with-nth 1.. --scheme=history --bind=ctrl-r:toggle-sort --wrap-sign '\t↳ ' --highlight-line ${FZF_CTRL_R_OPTS-} --query=${(qqq)LBUFFER} +m") \
     FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd))"
 
   local ret=$?

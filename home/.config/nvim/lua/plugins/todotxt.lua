@@ -22,62 +22,43 @@ return {
         desc = "Open Todo",
       },
       {
-        "<leader>od",
+        "<leader>oT",
         function()
           require("todox").open_done()
         end,
         desc = "Open Done",
       },
-      { "<leader>T", "", desc = "+todo" },
+      { "<C-x>", "", desc = "+todo" },
       {
-        "<leader>Ts",
-        "",
-        desc = "+sort",
-      },
-      {
-        "<leader>Tsn",
+        "<C-x>t",
         function()
-          require("todox").sort_by("name")
+          require("todox").open_todo()
         end,
-        desc = "+sort",
+        desc = "Open Todo",
       },
       {
-        "<leader>Tsp",
+        "<C-x>T",
+        function()
+          require("todox").open_done()
+        end,
+        desc = "Open Done",
+      },
+      {
+        "<C-x>s",
         function()
           require("todox").sort_by("priority")
         end,
         desc = "Sort by Priority",
       },
       {
-        "<leader>TsP",
-        function()
-          require("todox").sort_by("project")
-        end,
-        desc = "Sort by Project",
-      },
-      {
-        "<leader>Tsc",
-        function()
-          require("todox").sort_by("context")
-        end,
-        desc = "Sort by Context",
-      },
-      {
-        "<leader>Tsd",
-        function()
-          require("todox").sort_by("due")
-        end,
-        desc = "Sort by Due Date",
-      },
-      {
-        "<leader>Ta",
+        "<C-x>a",
         function()
           require("todox").archive_done_tasks()
         end,
         desc = "Archive Done Tasks",
       },
       {
-        "<leader>Tp",
+        "<C-x>p",
         function()
           require("todox").add_priority()
         end,
@@ -86,7 +67,7 @@ return {
         noremap = true,
       },
       {
-        "<leader>TP",
+        "<C-x>P",
         function()
           require("todox").add_project_tag()
         end,
@@ -94,29 +75,14 @@ return {
         desc = "Add Project Tag",
       },
       {
-        "<leader>Tn",
-        function()
-          require("todox").capture_todo()
-        end,
-        desc = "Create New Task",
-      },
-      {
-        "<leader>Tx",
-        function()
-          require("todox").toggle_todo_state()
-        end,
-        desc = "Toggle Task State",
-      },
-
-      {
-        "<C-x><C-n>",
+        "<C-x>n",
         function()
           require("todox").capture_todo()
         end,
         desc = "Create New Todo",
       },
       {
-        "<C-x><C-x>",
+        "<C-x>x",
         function()
           require("todox").toggle_todo_state()
         end,

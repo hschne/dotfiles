@@ -101,11 +101,11 @@ class TimeTracker < Thor
 
     editor = ENV['EDITOR'] || ENV['VISUAL']
     if editor.nil?
-      if RUBY_PLATFORM =~ /mswin|mingw|cygwin/
+      if RUBY_PLATFORM.match?(/mswin|mingw|cygwin/)
         system('notepad', file_path)
       else
-        system('open', file_path) if RUBY_PLATFORM =~ /darwin/
-        system('xdg-open', file_path) if RUBY_PLATFORM =~ /linux/
+        system('open', file_path) if RUBY_PLATFORM.match?(/darwin/)
+        system('xdg-open', file_path) if RUBY_PLATFORM.match?(/linux/)
       end
     else
       system("#{editor} #{file_path}")
@@ -114,27 +114,146 @@ class TimeTracker < Thor
 
   desc 'tags', 'List all unique tags used in time entries'
   def tags
-    file_path = get_file_path
-
-    unless File.exist?(file_path)
-      puts 'No time entries found.'
+    all_tags = get_tags
+    if all_tags.empty?
+      puts 'There are no tags yet!'
       return
     end
+
+    all_tags.sort.join("\n")
+  end
+
+  desc 'completion', 'Generate shell completion script'
+  method_option :shell, aliases: '-s', type: :string, required: true, enum: %w[bash zsh], desc: 'Shell type'
+  def completion
+    shell = options[:shell]
+
+    case shell
+    when 'zsh'
+      puts %{
+# ZSH Completion for TimeTracker
+_zeitblok() {
+  local -a commands options
+
+  _arguments -C \
+    '1: :->command' \
+    '*: :->args'
+
+  case $state in
+    command)
+      local -a cmds
+      cmds=($(zeitblok complete commands))
+      _describe -t commands 'zeitblok commands' cmds
+      ;;
+    args)
+      case $line[1] in
+        summary)
+          local -a opts
+          opts=($(zeitblok complete options summary))
+          _arguments -s $opts
+
+          # Complete tags
+          local -a tags
+          tags=($(zeitblok complete tags))
+          _values 'tags' $tags
+          ;;
+        log)
+          # For the first argument (time), we don't provide completion
+          if (( CURRENT > 2 )); then
+            # Complete tags for subsequent arguments
+            local -a tags
+            tags=($(zeitblok complete tags))
+            _values 'tags' $tags
+          fi
+          ;;
+      esac
+      ;;
+  esac
+}
+
+compdef _zeitblok zeitblok
+}
+    when 'bash'
+      puts %{
+# Bash completion for TimeTracker
+_zeitblok() {
+  local cur prev words cword
+  _init_completion || return
+
+  if [ $cword -eq 1 ]; then
+    # Complete commands
+    COMPREPLY=($(compgen -W "$(zeitblok complete commands | cut -d':' -f1)" -- "$cur"))
+    return 0
+  fi
+
+  case ${words[1]} in
+    summary)
+      if [[ "$cur" == -* ]]; then
+        # Complete options
+        COMPREPLY=($(compgen -W "$(zeitblok complete options summary | cut -d'=' -f1)" -- "$cur"))
+      else
+        # Complete tags
+        COMPREPLY=($(compgen -W "$(zeitblok complete tags)" -- "$cur"))
+      fi
+      ;;
+    log)
+      if [ $cword -gt 2 ]; then
+        # Complete tags after the time argument
+        COMPREPLY=($(compgen -W "$(zeitblok complete tags)" -- "$cur"))
+      fi
+      ;;
+  esac
+}
+
+complete -F _zeitblok zeitblok
+}
+    end
+  end
+
+  desc 'complete TYPE [COMMAND]', 'Return completion information of specified type'
+  def complete(type, command = nil)
+    case type
+    when 'commands'
+      commands = {
+        'log' => 'Log time entry with duration (format: minutes or HH:MM) and tags',
+        'summary' => 'Summarize time spent on specified tags, optionally within a date range',
+        'edit' => 'Open the time tracking file in your default editor',
+        'tags' => 'List all unique tags used in time entries',
+        'completion' => 'Generate shell completion script',
+        'complete' => 'Return completion information of specified type'
+      }
+      commands.each { |cmd, desc| puts "#{cmd}:#{desc}" }
+
+    when 'options'
+      case command
+      when 'summary'
+        puts '--from=[Start date (format: YYYY-MM-DD)]'
+        puts '--to=[End date (format: YYYY-MM-DD)]'
+        puts '--range=[Predefined date range]:(day week month year)'
+      end
+
+    when 'tags'
+      all_tags = get_tags
+      tags.sort.join("\n") unless all_tags.empty?
+    end
+  end
+
+  private
+
+  def get_tags
+    file_path = get_file_path
+
+    return [] unless File.exist?(file_path)
 
     all_tags = Set.new
     CSV.foreach(file_path) do |row|
       entry_tags = row[2].split(', ')
       all_tags.merge(entry_tags)
     end
+    puts all_tags
 
-    return if all_tags.empty?
-
-    all_tags.sort.each do |tag|
-      puts tag
-    end
+    all_tags
   end
-
-  private
 
   def calculate_date_range(range_type)
     today = Date.today

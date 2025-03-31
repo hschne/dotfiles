@@ -156,7 +156,7 @@ function lk {
 
 # Improve look of fzf, use rg
 export FZF_DEFAULT_OPTS='--height 50% --ansi'
-# Add nord colors
+# Add Tokyo Night colors
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
 	--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
 	--color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7aa2f7
