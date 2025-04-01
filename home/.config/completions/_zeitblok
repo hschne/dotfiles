@@ -1,0 +1,121 @@
+#compdef _zeitblok zeitblok
+
+function _zeitblok_get_tags {
+  local -a tags
+  tags=(${(f)"$(zeitblok tags 2>/dev/null)"})
+  _describe -t tags 'tags' tags
+}
+
+function _zeitblok_help {
+  _arguments \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+}
+
+function _zeitblok_log {
+  _arguments \
+    "1: :->duration" \
+    "*: :->tags" \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+  
+  case $state in
+    duration)
+      local -a durations
+      durations=(
+        "0\:30:30 minutes"
+        "1\:00:1 hour"
+        "1\:30:1 hour 30 minutes"
+        "2\:00:2 hours"
+        "2\:30:2 hours 30 minutes" 
+        "3\:00:3 hours"
+        "3\:30:3 hours 30 minutes"
+        "4\:00:4 hours"
+        "8\:00:8 hours"
+      )
+      _describe -t durations 'durations' durations
+      ;;
+    tags)
+      _zeitblok_get_tags
+      ;;
+  esac
+}
+
+function _zeitblok_summary {
+  _arguments \
+    "*: :->tags" \
+    "--from=[Start date (format: YYYY-MM-DD)]" \
+    "--to=[End date (format: YYYY-MM-DD)]" \
+    "--range=[Predefined date range]: :(day week month year)" \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+  
+  case $state in
+    tags)
+      _zeitblok_get_tags
+      ;;
+  esac
+}
+
+function _zeitblok_edit {
+  _arguments \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+}
+
+function _zeitblok_tags {
+  _arguments \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+}
+
+function _zeitblok_completions {
+  _arguments \
+    "-h[Show help information]" \
+    "--help[Show help information]"
+}
+
+function _zeitblok {
+  local line
+
+  local -a commands
+  commands=(
+    'completions:Print shell completion script'
+    'edit:Open the time tracking file in your default editor'
+    'help:Describe available commands or one specific command'
+    'log:Log time entry with duration (format: minutes or HH:MM) and tags'
+    'summary:Summarize time spent on specified tags, optionally within a date range'
+    'tags:List all unique tags used in time entries'
+  )
+
+  _arguments \
+    "-h[Show help information]" \
+    "--help[Show help information]" \
+    "1: : _describe 'command' commands" \
+    "*::arg:->args"
+
+  case $state in
+    args)
+      case $line[1] in
+        completions)
+          _zeitblok_completions
+        ;;
+        edit)
+          _zeitblok_edit
+        ;;
+        help)
+          _zeitblok_help
+        ;;
+        log)
+          _zeitblok_log
+        ;;
+        summary)
+          _zeitblok_summary
+        ;;
+        tags)
+          _zeitblok_tags
+        ;;
+      esac
+    ;;
+  esac
+}

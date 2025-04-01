@@ -3,10 +3,22 @@ require 'thor'
 require 'date'
 require 'csv'
 require 'fileutils'
+require 'fylla'
 
-class TimeTracker < Thor
+class Zeitblok < Thor
   def self.exit_on_failure?
     false
+  end
+
+  # Add support for help commands, e.g. -h --help
+  help_commands = Thor::HELP_MAPPINGS + ['help']
+
+  if help_commands.any? { |cmd| ARGV.include? cmd }
+    help_commands.each do |cmd|
+      if match = ARGV.delete(cmd)
+        ARGV.unshift match
+      end
+    end
   end
 
   desc 'log TIME *TAGS', 'Log time entry with duration (format: minutes or HH:MM) and tags'
@@ -123,58 +135,9 @@ class TimeTracker < Thor
     puts all_tags.join("\n")
   end
 
-  desc '__complete *ARGS', 'Process current command line for shell completion'
-  def __complete(*args)
-    # If no args, we're completing the main commands
-    if args.empty?
-      commands = {
-        'log' => 'Log time entry with duration (format: minutes or HH:MM) and tags',
-        'summary' => 'Summarize time spent on specified tags, optionally within a date range',
-        'edit' => 'Open the time tracking file in your default editor',
-        'tags' => 'List all unique tags used in time entries',
-        'completion' => 'Generate shell completion script'
-      }
-      commands.each { |cmd, desc| puts "#{cmd}:#{desc}" }
-      return
-    end
-
-    command = args.first
-    current_word = args.last || ''
-    args[-2] if args.size >= 2
-
-    case command
-    when 'summary'
-      if current_word.start_with?('-')
-        options = [
-          '--from=[Start date (format: YYYY-MM-DD)]',
-          '--to=[End date (format: YYYY-MM-DD)]',
-          '--range=[Predefined date range]:(day week month year)'
-        ]
-
-        # Filter options by the current partial input
-        matching_options = options.select { |opt| opt.start_with?(current_word) }
-        puts matching_options.join("\n")
-      else
-        # Not typing an option, complete with tags
-        all_tags = get_tags
-        puts all_tags.sort.join("\n") unless all_tags.empty?
-      end
-    when 'log'
-      # For log command, first arg is time, rest are tags
-      if args.size > 1
-        all_tags = get_tags
-        puts all_tags.sort.join("\n") unless all_tags.empty?
-      end
-    when 'completion'
-      if current_word.start_with?('-')
-        options = [
-          '--shell=[Shell type]:(zsh bash)',
-          '-s=[Shell type]:(zsh bash)'
-        ]
-        matching_options = options.select { |opt| opt.start_with?(current_word) }
-        puts matching_options.join("\n")
-      end
-    end
+  desc 'completions', 'Print shell completion script'
+  def completions
+    puts Fylla.zsh_completion(self)
   end
 
   private
@@ -239,4 +202,6 @@ class TimeTracker < Thor
   default_task :log
 end
 
-TimeTracker.start(ARGV)
+Fylla.load('zeitblok')
+
+Zeitblok.start(ARGV)

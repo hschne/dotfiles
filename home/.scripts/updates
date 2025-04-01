@@ -1,8 +1,7 @@
 #!/bin/sh
 
-updates=$(yay -Qyu 2>/dev/null | wc -l)
-if [ "$updates" -lt "3" ]; then
-  updates=0
-fi
+central_updates=$(checkupdates 2>/dev/null | wc -l)
+aur_updates=$(yay -Qyu 2>/dev/null | wc -l)
+updates=$((central_updates + aur_updates))
 
 echo "$updates"
