@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Based on:
+# - https://github.com/Aloxaf/fzf-tab/wiki/Preview#show-file-contents
+# - https://github.com/junegunn/fzf/blob/master/bin/fzf-preview.sh
+main() {
+  mime=$(file -bL --mime-type "$1")
+  category=${mime%%/*}
+  if [ -d "$1" ]; then
+    eza --git -hl --color=always --icons "$1"
+  elif [ "$category" = image ]; then
+    dim=${FZF_PREVIEW_COLUMNS}x$((FZF_PREVIEW_LINES - 1))
+    kitten icat --clear --transfer-mode=memory --unicode-placeholder --stdin=no --align="center" --place="$dim@0x0" "$1" | sed '$d' | sed $'$s/$/\e[m/'
+  elif [ "$category" = text ]; then
+    bat --color=always "$1"
+  fi
+}
+
+main "$@"
