@@ -71,6 +71,14 @@ zi ice pick"completions"; zi load "andsens/homeshick"
 # Website: https://github.com/MichaelAquilina/zsh-you-should-use
 zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-use"
 
+# Atuin
+#
+# Atuin is a better shell history.
+#
+# See https://github.com/atuinsh/atuin
+export ATUIN_NOBIND="true"
+zi load "atuinsh/atuin"
+
 # fzf-tab 
 #
 # Replace all tab completions with fzf
@@ -82,6 +90,7 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' popup-min-size 150 8
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
 
 # Set editor to the obvious choice
@@ -131,6 +140,30 @@ source $HOME/.aliases
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 
+# FZF
+#
+# The best Fuzzy Finder.
+#
+# Improve look of fzf, use rg
+export FZF_DEFAULT_OPTS='--height 50% --ansi'
+# Add Tokyo Night colors
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
+	--color=fg:#c0caf5,hl:#bb9af7
+	--color=fg+:#c0caf5,hl+:#7aa2f7
+	--color=info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7 
+	--color=marker:#73daca,spinner:#73daca,header:#73daca'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
+# Use tmux popup of in tmux
+export FZF_TMUX_OPTS='-p80%,50%'
+# Load custom FZF Widgets
+# source ~/.scripts/custom-fzf-widgets.zsh
+#
+# Overwrite Search with Atuin Search
+bindkey '^r' atuin-search
+
 # Zoxide 
 #
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
@@ -152,31 +185,18 @@ function lk {
 # See https://github.com/denisidoro/navi
 [[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
 
-# Improve look of fzf, use rg
-export FZF_DEFAULT_OPTS='--height 50% --ansi'
-# Add Tokyo Night colors
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
-	--color=fg:#c0caf5,bg:#1a1b26,hl:#bb9af7
-	--color=fg+:#c0caf5,bg+:#1a1b26,hl+:#7aa2f7
-	--color=info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7 
-	--color=marker:#73daca,spinner:#73daca,header:#73daca'
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
-# Use tmux popup of in tmux
-export FZF_TMUX_OPTS='-p60%,50%'
-# Load custom FZF Widgets
-source ~/.scripts/custom-fzf-widgets.zsh
+# Gcloud SDK
+export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
+if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Set up asdf
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # Export variables for scripts
 export PATH="$HOME/.local/bin:$PATH"
-export FLYCTL_INSTALL="/home/hschne/.fly"
-export PATH="$FLYCTL_INSTALL/bin:$PATH"
 source "$HOME/.scripts/gitscripts"
+
 # Load global environment variables
 source "$HOME/.env"
 
@@ -192,7 +212,3 @@ export TERM=xterm-256color
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
 
-# Gcloud SDK
-export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
-if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi

@@ -1,4 +1,3 @@
-# CTRL-R - Paste the selected command from history into the command line
 custom-history-widget() {
   local selected
   setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases noglob nobash_rematch 2> /dev/null
