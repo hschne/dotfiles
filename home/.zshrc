@@ -145,24 +145,22 @@ homeshick --quiet refresh 2
 # The best Fuzzy Finder.
 #
 # Improve look of fzf, use rg
-export FZF_DEFAULT_OPTS='--height 50% --ansi'
+export FZF_DEFAULT_OPTS='--height 50% --ansi --reverse --style full:sharp '
 # Add Tokyo Night colors
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
-	--color=fg:#c0caf5,hl:#bb9af7
+	--color=fg:#c0caf5,hl:#bb9af7,bg+:#414868
+	--color=selected-bg:#7aa2f7,gutter:#24283b,gap-line:#414868
 	--color=fg+:#c0caf5,hl+:#7aa2f7
 	--color=info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7 
-	--color=marker:#73daca,spinner:#73daca,header:#73daca'
+	--color=marker:#73daca,spinner:#73daca,header:#73daca
+  --color header:italic'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="--layout default --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
-export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3::wrap --bind 'ctrl-/:toggle-preview' --color header:italic"
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p80%,50%'
 # Load custom FZF Widgets
-# source ~/.scripts/custom-fzf-widgets.zsh
-#
-# Overwrite Search with Atuin Search
-bindkey '^r' atuin-search
+source ~/.scripts/custom-fzf-widgets.zsh
 
 # Zoxide 
 #
@@ -170,6 +168,15 @@ bindkey '^r' atuin-search
 #
 # See https://github.com/ajeetdsouza/zoxide
 [[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
+
+zi() {
+  local dir=$(
+    zoxide query --list --score |
+    fzf --height 40% --layout reverse --info inline \
+        --nth 2.. --tac --no-sort --query "$*" \
+        --bind 'enter:become:echo {2..}'
+  ) && cd "$dir"
+}
 
 # Walk
 #
