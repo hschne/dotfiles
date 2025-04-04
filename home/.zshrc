@@ -1,100 +1,37 @@
-# First things first, add locality script
-export PATH="$HOME/.scripts:$PATH"
+# vim:fileencoding=utf-8:foldmethod=marker
 
 # Activate vi mode and set some shortcuts
 bindkey -v
+
+# Better command line editing
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
 
 # Enable autocomplete and bash compatibilty
 fpath=(~/.config/completions $fpath)
 autoload -U +X compinit && compinit -i
 
-autoload edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-
-# Zi
-#
-# Zi is a modern plugin manager for ZSH. 
-#
-# Website: https://z-shell.pages.dev/
-zi_home="${HOME}/.zi"
-source "${zi_home}/bin/zi.zsh"
-
-# Enable system clipboard for Vi Mode
-#
-# See https://github.com/kutsan/zsh-system-clipboard
-zi load "kutsan/zsh-system-clipboard"
-
-# FZF
-#
-# FZF is a fuzzy command line finder. Great for finding files
-# and traversing your history.
-#
-# Website: https://github.com/junegunn/fzf
-zi pack src"shell/key-bindings.zsh" for fzf 
-
-# Plugins from oh-my-zsh
-#
-# Various plugins for different things, add aliases, auto-completions and stuff 
-# like that.
-#
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
-zi snippet OMZ::lib/git.zsh
-zi snippet OMZ::plugins/git/git.plugin.zsh
-zi snippet OMZ::plugins/heroku/heroku.plugin.zsh
-zi snippet OMZ::plugins/rails/rails.plugin.zsh
-
-# Syntax Highlighting and Autosuggestions
-#
-# Does what it says on the tin. See site for more information. Take care
-# with those defers, these plugins tend to break other stuff.
-#
-# Website: https://github.com/zsh-users
-zi load zsh-users/zsh-completions
-zi load zsh-users/zsh-autosuggestions
-zi load zsh-users/zsh-syntax-highlighting
-
-# Homeshick
-#
-# Homeshick is a dotfile manager written in Bash. Useful for 
-# keeping your settings backed up.
-#
-# Website: https://github.com/andsens/homeshick
-zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
-zi ice pick"completions"; zi load "andsens/homeshick"
-
-# You-Should-Use
-#
-# Plugin that reminds you to use your aliases. Will notify you 
-# if there is an alias for some command that you use. 
-#
-# Website: https://github.com/MichaelAquilina/zsh-you-should-use
-zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-use"
-
-# Atuin
-#
-# Atuin is a better shell history.
-#
-# See https://github.com/atuinsh/atuin
-export ATUIN_NOBIND="true"
-zi load "atuinsh/atuin"
-
-# fzf-tab 
-#
-# Replace all tab completions with fzf
-#
-# See https://github.com/Aloxaf/fzf-tab
-zi load "Aloxaf/fzf-tab"
-zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' menu no
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:*' popup-min-size 150 8
-zstyle ':fzf-tab:complete:*:*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
-
 # Set editor to the obvious choice
 export EDITOR='nvim'
+
+# Add custom aliases
+source $HOME/.aliases
+
+# Load global environment variables
+source "$HOME/.env"
+
+#: PATH {{{
+#
+# Export variables for scripts
+export PATH="$HOME/.scripts:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+source "$HOME/.scripts/gitscripts"
+
+#:}}}
+
+
+#: History Tweaks {{{
 
 # History Tweaks 
 #
@@ -112,6 +49,11 @@ export HISTFILE=~/.zsh_history # Required when using zplug
 export HISTSIZE=10000
 export SAVEHIST=10000
 
+
+#: }}}
+
+#: Various Tweaks {{{
+
 # Enable advanced cd behaviour
 setopt auto_cd
 
@@ -124,6 +66,11 @@ setopt re_match_pcre
 # pretty annoying 
 COMPLETION_WAITING_DOTS="false"
 
+# Enable colors for tmux
+#
+# See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
+export TERM=xterm-256color
+
 # Disable Scroll Lock 
 #
 # Needed to be able to do CTRL-S in vim in the terminal. 
@@ -133,14 +80,63 @@ stty -ixon
 
 # Speed up prompt redraw, useful when using vi-mode 
 export KEYTIMEOUT=1
+#: }}}
 
-# Add custom aliases
-source $HOME/.aliases
+# Zi
+#
+# Zi is a modern plugin manager for ZSH. 
+#
+# Website: https://z-shell.pages.dev/
+zi_home="${HOME}/.zi"
+source "${zi_home}/bin/zi.zsh"
+
+# Enable system clipboard for Vi Mode
+#
+# See https://github.com/kutsan/zsh-system-clipboard
+zi load "kutsan/zsh-system-clipboard"
+
+# Plugins from oh-my-zsh
+#
+# Various plugins for different things, add aliases, auto-completions and stuff 
+# like that.
+#
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+zi snippet OMZP::git
+zi snippet OMZP::rails
+
+# Syntax Highlighting and Autosuggestions
+#
+# Does what it says on the tin. See site for more information. Take care
+# with those defers, these plugins tend to break other stuff.
+#
+# Website: https://github.com/zsh-users
+zi load zsh-users/zsh-completions
+zi load zsh-users/zsh-autosuggestions
+zi load zsh-users/zsh-syntax-highlighting
+
+#: Homeshick {{{
+#
+# Homeshick is a dotfile manager written in Bash. Useful for 
+# keeping your settings backed up.
+#
+# Website: https://github.com/andsens/homeshick
+zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
+zi ice pick"completions"; zi load "andsens/homeshick"
 
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
+#: }}}
 
-# FZF
+#: You-Should-Use {{{
+#
+# Plugin that reminds you to use your aliases. Will notify you 
+# if there is an alias for some command that you use. 
+#
+# Website: https://github.com/MichaelAquilina/zsh-you-should-use
+zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-use"
+#: }}}
+
+#: FZF {{{
 #
 # The best Fuzzy Finder.
 #
@@ -149,7 +145,7 @@ export FZF_DEFAULT_OPTS='--height 50% --ansi --reverse --style full:sharp '
 # Add Tokyo Night colors
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
 	--color=fg:#c0caf5,hl:#bb9af7,bg+:#414868
-	--color=selected-bg:#7aa2f7,gutter:#24283b,gap-line:#414868
+	--color=selected-bg:#7aa2f7,gutter:#24283b,border:#414868
 	--color=fg+:#c0caf5,hl+:#7aa2f7
 	--color=info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7 
 	--color=marker:#73daca,spinner:#73daca,header:#73daca
@@ -159,17 +155,55 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p80%,50%'
+
+# Default key bindings for FZF
+zi pack src"shell/key-bindings.zsh" for fzf 
+
 # Load custom FZF Widgets
 source ~/.scripts/custom-fzf-widgets.zsh
 
-# Zoxide 
+#: }}}
+
+#: FZF-TAB {{{
+#
+# Replace all tab completions with fzf
+#
+# See https://github.com/Aloxaf/fzf-tab
+zi load "Aloxaf/fzf-tab"
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' switch-group '<' '>'
+zstyle ':fzf-tab:*' popup-min-size 150 8
+zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
+#: }}}
+
+
+#:  Set up asdf {{{
+#
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+#: }}}
+
+#: ATUIN {{{
+#
+# Atuin is a better shell history.
+#
+# See https://github.com/atuinsh/atuin
+export ATUIN_NOBIND="true"
+zi load "atuinsh/atuin"
+#: }}}
+
+#: ZOXIDE {{{
 #
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
 #
 # See https://github.com/ajeetdsouza/zoxide
 [[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
 
-zi() {
+zo() {
   local dir=$(
     zoxide query --list --score |
     fzf --height 40% --layout reverse --info inline \
@@ -177,6 +211,7 @@ zi() {
         --bind 'enter:become:echo {2..}'
   ) && cd "$dir"
 }
+#: }}}
 
 # Walk
 #
@@ -196,21 +231,6 @@ function lk {
 export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
 if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
 if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
-
-# Set up asdf
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
-# Export variables for scripts
-export PATH="$HOME/.local/bin:$PATH"
-source "$HOME/.scripts/gitscripts"
-
-# Load global environment variables
-source "$HOME/.env"
-
-# Enable colors for tmux
-#
-# See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
-export TERM=xterm-256color
 
 # Starship Prompt
 #

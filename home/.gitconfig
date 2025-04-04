@@ -34,6 +34,7 @@
 [mergetool "nvimdiff"]
   cmd = nvim -d "$LOCAL" "$MERGED" "$REMOTE"
 [diff]
+  tool = nvimdiff
 	algorithm = histogram
   colorMoved = plain
   mnemonicPrefix = true
