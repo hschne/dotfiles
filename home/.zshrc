@@ -1,25 +1,37 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
-# Activate vi mode and set some shortcuts
+#: VI MODE & CLI EDITING {{{
 bindkey -v
 
-# Better command line editing
+# Better command line editing (for vi mode)
 autoload edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
+#: }}}
 
+#: COMPLETIONS {{{
+#
 # Enable autocomplete and bash compatibilty
 fpath=(~/.config/completions $fpath)
 autoload -U +X compinit && compinit -i
+#: }}}
+
+#: ENV  {{{
 
 # Set editor to the obvious choice
 export EDITOR='nvim'
 
-# Add custom aliases
-source $HOME/.aliases
+# Set manpager to neovim
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
 
 # Load global environment variables
 source "$HOME/.env"
+#: }}}
+
+#: ALIASES  {{{
+source $HOME/.aliases
+#: }}}
 
 #: PATH {{{
 #
@@ -30,10 +42,7 @@ source "$HOME/.scripts/gitscripts"
 
 #:}}}
 
-
-#: History Tweaks {{{
-
-# History Tweaks 
+#: HISTORY {{{
 #
 # The main idea here is to avoid having a bunch of duplicates.
 # Additionally, the history size is increased. 
@@ -48,11 +57,9 @@ setopt SHARE_HISTORY
 export HISTFILE=~/.zsh_history # Required when using zplug
 export HISTSIZE=10000
 export SAVEHIST=10000
-
-
 #: }}}
 
-#: Various Tweaks {{{
+#: ZSH TWEAKS {{{
 
 # Enable advanced cd behaviour
 setopt auto_cd
@@ -82,6 +89,7 @@ stty -ixon
 export KEYTIMEOUT=1
 #: }}}
 
+#: PLUGIN MANAGER & PLUGINS {{{
 # Zi
 #
 # Zi is a modern plugin manager for ZSH. 
@@ -181,8 +189,7 @@ zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
 #: }}}
 
-
-#:  Set up asdf {{{
+#: ASDF {{{
 #
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 #: }}}
