@@ -201,14 +201,18 @@ _kamal_accessory() {
 (( $+functions[_kamal_app] )) ||
 _kamal_app() {
   local -a app_commands=(
-    'boot:Boot application'
-    'exec:Execute command in application container'
+    'boot:Boot app on servers (or reboot app if already running)'
+    'containers:Show app containers on servers'
+    'details:Show details about app containers'
+    'exec:Execute a custom command on servers within the app container'
     'help:Describe subcommands or one specific subcommand'
-    'logs:Show logs from application'
-    'restart:Restart application'
-    'run:Run command in new ephemeral container'
-    'start:Start application'
-    'stop:Stop application'
+    'images:Show app images on servers'
+    'logs:Show log lines from app on servers'
+    'remove:Remove app containers and images from servers'
+    'stale_containers:Detect app stale containers'
+    'start:Start existing app container on servers'
+    'stop:Stop app container on servers'
+    'version:Show app version currently running on servers'
   )
 
   _arguments -C \
@@ -219,10 +223,10 @@ _kamal_app() {
   case "$state" in
     (app_command)
       case $words[1] in
-        (boot|logs|restart|start|stop)
+        (boot|containers|details|images|logs|remove|stale_containers|start|stop|version)
           _arguments $common_options
           ;;
-        (exec|run)
+        (exec)
           _arguments $common_options \
             '*:command'
           ;;
@@ -271,15 +275,18 @@ _kamal_build() {
 (( $+functions[_kamal_docs] )) ||
 _kamal_docs() {
   local -a doc_sections=(
-    'accessory'
-    'app'
+    'boot'
+    'alias'
+    'logging'
+    'env'
     'builder'
-    'healthcheck'
-    'hooks'
     'registry'
+    'ssh'
+    'sshkit'
+    'role'
+    'accessory'
     'servers'
-    'traefik'
-    'volumes'
+    'proxy'
   )
 
   _arguments \
