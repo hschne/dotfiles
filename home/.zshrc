@@ -1,5 +1,17 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
+#: ZI {{{
+#
+# Zi is a modern plugin manager for ZSH. 
+#
+# Website: https://z-shell.pages.dev/
+typeset -A ZI
+ZI[BIN_DIR]="${HOME}/.zi/bin"
+source "${ZI[BIN_DIR]}/zi.zsh"
+(( ${+_comps} )) && _comps[zi]=_zi
+
+#: }}}
+
 #: VI MODE & CLI EDITING {{{
 bindkey -v
 
@@ -7,13 +19,6 @@ bindkey -v
 autoload edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
-#: }}}
-
-#: COMPLETIONS {{{
-#
-# Enable autocomplete and bash compatibilty
-fpath=(~/.config/completions $fpath)
-autoload -U +X compinit && compinit -i
 #: }}}
 
 #: ENV  {{{
@@ -81,7 +86,7 @@ export TERM=xterm-256color
 # Disable Scroll Lock 
 #
 # Needed to be able to do CTRL-S in vim in the terminal. 
-#
+
 # See https://unix.stackexchange.com/a/72092
 stty -ixon
 
@@ -89,30 +94,24 @@ stty -ixon
 export KEYTIMEOUT=1
 #: }}}
 
-#: PLUGIN MANAGER & PLUGINS {{{
-# Zi
-#
-# Zi is a modern plugin manager for ZSH. 
-#
-# Website: https://z-shell.pages.dev/
-zi_home="${HOME}/.zi"
-source "${zi_home}/bin/zi.zsh"
-
-# Enable system clipboard for Vi Mode
+#: VI SYSTEM CLIPBOARD {{{
 #
 # See https://github.com/kutsan/zsh-system-clipboard
 zi load "kutsan/zsh-system-clipboard"
+#: }}}
 
-# Plugins from oh-my-zsh
+#: OH MY ZSH PLUGINS {{{
 #
 # Various plugins for different things, add aliases, auto-completions and stuff 
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
-zi snippet OMZP::git
-zi snippet OMZP::rails
+zi snippet OMZL::git.zsh
+zi snippet OMZP::git/git.plugin.zsh
+zi snippet OMZP::rails/rails.plugin.zsh
+#: }}}
 
-# Syntax Highlighting and Autosuggestions
+#: SYNTAX HIGHLIGHTING AND AUTOSUGGESTIONS {{{
 #
 # Does what it says on the tin. See site for more information. Take care
 # with those defers, these plugins tend to break other stuff.
@@ -121,6 +120,7 @@ zi snippet OMZP::rails
 zi load zsh-users/zsh-completions
 zi load zsh-users/zsh-autosuggestions
 zi load zsh-users/zsh-syntax-highlighting
+#: }}}
 
 #: Homeshick {{{
 #
@@ -130,6 +130,8 @@ zi load zsh-users/zsh-syntax-highlighting
 # Website: https://github.com/andsens/homeshick
 zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
 zi ice pick"completions"; zi load "andsens/homeshick"
+
+zi ice pick"completions/zsh/_kamal" as"completion"; zi load "hschne/kamal-complete"
 
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
@@ -177,7 +179,8 @@ source ~/.scripts/custom-fzf-widgets.zsh
 # Replace all tab completions with fzf
 #
 # See https://github.com/Aloxaf/fzf-tab
-zi load "Aloxaf/fzf-tab"
+zi ice lucid wait has'fzf'
+zi light Aloxaf/fzf-tab
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
@@ -220,29 +223,43 @@ zo() {
 }
 #: }}}
 
-# Walk
+#: WALK {{{
 #
 # See https://github.com/antonmedv/walk 
 function lk {
   cd "$(walk --icons "$@")"
 }
+#: }}}
 
-# Navi
+#: NAVI {{{
 #
 # Cheatsheets for the command line.
 #
 # See https://github.com/denisidoro/navi
 [[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
+#: }}}
 
-# Gcloud SDK
-export PATH="$HOME/Programs/google-cloud-sdk/bin:$PATH"
-if [ -f '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/path.zsh.inc'; fi
-if [ -f '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hschne/Programs/google-cloud-sdk/completion.zsh.inc'; fi
+#: GCLOUD SDK {{{
+zi ice pick"bin/gcloud" as"program"
+zi load "$HOME/Programs/google-cloud-sdk"
+zi ice pick"completion.zsh.inc" as"snippet"
+zi load "$HOME/Programs/google-cloud-sdk"
+#: }}}
 
-# Starship Prompt
+#: COMPLETIONS {{{
+#
+# Enable autocomplete and bash compatibilty
+fpath=(~/.config/completions $fpath)
+autoload -U +X compinit && compinit -i
+zi cdreplay -q
+#: }}}
+
+#: STARSHIP PROMPT {{{
 #
 # Minimal fast prompt. The spiritual successor to spaceship prompt.  
 #
 # See https://github.com/starship/starship
 eval "$(starship init zsh)"
+
+#: }}}
 
