@@ -10,8 +10,6 @@ custom-history-widget() {
   
   local header="History | ${dir_key}: Directory | ${session_key}: Session | ${all_key}: All"
   local ATUIN_COMMAND="atuin history list --format '{relativetime}\t{duration}\t{command}' --print0" 
-
-  local FORMAT_COMMAND="perl -0 -ne '@fields = split(/\t/, $_, 3); if (!$seen{$fields[2]}++) { s/\n(?!\0)/\n\t\t/g; print $_; }'"
   local FORMAT_COMMAND="perl -0 -pe 's/\n(?!\0)/\n\t\t/g'"
   local ATUIN_ALL_COMMAND="${ATUIN_COMMAND} | ${FORMAT_COMMAND}"
   local ATUIN_DIRECTORY_COMMAND="${ATUIN_COMMAND} -c | ${FORMAT_COMMAND}"
@@ -24,15 +22,20 @@ custom-history-widget() {
     --read0 \
     --tac \
     --no-sort \
+    --preview 'echo {3..} | bat -p -l bash --color=always ' \
+    --preview-window 'down:5::wrap::hidden' \
     --header="${header}" \
     --bind="${dir_key}:reload(${ATUIN_DIRECTORY_COMMAND})+change-prompt(dir > )" \
     --bind="${session_key}:reload(${ATUIN_SESSION_COMMAND})+change-prompt(session > )" \
     --bind="${all_key}:reload(${ATUIN_ALL_COMMAND})+change-prompt(all > )" \
+    --bind 'ctrl-/:toggle-preview' \
     --bind=ctrl-r:toggle-sort \
     --prompt="> " \
+    --scheme="history" \
     --wrap-sign '\t↳ ' \
     --highlight-line \
     --accept-nth=3.. \
+    --keep-right \
     --query=${LBUFFER} +m
   )
   

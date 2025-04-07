@@ -97,6 +97,7 @@ export KEYTIMEOUT=1
 #: VI SYSTEM CLIPBOARD {{{
 #
 # See https://github.com/kutsan/zsh-system-clipboard
+zi ice lucid wait
 zi load "kutsan/zsh-system-clipboard"
 #: }}}
 
@@ -117,8 +118,11 @@ zi snippet OMZP::rails/rails.plugin.zsh
 # with those defers, these plugins tend to break other stuff.
 #
 # Website: https://github.com/zsh-users
+zi ice lucid wait
 zi load zsh-users/zsh-completions
+zi ice lucid wait
 zi load zsh-users/zsh-autosuggestions
+zi ice lucid wait
 zi load zsh-users/zsh-syntax-highlighting
 #: }}}
 
@@ -131,13 +135,16 @@ zi load zsh-users/zsh-syntax-highlighting
 zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
 zi ice pick"completions"; zi load "andsens/homeshick"
 
-zi ice pick"completions/zsh/_kamal" as"completion"; zi load "hschne/kamal-complete"
-
 # Refresh homeshick every two days
 homeshick --quiet refresh 2
 #: }}}
 
-#: You-Should-Use {{{
+#: KAMAL COMPLETE {{{
+# zi ice lucid wait as'completion' blockf has'kamal' mv'kamal.zsh -> _kamal'
+# zi snippet https://github.com/hschne/kamal-complete/blob/main/completions/kamal.zsh
+#: }}}
+
+#: YOU-SHOULD-USE {{{
 #
 # Plugin that reminds you to use your aliases. Will notify you 
 # if there is an alias for some command that you use. 
