@@ -158,7 +158,7 @@ zi ice pick"you-should-use.plugin.zsh"; zi load "MichaelAquilina/zsh-you-should-
 # The best Fuzzy Finder.
 #
 # Improve look of fzf, use rg
-export FZF_DEFAULT_OPTS='--height 50% --ansi --reverse --style full:sharp '
+export FZF_DEFAULT_OPTS='--height=50% --ansi --reverse --style full:sharp'
 # Add Tokyo Night colors
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS' 
 	--color=fg:#c0caf5,hl:#bb9af7,bg+:#414868
@@ -193,9 +193,11 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:*' popup-min-size 150 8
-zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
+zstyle ':fzf-tab:*' popup-min-size 150 10
+# For some reason we have to set height extra, it's ignored otherwise?
+zstyle ':fzf-tab:*' fzf-flags --height=50%
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
 
 #: }}}
 
