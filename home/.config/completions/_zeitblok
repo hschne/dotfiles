@@ -119,3 +119,5 @@ function _zeitblok {
     ;;
   esac
 }
+
+_zeitblok "$@"
