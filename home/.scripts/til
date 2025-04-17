@@ -1,19 +1,89 @@
 #!/usr/bin/env bash
 
-: "${TIL_FOLDER:=$HOME/til}"
-: "${TIL_POSTS:=$HOME/til-posts.md}"
+# TODO: Options for push, skip push
+# TODO: Options for front-formatter skip
+# TODO: Options for default directory
+# TODO: Add usage & help
+function main() {
+  # Set default values for environment variables if not set
+  TIL_FOLDER="${TIL_FOLDER:-$HOME/til}"
+  TIL_POSTS="${TIL_POSTS:-$HOME/til-posts.md}"
+
+  if [ ! -d "$TIL_FOLDER" ]; then
+    mkdir -p "$TIL_FOLDER"
+  fi
+
+  if [ $# -eq 0 ]; then
+    die "Error: Please provide a title for your TIL entry."
+  fi
+
+  local title="$*"
+  filepath=$(create_markdown_file "$title")
+  # git_commit_and_push "$filepath"
+
+  return 0
+}
+
+# Function to print error message and exit
+die() {
+  local message=$1
+  local code=${2:-1}
+  echo "Error: $message" >&2
+  exit "$code"
+}
+
+warn() {
+  local message=$1
+  echo "Warning: $message" >&2
+}
 
 # Convert a string to kebab-case (lowercase with hyphens)
 to_kebab_case() {
   echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-'
 }
 
+to_title_case() {
+  set ${*,,}
+  set ${*^}
+  echo -n "$1 "
+  shift 1
+  for f in ${*}; do
+    case $f in A | The | Is | Of | And | Or | But | About | To | In | By)
+      echo -n "${f,,} "
+      ;;
+    *) echo -n "$f " ;;
+    esac
+  done
+  echo
+}
+
+to_title_case "Something new and UNEXPECTED"
+
+# Check if directory is in a git repository and commit/push changes
+git_commit_and_push() {
+  local filepath="$1"
+  local filename
+  filename=$(basename "$filepath")
+
+  pushd "$TIL_FOLDER" >/dev/null || return
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git add "$filepath" >/dev/null 2>&1
+    git commit -m "Add $filename" >/dev/null 2>&1
+    git push >/dev/null 2>&1
+  fi
+
+  # Return to original directory
+  popd >/dev/null || return
+}
+
 # Create a markdown file with the proper format
 create_markdown_file() {
   local title="$1"
   local kebab_title
+  local title_case_title
   local date
   kebab_title=$(to_kebab_case "$title")
+  title_case_title=$(to_title_case "$title")
   date=$(date +%Y-%m-%d)
   local filename="${date}-${kebab_title}.md"
   local filepath="${TIL_FOLDER}/${filename}"
@@ -21,48 +91,21 @@ create_markdown_file() {
   # Create the markdown content
   cat >"$filepath" <<EOF
 ---
-title: $title
+title: $title_case_title
 date: $date
 tags: 
 ---
+
+# $title_case_title
 EOF
 
   if [ -n "$EDITOR" ]; then
-    $EDITOR "$filepath"
-    if [ -f "$filepath" ]; then
-      cat "$filepath" >>"$TIL_POSTS"
-    fi
-  else
-    echo "Warning: \$EDITOR environment variable not set. File created but not opened."
+    command -v "$EDITOR" >/dev/null 2>&1 || die "Error: Command '$EDITOR' not found. Please set a valid \$EDITOR." 2
+    # Redirect TTY to open NVIM inline
+    $EDITOR "$filepath" <$(tty) >$(tty)
   fi
 
   echo "$filepath"
-}
-
-function main() {
-  # Check if TIL_FOLDER environment variable is set
-  if [ -z "$TIL_FOLDER" ]; then
-    echo "Error: TIL_FOLDER environment variable is not set."
-    return 1
-  fi
-
-  # Check if the directory exists
-  if [ ! -d "$TIL_FOLDER" ]; then
-    echo "Error: Directory specified by TIL_FOLDER does not exist."
-    return 1
-  fi
-
-  # Check if a title was provided
-  if [ $# -eq 0 ]; then
-    echo "Error: Please provide a title for your TIL entry."
-    echo "Usage: til 'Your TIL Title'"
-    return 1
-  fi
-
-  local title="$*"
-  create_markdown_file "$title"
-
-  return 0
 }
 
 main "$@"

@@ -20,6 +20,9 @@ alias mux="tmuxinator"
 # Open
 alias open="xdg-open"
 
+# Til
+alias til="TIL_FOLDER=~/Source/til/til TIL_POSTS=~/Documents/Wiki/lists/tweets.md til"
+
 # Config Files
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"
