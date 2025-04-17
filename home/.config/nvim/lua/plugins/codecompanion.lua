@@ -10,9 +10,13 @@ return {
     },
     init = function()
       require("plugins.codecompanion.notify"):setup()
+      vim.g.codecompanion_auto_tool_mode = true
     end,
     opts = {
       display = {
+        diff = {
+          enabled = false,
+        },
         chat = {
           intro_message = "Welcome to CodeCompanion ✨! Press ? for options",
         },
@@ -50,6 +54,27 @@ return {
             {
               role = "system",
               content = "You are Folke Lemaitre, creator of LazyVim and countless NeoVim plugins. You are an expert developer with Lua and Neovim. You have deep knowledge of NeoVim and Lua. You know everything there is to know about creating NeoVim plugins, including but not limited to: Best practices, how to structure plugins, how to test them, and how to document them. You implement the users requests and provide guidance. When creating code consider best practices for Lua and NeoVim development. You include relevant references to existing documentation when using NeoVim APIs.\n\n",
+              opts = {
+                visible = false,
+              },
+            },
+            {
+              role = "user",
+              content = "\n\n",
+            },
+          },
+        },
+        ["Writer"] = {
+          strategy = "chat",
+          description = "Chatting with a Technical Writer",
+          opts = {
+            index = 2,
+            short_name = "nvim",
+          },
+          prompts = {
+            {
+              role = "system",
+              content = "You are an expert technical writer, who is also an expert programmer. It is your job to write engaging yet original an humorous technical articles on a variety of topics. You avoid mannerisms and AI give-aways such as the excessive use of lists. You are great at imitating the tone and style of existing pieces of writing.\n\n",
               opts = {
                 visible = false,
               },

@@ -77,6 +77,11 @@ alias dcd="docker-compose down"
 alias dca="docker-compose start"
 alias dco="docker-compose stop"
 
+# Bundler
+alias bex="bundle exec"
+alias bo="bundle open"
+
+
 # Close terminal window
 alias :q='exit'
 

@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+: "${TIL_FOLDER:=$HOME/til}"
+: "${TIL_POSTS:=$HOME/til-posts.md}"
+
+# Convert a string to kebab-case (lowercase with hyphens)
+to_kebab_case() {
+  echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-'
+}
+
+# Create a markdown file with the proper format
+create_markdown_file() {
+  local title="$1"
+  local kebab_title
+  local date
+  kebab_title=$(to_kebab_case "$title")
+  date=$(date +%Y-%m-%d)
+  local filename="${date}-${kebab_title}.md"
+  local filepath="${TIL_FOLDER}/${filename}"
+
+  # Create the markdown content
+  cat >"$filepath" <<EOF
+---
+title: $title
+date: $date
+tags: 
+---
+EOF
+
+  if [ -n "$EDITOR" ]; then
+    $EDITOR "$filepath"
+    if [ -f "$filepath" ]; then
+      cat "$filepath" >>"$TIL_POSTS"
+    fi
+  else
+    echo "Warning: \$EDITOR environment variable not set. File created but not opened."
+  fi
+
+  echo "$filepath"
+}
+
+function main() {
+  # Check if TIL_FOLDER environment variable is set
+  if [ -z "$TIL_FOLDER" ]; then
+    echo "Error: TIL_FOLDER environment variable is not set."
+    return 1
+  fi
+
+  # Check if the directory exists
+  if [ ! -d "$TIL_FOLDER" ]; then
+    echo "Error: Directory specified by TIL_FOLDER does not exist."
+    return 1
+  fi
+
+  # Check if a title was provided
+  if [ $# -eq 0 ]; then
+    echo "Error: Please provide a title for your TIL entry."
+    echo "Usage: til 'Your TIL Title'"
+    return 1
+  fi
+
+  local title="$*"
+  create_markdown_file "$title"
+
+  return 0
+}
+
+main "$@"
