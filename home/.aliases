@@ -21,7 +21,7 @@ alias mux="tmuxinator"
 alias open="xdg-open"
 
 # Til
-alias til="TIL_FOLDER=~/Source/til/til TIL_POSTS=~/Documents/Wiki/lists/tweets.md til"
+alias til="til-proxy"
 
 # Config Files
 alias aliases="$EDITOR ~/.aliases"

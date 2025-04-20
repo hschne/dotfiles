@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+function main() {
+  filepath=$(til -d ~/Source/til/til "$1")
+  cat "$filepath" >>~/Documents/Wiki/lists/tweets.md
+}
+
+main "$@"

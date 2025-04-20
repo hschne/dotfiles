@@ -57,8 +57,6 @@ to_title_case() {
   echo
 }
 
-to_title_case "Something new and UNEXPECTED"
-
 # Check if directory is in a git repository and commit/push changes
 git_commit_and_push() {
   local filepath="$1"
