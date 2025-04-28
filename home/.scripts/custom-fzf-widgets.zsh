@@ -9,7 +9,7 @@ custom-history-widget() {
   local all_key="ctrl-a"
   
   local header="History | ${dir_key}: Directory | ${session_key}: Session | ${all_key}: All"
-  local ATUIN_COMMAND="atuin history list --reverse false --format '{relativetime}\t{duration}\t{command}' --print0" 
+  local ATUIN_COMMAND="atuin history list --format '{relativetime}\t{duration}\t{command}' --print0" 
   local UNIQUE_COMMAND="perl -0 -ne 'if (!\$seen{(/^.*\t.*\t(.*)/s, \$1)}++) { print; }'"
   local FORMAT_COMMAND="perl -0 -pe 's/\n(?!\0)/\n\t\t/g'"
   local ATUIN_ALL_COMMAND="${ATUIN_COMMAND} | ${UNIQUE_COMMAND} | ${FORMAT_COMMAND}"
@@ -22,6 +22,7 @@ custom-history-widget() {
     --delimiter="\t" \
     --read0 \
     --no-sort \
+    --tac \
     --preview 'echo {3..} | bat -p -l bash --color=always ' \
     --preview-window 'down:5::wrap::hidden' \
     --header="${header}" \

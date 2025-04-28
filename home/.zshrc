@@ -177,7 +177,7 @@ export FZF_TMUX_OPTS='-p80%,50%'
 zi pack src"shell/key-bindings.zsh" for fzf 
 
 # Load custom FZF Widgets
-source ~/.scripts/custom-fzf-widgets.zsh
+# source ~/.scripts/custom-fzf-widgets.zsh
 
 #: }}}
 
