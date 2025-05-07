@@ -7,7 +7,6 @@ function main() {
   local cols=0
   local copy_to_clipboard=false
 
-  # Parse command-line arguments
   while [[ $# -gt 0 ]]; do
     case "$1" in
     -h | --help)
@@ -21,10 +20,8 @@ function main() {
       die "Unknown option: $1"
       ;;
     *)
-      # First non-flag argument is rows
       if [[ $rows -eq 0 ]]; then
         rows="$1"
-      # Second non-flag argument is columns
       elif [[ $cols -eq 0 ]]; then
         cols="$1"
       else
@@ -35,22 +32,17 @@ function main() {
     esac
   done
 
-  # Check if required arguments are provided
   if [[ $rows -eq 0 || $cols -eq 0 ]]; then
     die "Error: Please provide both rows and columns as positive integers"
   fi
 
-  # Validate inputs
   validate_input "$rows" "Rows"
   validate_input "$cols" "Columns"
 
-  # Generate the table
   if [[ "$copy_to_clipboard" == true ]]; then
-    # Check if xclip is available
     if ! command -v xclip >/dev/null 2>&1; then
       die "xclip is not installed. Please install it to use the clipboard feature."
     fi
-    # Generate table and pipe to clipboard
     generate_table "$rows" "$cols" | xclip -selection clipboard
     echo "Table copied to clipboard."
   else
@@ -60,7 +52,6 @@ function main() {
   return 0
 }
 
-# Show usage information
 usage() {
   cat <<EOF
 Usage: mdt [OPTIONS] ROWS COLUMNS
@@ -83,7 +74,6 @@ EOF
   exit 0
 }
 
-# Function to print error message and exit
 die() {
   local message=$1
   local code=${2:-1}
@@ -91,7 +81,6 @@ die() {
   exit "$code"
 }
 
-# Validate that input is a positive integer
 validate_input() {
   local value=$1
   local name=$2
@@ -105,26 +94,22 @@ validate_input() {
   fi
 }
 
-# Generate the complete markdown table
 generate_table() {
   local rows=$1
   local cols=$2
 
-  # Generate header row
   echo -n "|"
   for ((i = 1; i <= cols; i++)); do
     printf " %-10s |" "Column $i"
   done
   echo ""
 
-  # Generate separator row
   echo -n "|"
   for ((i = 1; i <= cols; i++)); do
     printf " %-10s |" "----------"
   done
   echo ""
 
-  # Generate content rows
   for ((r = 1; r <= rows; r++)); do
     echo -n "|"
     for ((c = 1; c <= cols; c++)); do
