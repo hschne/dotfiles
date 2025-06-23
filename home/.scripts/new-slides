@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+create_repo() {
+  local repo_name="$1"
+  gh repo create "$repo_name" --public --confirm || die "Failed to create GitHub repository"
+}
+
+create_slides() {
+  local slides_name="$1"
+  pnpm create slidev "$slides_name" || die "Failed to create Slidev project"
+}
+
+cleanup_slides() {
+  local slides_name="$1"
+  rm -rf "$slides_name/components" "$slides_name/pages" "$slides_name/snippets"
+  rm -f "$slides_name/netlify.toml" "$slides_name/README.md" "$slides_name/vercel.json"
+}
+
+setup_github_pages() {
+  local slides_name="$1"
+  mkdir -p "$slides_name/.github/workflows"
+
+  cat >"$slides_name/.github/workflows/deploy.yml" <<'EOF'
+name: Deploy pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Setup @antfu/ni
+        run: npm i -g @antfu/ni
+
+      - name: Install dependencies
+        run: nci
+
+      - name: Build
+        run: nr build --base /${{github.event.repository.name}}/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+EOF
+}
+
+setup_git() {
+  local slides_name="$1"
+  local repo_name="$2"
+  cd "$slides_name" || die "Failed to change to slides directory"
+  git init
+  git add .
+  git commit -m "Initial commit"
+  git branch -M main
+  git remote add origin "git@github.com:$(gh api user -q .login)/${repo_name}.git"
+  git push -u origin main
+}
+
+main() {
+  if [ $# -lt 1 ]; then
+    die "Usage: $0 <slides-name>"
+  fi
+
+  local slides_name="$1"
+  local repo_name="slides-${slides_name}"
+
+  create_repo "$repo_name"
+  create_slides "$slides_name"
+  cleanup_slides "$slides_name"
+  setup_github_pages "$slides_name"
+  setup_git "$slides_name" "$repo_name"
+
+  echo -e "Successfully created and deployed slides at: https://$(gh api user -q .login).github.io/${repo_name}/"
+}
+
+die() {
+  echo "$*" >&2
+  exit 1
+}
+
+main "$@"

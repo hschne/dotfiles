@@ -55,11 +55,18 @@ gntag() {
   local latest_tag new_tag
   latest_tag=$(git tag --sort version:refname | tail -n 1)
   new_tag="v$(date +"%y.%m.%d")"
-  if [[ "$latest_tag" == "$new_tag" ]]; then 
+  if [[ "$latest_tag" == "$new_tag" ]]; then
     new_tag=$(_increment_micro "$latest_tag")
   fi
   git tag "$new_tag"
   echo "$new_tag"
+}
+
+ghsync() {
+  local upstream current
+  current=$(gh repo view --json nameWithOwner -q ".nameWithOwner")
+  upstream=$(git remote get-url upstream | sed 's/.*github\.com[:/]//' | sed 's/\.git$//')
+  gh repo sync "$current" --source "$upstream"
 }
 
 function _increment_micro() {
@@ -71,12 +78,15 @@ function _increment_micro() {
     day_array=($(echo "$day" | tr "_" '\n'))
     day=${day_array[1]}
     micro=${day_array[2]}
-    ((micro+=1))
+    ((micro += 1))
     day="${day}_${micro}"
   else
     micro="1"
     day="${day}_${micro}"
   fi
   array[3]="$day"
-  echo "$(local IFS=$delimiter ; echo "${array[*]}")"
+  echo "$(
+    local IFS=$delimiter
+    echo "${array[*]}"
+  )"
 }

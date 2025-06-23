@@ -15,6 +15,7 @@ vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
 -- Disable prettier if no config file
 vim.g.lazyvim_prettier_needs_config = true
+vim.g.lazyvim_eslint_auto_format = false
 
 -- Project-dependent ruby formatter. If a standardrb config
 -- is present we use standard. Otherwise, Rubocop.
