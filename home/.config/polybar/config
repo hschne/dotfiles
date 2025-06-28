@@ -55,7 +55,7 @@ font-0 = SauceCodePro NF:size=10;5
 font-1 = MaterialIcons:size=10;5
 
 modules-left = cpu memory temperature
-modules-right = updates profile progress date
+modules-right = updates progress date
 
 [bar/secondary]
 monitor = ${env:MONITOR:}
