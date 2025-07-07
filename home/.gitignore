@@ -3,3 +3,5 @@
 
 # Ignore Worktrees
 worktrees/
+.specstory/
+.tmuxinator.yml

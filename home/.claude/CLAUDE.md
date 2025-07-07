@@ -19,10 +19,6 @@ The following tools are available on this system and can be used in bash command
 - `gh` - GitHub CLI
 - `glab` - GitLab CLI
 
-## Custom Scripts
-- `worktree` - Git worktree management with tmux integration
-  - `worktree new "feature description"` - Creates worktree + Tmux window + starts claude code
-  - `worktree destroy path/to/worktree` - Removes worktree and cleans up tmux window
 
 ## System & UI
 - `zsh` - Default shell
@@ -30,6 +26,11 @@ The following tools are available on this system and can be used in bash command
 - `firefox` - Web browser
 - `chromium` - Web browser
 - `notify-send` - Desktop notifications
+
+## Custom Scripts
+- `worktree` - Git worktree management with tmux integration
+  - `worktree new "feature description"` - Creates worktree + Tmux window + starts claude code
+  - `worktree destroy path/to/worktree` - Removes worktree and cleans up tmux window
 
 ## MCP Servers
 - Puppeteer MCP server available for browser automation
