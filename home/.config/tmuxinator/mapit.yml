@@ -1,0 +1,21 @@
+# /home/hschne/.config/tmuxinator/apollonia.yml
+
+name: mapit
+root: ~/Source/mapit
+
+windows:
+  - editor:
+      panes:
+        - vim: nvim
+  - worktrees:
+      panes:
+        - claude: claude
+  - console:
+      layout: even-vertical
+      panes:
+        - console: bundle exec rails console
+        - bash: # bash
+  - background:
+      layout: tiled
+      panes:
+        - server: bin/dev

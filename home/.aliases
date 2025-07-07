@@ -23,6 +23,13 @@ alias open="xdg-open"
 # Til
 alias til="til-proxy"
 
+# Claude
+alias claude="claude --dangerously-skip-permissions"
+alias wt="worktree"
+alias wtn="worktree new"
+alias wto="worktree open"
+alias wtd="worktree destroy"
+
 # Config Files
 alias aliases="$EDITOR ~/.aliases"
 alias i3rc="$EDITOR ~/.config/i3/config"

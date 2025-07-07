@@ -1,0 +1,19 @@
+# /home/hschne/.config/tmuxinator/apollonia.yml
+
+name: rubyevents
+root: ~/Source/forks/rubyevents
+
+windows:
+  - editor:
+      panes:
+        - vim: nvim
+  - console:
+      layout: even-vertical
+      panes:
+        - console: bundle exec rails console
+        - shell: # shell
+  - background:
+      layout: tiled
+      panes:
+        server: bin/dev
+        ranger: ranger .

@@ -1,0 +1,40 @@
+#compdef worktree
+
+_worktree() {
+  local state line context
+  
+  _arguments \
+    '1: :->command' \
+    '*: :->args' \
+    && return 0
+  
+  case $state in
+    command)
+      _values 'worktree commands' \
+        'new[Create new worktree and start development environment]' \
+        'destroy[Remove worktree and clean up]' \
+        'open[Open worktree using tmuxinator template]'
+      ;;
+    args)
+      case $line[1] in
+        new)
+          _message 'feature description'
+          ;;
+        destroy|open)
+          _worktree_directories
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_worktree_directories() {
+  local worktrees_dir="./worktrees"
+  
+  if [[ -d "$worktrees_dir" ]]; then
+    local directories=($(ls -1 "$worktrees_dir" 2>/dev/null | grep -v '^\.$' | grep -v '^\.\.$'))
+    _describe 'worktree directories' directories
+  fi
+}
+
+_worktree "$@"

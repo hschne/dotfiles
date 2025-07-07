@@ -1,0 +1,18 @@
+# /home/hschne/.config/tmuxinator/apollonia.yml
+
+name: apollonia
+root: ~/Source/apollonia
+
+windows:
+  - editor:
+      panes:
+        - vim: nvim .
+  - console:
+      layout: even-vertical
+      panes:
+        - console: bundle exec rails console
+        - shell: # shell
+  - background:
+      layout: tiled
+      panes:
+        serer: bundle exec rails server

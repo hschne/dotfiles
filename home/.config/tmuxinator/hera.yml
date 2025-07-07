@@ -1,0 +1,20 @@
+name: hera
+root: ~/Source/Hera
+
+windows:
+  - editor:
+      panes:
+        - vim: vim
+  - worktrees:
+      panes:
+        - claude: claude
+  - console:
+      layout: even-vertical
+      panes:
+        - console: bundle exec foreman start -f Procfile.dev
+        - shell: # shell
+  - background:
+      layout: tiled
+      panes:
+        server: bundle exec rails server
+        docker: docker-compose up

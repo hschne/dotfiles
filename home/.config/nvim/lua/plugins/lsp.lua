@@ -1,12 +1,14 @@
 local formatter = vim.g.lazyvim_ruby_formatter
+vim.lsp.enable("herb_ls")
 return {
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
         cssls = { settings = { css = { lint = { unknownAtRules = "ignore" } } } },
-        html = {
-          filetypes = { "html", "eruby" },
+        erb_formatter = {
+          mason = false,
+          enabled = false,
         },
         ruby_lsp = {
           mason = false,

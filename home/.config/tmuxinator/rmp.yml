@@ -1,0 +1,28 @@
+# /home/hschne/.config/tmuxinator/apollonia.yml
+
+name: rmp
+root: ~/Source/rails-mini-profiler/
+
+windows:
+  - editor:
+      panes:
+        - vim: nvim
+  - claude:
+      panes:
+        - claude: claude
+  - console:
+      layout: even-vertical
+      panes:
+        - testing: #
+        - other: #
+  - spec/dummy:
+      layout: even-vertical
+      panes:
+        - console: cd spec/dummy; bundle exec rails console
+        - server: bin/rails server
+  - dummy:
+      root: ~/Source/rmp-dummy
+      layout: main-horizintal
+      panes:
+        - editor: nvim
+        - console: #console

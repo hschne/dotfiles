@@ -13,6 +13,8 @@ vim.opt.directory = vim.fn.expand("$HOME/.local/share/.nvim/swp/")
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("$HOME/.local/share/.nvim/undo/")
 
+vim.g.root_spec = { "cwd" }
+
 -- Disable prettier if no config file
 vim.g.lazyvim_prettier_needs_config = true
 vim.g.lazyvim_eslint_auto_format = false

@@ -22,14 +22,17 @@ class Zeitblok < Thor
   end
 
   desc 'log TIME *TAGS', 'Log time entry with duration (format: minutes or HH:MM) and tags'
+  method_option :description, aliases: '-d', type: :string, desc: 'Optional description for the time entry'
+  method_option :yesterday, aliases: '-y', type: :boolean, desc: 'Log entry for yesterday instead of today'
   def log(time_input, *tags)
     minutes = parse_time(time_input)
-    current_date = Date.today.strftime('%Y/%m/%d')
+    date = options[:yesterday] ? Date.today - 1 : Date.today
+    current_date = date.strftime('%Y/%m/%d')
     file_path = get_file_path
     FileUtils.mkdir_p(File.dirname(file_path))
 
     formatted_minutes = format_minutes(minutes)
-    entry = [current_date, formatted_minutes, tags.join(', ')]
+    entry = [current_date, formatted_minutes, tags.join(', '), options[:description]]
 
     File.open(file_path, 'a') do |file|
       file.puts(CSV.generate_line(entry))
@@ -67,17 +70,18 @@ class Zeitblok < Thor
       next unless date >= start_date && date <= end_date
 
       entry_tags = row[2].split(', ')
-      if tags.empty? || tags.all? { |tag| entry_tags.include?(tag) }
-        # Convert HH:MM to minutes for calculations
-        hours, minutes = row[1].split(':').map(&:to_i)
-        total_minutes += (hours * 60) + minutes
+      next unless tags.empty? || tags.all? { |tag| entry_tags.include?(tag) }
 
-        matching_entries << {
-          date: date.strftime('%Y/%m/%d'),
-          time: row[1],
-          tags: row[2]
-        }
-      end
+      # Convert HH:MM to minutes for calculations
+      hours, minutes = row[1].split(':').map(&:to_i)
+      total_minutes += (hours * 60) + minutes
+
+      matching_entries << {
+        date: date.strftime('%Y/%m/%d'),
+        time: row[1],
+        tags: row[2],
+        description: row[3]
+      }.compact
     end
 
     if matching_entries.empty?
