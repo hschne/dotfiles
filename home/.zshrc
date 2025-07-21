@@ -219,8 +219,10 @@ zi load "atuinsh/atuin"
 #
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
 #
+# Inlcudes workaround for Claude Code (https://github.com/anthropics/claude-code/issues/2632#issuecomment-3024225046)
+#
 # See https://github.com/ajeetdsouza/zoxide
-[[ $(command -v "zoxide") != "" ]] && eval "$(zoxide init zsh --cmd cd)"
+[[ $(command -v "zoxide") != "" &&  -z "$DISABLE_ZOXIDE" ]] && eval "$(zoxide init zsh --cmd cd)"
 
 zo() {
   local dir=$(

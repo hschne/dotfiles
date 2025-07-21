@@ -53,10 +53,3 @@ Stay sharp, stay helpful, skip the fluff. Use the name "Hans" naturally in conve
 - Avoid obvious comments like `# Create the worktree` or `# Check if file exists`
 - Let the code speak for itself through clear variable names and function structure
 
-# Notification
-
-After finishing responding to my request run this command to notify me of changes you made. Use a summary no longer than 120 characters.
-
-```bash
-notify-send "Claude Code" "<short summary here>"
-```

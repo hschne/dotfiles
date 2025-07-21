@@ -7,9 +7,6 @@ windows:
   - editor:
       panes:
         - vim: nvim
-  - worktrees:
-      panes:
-        - claude: claude
   - console:
       layout: even-vertical
       panes:
@@ -19,3 +16,6 @@ windows:
       layout: tiled
       panes:
         - server: bin/dev
+  - worktrees:
+      panes:
+        - claude: claude
