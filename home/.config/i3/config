@@ -191,7 +191,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # Screenshot
-bindsym Print exec "flameshot gui"
+bindsym Print exec "QT_ENABLE_HIGHDPI_SCALING=0 flameshot gui"
 
 # Configure Gaps
 for_window [class=".*"] border pixel 1
