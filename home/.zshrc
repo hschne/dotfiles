@@ -110,6 +110,8 @@ zi load "kutsan/zsh-system-clipboard"
 zi snippet OMZL::git.zsh
 zi snippet OMZP::git/git.plugin.zsh
 zi snippet OMZP::rails/rails.plugin.zsh
+zi ice as"completion"
+zi snippet OMZP::rails/_rails
 #: }}}
 
 #: SYNTAX HIGHLIGHTING AND AUTOSUGGESTIONS {{{
@@ -201,9 +203,9 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 
 #: }}}
 
-#: ASDF {{{
+#: MISE {{{
 #
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+eval "$(~/.local/bin/mise activate zsh)"
 #: }}}
 
 #: ATUIN {{{
@@ -222,7 +224,7 @@ zi load "atuinsh/atuin"
 # Inlcudes workaround for Claude Code (https://github.com/anthropics/claude-code/issues/2632#issuecomment-3024225046)
 #
 # See https://github.com/ajeetdsouza/zoxide
-[[ $(command -v "zoxide") != "" &&  -z "$DISABLE_ZOXIDE" ]] && eval "$(zoxide init zsh --cmd cd)"
+[[ -z "$DISABLE_ZOXIDE" ]] && eval "$(zoxide init zsh --cmd cd)"
 
 zo() {
   local dir=$(
@@ -257,6 +259,14 @@ zi ice pick"completion.zsh.inc" as"snippet"
 zi load "$HOME/Programs/google-cloud-sdk"
 #: }}}
 
+# pnpm
+export PNPM_HOME="/home/hschne/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
 #: COMPLETIONS {{{
 #
 # Enable autocomplete and bash compatibilty
@@ -274,11 +284,3 @@ eval "$(starship init zsh)"
 
 #: }}}
 
-
-# pnpm
-export PNPM_HOME="/home/hschne/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end

@@ -17,17 +17,14 @@ return {
         },
         ruby_lsp = {
           mason = false,
-          cmd = { vim.fn.expand("~/.asdf/shims/ruby-lsp") },
         },
         rubocop = {
           mason = false,
           enabled = formatter == "rubocop",
-          cmd = { vim.fn.expand("~/.asdf/shims/rubocop"), "--lsp" },
         },
         standardrb = {
           mason = false,
           enabled = formatter == "standardrb",
-          cmd = { vim.fn.expand("~/.asdf/shims/standardrb"), "--lsp" },
         },
         yamlls = {
           settings = {
