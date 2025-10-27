@@ -1,0 +1,6 @@
+bundler
+bundle_update_interactive
+ruby-lsp
+tmuxinator
+amazing_print
+
