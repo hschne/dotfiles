@@ -17,6 +17,9 @@ alias lls="ls"
 # Tmuxinator
 alias mux="tmuxinator"
 
+# Xclip
+alias clip="xclip -sel clipboard"
+
 # Open
 alias open="xdg-open"
 
@@ -29,6 +32,9 @@ alias wt="worktree"
 alias wtn="worktree new"
 alias wto="worktree open"
 alias wtd="worktree destroy"
+
+# Opencode
+alias oc="opencode"
 
 # Config Files
 alias aliases="$EDITOR ~/.aliases"
@@ -88,7 +94,6 @@ alias dco="docker-compose stop"
 # Bundler
 alias bex="bundle exec"
 alias bo="bundle open"
-
 
 # Close terminal window
 alias :q='exit'

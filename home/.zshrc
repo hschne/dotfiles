@@ -107,8 +107,10 @@ zi load "kutsan/zsh-system-clipboard"
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+zi snippet OMZP::archlinux/archlinux.plugin.zsh
 zi snippet OMZL::git.zsh
 zi snippet OMZP::git/git.plugin.zsh
+zi snippet OMZP::npm/npm.plugin.zsh
 zi snippet OMZP::rails/rails.plugin.zsh
 zi ice as"completion"
 zi snippet OMZP::rails/_rails
@@ -230,7 +232,7 @@ zo() {
   local dir=$(
     zoxide query --list --score |
     fzf --height 40% --layout reverse --info inline \
-        --nth 2.. --tac --no-sort --query "$*" \
+        --nth 2.. --no-sort --query "$*" \
         --bind 'enter:become:echo {2..}'
   ) && cd "$dir"
 }
