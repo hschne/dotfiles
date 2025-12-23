@@ -69,6 +69,18 @@ ghsync() {
   gh repo sync "$current" --source "$upstream"
 }
 
+ghprc() {
+  local repo
+  # Returns upstream if fork or empty otherwise
+  repo=$(gh repo view --json isFork,parent --jq 'if .isFork then .parent.owner.login + "/" + .parent.name else empty end')
+
+  if [ -n "$repo" ]; then
+    gh pr create --repo "$repo" "$@"
+  else
+    gh pr create "$@"
+  fi
+}
+
 function _increment_micro() {
   local day micro delimiter array day_array
   delimiter=.

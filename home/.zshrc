@@ -273,8 +273,10 @@ esac
 #
 # Enable autocomplete and bash compatibilty
 fpath=(~/.config/completions $fpath)
+autoload bashcompinit && bashcompinit
 autoload -U +X compinit && compinit -i
 zi cdreplay -q
+complete -C '/usr/local/bin/aws_completer' aws
 #: }}}
 
 #: STARSHIP PROMPT {{{

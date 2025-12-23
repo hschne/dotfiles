@@ -2,7 +2,9 @@ return {
   {
     "andrewferrier/wrapping.nvim",
     config = function()
-      require("wrapping").setup()
+      require("wrapping").setup({
+        softener = { markdown = 100000 },
+      })
     end,
   },
 }

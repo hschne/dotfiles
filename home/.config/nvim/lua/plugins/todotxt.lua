@@ -9,7 +9,6 @@ return {
         todo_files = {
           "./todo.txt",
           "~/Documents/Wiki/todo.txt",
-          "~/Documents/Wiki/todo-meister.txt",
         },
       })
     end,

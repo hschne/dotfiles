@@ -12,6 +12,9 @@ windows:
       panes:
         - console: bundle exec rails console
         - shell: # shell
+  - ai:
+      panes:
+        - opencode: oc
   - background:
       layout: tiled
       panes:

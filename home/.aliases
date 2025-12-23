@@ -23,6 +23,9 @@ alias clip="xclip -sel clipboard"
 # Open
 alias open="xdg-open"
 
+# Realpath
+alias rlp="realpath"
+
 # Til
 alias til="til-proxy"
 

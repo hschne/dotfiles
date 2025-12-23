@@ -97,6 +97,7 @@ set $ws9 "9"
 set $ws10 "10"
 
 # Assign windows to workspaces
+assign [class="(?i)librewolf"] $ws2
 assign [class="(?i)firefox*"] $ws2
 assign [class="(?i)chromium"] $ws2
 assign [class="(?i)spotify"] $ws5

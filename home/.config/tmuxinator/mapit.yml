@@ -18,4 +18,4 @@ windows:
         - server: bin/dev
   - worktrees:
       panes:
-        - claude: claude
+        - opencode: oc
