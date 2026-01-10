@@ -22,12 +22,12 @@ vim.g.lazyvim_eslint_auto_format = false
 -- Project-dependent ruby formatter. If a standardrb config
 -- is present we use standard. Otherwise, Rubocop.
 local function ruby_formatter()
-  local standardrb_config = vim.fn.findfile(".standard.yml")
-  if standardrb_config ~= "" then
-    return "standardrb"
+  local rubocop_config = vim.fn.findfile(".rubocop.yml")
+  if rubocop_config ~= "" then
+    return "rubocop"
   end
 
-  return "rubocop"
+  return "standardrb"
 end
 
 vim.g.lazyvim_ruby_formatter = ruby_formatter()

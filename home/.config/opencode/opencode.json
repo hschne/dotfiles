@@ -10,5 +10,17 @@
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
       }
     }
+  },
+  "plugin": [
+    "opencode-anthropic-auth@0.0.8"
+  ],
+  "agent": {
+    "plan": {
+      "permission": {
+        "external_directory": {
+          "/home/hschne/Source/**": "allow"
+        },
+      }
+    },
   }
 }

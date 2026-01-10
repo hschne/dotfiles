@@ -288,3 +288,4 @@ eval "$(starship init zsh)"
 
 #: }}}
 
+export OPENCODE_DISABLE_DEFAULT_PLUGINS=true
