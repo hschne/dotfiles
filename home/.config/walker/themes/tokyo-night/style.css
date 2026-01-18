@@ -1,0 +1,112 @@
+@define-color selected-text #7aa2f7;
+@define-color text #a9b1d6;
+@define-color base #1a1b26;
+@define-color border {{ #a9b1d6 }};
+@define-color foreground {{ #a9b1d6 }};
+@define-color background {{ #1a1b26 }};
+
+* {
+  all: unset;
+}
+
+* {
+  font-family: monospace;
+  font-size: 14px;
+  color: @text;
+}
+
+window {
+    background-color: rgba(26, 27, 38, 0.4);
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.normal-icons {
+  -gtk-icon-size: 14px;
+}
+
+.large-icons {
+  -gtk-icon-size: 18px;
+}
+
+.box-wrapper {
+  background: @base;
+  padding: 8px;
+  border: 1px solid @border;
+  border-radius: 5px;
+}
+
+/* Input */
+.input {
+  caret-color: @foreground;
+  background: lighter(@background);
+  padding: 4px;
+}
+
+.input placeholder {
+  opacity: 0.5;
+}
+
+child:focus,
+child:focus-visible {
+  outline: none;
+  outline-style: none;
+  outline-width: 0;
+}
+/* Also target the row directly */
+row:focus,
+row:focus-visible {
+  outline: none;
+}
+/* If the outline is on the item-box itself */
+.item-box:focus,
+.item-box:focus-visible {
+  outline: none;
+}
+
+/* List */
+.list {
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 0;
+}
+
+.item {
+    color: @text;
+    margin: 0;
+}
+
+.item-box {
+  background-color: @base;
+  border-radius: 5px;
+  padding: 0px 16px;
+  margin: 0px;
+}
+
+child:selected .item-box * {
+  color: @selected-text;
+}
+
+.item-subtext {
+  font-size: 0px;
+  min-height: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.item-image {
+  -gtk-icon-transform: scale(0.9);
+}
+
+.current {
+  font-style: italic;
+}
+
+.keybind-hints {
+  background: @background;
+  padding: 8px;
+  margin-top: 8px;
+}
+

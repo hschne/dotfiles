@@ -1,0 +1,151 @@
+[
+  {
+    "name": "top",
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 8,
+    "modules-left": [
+      "hyprland/workspaces"
+    ],
+    "modules-center": [],
+    "modules-right": [
+      "pulseaudio",
+      "backlight",
+      "network",
+      "battery",
+      "tray",
+      "custom/power"
+    ],
+    "hyprland/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        "1": "\uf120",
+        "2": "\udb80\ude39",
+        "3": "\uf121",
+        "4": "\uf07c",
+        "5": "\uf001",
+        "6": "\uf075",
+        "7": "\ue8b0",
+        "8": "\uf135",
+        "default": "\uf26c"
+      },
+      "persistent-workspaces": {
+        "*": 8
+      },
+      "on-click": "activate"
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-muted": " muted",
+      "format-icons": {
+        "default": [
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "on-click": "pavucontrol"
+    },
+    "backlight": {
+      "format": "{icon} {percent}%",
+      "format-icons": [
+        "",
+        "",
+        ""
+      ],
+      "on-scroll-up": "brightnessctl set +5%",
+      "on-scroll-down": "brightnessctl set 5%-"
+    },
+    "network": {
+      "format-wifi": "{icon} {essid}",
+      "format-ethernet": "\udb80\ude00 {ipaddr}",
+      "format-disconnected": "\udb82\udd2d disconnected",
+      "format-icons": [
+        "\udb82\udd2f",
+        "\udb82\udd1f",
+        "\udb82\udd22",
+        "\udb82\udd25",
+        "\udb82\udd28"
+      ],
+      "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{signalStrength}% signal",
+      "on-click": "impala"
+    },
+    "battery": {
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": "{icon} {capacity}%",
+      "format-plugged": " {capacity}%",
+      "format-icons": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    "tray": {
+      "spacing": 8
+    },
+    "include": [
+      "/home/hschne/.config/waybar/hyprwhspr-module.jsonc"
+    ],
+    "custom/power": {
+      "format": "{}",
+      "tooltip": false,
+      "on-click": "hyprctl dispatch submap exit"
+    }
+  },
+  {
+    "name": "bottom",
+    "layer": "top",
+    "position": "bottom",
+    "height": 30,
+    "spacing": 8,
+    "modules-left": [
+      "cpu",
+      "memory",
+      "temperature"
+    ],
+    "modules-center": [],
+    "modules-right": [
+      "custom/updates",
+      "custom/progress",
+      "clock"
+    ],
+    "cpu": {
+      "format": "\udb81\ude1a {usage}%",
+      "interval": 1
+    },
+    "memory": {
+      "format": "\udb80\udf5b {used:0.1f}G",
+      "interval": 1
+    },
+    "temperature": {
+      "format": "\udb80\ude38 {temperatureC}\u00b0C",
+      "critical-threshold": 60,
+      "format-critical": "\udb80\ude38 {temperatureC}\u00b0C"
+    },
+    "custom/updates": {
+      "format": "\udb81\udeb0 {}",
+      "exec": "~/.scripts/updates 2>/dev/null || echo '?'",
+      "interval": 90,
+      "tooltip": false
+    },
+    "custom/progress": {
+      "format": "\udb82\udf67 {}",
+      "exec": "~/.scripts/progress 2>/dev/null || echo ''",
+      "interval": 60,
+      "tooltip": false
+    },
+    "clock": {
+      "format": " {:%Y-%m-%d %H:%M}",
+      "format-alt": " {:%Y-%m-%d %H:%M:%S}",
+      "tooltip-format": "<tt>{calendar}</tt>"
+    }
+  }
+]
