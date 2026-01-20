@@ -17,8 +17,8 @@ alias lls="ls"
 # Tmuxinator
 alias mux="tmuxinator"
 
-# Xclip
-alias clip="xclip -sel clipboard"
+# Clipboard
+alias clip="wl-copy"
 
 # Open
 alias open="xdg-open"
