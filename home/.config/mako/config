@@ -1,0 +1,37 @@
+anchor=top-right
+font=SauceCodePro NF 9
+width=300
+margin=10
+padding=10,15
+border-size=2
+border-radius=0
+border-color=#7da6ff
+background-color=#1a1b26
+text-color=#a9b1d6
+default-timeout=5000
+max-icon-size=32
+markup=1
+actions=1
+format=<b>%s</b>\n%b
+max-visible=3
+sort=-time
+
+[mode=do-not-disturb]
+invisible=true
+
+[mode=do-not-disturb app-name=notify-send]
+invisible=false
+
+[urgency=low]
+background-color=#1a1b26
+text-color=#a9b1d6
+
+[urgency=normal]
+background-color=#1a1b26
+text-color=#a9b1d6
+
+[urgency=critical]
+background-color=#1a1b26
+text-color=#a9b1d6
+border-color=#f7768e
+default-timeout=0

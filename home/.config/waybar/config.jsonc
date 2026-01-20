@@ -20,15 +20,15 @@
     "hyprland/workspaces": {
       "format": "{icon}",
       "format-icons": {
-        "1": "\uf120",
-        "2": "\udb80\ude39",
-        "3": "\uf121",
-        "4": "\uf07c",
-        "5": "\uf001",
-        "6": "\uf075",
-        "7": "\ue8b0",
-        "8": "\uf135",
-        "default": "\uf26c"
+        "1": "󰞷",
+        "2": "󰈹",
+        "3": "󰗀",
+        "4": "󰉖",
+        "5": "󰝚",
+        "6": "󰍥",
+        "7": "󱘲",
+        "8": "󱥸",
+        "default": "󰣇"
       },
       "persistent-workspaces": {
         "*": 8
@@ -37,13 +37,12 @@
     },
     "pulseaudio": {
       "format": "{icon} {volume}%",
-      "format-muted": " muted",
+      "format-muted": "󰖁 muted",
       "format-icons": {
         "default": [
-          "",
-          "",
-          "",
-          ""
+          "󰕿 ",
+          "󰖀 ",
+          "󰕾"
         ]
       },
       "on-click": "pavucontrol"
@@ -51,23 +50,23 @@
     "backlight": {
       "format": "{icon} {percent}%",
       "format-icons": [
-        "",
-        "",
-        ""
+        "󰃠 ",
+        "󰃟 ",
+        "󰃞 "
       ],
       "on-scroll-up": "brightnessctl set +5%",
       "on-scroll-down": "brightnessctl set 5%-"
     },
     "network": {
       "format-wifi": "{icon} {essid}",
-      "format-ethernet": "\udb80\ude00 {ipaddr}",
-      "format-disconnected": "\udb82\udd2d disconnected",
+      "format-ethernet": "󰈀 {ipaddr}",
+      "format-disconnected": "󱚵 disconnected",
       "format-icons": [
-        "\udb82\udd2f",
-        "\udb82\udd1f",
-        "\udb82\udd22",
-        "\udb82\udd25",
-        "\udb82\udd28"
+        "󰤯 ",
+        "󰤟 ",
+        "󰤢 ",
+        "󰤥 ",
+        "󰤨 "
       ],
       "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{signalStrength}% signal",
       "on-click": "impala"
@@ -79,13 +78,18 @@
       },
       "format": "{icon} {capacity}%",
       "format-charging": "{icon} {capacity}%",
-      "format-plugged": " {capacity}%",
+      "format-plugged": "󰂄 {capacity}%",
       "format-icons": [
-        "",
-        "",
-        "",
-        "",
-        ""
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"
       ]
     },
     "tray": {
@@ -93,12 +97,7 @@
     },
     "include": [
       "/home/hschne/.config/waybar/hyprwhspr-module.jsonc"
-    ],
-    "custom/power": {
-      "format": "{}",
-      "tooltip": false,
-      "on-click": "hyprctl dispatch submap exit"
-    }
+    ]
   },
   {
     "name": "bottom",

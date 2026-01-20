@@ -31,3 +31,11 @@ local function ruby_formatter()
 end
 
 vim.g.lazyvim_ruby_formatter = ruby_formatter()
+
+-- Workaround for LSP Diagnostic issues with Ruby/Prism. Saving now refreshes diagnostics
+vim.lsp.handlers["textDocument/diagnostic"] = function(err, result, ctx)
+  if result == nil then
+    result = { kind = "full", items = {} }
+  end
+  return require("vim.lsp.diagnostic").on_diagnostic(err, result, ctx)
+end

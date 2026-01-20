@@ -1,0 +1,23 @@
+#!/bin/bash
+
+menu() {
+  echo -e "$2" | walker --dmenu --width 295 -p "$1" 2>/dev/null
+}
+close_all_windows() {
+  hyprctl clients -j | jq -r '.[].address' | xargs -I {} hyprctl dispatch closewindow address:{}
+}
+graceful_shutdown() {
+  nohup bash -c "sleep 2 && systemctl poweroff --no-wall" >/dev/null 2>&1 &
+  close_all_windows
+}
+graceful_reboot() {
+  nohup bash -c "sleep 2 && systemctl reboot --no-wall" >/dev/null 2>&1 &
+  close_all_windows
+}
+case $(menu "Power" "󰌾 Lock\n󰒲  Suspend\n󰤁  Hibernate\n󰜉  Restart\n󰐥  Shutdown") in
+*Lock*) hyprlock ;;
+*Suspend*) systemctl suspend ;;
+*Hibernate*) systemctl hibernate ;;
+*Restart*) graceful_reboot ;;
+*Shutdown*) graceful_shutdown ;;
+esac

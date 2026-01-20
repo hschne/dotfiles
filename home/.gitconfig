@@ -49,7 +49,6 @@
 	keepBackup = false
 	prompt = false
 [init]
-	templatedir = ~/.scripts/git-templates
 	defaultBranch = main
 [user]
 	name = hschne
