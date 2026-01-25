@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -euo pipefail
+function main() {
+  local optimize=false
+  local delete=false
+  local resize=""
+  local remaining_args=()
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      usage
+      ;;
+    --optimize)
+      optimize=true
+      shift
+      ;;
+    --delete)
+      delete=true
+      shift
+      ;;
+    -r | --resize)
+      if [[ -z "${2:-}" ]]; then
+        die "Missing value for --resize"
+      fi
+      resize="$2"
+      shift 2
+      ;;
+    *)
+      remaining_args+=("$1")
+      shift
+      ;;
+    esac
+  done
+  if [[ ${#remaining_args[@]} -eq 0 ]]; then
+    die "Please provide at least one image file"
+  fi
+  local magick_args=()
+  local files=()
+  for arg in "${remaining_args[@]}"; do
+    if [[ -f "$arg" ]]; then
+      files+=("$arg")
+    else
+      magick_args+=("$arg")
+    fi
+  done
+  if [[ ${#files[@]} -eq 0 ]]; then
+    die "No valid files provided"
+  fi
+  local optimize_flags=()
+  if [[ "$optimize" == true ]]; then
+    optimize_flags=(-auto-gamma -auto-level -normalize)
+  fi
+  local resize_flags=()
+  if [[ -n "$resize" ]]; then
+    resize_flags=(-resize "${resize}>")
+  fi
+  for img in "${files[@]}"; do
+    local output="${img%.*}.webp"
+    magick "$img" -quality 85 "${optimize_flags[@]}" "${resize_flags[@]}" "${magick_args[@]}" "$output"
+    if [[ "$delete" == true ]]; then
+      rm "$img"
+    fi
+  done
+}
+usage() {
+  cat <<EOF
+Usage: webp [OPTIONS] <file1> [file2] ...
+Convert images to WebP format.
+Options:
+  -h, --help         Show this help message
+  -r, --resize DIM   Resize images to max dimension (only shrinks, e.g. 1920)
+  --optimize         Apply auto-gamma, auto-level, and normalize
+  --delete           Delete original files after conversion
+Examples:
+  webp image.png
+  webp --optimize *.jpg
+  webp --delete --optimize *.png
+  webp -r 1920 *.jpg
+  webp --resize 1920 --delete --optimize *.png
+  webp -quality 90 --optimize photo.png
+EOF
+  exit 0
+}
+die() {
+  local message=$1
+  local code=${2:-1}
+  echo "Error: $message" >&2
+  exit "$code"
+}
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

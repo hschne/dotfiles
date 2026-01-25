@@ -45,7 +45,9 @@ show_actions = ["alt j"]
 default = [
   "desktopapplications",
   "websearch",
+  "menus",
 ] 
+
 empty = ["desktopapplications"] # providers to be queried when query is empty
 ignore_preview = [] # providers that should not show previews
 max_results = 250 # global max results
@@ -75,6 +77,10 @@ provider = "websearch"
 [[providers.prefixes]]
 prefix = ":"
 provider = "clipboard"
+
+[[providers.prefixes]]
+prefix = "!"
+provider = "menus:tmuxinator"
 
 [providers.clipboard]
 time_format = "relative"
