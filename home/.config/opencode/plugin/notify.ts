@@ -40,7 +40,7 @@ export const NotifyPlugin: Plugin = async ({ client, $ }) => {
   }
 
   async function sendNotification(title: string, message: string, urgency: "low" | "normal" | "critical" = "normal") {
-    await $`notify-send -u ${urgency} "${title}" "${message}"`
+    await $`notify-send -t 0 -u ${urgency} "${title}" "${message}"`
   }
 
   return {

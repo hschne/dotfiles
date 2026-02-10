@@ -12,6 +12,7 @@ _worktree() {
     command)
       _values 'worktree commands' \
         'new[Create new worktree and start development environment]' \
+        'setup[Run setup script in worktree]' \
         'destroy[Remove worktree and clean up]' \
         'open[Open worktree using tmuxinator template]'
       ;;
@@ -20,7 +21,7 @@ _worktree() {
         new)
           _message 'feature description'
           ;;
-        destroy|open)
+        setup|destroy|open)
           _worktree_directories
           ;;
       esac

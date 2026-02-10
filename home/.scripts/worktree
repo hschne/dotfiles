@@ -1,0 +1,169 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+WORKTREES_DIR="./worktrees"
+
+function main() {
+  if [[ $# -eq 0 ]]; then
+    usage
+    exit 1
+  fi
+
+  case "$1" in
+  new)
+    if [[ $# -lt 2 ]]; then
+      die "Error: 'new' command requires a feature description"
+    fi
+    shift
+    local feature_description="$1"
+    shift
+    local prompt="$*"
+    create_worktree "$feature_description" "$prompt"
+    ;;
+  setup)
+    if [[ $# -lt 2 ]]; then
+      die "Error: 'setup' command requires a worktree directory name"
+    fi
+    setup_worktree "$2"
+    ;;
+  destroy)
+    if [[ $# -lt 2 ]]; then
+      die "Error: 'destroy' command requires a worktree directory name"
+    fi
+    destroy_worktree "$2"
+    ;;
+  open)
+    if [[ $# -lt 2 ]]; then
+      die "Error: 'open' command requires a worktree directory name"
+    fi
+    open_worktree "$2"
+    ;;
+  -h | --help)
+    usage
+    ;;
+  *)
+    die "Unknown command: $1"
+    ;;
+  esac
+}
+
+usage() {
+  cat <<EOF
+Usage: worktree COMMAND [OPTIONS]
+
+Commands:
+  new "feature description" ["prompt"]    Create new worktree and start development environment
+  setup DIRECTORY           Run setup script in worktree
+  destroy DIRECTORY           Remove worktree and clean up
+  open DIRECTORY              Open worktree using tmuxinator template
+
+Examples:
+  worktree new "Add user authentication"
+  worktree new "Add user authentication" "Help me implement user auth with JWT tokens"
+  worktree destroy 25-01-add-user-authentication
+  worktree open 25-01-add-user-authentication
+
+EOF
+}
+
+die() {
+  local message=$1
+  local code=${2:-1}
+  echo "Error: $message" >&2
+  exit "$code"
+}
+
+create_worktree() {
+  local feature_description="$1"
+  local prompt="$2"
+
+  if [[ ! -d "$WORKTREES_DIR" ]]; then
+    mkdir -p "$WORKTREES_DIR"
+  fi
+
+  local text=${feature_description// /-}
+  text=$(echo "$text" | tr '[:upper:]' '[:lower:]')
+  local date
+  date=$(date +"%y-%m")
+  local branch_name="$date-$text"
+
+  local worktree_path="$WORKTREES_DIR/$branch_name"
+
+  if [[ -d "$worktree_path" ]]; then
+    die "Worktree already exists: $worktree_path"
+  fi
+
+  git worktree add "$worktree_path" -b "$branch_name"
+  if ! tmux has-session 2>/dev/null; then
+    tmux new-session -d -s main
+  fi
+
+  if ! tmux list-windows -F "#{window_name}" | grep -q "^worktrees$"; then
+    tmux new-window -n "worktrees"
+  fi
+
+  setup_worktree "$branch_name"
+
+  if [[ -n "$prompt" ]]; then
+    tmux split-window -t "worktrees" -c "$worktree_path" "opencode run '$prompt'"
+  else
+    tmux split-window -t "worktrees" -c "$worktree_path" "opencode"
+  fi
+  tmux select-layout -t "worktrees" tiled
+  tmux select-pane -t "worktrees" -T "$branch_name"
+  tmux select-window -t "worktrees"
+}
+
+setup_worktree() {
+  local directory_name="$1"
+  local worktree_path="$WORKTREES_DIR/$directory_name"
+
+  if [[ ! -d "$worktree_path" ]]; then
+    die "Worktree does not exist: $worktree_path"
+  fi
+
+  if [[ -f "$worktree_path/bin/worktree-setup" ]]; then
+    echo "Running setup in $worktree_path..."
+    (cd "$worktree_path" && ./bin/worktree-setup)
+  else
+    echo "No setup script found in $worktree_path/bin/worktree-setup"
+  fi
+}
+
+destroy_worktree() {
+  local directory_name="$1"
+  local worktree_path="$WORKTREES_DIR/$directory_name"
+  local branch_name="$directory_name"
+  local pane_count
+
+  if [[ ! -d "$worktree_path" ]]; then
+    die "Worktree does not exist: $worktree_path"
+  fi
+
+  if tmux has-session 2>/dev/null && tmux list-windows -F "#{window_name}" | grep -q "^worktrees$"; then
+    pane_count=$(tmux list-panes -t "worktrees" | wc -l)
+    if [[ $pane_count -eq 1 ]]; then
+      tmux kill-window -t "worktrees"
+    fi
+  fi
+
+  git worktree remove "$worktree_path"
+}
+
+open_worktree() {
+  local path
+  local directory_name="$1"
+  local worktree_path="$WORKTREES_DIR/$directory_name"
+
+  if [[ ! -d "$worktree_path" ]]; then
+    die "Worktree does not exist: $worktree_path"
+  fi
+
+  path=$(realpath "$worktree_path")
+  tmuxinator start --append worktree "$directory_name" "$path"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
