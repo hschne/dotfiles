@@ -7,15 +7,12 @@ windows:
   - editor:
       panes:
         - vim: nvim
+  - :
+      panes:
+        - opencode: pi
   - console:
       layout: even-vertical
       panes:
-        - console: bundle exec rails console
         - bash: # bash
-  - background:
-      layout: tiled
-      panes:
+        - console: bundle exec rails console
         - server: bin/dev
-  - worktrees:
-      panes:
-        - opencode: oc

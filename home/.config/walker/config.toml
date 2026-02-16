@@ -82,6 +82,10 @@ provider = "clipboard"
 prefix = "!"
 provider = "menus:tmuxinator"
 
+[[providers.prefixes]]
+prefix = "?"
+provider = "menus:keybinds"
+
 [providers.clipboard]
 time_format = "relative"
 

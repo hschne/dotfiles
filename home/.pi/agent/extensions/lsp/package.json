@@ -1,0 +1,10 @@
+{
+  "name": "pi-lsp",
+  "version": "0.1.0",
+  "description": "LSP extension for pi coding agent",
+  "type": "module",
+  "dependencies": {
+    "vscode-jsonrpc": "^8.2.1",
+    "vscode-languageserver-types": "^3.17.5"
+  }
+}

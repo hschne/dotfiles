@@ -81,6 +81,14 @@ ghprc() {
   fi
 }
 
+ghdpbm() {
+  gh pr list --author "app/dependabot" --state open --json number --jq '.[].number' | xargs -I {} gh pr merge {} --squash --admin
+}
+
+ghrw() {
+  noti gh run watch "$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
+}
+
 function _increment_micro() {
   local day micro delimiter array day_array
   delimiter=.

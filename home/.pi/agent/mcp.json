@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "auth": "bearer",
+      "bearerTokenEnv": "CONTEXT7_API_KEY"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "lifecycle": "lazy"
+    }
+  }
+}

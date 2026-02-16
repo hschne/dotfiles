@@ -5,14 +5,16 @@ windows:
   - editor:
       panes:
         - vim: vim
+  - :
+      panes:
+        - pi: pi
   - console:
       layout: even-vertical
       panes:
-        - console: bundle exec rails console
         - shell: # shell
+        - console: bundle exec rails console
   - background:
-      layout: tiled
+      layout: even-vertical
       panes:
         server: bundle exec foreman start -f Procfile.dev
         docker: docker-compose up
-  - worktrees:
