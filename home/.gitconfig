@@ -32,7 +32,7 @@
 	tool = nvimdiff
 	conflictStyle = zdiff3
 [mergetool "nvimdiff"]
-  cmd = nvim -d "$LOCAL" "$MERGED" "$REMOTE"
+  cmd = nvim -n -c "DiffviewOpen" "$MERGE"
 [diff]
   tool = nvimdiff
 	algorithm = histogram
@@ -44,7 +44,6 @@
 [branch]
   autosetuprebase = always
 	sort = -committerdate
-
 [mergetool]
 	keepBackup = false
 	prompt = false

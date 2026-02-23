@@ -2,8 +2,8 @@
 
 # Fix rubocop issues on changed files, compared to master
 main() {
-  local branch 
-  local base_commit 
+  local branch
+  local base_commit
   local changed_files
   branch=$(git branch --show-current)
   main_branch=$(git branch -r | grep -Po 'HEAD -> \K.*$' | sed 's|origin/||')

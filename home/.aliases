@@ -51,6 +51,7 @@ alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
 alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias zshrc="$EDITOR ~/.zshrc"
+alias pirc="$EDITOR ~/.pi/agent/settings.json"
 
 # Directories
 alias dl="cd ~/Downloads"
@@ -61,6 +62,7 @@ alias pic="cd ~/Pictures"
 alias wiki="cd ~/Documents/Wiki/notes/"
 alias notes="cd ~/Documents/Wiki/notes/"
 alias cheats="cd ~/.local/share/navi/cheats/hschne__cheats/cheats"
+alias piagent="cd ~/.pi/agent"
 
 # Notes
 alias todo="$EDITOR ~/Documents/Wiki/todo.txt"

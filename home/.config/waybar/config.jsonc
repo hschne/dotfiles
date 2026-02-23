@@ -45,7 +45,9 @@
           "󰕾"
         ]
       },
-      "on-click": "pavucontrol"
+      "on-click": "pamixer -t",
+      "on-click-right": "pavucontrol",
+      "scroll-step": 5
     },
     "backlight": {
       "format": "{icon} {percent}%",
@@ -69,7 +71,7 @@
         "󰤨 "
       ],
       "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{signalStrength}% signal",
-      "on-click": "impala"
+      "on-click": "alacritty -e impala"
     },
     "battery": {
       "states": {

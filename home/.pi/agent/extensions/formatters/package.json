@@ -1,0 +1,14 @@
+{
+  "name": "pi-formatters-extension",
+  "version": "1.0.0",
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "devDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "typescript": "^5.0.0"
+  }
+}

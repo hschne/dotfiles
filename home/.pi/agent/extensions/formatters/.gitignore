@@ -1,0 +1,8 @@
+# Compiled output (pi loads TypeScript directly via jiti)
+*.js
+*.d.ts
+*.js.map
+*.d.ts.map
+
+# Dependencies
+node_modules/
