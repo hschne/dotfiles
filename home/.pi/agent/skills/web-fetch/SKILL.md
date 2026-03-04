@@ -28,13 +28,27 @@ https://github.com/{owner}/{repo}/blob/{branch}/{path}
 
 ### Articles & Web Pages
 
-For all other URLs, use the markdown.new proxy to get clean markdown:
+For all other URLs, try markdown.new proxy first, fallback to raw curl:
+
+```bash
+# Try markdown.new first
+result=$(curl -s 'https://markdown.new/https://example.com/article')
+
+# If it fails (contains error JSON), fallback to raw curl
+if echo "$result" | grep -q '"success":false'; then
+  curl -s 'https://example.com/article'
+else
+  echo "$result"
+fi
+```
+
+Or simply try markdown.new, and if it returns an error, use raw curl:
 
 ```bash
 curl -s 'https://markdown.new/https://example.com/article'
+# If output contains "success":false, retry with:
+curl -s 'https://example.com/article'
 ```
-
-This returns the page content as clean, token-efficient markdown.
 
 ## Strategy Selection
 
@@ -42,14 +56,14 @@ This returns the page content as clean, token-efficient markdown.
 | ------------------------------- | --------------------------------------------------- |
 | `github.com/.../blob/...`       | Convert to raw.githubusercontent.com, curl directly |
 | `raw.githubusercontent.com/...` | Curl directly (already raw)                         |
-| Everything else                 | Use markdown.new proxy                              |
+| Everything else                 | Try markdown.new, fallback to raw curl              |
 
 ## Failure Handling
 
-If the primary strategy fails:
+If markdown.new returns `{"success":false,...}`:
 
-1. Report the error clearly
-2. Ask the user if they want to try the `web-browser` skill as fallback
+1. Fallback to raw `curl -s 'URL'`
+2. If that also fails or returns unusable HTML, use the `web-browser` skill
 
 **Note:** markdown.new does not work with:
 
@@ -71,6 +85,8 @@ curl -s 'https://raw.githubusercontent.com/astral-sh/uv/main/README.md'
 ```bash
 # User gives: https://blog.example.com/some-article
 curl -s 'https://markdown.new/https://blog.example.com/some-article'
+# If fails, fallback:
+curl -s 'https://blog.example.com/some-article'
 ```
 
 ### Fetch documentation
@@ -78,4 +94,6 @@ curl -s 'https://markdown.new/https://blog.example.com/some-article'
 ```bash
 # User gives: https://docs.python.org/3/library/asyncio.html
 curl -s 'https://markdown.new/https://docs.python.org/3/library/asyncio.html'
+# If fails, fallback:
+curl -s 'https://docs.python.org/3/library/asyncio.html'
 ```

@@ -1,0 +1,88 @@
+# vim:fileencoding=utf-8:foldmethod=marker
+
+#: Settings {{{
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/clean
+set icons true
+set hidden false
+set ignorecase true
+set drawbox true
+set period 1
+set shell bash
+set shellopts '-eu'
+set scrolloff 5
+set ratios 1:2:3
+
+# Redraw on every selection to clear previous icat image before drawing the next one
+cmd on-select &{{ lf -remote "send $id redraw" }}
+#: }}}
+
+#: Bookmarks {{{
+map g~ cd ~
+map gd cd ~/Downloads
+map gp cd ~/Pictures
+map gs cd ~/Source
+map gD cd ~/Documents
+#: }}}
+
+#: File operations {{{
+# Create file or directory (trailing slash = directory)
+cmd create ${{
+    if [ "${1: -1}" = "/" ]; then
+        mkdir -p "$1"
+    else
+        touch "$1"
+    fi
+}}
+map a push :create<space>
+# Open file with xdg-open
+cmd open &{{ xdg-open "$f" }}
+map o open
+
+# Copy path to clipboard
+cmd copy-path ${{ printf '%s' "$f" | wl-copy }}
+map Y copy-path
+
+# Delete without confirmation
+cmd delete ${{ rm -rf $fx }}
+map D delete
+
+# Extract archive into a subdirectory
+cmd extract ${{
+    set -f
+    mkdir -p "${f%.*}"
+    bsdtar -xf "$f" -C "${f%.*}"
+}}
+map ex extract
+
+# Bulk rename in $EDITOR
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    printf '%s\n' $fx > "$old"
+    printf '%s\n' $fx > "$new"
+    $EDITOR "$new"
+    paste "$old" "$new" | while IFS=$'\t' read -r src dst; do
+        [ "$src" != "$dst" ] && mv -- "$src" "$dst"
+    done
+    rm -f "$old" "$new"
+}}
+map R bulk-rename
+#: }}}
+
+#: Navigation {{{
+# Jump with zoxide
+cmd zoxide_jump ${{
+    res="$(zoxide query -i)"
+    [ -n "$res" ] && lf -remote "send $id cd \"$res\""
+}}
+map <c-f> zoxide_jump
+#: }}}
+
+#: Help {{{
+# Show all keybindings and commands via fzf
+cmd help ${{
+    { lf -remote "query $id maps"; lf -remote "query $id cmds"; } | fzf --prompt='help> '
+}}
+map ? help
+#: }}}

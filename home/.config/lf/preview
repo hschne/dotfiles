@@ -1,0 +1,32 @@
+#!/bin/bash
+
+file="$1"
+w="$2"
+h="$3"
+x="$4"
+y="$5"
+
+case "$(file -Lb --mime-type -- "$file")" in
+image/*)
+  kitten icat --silent --stdin=no --transfer-mode=memory --place="${w}x${h}@${x}x${y}" "$file" </dev/null >/dev/tty
+  exit 1
+  ;;
+application/pdf)
+  tmp=$(mktemp /tmp/lfpdf.XXXXXX)
+  pdftoppm -f 1 -singlefile "$file" "$tmp"
+  kitten icat --silent --stdin=no --transfer-mode=memory --place="${w}x${h}@${x}x${y}" "${tmp}.ppm" </dev/null >/dev/tty
+  rm -f "${tmp}.ppm" "$tmp"
+  exit 1
+  ;;
+application/zip | application/x-tar | application/x-gzip | application/x-bzip2 | \
+  application/x-xz | application/x-7z-compressed | application/x-rar | \
+  application/vnd.rar | application/zstd | application/x-zstd)
+  bsdtar --list --file "$file"
+  ;;
+text/* | */json | */xml | */csv | */javascript)
+  bat --color=always --style=plain --paging=never "$file"
+  ;;
+*)
+  file -Lb -- "$file"
+  ;;
+esac

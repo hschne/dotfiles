@@ -81,7 +81,7 @@ COMPLETION_WAITING_DOTS="false"
 # Enable colors for tmux
 #
 # See here: https://github.com/zsh-users/zsh-autosuggestions/issues/229#issuecomment-300675586
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 # Disable Scroll Lock 
 #
@@ -138,6 +138,7 @@ zi load zsh-users/zsh-syntax-highlighting
 # Website: https://github.com/andsens/homeshick
 zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
 zi ice pick"completions"; zi load "andsens/homeshick"
+source "$HOME/.scripts/homeshick.zsh"
 
 # Refresh homeshick every two days
 homeshick --quiet refresh 2

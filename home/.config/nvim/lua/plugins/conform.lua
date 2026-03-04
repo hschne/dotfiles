@@ -8,6 +8,13 @@ return {
         end
         return { vim.g.lazyvim_ruby_formatter }
       end,
+      eruby = { "herb_format" },
+    },
+    formatters = {
+      herb_format = {
+        command = "herb-format",
+        stdin = true,
+      },
     },
   },
 }

@@ -61,9 +61,6 @@ export default function lspExtension(pi: ExtensionAPI) {
     const serverCount = Object.keys(config.servers).length;
     if (serverCount > 0) {
       manager = new LspManager(config, cwd);
-      console.log(`[lsp] Loaded ${serverCount} server configuration(s)`);
-    } else {
-      console.log("[lsp] No LSP servers configured");
     }
   });
 

@@ -1,17 +1,11 @@
 {
-  "lastChangelogVersion": "0.53.0",
+  "quietStartup": true,
+  "lastChangelogVersion": "0.55.4",
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-opus-4-5",
+  "defaultModel": "claude-haiku-4-5",
   "theme": "tokyo-night",
   "packages": [
     "npm:pi-mcp-adapter"
-  ],
-  "enabledModels": [
-    "google-gemini-cli/gemini-3-flash-preview",
-    "anthropic/claude-opus-4-5",
-    "google/gemini-3-flash-preview",
-    "openrouter/qwen/qwen3-coder-next",
-    "openrouter/minimax/minimax-m2.5"
   ],
   "formatters": {
     "standardrb": {
@@ -167,5 +161,15 @@
     }
   },
   "defaultThinkingLevel": "off",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "enabledModels": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-opus-4-6",
+    "anthropic/claude-haiku-4-5",
+    "openrouter/moonshotai/kimi-k2.5",
+    "google/gemini-3-pro-preview",
+    "google-gemini-cli/gemini-3-flash-preview",
+    "google/gemini-3-flash-preview",
+    "openrouter/qwen/qwen3-coder-next"
+  ]
 }

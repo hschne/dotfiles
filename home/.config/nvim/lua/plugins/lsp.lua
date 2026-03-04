@@ -12,10 +12,6 @@ return {
     opts = {
       servers = {
         cssls = { settings = { css = { lint = { unknownAtRules = "ignore" } } } },
-        erb_formatter = {
-          mason = false,
-          enabled = false,
-        },
         ruby_lsp = {
           mason = false,
           cmd = { vim.fn.expand("~/.local/share/mise/shims/ruby-lsp") },
