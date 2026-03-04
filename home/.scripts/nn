@@ -13,7 +13,7 @@ main() {
 	name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
 
 	local dir
-	dir=$(find "$WIKI_DIR" -type d | sed "s|^$WIKI_DIR/||" | sed "s|^$WIKI_DIR$|.|" | sort | fzf --prompt="Directory: ")
+	dir=$(find "$WIKI_DIR" -type d -not -path "*/archive*" | sed "s|^$WIKI_DIR/||" | sed "s|^$WIKI_DIR$|.|" | sort | fzf --prompt="Directory: ")
 
 	[[ -z $dir ]] && exit 0
 
