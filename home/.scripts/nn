@@ -1,13 +1,26 @@
 #!/usr/bin/env bash
 
-# Create a new note in the notes directory. Prefixed with the current date.
+# Create a new note in the Wiki. Prefixed with the current date.
+# Usage: nn <note-name>
+# Opens fzf to pick a directory under ~/Documents/Wiki/, then opens the note in $EDITOR.
+
+WIKI_DIR="$HOME/Documents/Wiki"
+
 main() {
 	[[ -z $1 ]] && error "Note name must not be empty"
 
 	local name=${1// /-}
 	name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-	local base_path="$HOME/Documents/Wiki/notes"
-	$EDITOR "$base_path/$(date +'%y-%m-%d')-$name.md"
+
+	local dir
+	dir=$(find "$WIKI_DIR" -type d | sed "s|^$WIKI_DIR/||" | sed "s|^$WIKI_DIR$|.|" | sort | fzf --prompt="Directory: ")
+
+	[[ -z $dir ]] && exit 0
+
+	local target_dir="$WIKI_DIR/$dir"
+	[[ $dir == "." ]] && target_dir="$WIKI_DIR"
+
+	$EDITOR "$target_dir/$(date +'%y-%m-%d')-$name.md"
 }
 
 error() {
