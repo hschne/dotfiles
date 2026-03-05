@@ -9,7 +9,6 @@ set ignorecase true
 set drawbox true
 set period 1
 set shell bash
-set shellopts '-eu'
 set scrolloff 5
 set ratios 1:2:3
 

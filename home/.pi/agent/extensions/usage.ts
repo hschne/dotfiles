@@ -2,6 +2,26 @@ import type {
   ExtensionAPI,
   ExtensionContext,
 } from "@mariozechner/pi-coding-agent";
+import { appendFileSync, mkdirSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { homedir } from "node:os";
+
+// =============================================================================
+// Logging
+// =============================================================================
+
+const XDG_STATE_HOME =
+  process.env.XDG_STATE_HOME || join(homedir(), ".local", "state");
+const LOG_PATH = join(XDG_STATE_HOME, "pi", "debug.log");
+
+function debugLog(msg: string): void {
+  try {
+    mkdirSync(dirname(LOG_PATH), { recursive: true });
+    appendFileSync(LOG_PATH, `[${new Date().toISOString()}] ${msg}\n`);
+  } catch {
+    // best-effort
+  }
+}
 
 // =============================================================================
 // Types
@@ -52,7 +72,9 @@ interface OpenRouterCreditsResponse {
 // =============================================================================
 
 const STATUS_KEY = "usage";
-const REFRESH_INTERVAL = 60 * 1000; // 1 minute
+const BASE_INTERVAL = 3 * 60 * 1000; // 3 minutes
+const JITTER_MAX = 30 * 1000; // ±30 seconds
+const TIMEOUT = 15 * 1000; // 15 seconds
 const ICON = "󰓅";
 
 const CLAUDE_USAGE_ENDPOINT = "https://api.anthropic.com/api/oauth/usage";
@@ -74,7 +96,7 @@ const SUPPORTED_PROVIDERS: Provider[] = [
 
 let cachedUsage: UsageData | null = null;
 let lastError: string | null = null;
-let refreshTimer: ReturnType<typeof setInterval> | null = null;
+let refreshTimer: ReturnType<typeof setTimeout> | null = null;
 
 function resetState() {
   cachedUsage = null;
@@ -116,6 +138,9 @@ async function checkResponse(res: Response): Promise<void> {
   if (res.status === 401) {
     throw new Error("unauthorized");
   }
+  if (res.status === 429) {
+    throw new Error("rate limited");
+  }
   if (!res.ok) {
     const body = await res.text().catch(() => "");
     throw new Error(`HTTP ${res.status}: ${body.slice(0, 100)}`);
@@ -133,8 +158,10 @@ async function fetchClaudeUsage(token: string): Promise<ClaudeUsageData> {
       Authorization: `Bearer ${token}`,
       "anthropic-beta": CLAUDE_BETA_HEADER,
       Accept: "application/json",
+      "Content-Type": "application/json",
       "User-Agent": "pi-extension-usage/1.0",
     },
+    signal: AbortSignal.timeout(TIMEOUT),
   });
 
   await checkResponse(res);
@@ -198,7 +225,9 @@ async function fetchGeminiUsage(apiKeyJson: string): Promise<GeminiUsageData> {
   };
 }
 
-async function fetchOpenRouterUsage(token: string): Promise<OpenRouterUsageData> {
+async function fetchOpenRouterUsage(
+  token: string,
+): Promise<OpenRouterUsageData> {
   const res = await fetch(OPENROUTER_CREDITS_ENDPOINT, {
     method: "GET",
     headers: {
@@ -233,7 +262,16 @@ function updateUI(ctx: ExtensionContext) {
   }
 
   if (lastError) {
-    const errorText = lastError === "unauthorized" ? "auth!" : "err!";
+    let errorText: string;
+    if (lastError === "unauthorized") {
+      errorText = "auth!";
+    } else if (lastError === "no token") {
+      errorText = "no key";
+    } else if (lastError?.startsWith("HTTP ")) {
+      errorText = lastError.slice(0, 8); // e.g. "HTTP 429"
+    } else {
+      errorText = "err!";
+    }
     ctx.ui.setStatus(
       STATUS_KEY,
       ctx.ui.theme.fg("error", `${ICON} ${errorText}`),
@@ -295,19 +333,33 @@ async function performRefresh(ctx: ExtensionContext): Promise<void> {
   } catch (err) {
     lastError = err instanceof Error ? err.message : "unknown error";
     cachedUsage = null;
+    debugLog(`refresh failed for ${provider}: ${lastError}`);
   }
 
   updateUI(ctx);
 }
 
-function startRefreshTimer(ctx: ExtensionContext) {
+function jitteredInterval(): number {
+  const jitter = (Math.random() * 2 - 1) * JITTER_MAX; // -30s to +30s
+  return BASE_INTERVAL + jitter;
+}
+
+function scheduleRefresh(ctx: ExtensionContext) {
   stopRefreshTimer();
-  refreshTimer = setInterval(() => performRefresh(ctx), REFRESH_INTERVAL);
+  let delay = jitteredInterval();
+  if (lastError === "rate limited") {
+    // wait at least 15 minutes if rate limited
+    delay = Math.max(delay, 15 * 60 * 1000);
+  }
+  refreshTimer = setTimeout(async () => {
+    await performRefresh(ctx);
+    scheduleRefresh(ctx);
+  }, delay);
 }
 
 function stopRefreshTimer() {
   if (refreshTimer) {
-    clearInterval(refreshTimer);
+    clearTimeout(refreshTimer);
     refreshTimer = null;
   }
 }
@@ -328,7 +380,7 @@ export default function (pi: ExtensionAPI) {
       resetState();
       updateUI(ctx);
       await performRefresh(ctx);
-      startRefreshTimer(ctx);
+      scheduleRefresh(ctx);
     } else if (!isNowSupported && wasSupported) {
       // Switched AWAY from supported provider
       stopRefreshTimer();
@@ -343,7 +395,7 @@ export default function (pi: ExtensionAPI) {
   pi.on("session_start", async (_, ctx) => {
     if (isSupported(ctx.model?.provider)) {
       await performRefresh(ctx);
-      startRefreshTimer(ctx);
+      scheduleRefresh(ctx);
     }
   });
 

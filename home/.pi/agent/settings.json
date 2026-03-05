@@ -1,8 +1,8 @@
 {
   "quietStartup": true,
-  "lastChangelogVersion": "0.55.4",
+  "lastChangelogVersion": "0.56.1",
   "defaultProvider": "anthropic",
-  "defaultModel": "claude-haiku-4-5",
+  "defaultModel": "claude-opus-4-6",
   "theme": "tokyo-night",
   "packages": [
     "npm:pi-mcp-adapter"

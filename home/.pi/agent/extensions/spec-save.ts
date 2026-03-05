@@ -2,7 +2,7 @@
  * Spec Save Extension
  *
  * Provides a /spec-save command that moves a finished spec from the
- * local specs/ directory to ~/Documents/Wiki/projects/<project>/specs/
+ * local docs/ directory to ~/Documents/Wiki/projects/<project>/specs/
  * and indexes it with `qmd update`.
  *
  * Auto-detects the project from:
@@ -58,7 +58,7 @@ async function detectProject(
 }
 
 async function getSpecFiles(cwd: string): Promise<string[]> {
-  const specsDir = join(cwd, "specs");
+  const specsDir = join(cwd, "docs");
   try {
     await access(specsDir);
     const entries = await readdir(specsDir);
@@ -71,7 +71,7 @@ async function getSpecFiles(cwd: string): Promise<string[]> {
 export default function (pi: ExtensionAPI) {
   pi.registerCommand("spec-save", {
     description:
-      "Move a draft spec from specs/ to Wiki/projects/<project>/specs/",
+      "Move a draft spec from docs/ to Wiki/projects/<project>/specs/",
     handler: async (args, ctx) => {
       if (!ctx.isIdle()) {
         ctx.ui.notify("Agent is busy — wait for it to finish first", "warning");
@@ -83,7 +83,7 @@ export default function (pi: ExtensionAPI) {
       // Find spec files
       const specFiles = await getSpecFiles(cwd);
       if (specFiles.length === 0) {
-        ctx.ui.notify("No .md files found in specs/", "warning");
+        ctx.ui.notify("No .md files found in docs/", "warning");
         return;
       }
 
@@ -92,8 +92,7 @@ export default function (pi: ExtensionAPI) {
       if (specFiles.length === 1) {
         specFile = specFiles[0];
       } else {
-        const items = specFiles.map((f) => ({ label: f, value: f }));
-        const picked = await ctx.ui.select("Which spec to save?", items);
+        const picked = await ctx.ui.select("Which spec to save?", specFiles);
         if (!picked) return;
         specFile = picked;
       }
@@ -106,13 +105,12 @@ export default function (pi: ExtensionAPI) {
           ctx.ui.notify("No projects found in Wiki", "error");
           return;
         }
-        const items = projects.map((p) => ({ label: p, value: p }));
-        const picked = await ctx.ui.select("Which project?", items);
+        const picked = await ctx.ui.select("Which project?", projects);
         if (!picked) return;
         project = picked;
       }
 
-      const srcPath = join(cwd, "specs", specFile);
+      const srcPath = join(cwd, "docs", specFile);
       const destDir = join(WIKI_PROJECTS, project, "specs");
       const destPath = join(destDir, specFile);
 
@@ -142,17 +140,6 @@ export default function (pi: ExtensionAPI) {
           await unlink(srcPath);
         } else {
           throw err;
-        }
-      }
-
-      // Clean up specs/ if empty
-      const remaining = await getSpecFiles(cwd);
-      if (remaining.length === 0) {
-        try {
-          const { rmdir } = await import("node:fs/promises");
-          await rmdir(join(cwd, "specs"));
-        } catch {
-          // Not empty or other error, leave it
         }
       }
 
