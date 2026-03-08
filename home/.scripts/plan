@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+WIKI_PROJECTS="${HOME}/Documents/Wiki/projects"
+
+# ---------------------------------------------------------------------------
+# Usage
+# ---------------------------------------------------------------------------
+
+usage() {
+  cat <<EOF
+Usage: plan <command> [options]
+
+Commands:
+  list [--format json]              List draft plans in plans/
+  projects [--format json]          List available Wiki projects
+  complete [<plan-file>]            Move a draft plan to the Wiki and index it
+    --project <name>                Override project auto-detection
+    --no-interactive                Disable FZF; error if selection is ambiguous
+
+Examples:
+  plan list
+  plan list --format json
+  plan projects
+  plan complete
+  plan complete 26-03-07-my-feature.md --project myproject --no-interactive
+EOF
+}
+
+# ---------------------------------------------------------------------------
+# Subcommands
+# ---------------------------------------------------------------------------
+
+cmd_list() {
+  local format="text"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --format) format="$2"; shift 2 ;;
+      --format=*) format="${1#--format=}"; shift ;;
+      *) die "Unknown option: $1" ;;
+    esac
+  done
+
+  if [[ ! -d "plans" ]]; then
+    die "No plans/ directory found in the current path."
+  fi
+
+  local files=()
+  mapfile -t files < <(find plans -maxdepth 1 -name "*.md" -printf "%f\n" | sort)
+
+  if [[ ${#files[@]} -eq 0 ]]; then
+    die "No .md files found in plans/."
+  fi
+
+  if [[ "$format" == "json" ]]; then
+    printf '%s\n' "${files[@]}" | jq -R . | jq -s .
+  else
+    printf '%s\n' "${files[@]}"
+  fi
+}
+
+cmd_projects() {
+  local format="text"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --format) format="$2"; shift 2 ;;
+      --format=*) format="${1#--format=}"; shift ;;
+      *) die "Unknown option: $1" ;;
+    esac
+  done
+
+  if [[ ! -d "$WIKI_PROJECTS" ]]; then
+    die "Wiki projects directory not found: $WIKI_PROJECTS"
+  fi
+
+  local projects=()
+  mapfile -t projects < <(find "$WIKI_PROJECTS" -maxdepth 1 -mindepth 1 -type d -printf "%f\n" | sort)
+
+  if [[ ${#projects[@]} -eq 0 ]]; then
+    die "No projects found in $WIKI_PROJECTS."
+  fi
+
+  if [[ "$format" == "json" ]]; then
+    printf '%s\n' "${projects[@]}" | jq -R . | jq -s .
+  else
+    printf '%s\n' "${projects[@]}"
+  fi
+}
+
+cmd_complete() {
+  local plan_file=""
+  local project=""
+  local no_interactive=false
+  local cwd
+  cwd=$(pwd)
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --project) project="$2"; shift 2 ;;
+      --project=*) project="${1#--project=}"; shift ;;
+      --no-interactive) no_interactive=true; shift ;;
+      -*) die "Unknown option: $1" ;;
+      *)
+        if [[ -z "$plan_file" ]]; then
+          plan_file="$1"; shift
+        else
+          die "Unexpected argument: $1"
+        fi
+        ;;
+    esac
+  done
+
+  # Validate plans/ exists
+  if [[ ! -d "plans" ]]; then
+    die "No plans/ directory found in the current path."
+  fi
+
+  # Resolve plan file
+  if [[ -z "$plan_file" ]]; then
+    local files=()
+    mapfile -t files < <(find plans -maxdepth 1 -name "*.md" -printf "%f\n" | sort)
+
+    if [[ ${#files[@]} -eq 0 ]]; then
+      die "No .md files found in plans/."
+    elif [[ ${#files[@]} -eq 1 ]]; then
+      plan_file="${files[0]}"
+    elif [[ "$no_interactive" == true ]]; then
+      die "Multiple plans found in plans/. Specify one or list them with: plan list"
+    else
+      plan_file=$(printf "%s\n" "${files[@]}" | fzf --prompt="Select plan to save: " --height=~10 --reverse)
+      if [[ -z "$plan_file" ]]; then
+        exit 0
+      fi
+    fi
+  fi
+
+  # Validate plan file exists
+  if [[ ! -f "plans/$plan_file" ]]; then
+    die "Plan file not found: plans/$plan_file"
+  fi
+
+  # Resolve project
+  if [[ -n "$project" ]]; then
+    if [[ ! -d "$WIKI_PROJECTS/$project" ]]; then
+      die "Project not found: $project. List available projects with: plan projects"
+    fi
+  else
+    project=$(detect_project "$cwd")
+
+    if [[ -z "$project" ]]; then
+      if [[ "$no_interactive" == true ]]; then
+        die "Could not auto-detect project. Specify one with: --project <name>. List available projects with: plan projects"
+      fi
+      if [[ ! -d "$WIKI_PROJECTS" ]]; then
+        die "Wiki projects directory not found: $WIKI_PROJECTS"
+      fi
+      project=$(find "$WIKI_PROJECTS" -maxdepth 1 -mindepth 1 -type d -printf "%f\n" | sort | fzf --prompt="Select project: " --height=~10 --reverse)
+      if [[ -z "$project" ]]; then
+        exit 0
+      fi
+    fi
+  fi
+
+  local dest_dir="$WIKI_PROJECTS/$project/plans"
+  local dest_path="$dest_dir/$plan_file"
+
+  if [[ -e "$dest_path" ]]; then
+    die "Plan already exists at destination: $dest_path"
+  fi
+
+  mkdir -p "$dest_dir"
+  mv "plans/$plan_file" "$dest_path"
+  echo "Saved: $project/plans/$plan_file"
+
+  if command -v qmd >/dev/null 2>&1; then
+    echo "Updating QMD index..."
+    qmd update
+  fi
+}
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+detect_project() {
+  local cwd="$1"
+
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    local remote_url
+    remote_url=$(git remote get-url origin 2>/dev/null || true)
+    if [[ -n "$remote_url" ]]; then
+      local repo_name
+      repo_name=$(basename "$remote_url" .git | tr '[:upper:]' '[:lower:]')
+      if [[ -d "$WIKI_PROJECTS/$repo_name" ]]; then
+        echo "$repo_name"
+        return
+      fi
+    fi
+  fi
+
+  local dir_name
+  dir_name=$(basename "$cwd" | tr '[:upper:]' '[:lower:]')
+  if [[ -d "$WIKI_PROJECTS/$dir_name" ]]; then
+    echo "$dir_name"
+    return
+  fi
+}
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+# ---------------------------------------------------------------------------
+# Dispatch
+# ---------------------------------------------------------------------------
+
+main() {
+  if [[ $# -eq 0 ]]; then
+    usage
+    exit 0
+  fi
+
+  local cmd="$1"; shift
+
+  case "$cmd" in
+    list)        cmd_list "$@" ;;
+    projects)    cmd_projects "$@" ;;
+    complete)    cmd_complete "$@" ;;
+    -h|--help)   usage; exit 0 ;;
+    *)           echo "Unknown command: $cmd" >&2; usage; exit 1 ;;
+  esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

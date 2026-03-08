@@ -23,7 +23,12 @@ const SESSIONS_DIR = join(
   "Documents/Wiki/memory/sessions",
 );
 
+const STATUS_KEY = "summary";
+const ICON = "󰏪"; // Nerd Font icon for note/alert
+
 export default function (pi: ExtensionAPI) {
+  let summaryRun = false;
+
   pi.registerCommand("summary", {
     description:
       "Generate a distilled session note and save to memory/sessions/",
@@ -33,12 +38,15 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
+      summaryRun = true;
+      updateStatus(ctx);
+
       const now = new Date();
       const date = now.toISOString().slice(2, 10); // YY-MM-DD
       const hhmm = now.toTimeString().slice(0, 5).replace(":", ""); // HHmm
       const timestamp = `${date}-${hhmm}`; // YY-MM-DD-HHmm
 
-      ctx.ui.setStatus("summary", "Generating session note...");
+      ctx.ui.setStatus(STATUS_KEY, "Generating session note...");
 
       // Let the LLM choose the slug and write the file itself
       pi.sendUserMessage([
@@ -85,7 +93,27 @@ Rules:
         },
       ]);
 
-      ctx.ui.setStatus("summary", "");
+      ctx.ui.setStatus(STATUS_KEY, "");
     },
   });
+
+  pi.on("session_start", async (_, ctx) => {
+    summaryRun = false;
+    updateStatus(ctx);
+  });
+
+  pi.on("session_shutdown", (_, ctx) => {
+    ctx.ui.setStatus(STATUS_KEY, undefined);
+  });
+
+  function updateStatus(ctx: any) {
+    if (summaryRun) {
+      ctx.ui.setStatus(STATUS_KEY, undefined);
+    } else {
+      ctx.ui.setStatus(
+        STATUS_KEY,
+        ctx.ui.theme.fg("error", `${ICON} no summary`),
+      );
+    }
+  }
 }

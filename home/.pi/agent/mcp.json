@@ -1,3 +1,9 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "raindrop": {
+      "url": "https://api.raindrop.io/rest/v2/ai/mcp",
+      "auth": "bearer",
+      "bearerToken": "021111a6-d97b-461f-a79d-b16e4824d391"
+    }
+  }
 }

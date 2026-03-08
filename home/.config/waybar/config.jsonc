@@ -96,10 +96,7 @@
     },
     "tray": {
       "spacing": 8
-    },
-    "include": [
-      "/home/hschne/.config/waybar/hyprwhspr-module.jsonc"
-    ]
+    }
   },
   {
     "name": "bottom",

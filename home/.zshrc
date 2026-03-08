@@ -209,6 +209,9 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 #: MISE {{{
 #
 eval "$(~/.local/bin/mise activate zsh)"
+
+# Add shared npm global packages to PATH (appended so project-local takes precedence)
+export PATH="$PATH:$HOME/.local/share/mise/npm-global/bin"
 #: }}}
 
 #: ATUIN {{{

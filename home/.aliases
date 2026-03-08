@@ -40,19 +40,20 @@ alias wtd="worktree destroy"
 alias oc="sandbox"
 
 # Config Files
+alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.toml"
 alias aliases="$EDITOR ~/.aliases"
-alias i3rc="$EDITOR ~/.config/i3/config"
 alias hyprrc="$EDITOR ~/.config/hypr/hyprland.conf"
+alias i3rc="$EDITOR ~/.config/i3/config"
+alias lfrc="$EDITOR ~/.config/lf/lfrc"
+alias miserc="$EDITOR ~/.config/mise/config.toml"
+alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
+alias pirc="$EDITOR ~/.pi/agent/settings.json"
+alias polybarrc="$EDITOR ~/.config/polybar/config"
+alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
+alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias walkerrc="$EDITOR ~/.config/walker/config.toml"
 alias waybarrc="$EDITOR ~/.config/waybar/config.jsonc"
-alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.toml"
-alias polybarrc="$EDITOR ~/.config/polybar/config"
-alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
-alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
-alias lfrc="$EDITOR ~/.config/lf/lfrc"
-alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias zshrc="$EDITOR ~/.zshrc"
-alias pirc="$EDITOR ~/.pi/agent/settings.json"
 
 # Directories
 alias dl="cd ~/Downloads"
@@ -113,3 +114,6 @@ alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/ext
 # Zeitblok
 alias zb='zeitblok'
 alias zbl='zeitblok log'
+
+# Run qmd-patch after updating qmd to restore AMD Vulkan GPU fix (github.com/tobi/qmd/issues/287)
+alias qmd-update="mise install 'npm:@tobilu/qmd' && qmd-patch"
