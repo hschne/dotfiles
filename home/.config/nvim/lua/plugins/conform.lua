@@ -9,10 +9,13 @@ return {
         return { vim.g.lazyvim_ruby_formatter }
       end,
       eruby = { "herb_format" },
+      svelte = { "prettier" },
+      typescript = { "prettier" },
+      javascript = { "prettier" },
     },
     formatters = {
       herb_format = {
-        command = "herb-format",
+        command = vim.fn.expand("~/.local/share/mise/shims/herb-format"),
         stdin = true,
       },
     },

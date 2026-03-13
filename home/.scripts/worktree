@@ -13,29 +13,32 @@ function main() {
   case "$1" in
   new)
     if [[ $# -lt 2 ]]; then
-      die "Error: 'new' command requires a feature description"
+      _die "'new' command requires a feature description"
     fi
     shift
-    local feature_description="$1"
-    shift
-    local prompt="$*"
-    create_worktree "$feature_description" "$prompt"
+    create_worktree "$1"
     ;;
   setup)
     if [[ $# -lt 2 ]]; then
-      die "Error: 'setup' command requires a worktree directory name"
+      _die "'setup' command requires a worktree directory name"
     fi
     setup_worktree "$2"
     ;;
+  diff)
+    if [[ $# -lt 2 ]]; then
+      _die "'diff' command requires a worktree directory name"
+    fi
+    diff_worktree "$2"
+    ;;
   destroy)
     if [[ $# -lt 2 ]]; then
-      die "Error: 'destroy' command requires a worktree directory name"
+      _die "'destroy' command requires a worktree directory name"
     fi
     destroy_worktree "$2"
     ;;
   open)
     if [[ $# -lt 2 ]]; then
-      die "Error: 'open' command requires a worktree directory name"
+      _die "'open' command requires a worktree directory name"
     fi
     open_worktree "$2"
     ;;
@@ -43,7 +46,7 @@ function main() {
     usage
     ;;
   *)
-    die "Unknown command: $1"
+    _die "Unknown command: $1"
     ;;
   esac
 }
@@ -53,66 +56,42 @@ usage() {
 Usage: worktree COMMAND [OPTIONS]
 
 Commands:
-  new "feature description" ["prompt"]    Create new worktree and start development environment
-  setup DIRECTORY           Run setup script in worktree
-  destroy DIRECTORY           Remove worktree and clean up
-  open DIRECTORY              Open worktree using tmuxinator template
+  new "feature description"      Create new worktree folder only
+  setup DIRECTORY                 Run setup script in worktree
+  diff DIRECTORY                  Open nvim Diffview against main
+  destroy DIRECTORY               Remove worktree and clean up
+  open DIRECTORY                  Open worktree using tmuxinator template
 
 Examples:
   worktree new "Add user authentication"
-  worktree new "Add user authentication" "Help me implement user auth with JWT tokens"
-  worktree destroy 25-01-add-user-authentication
-  worktree open 25-01-add-user-authentication
+  worktree setup 26-03-add-user-authentication
+  worktree diff 26-03-add-user-authentication
+  worktree destroy 26-03-add-user-authentication
+  worktree open 26-03-add-user-authentication
 
 EOF
 }
 
-die() {
-  local message=$1
-  local code=${2:-1}
-  echo "Error: $message" >&2
-  exit "$code"
-}
-
 create_worktree() {
   local feature_description="$1"
-  local prompt="$2"
 
-  if [[ ! -d "$WORKTREES_DIR" ]]; then
-    mkdir -p "$WORKTREES_DIR"
-  fi
+  mkdir -p "$WORKTREES_DIR"
 
   local text=${feature_description// /-}
-  text=$(echo "$text" | tr '[:upper:]' '[:lower:]')
+  text=$(echo "$text" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]-')
   local date
   date=$(date +"%y-%m")
   local branch_name="$date-$text"
-
   local worktree_path="$WORKTREES_DIR/$branch_name"
+  local base_branch
+  base_branch=$(_main_branch)
 
   if [[ -d "$worktree_path" ]]; then
-    die "Worktree already exists: $worktree_path"
+    _die "Worktree already exists: $worktree_path"
   fi
 
-  git worktree add "$worktree_path" -b "$branch_name"
-  if ! tmux has-session 2>/dev/null; then
-    tmux new-session -d -s main
-  fi
-
-  if ! tmux list-windows -F "#{window_name}" | grep -q "^worktrees$"; then
-    tmux new-window -n "worktrees"
-  fi
-
-  setup_worktree "$branch_name"
-
-  if [[ -n "$prompt" ]]; then
-    tmux split-window -t "worktrees" -c "$worktree_path" "opencode run '$prompt'"
-  else
-    tmux split-window -t "worktrees" -c "$worktree_path" "opencode"
-  fi
-  tmux select-layout -t "worktrees" tiled
-  tmux select-pane -t "worktrees" -T "$branch_name"
-  tmux select-window -t "worktrees"
+  git worktree add "$worktree_path" -b "$branch_name" "$base_branch"
+  echo "Created worktree: $worktree_path"
 }
 
 setup_worktree() {
@@ -120,7 +99,7 @@ setup_worktree() {
   local worktree_path="$WORKTREES_DIR/$directory_name"
 
   if [[ ! -d "$worktree_path" ]]; then
-    die "Worktree does not exist: $worktree_path"
+    _die "Worktree does not exist: $worktree_path"
   fi
 
   if [[ -f "$worktree_path/bin/worktree-setup" ]]; then
@@ -131,37 +110,85 @@ setup_worktree() {
   fi
 }
 
+diff_worktree() {
+  local directory_name="$1"
+  local root
+  root=$(_repo_root)
+  local worktree_path="$root/$WORKTREES_DIR/$directory_name"
+  local base_branch
+  base_branch=$(_main_branch)
+
+  if [[ ! -d "$worktree_path" ]]; then
+    _die "Worktree does not exist: $worktree_path"
+  fi
+
+  if ! command -v nvim >/dev/null 2>&1; then
+    _die "nvim is not installed"
+  fi
+
+  if git -C "$worktree_path" diff --quiet "refs/heads/$base_branch" --; then
+    echo "No changes to diff against $base_branch"
+    return
+  fi
+
+  (cd "$worktree_path" && nvim -c "DiffviewOpen $base_branch")
+}
+
 destroy_worktree() {
   local directory_name="$1"
   local worktree_path="$WORKTREES_DIR/$directory_name"
-  local branch_name="$directory_name"
-  local pane_count
 
   if [[ ! -d "$worktree_path" ]]; then
-    die "Worktree does not exist: $worktree_path"
-  fi
-
-  if tmux has-session 2>/dev/null && tmux list-windows -F "#{window_name}" | grep -q "^worktrees$"; then
-    pane_count=$(tmux list-panes -t "worktrees" | wc -l)
-    if [[ $pane_count -eq 1 ]]; then
-      tmux kill-window -t "worktrees"
-    fi
+    _die "Worktree does not exist: $worktree_path"
   fi
 
   git worktree remove "$worktree_path"
 }
 
 open_worktree() {
-  local path
   local directory_name="$1"
   local worktree_path="$WORKTREES_DIR/$directory_name"
 
   if [[ ! -d "$worktree_path" ]]; then
-    die "Worktree does not exist: $worktree_path"
+    _die "Worktree does not exist: $worktree_path"
   fi
 
+  local path
   path=$(realpath "$worktree_path")
   tmuxinator start --append worktree "$directory_name" "$path"
+}
+
+_repo_root() {
+  git rev-parse --show-toplevel
+}
+
+_main_branch() {
+  local branch
+  branch=$(git symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@') || true
+
+  if [[ -n "$branch" ]]; then
+    echo "$branch"
+    return
+  fi
+
+  if git show-ref --verify --quiet refs/heads/main; then
+    echo "main"
+    return
+  fi
+
+  if git show-ref --verify --quiet refs/heads/master; then
+    echo "master"
+    return
+  fi
+
+  echo "main"
+}
+
+_die() {
+  local message=$1
+  local code=${2:-1}
+  echo "Error: $message" >&2
+  exit "$code"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

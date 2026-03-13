@@ -1,8 +1,8 @@
 {
   "quietStartup": true,
   "lastChangelogVersion": "0.57.1",
-  "defaultProvider": "anthropic",
-  "defaultModel": "claude-sonnet-4-6",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
   "theme": "tokyo-night",
   "packages": [
     "npm:pi-mcp-adapter"
@@ -170,6 +170,9 @@
     "google/gemini-3-pro-preview",
     "google-gemini-cli/gemini-3-flash-preview",
     "google/gemini-3-flash-preview",
-    "openrouter/qwen/qwen3-coder-next"
+    "openrouter/qwen/qwen3-coder-next",
+    "openai-codex/gpt-5.4",
+    "openai-codex/gpt-5.3-codex",
+    "openai-codex/gpt-5.3-codex-spark"
   ]
 }

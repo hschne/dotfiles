@@ -1,8 +1,8 @@
 /**
- * Spec Save Extension
+ * Plan Save Extension
  *
- * Provides a /spec-save command that moves a finished spec from the
- * local docs/ directory to ~/Documents/Wiki/projects/<project>/specs/
+ * Provides a /plan-save command that moves a finished plan from the
+ * local plans/ directory to ~/Documents/Wiki/projects/<project>/plans/
  * and indexes it with `qmd update`.
  *
  * Auto-detects the project from:
@@ -57,11 +57,11 @@ async function detectProject(
   return null;
 }
 
-async function getSpecFiles(cwd: string): Promise<string[]> {
-  const specsDir = join(cwd, "docs");
+async function getPlanFiles(cwd: string): Promise<string[]> {
+  const plansDir = join(cwd, "plans");
   try {
-    await access(specsDir);
-    const entries = await readdir(specsDir);
+    await access(plansDir);
+    const entries = await readdir(plansDir);
     return entries.filter((f) => f.endsWith(".md")).sort();
   } catch {
     return [];
@@ -69,9 +69,9 @@ async function getSpecFiles(cwd: string): Promise<string[]> {
 }
 
 export default function (pi: ExtensionAPI) {
-  pi.registerCommand("spec-save", {
+  pi.registerCommand("plan-save", {
     description:
-      "Move a draft spec from docs/ to Wiki/projects/<project>/specs/",
+      "Move a draft plan from plans/ to Wiki/projects/<project>/plans/",
     handler: async (args, ctx) => {
       if (!ctx.isIdle()) {
         ctx.ui.notify("Agent is busy — wait for it to finish first", "warning");
@@ -80,21 +80,21 @@ export default function (pi: ExtensionAPI) {
 
       const cwd = ctx.cwd;
 
-      // Find spec files
-      const specFiles = await getSpecFiles(cwd);
-      if (specFiles.length === 0) {
-        ctx.ui.notify("No .md files found in docs/", "warning");
+      // Find plan files
+      const planFiles = await getPlanFiles(cwd);
+      if (planFiles.length === 0) {
+        ctx.ui.notify("No .md files found in plans/", "warning");
         return;
       }
 
-      // Pick spec file
-      let specFile: string;
-      if (specFiles.length === 1) {
-        specFile = specFiles[0];
+      // Pick plan file
+      let planFile: string;
+      if (planFiles.length === 1) {
+        planFile = planFiles[0];
       } else {
-        const picked = await ctx.ui.select("Which spec to save?", specFiles);
+        const picked = await ctx.ui.select("Which plan to save?", planFiles);
         if (!picked) return;
-        specFile = picked;
+        planFile = picked;
       }
 
       // Detect or ask for project
@@ -110,9 +110,9 @@ export default function (pi: ExtensionAPI) {
         project = picked;
       }
 
-      const srcPath = join(cwd, "docs", specFile);
-      const destDir = join(WIKI_PROJECTS, project, "specs");
-      const destPath = join(destDir, specFile);
+      const srcPath = join(cwd, "plans", planFile);
+      const destDir = join(WIKI_PROJECTS, project, "plans");
+      const destPath = join(destDir, planFile);
 
       // Ensure destination exists
       await mkdir(destDir, { recursive: true });
@@ -121,8 +121,8 @@ export default function (pi: ExtensionAPI) {
       try {
         await access(destPath);
         const overwrite = await ctx.ui.confirm(
-          "Spec exists",
-          `${project}/specs/${specFile} already exists. Overwrite?`,
+          "Plan exists",
+          `${project}/plans/${planFile} already exists. Overwrite?`,
         );
         if (!overwrite) return;
       } catch {
@@ -150,7 +150,7 @@ export default function (pi: ExtensionAPI) {
         // Non-fatal
       }
 
-      ctx.ui.notify(`Saved: ${project}/specs/${specFile}`, "success");
+      ctx.ui.notify(`Saved: ${project}/plans/${planFile}`, "success");
     },
   });
 }

@@ -1,20 +1,11 @@
 ---
-name: qmd
-description: "Search Hans's personal knowledge base using QMD. Use when working on any project, looking up past decisions, finding plans, recalling how something was done, or when context from previous sessions would be useful."
+name: wiki
+description: "Manage Hans's personal knowledge base at ~/Documents/Wiki/. Use when Hans needs to save documents (specs, plans, runbooks, memory...) or to search for past decisions, architectural context, and how something was done. Covers both storage and retrieval via QMD (hybrid search engine: BM25 + vector + reranking)."
 ---
 
-# QMD Skill
+# Wiki Skill
 
-QMD is a local hybrid search engine (BM25 + vector + reranking) indexing Hans's entire
-knowledge base at `~/Documents/Wiki/`.
-
-## When to use
-
-Use QMD proactive **during a session** when:
-
-- You need architectural context before making a decision
-- The user asks about past work or decisions
-- You're about to do something that might duplicate prior research
+The Wiki is Hans's personal knowledge base at `~/Documents/Wiki/`, indexed and searchable via QMD (hybrid search engine with BM25 + vector + reranking).
 
 ## Knowledge Base Structure
 
@@ -39,30 +30,81 @@ Use QMD proactive **during a session** when:
 | memory    | Agent fragments, session summaries | ✓              |
 | archive   | Old/inactive material              | explicit only  |
 
+## Storing Documents
+
+### Where to Save What
+
+| User says | Location | File naming |
+|-----------|----------|------------|
+| "Save a spec" | `projects/<project>/specs/<name>.md` | `<slug>.md` |
+| "Create a resource/runbook" | `resources/<name>.md` | `<slug>.md` |
+| "Write a project plan" | `projects/<project>/plans/<name>.md` | `26-03-05-<slug>.md` |
+| "Save to the project" | `projects/<project>/<name>.md` | varies |
+| "Create a document" | `resources/<name>.md` | `<slug>.md` |
+| "Add to an area" | `areas/<area>/<name>.md` | `<slug>.md` |
+| "Save a decision doc" | `resources/` or `projects/<project>/` | `<slug>.md` |
+
+**File naming conventions:**
+- Resources & specs: lowercase, hyphens (`glacier-backup-recovery.md`)
+- Plans: date prefix `YY-MM-DD-<slug>.md` (e.g., `26-03-05-phase-list-redesign.md`)
+
+### Example storage workflows
+
+**Save a runbook:**
+```bash
+# User: "Save this as a runbook"
+# Action: Write to resources/<descriptive-slug>.md
+# Then: qmd update
+```
+
+**Create a project spec:**
+```bash
+# User: "Save this database schema spec"
+# Action: Write to projects/<project>/specs/<name>.md
+# Then: qmd update
+```
+
+**Write a project plan:**
+```bash
+# User: "Write a plan for the settings redesign"
+# Action: Use /plan command, writes to projects/<project>/plans/
+# Then: plan complete (when user explicitly asks)
+```
+
+**Update index after storing:**
+```bash
+qmd update          # Re-index changed files (fast)
+qmd embed           # Regenerate vectors (slow, needed for vsearch/query on new files)
+```
+
+## Retrieving Documents 
+
+Use QMD proactive when:
+
+- You need architectural context before making a decision
+- The user asks about past work or decisions
+- You're about to do something that might duplicate prior research
+
 ## Search Commands
 
 ```bash
 # Fast keyword search — use for specific terms, names, file types
 qmd search "query" -n 5
 
-# Restrict to one collection
-qmd search "query" -c projects -n 5
-qmd search "query" -c resources -n 5
+# Search across specific collections only
+qmd search "query" -c projects -c resources
+
+# Best quality — hybrid + reranking. Slow, but highest accuracy 
+qmd query "query" -n 5
 
 # Semantic search — use when meaning matters more than keywords
 qmd vsearch "query" -n 5
-
-# Best quality — hybrid + reranking (slower, use when accuracy matters)
-qmd query "query" -n 5
 
 # Retrieve full document by path
 qmd get "projects/mapit/plans/26-02-19-phase-settings.md" --full
 
 # Get multiple files by glob
 qmd multi-get "projects/mapit/plans/*.md"
-
-# Search across specific collections only
-qmd search "query" -c projects -c resources
 ```
 
 ## Output formats
@@ -74,9 +116,11 @@ qmd search "query" -c projects -c resources
 --md       # Markdown-formatted output
 ```
 
-## Workflow patterns
+### Workflow Patterns 
 
-### Starting a project session
+Prefer search, but fall back to `query` if no results are found.
+
+#### Starting a project session
 
 ```bash
 # 1. Get project summary if it exists
@@ -88,28 +132,25 @@ qmd search "mapit" -c projects -n 5
 
 To load existing plans for a project, see the `plan` skill.
 
-### Looking up a past decision or research
+#### Document retrieval
+
+In any context, Hans may ask you to look into previous sessions or prior research. 
 
 ```bash
 # Try keyword first (fast)
 qmd search "ZUGFeRD PDF generation" -n 5
+# Use hybrid if no proper results
+qmd query "invoice generation compliance" -n 5
 
-# If weak results, try semantic
-qmd vsearch "how to generate compliant invoices in Rails" -n 5
+# Use specific collections if known
+qmd search "Redis caching" -c projects -c resources
+qmd query "Redis caching" -c projects -c resources
 ```
 
-### Finding reusable AGENTS.md fragments
+#### Searching archive (explicit only)
 
 ```bash
-qmd search "svelte conventions" -c memory
-qmd search "Rails style guide" -c memory
-qmd multi-get "memory/agents/*.md"
-```
-
-### Searching archive (explicit only)
-
-```bash
-qmd search "query" -c archive -n 5
+qmd query "old-project-name" -c archive -n 5
 ```
 
 ## Updating the index
