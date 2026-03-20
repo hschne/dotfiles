@@ -15,6 +15,10 @@ return {
         ruby_lsp = {
           mason = false,
           cmd = { vim.fn.expand("~/.local/share/mise/shims/ruby-lsp") },
+          init_options = {
+            formatter = formatter,
+            linters = { formatter },
+          },
         },
         rubocop = {
           mason = false,
@@ -23,7 +27,7 @@ return {
         },
         standardrb = {
           mason = false,
-          enabled = formatter == "standardrb",
+          enabled = formatter == "standard",
           cmd = { vim.fn.expand("~/.local/share/mise/shims/standardrb"), "--lsp" },
         },
         jsonls = {

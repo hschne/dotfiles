@@ -98,6 +98,9 @@ alias dco="docker-compose stop"
 alias bex="bundle exec"
 alias bo="bundle open"
 
+# Mise
+alias mr="mise run"
+
 # Close terminal window
 alias :q='exit'
 

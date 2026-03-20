@@ -143,3 +143,12 @@ dist
 
 # End of https://www.toptal.com/developers/gitignore/api/node
 
+# Pi files
+sessions/
+
+.mcp-cache.json
+.mcp-cache.json
+.mcp-npx-cache.json
+.run-history.jsonl
+.auth.json
+

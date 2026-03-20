@@ -27,7 +27,7 @@ local function ruby_formatter()
     return "rubocop"
   end
 
-  return "standardrb"
+  return "standard"
 end
 
 vim.g.lazyvim_ruby_formatter = ruby_formatter()

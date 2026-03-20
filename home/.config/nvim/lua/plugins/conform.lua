@@ -3,7 +3,7 @@ return {
   opts = {
     formatters_by_ft = {
       ruby = function(bufnr)
-        if vim.g.lazyvim_ruby_formatter == "rubocop" or vim.g.lazyvim_ruby_formatter == "standardrb" then
+        if vim.g.lazyvim_ruby_formatter == "rubocop" or vim.g.lazyvim_ruby_formatter == "standard" then
           return { "lsp" }
         end
         return { vim.g.lazyvim_ruby_formatter }

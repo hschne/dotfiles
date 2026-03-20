@@ -1,41 +1,52 @@
 #compdef worktree
 
+local -a _worktree_commands
+_worktree_commands=(
+  'new:Create new worktree folder only'
+  'setup:Run setup script in worktree'
+  'diff:Open nvim Diffview against main'
+  'destroy:Remove worktree and clean up'
+  'open:Open worktree using tmuxinator template'
+)
+
 _worktree() {
-  local state line context
-  
-  _arguments \
-    '1: :->command' \
-    '*: :->args' \
+  local curcontext="$curcontext" state
+
+  _arguments -C \
+    '1:command:->command' \
+    '2:argument:->arg' \
     && return 0
-  
+
   case $state in
     command)
-      _values 'worktree commands' \
-        'new[Create new worktree and start development environment]' \
-        'setup[Run setup script in worktree]' \
-        'destroy[Remove worktree and clean up]' \
-        'open[Open worktree using tmuxinator template]'
+      _describe 'command' _worktree_commands
       ;;
-    args)
-      case $line[1] in
+    arg)
+      case $words[2] in
         new)
           _message 'feature description'
           ;;
-        setup|destroy|open)
+        setup|diff|destroy|open)
           _worktree_directories
           ;;
       esac
+      ;;
+    *)
+      _message 'no more arguments'
       ;;
   esac
 }
 
 _worktree_directories() {
   local worktrees_dir="./worktrees"
-  
-  if [[ -d "$worktrees_dir" ]]; then
-    local directories=($(ls -1 "$worktrees_dir" 2>/dev/null | grep -v '^\.$' | grep -v '^\.\.$'))
-    _describe 'worktree directories' directories
-  fi
+  local -a directories
+
+  [[ -d "$worktrees_dir" ]] || return 0
+
+  directories=(${(@f)$(command ls -1 "$worktrees_dir" 2>/dev/null)})
+  (( ${#directories[@]} )) || return 0
+
+  compadd -a directories
 }
 
 _worktree "$@"

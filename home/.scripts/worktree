@@ -142,7 +142,8 @@ destroy_worktree() {
     _die "Worktree does not exist: $worktree_path"
   fi
 
-  git worktree remove "$worktree_path"
+  git worktree remove --force "$worktree_path"
+  rm -rf "$worktree_path"
 }
 
 open_worktree() {

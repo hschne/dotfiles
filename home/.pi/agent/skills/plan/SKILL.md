@@ -5,12 +5,9 @@ description: "Understand how plans are written, named, stored, and saved. Use wh
 
 # Plan Skill
 
-Plans are feature planning documents. They live in two places:
+Plans are feature planning documents. They live in the Wiki. Per default, put plans in a project. If no plans folder is present, you must ask the user for guidance.
 
-- **Draft**: `plans/` in the project repo (editable with vim, gitignore-able)
-- **Final**: `~/Documents/Wiki/projects/<project>/plans/` (indexed by QMD)
-
-Use `/plan` to create a new draft. Use `plan complete` to move a finished draft to the Wiki — **only when the user explicitly asks you to**.
+- **Project**: `~/Documents/Wiki/projects/<project>/plans/`
 
 ## File Naming
 
@@ -27,6 +24,8 @@ Search for related decisions:
 
 ```bash
 qmd search "<relevant keywords>" -c projects -n 5
+# Or search across entire knowledge base if no results
+qmd search "<relevant keywords>" -n 5
 ```
 
 ## Plan Structure
@@ -77,6 +76,10 @@ Skip sections that don't apply. The **Decisions** section is the most valuable �
 1. `/plan <topic>` — research, ask clarifying questions, write draft to `plans/YY-MM-DD-<slug>.md`
 2. Edit with vim until satisfied
 3. `plan complete` — moves the file to `~/Documents/Wiki/projects/<project>/plans/` and runs `qmd update`
+
+## Draft Directory Rules
+
+- **Never create the `plans/` directory if it does not exist.** If it is missing, ask the user where they want the plan stored before writing anything.
 
 ## The `plan` Command
 

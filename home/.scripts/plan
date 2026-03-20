@@ -175,7 +175,10 @@ cmd_complete() {
   mv "plans/$plan_file" "$dest_path"
   echo "Saved: $project/plans/$plan_file"
 
-  if command -v qmd >/dev/null 2>&1; then
+  if command -v qmd-wrapper >/dev/null 2>&1; then
+    echo "Updating QMD index..."
+    qmd-wrapper update
+  elif command -v qmd >/dev/null 2>&1; then
     echo "Updating QMD index..."
     qmd update
   fi

@@ -1,11 +1,14 @@
 {
   "quietStartup": true,
-  "lastChangelogVersion": "0.57.1",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
+  "lastChangelogVersion": "0.61.0",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-sonnet-4-6",
   "theme": "tokyo-night",
   "packages": [
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-prompt-template-model",
+    "npm:pi-subagents",
+    "npm:pi-web-access"
   ],
   "formatters": {
     "standardrb": {
