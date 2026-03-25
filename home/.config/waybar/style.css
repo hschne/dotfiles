@@ -43,6 +43,58 @@ window#waybar.bottom {
   color: #f7768e;
 }
 
+/* Recording indicator */
+#custom-recording {
+  padding: 0 10px;
+  color: #a9b1d6;
+}
+
+#custom-recording.idle {
+  color: #a9b1d6;
+}
+
+#custom-recording.recording {
+  color: #ff5555;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+#custom-voxtype {
+  padding: 0 10px;
+}
+
+#custom-voxtype.recording {
+  color: #ff5555;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+#custom-voxtype.transcribing {
+  color: #7aa2f7;
+}
+
+#custom-voxtype.idle {
+  color: #a9b1d6;
+}
+
+#custom-voxtype.stopped {
+  color: #6272a4;
+}
+
+/* keep keyframes at end; Waybar's CSS parser can be picky */
+
 /* Right-side modules */
 #pulseaudio,
 #backlight,

@@ -4,7 +4,7 @@
     "layer": "top",
     "position": "top",
     "height": 30,
-    "spacing": 8,
+    "spacing": 4,
     "modules-left": [
       "hyprland/workspaces"
     ],
@@ -14,8 +14,9 @@
       "backlight",
       "network",
       "battery",
-      "tray",
-      "custom/power"
+      "custom/recording",
+      "custom/voxtype",
+      "tray"
     ],
     "hyprland/workspaces": {
       "format": "{icon}",
@@ -45,7 +46,7 @@
           "󰕾"
         ]
       },
-      "on-click": "pamixer -t",
+      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
       "on-click-right": "pavucontrol",
       "scroll-step": 5
     },
@@ -94,8 +95,33 @@
         "󰁹"
       ]
     },
+    "custom/recording": {
+      "exec": "~/.scripts/screen-record status",
+      "return-type": "json",
+      "interval": 1,
+      "format": "{icon}",
+      "format-icons": {
+        "idle": "",
+        "recording": ""
+      },
+      "tooltip": true,
+      "on-click": "~/.scripts/screen-record"
+    },
+    "custom/voxtype": {
+      "exec": "voxtype status --follow --format json",
+      "return-type": "json",
+      "format": "{icon}",
+      "format-icons": {
+        "idle": "󰍬",
+        "recording": "󰍫",
+        "transcribing": "󰔟",
+        "stopped": "󰍭"
+      },
+      "tooltip": true,
+      "on-click": "systemctl --user restart voxtype"
+    },
     "tray": {
-      "spacing": 8
+      "spacing": 10
     }
   },
   {

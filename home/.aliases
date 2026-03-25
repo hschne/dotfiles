@@ -26,18 +26,13 @@ alias open="xdg-open"
 # Realpath
 alias rlp="realpath"
 
-# Til
-alias til="til-proxy"
+alias pass="pass-cli"
 
-# Claude
-alias claude="claude --dangerously-skip-permissions"
+# Worktrees
 alias wt="worktree"
 alias wtn="worktree new"
 alias wto="worktree open"
 alias wtd="worktree destroy"
-
-# Opencode
-alias oc="sandbox"
 
 # Config Files
 alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.toml"

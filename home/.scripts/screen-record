@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly WAYBAR_SIGNAL="RTMIN+8"
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [status] [--silent]
+
+Toggle screen recording. If already recording, stops and saves the video.
+Otherwise, prompts for region selection and starts recording.
+
+Commands:
+  status    Print Waybar JSON status
+
+Options:
+  --silent  Record without microphone audio
+EOF
+}
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+is_recording() {
+  pgrep -x wl-screenrec >/dev/null
+}
+
+refresh_waybar() {
+  pkill -${WAYBAR_SIGNAL} waybar 2>/dev/null || true
+}
+
+print_status() {
+  if is_recording; then
+    printf '{"class":"recording","alt":"recording","tooltip":"Stop screen recording"}\n'
+  else
+    printf '{"class":"idle","alt":"idle","tooltip":"Start screen recording"}\n'
+  fi
+}
+
+stop_recording() {
+  pkill -INT wl-screenrec
+
+  for _ in {1..15}; do
+    is_recording || break
+    sleep 0.2
+  done
+
+  if is_recording; then
+    pkill -9 wl-screenrec
+    sleep 0.5
+  fi
+
+  local latest
+  latest=$(ls -t "$SAVE_DIR"/*.mp4 | head -n1)
+
+  notify-send "Recording finished" "Path copied: $(basename "$latest")" --expire-time=1500
+  echo "$latest" | wl-copy
+
+  refresh_waybar
+}
+
+start_recording() {
+  local region file
+  region=$(slurp) || exit 1
+  file="$SAVE_DIR/$(date +'%Y-%m-%d_%H-%M-%S').mp4"
+
+  if [[ "$SILENT" == false ]]; then
+    local mic_src desc
+    mic_src=$(pactl info | awk -F': ' '/Default Source/ {print $2}')
+    desc=$(pactl list sources | awk -v s="$mic_src" '$2==s {getline; sub(/^\s*Description: /, ""); print; exit}')
+
+    notify-send "Recording… (source: $desc)" --expire-time=1000
+    wl-screenrec -g "$region" --audio --audio-device "$mic_src" -f "$file" &
+  else
+    notify-send "Recording… (silent mode)" --expire-time=1000
+    wl-screenrec -g "$region" -f "$file" &
+  fi
+
+  refresh_waybar
+}
+
+main() {
+  local command="toggle"
+  SILENT=false
+
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+    status)
+      command="status"
+      shift
+      ;;
+    --silent)
+      SILENT=true
+      shift
+      ;;
+    --help | -h)
+      usage
+      exit 0
+      ;;
+    *)
+      die "Unknown option: $1"
+      ;;
+    esac
+  done
+
+  SAVE_DIR="$HOME/Videos"
+  mkdir -p "$SAVE_DIR"
+
+  case "$command" in
+  status)
+    print_status
+    ;;
+  toggle)
+    if is_recording; then
+      stop_recording
+    else
+      start_recording
+    fi
+    ;;
+  *)
+    die "Unknown command: $command"
+    ;;
+  esac
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

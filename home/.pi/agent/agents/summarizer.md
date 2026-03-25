@@ -22,13 +22,13 @@ A session may be summarized multiple times. Before saving the summary search the
 
 If a matching note was found, update the existing summary with the corresponding front formatter.
 
-## Output the full note in markdown format with proper frontmatter:
+## Output Format
 
+```markdown
 description: "Brief description of what was discussed"
 tags: ["tag1", "tag2"]
 created: "YYYY-MM-DD"
 updated: "YYYY-MM-DD"
-
 ---
 
 # Title
@@ -53,5 +53,4 @@ updated: "YYYY-MM-DD"
 
 ...
 
----
-
+```

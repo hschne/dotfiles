@@ -1,4 +1,4 @@
-# Models and Jobs
+# Models
 
 This reference details how to organize and structure Rails models.
 
@@ -19,6 +19,13 @@ class Project < ApplicationRecord
 
   # 3. Enums (for state)
   enum :state, %w[uploaded analyzing analyzed generating generated failed].index_by(&:itself)
+
+  # 3.5 compositions
+  composed_of :duration,
+    class_name: "Duration",
+    mapping: {duration: :minutes},
+    converter: ->(value) { Duration.new(value) },
+    allow_nil: true
 
   # 4. Normalization (Rails 8+)
   normalizes :name, with: ->(name) { name.strip }
