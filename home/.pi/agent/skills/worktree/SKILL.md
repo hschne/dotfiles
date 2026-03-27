@@ -21,7 +21,7 @@ Set up a worktree after creation:
 ~/.scripts/worktree setup <worktree-directory>
 ```
 
-Compare a worktree to main with `vimdiff`:
+Compare a worktree to main (or working tree vs HEAD if there are unstaged changes):
 
 ```bash
 ~/.scripts/worktree diff <worktree-directory>
@@ -58,6 +58,7 @@ Delete a worktree:
 - When asked to create a PR, commit in the worktree, push the branch, then use the `gh` skill.
 - When asked to integrate directly into main, use a deliberate git workflow.
 - When asked to clean up, ensure no uncommitted work is being lost before destroying the worktree.
+- **`FIX:` comments**: Hans may leave `# FIX: ...` comments directly in source files while reviewing a diff. Always grep for these before starting work: `grep -r "FIX:" .` — address each one, then remove the comment.
 
 ## Typical agent flow
 

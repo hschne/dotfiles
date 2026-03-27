@@ -1,6 +1,6 @@
 {
   "quietStartup": true,
-  "lastChangelogVersion": "0.61.1",
+  "lastChangelogVersion": "0.63.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4",
   "theme": "tokyo-night",

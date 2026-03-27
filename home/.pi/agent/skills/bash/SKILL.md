@@ -7,7 +7,7 @@ description: "Write concise bash scripts following established conventions. Use 
 
 When writing bash scripts, follow these conventions. Inspect scripts such as the following as guidelines:
 
-- ~/.scripts/til
+- ~/.scripts/mdt
 - ~/.scripts/worktree
 
 ## Shell and Settings

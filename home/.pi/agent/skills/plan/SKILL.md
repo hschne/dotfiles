@@ -31,7 +31,8 @@ Numbered steps, each small and actionable:
    ...
 
 ## Files to Modify
-- `path/to/file.rb` - what changes
+- `path/to/file.rb` - what changes. 
+- code samples for non-trivial changes
 
 ## New Files (if any)
 - `path/to/new.rb` - purpose

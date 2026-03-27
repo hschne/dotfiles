@@ -96,6 +96,55 @@ class Identity::EmailsControllerTest < ActionDispatch::IntegrationTest
 
 **Do not use System tests**, they are brittle and offer no use for us.
 
+## Keep `setup` Minimal
+
+Only put data in `setup` that is used by the **majority** of tests in the file. Data used by only one or two tests should be defined locally inside those tests.
+
+**Bad:**
+
+```ruby
+setup do
+  @project = projects(:default)
+  @valid_params = {title: "Title", description: "Desc"}  # only used in 2 tests
+  @other_params = {name: "Guest", email: "g@example.com"} # only used in 1 test
+end
+```
+
+**Good:**
+
+```ruby
+setup do
+  @project = projects(:default)
+end
+
+test "creates with valid params" do
+  valid_params = {title: "Title", description: "Desc"}
+  post project_entries_path(@project), params: {entry: valid_params}
+  assert_response :redirect
+end
+```
+
+## No Comments in Tests
+
+Tests are documentation themselves. Do not add section headers, inline comments, or explanatory notes. The test name explains what is being tested.
+
+**Bad:**
+
+```ruby
+# Location step
+test "valid location advances" do ...
+
+# Back navigation
+test "back from details" do ...
+```
+
+**Good:**
+
+```ruby
+test "valid location advances" do ...
+test "back from details" do ...
+```
+
 ## Use Simple Fixtures
 
 Prefer simple fixtures over factories and creating models on the fly. Modify fixtures as necessary in the tests.
@@ -208,6 +257,89 @@ assert_includes response.body, I18n.t("shared.pagination.next")
 assert_includes response.body, I18n.t("shared.pagination.page_info", current: 1, total: 2)
 ```
 
+
+## No Numbers in Variable Names
+
+Don't use numbered suffixes like `entry1`, `vote2`. Use descriptive names that reflect the role in the test.
+
+**Bad:**
+
+```ruby
+entry1 = build_entry
+entry2 = build_entry
+vote1 = Vote.create!(entry: entry1, user: @user)
+vote2 = Vote.create!(entry: entry2, user: @user)
+assert_equal vote2, @guest.latest_vote
+```
+
+**Good:**
+
+```ruby
+older_entry = build_entry
+newer_entry = build_entry
+older_vote = Vote.create!(entry: older_entry, user: @user)
+newer_vote = Vote.create!(entry: newer_entry, user: @user)
+assert_equal newer_vote, @guest.latest_vote
+```
+
+## No Assertions Inside Blocks
+
+Don't put assertions inside `travel`, `assert_difference`, or other blocks. Assert after the block so failures are clear and the assertion is not lost in nesting.
+
+**Bad:**
+
+```ruby
+travel 1.second do
+  entry = build_entry
+  Entry::Guest.create!(entry:, user_guest: @guest)
+  assert_equal entry, @guest.latest_entry
+end
+```
+
+**Good:**
+
+```ruby
+later_entry = nil
+travel 1.second do
+  later_entry = build_entry
+  Entry::Guest.create!(entry: later_entry, user_guest: @guest)
+end
+assert_equal later_entry, @guest.latest_entry
+```
+
+## Move Test Helpers to Private
+
+Helper methods used across tests in a file belong in a `private` section at the bottom, not inline before the tests.
+
+**Bad:**
+
+```ruby
+class EntryTest < ActiveSupport::TestCase
+  def build_entry
+    Entry.create!(...)
+  end
+
+  test "visibility is :visible" do
+    assert_equal :visible, build_entry.visibility
+  end
+end
+```
+
+**Good:**
+
+```ruby
+class EntryTest < ActiveSupport::TestCase
+  test "visibility is :visible" do
+    assert_equal :visible, build_entry.visibility
+  end
+
+  private
+
+  def build_entry
+    Entry.create!(...)
+  end
+end
+```
 
 ## Prefer Flat Assertions Over Nested `assert_difference`
 

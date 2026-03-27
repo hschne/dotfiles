@@ -126,12 +126,13 @@ diff_worktree() {
     _die "nvim is not installed"
   fi
 
-  if git -C "$worktree_path" diff --quiet "refs/heads/$base_branch" --; then
+  if ! git -C "$worktree_path" diff --quiet || ! git -C "$worktree_path" diff --cached --quiet; then
+    (cd "$worktree_path" && nvim -c "DiffviewOpen")
+  elif ! git -C "$worktree_path" diff --quiet "refs/heads/$base_branch" --; then
+    (cd "$worktree_path" && nvim -c "DiffviewOpen $base_branch")
+  else
     echo "No changes to diff against $base_branch"
-    return
   fi
-
-  (cd "$worktree_path" && nvim -c "DiffviewOpen $base_branch")
 }
 
 destroy_worktree() {

@@ -1,37 +1,32 @@
 ---
 name: rails
-description: Reusable Rails conventions for apps that favor Rails defaults, thin controllers, clear models, Hotwire, Minitest, and simple maintainable architecture. See references for models, controllers, data, testing, Hotwire, Inertia/Svelte, routing, and i18n.
+description: Reusable Rails conventions for apps that favor Rails defaults. See references for models, controllers, data, testing, Hotwire, Inertia, routing, and i18n. Use this any time you read or write to a Rails app.
 ---
 
 # Rails
 
-Use this skill for general Rails work that should follow a conventional, maintainable style.
+Use this skill any time you work in a Rails application. When touching any part of the rails code base you MUST read the corresponding reference file and adhere to it.
 
 ## When to Use This Skill
 
 Invoke this skill when:
 
-- Adding or refactoring any Rails application code
+- Changing or reading any Rails application code
 - Writing or reviewing migrations and schema changes
 - Writing or refactoring Rails views
 - Deciding where logic belongs in a Rails app
 - Reviewing test structure, fixtures, or i18n usage
 
-## Core Principles
+## Style Guide
 
+Regardless of what you change these core principles always apply.
+
+- Do not add code comments, good code is self-explanatory.
+- Prefer guard clauses over nested conditions, return early.
 - Trust Rails conventions instead of fighting the framework
 - Keep logic at the right layer: models handle data, controllers handle HTTP, jobs orchestrate workflows
-- Prefer readable code over abstraction-heavy patterns
 - Name things after business concepts, not technical patterns
 - Normalize data into proper tables instead of piling concerns into one model
-- Return simple values or Active Record objects; raise on errors rather than inventing result wrappers
-
-## Architecture Rules
-
-- Do not introduce `app/services/`, `app/contexts/`, or `app/operations/`
-- Do not add use case / interactor style abstractions by default
-- Keep controllers thin and use guard clauses
-- Prefer namespaced model classes for extracted complexity
 
 ## References
 
@@ -45,7 +40,7 @@ Use the focused reference that matches the task:
 - `references/views.md` - when writing views
 - `references/hotwire.md` - when using Hotwire/Turbo for improving views
 - `references/routing.md` 
-- `references/inertia.md` - when using InertiaJS for rendering views
+- `references/inertia.md` - when using Inertia
 - `references/i18n.md`
 
 ## Related Skills
@@ -56,8 +51,6 @@ Use the focused reference that matches the task:
 
 ## Quick Workflow
 
-1. Pick the right Rails layer for the change
-2. Read the relevant reference(s)
-3. Implement using Rails defaults first
-4. Keep code small and obvious
+1. Read the relevant reference(s)
+2. Implement by adhering to references
 5. Verify with lint, formatting, type checks, and tests

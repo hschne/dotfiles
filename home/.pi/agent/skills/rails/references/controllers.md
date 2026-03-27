@@ -1,6 +1,6 @@
 # Controllers
 
-Use the refernce when writing or refactoring controllers.
+Use this reference when writing or refactoring controllers.
 
 ## Keep Controllers Extremely Thin
 
