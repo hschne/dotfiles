@@ -146,9 +146,9 @@ dist
 # Pi files
 sessions/
 
-.mcp-cache.json
-.mcp-cache.json
-.mcp-npx-cache.json
-.run-history.jsonl
-.auth.json
+# local machine state / secrets
+mcp-cache.json
+mcp-npx-cache.json
+auth.json
+run-history.jsonl
 
