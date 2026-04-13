@@ -1,49 +1,53 @@
 ---
 name: plan
-description: "Understand how plans are written. Use when writing a plan."
+description: Write implementation plans for project work. Use when the user asks for a plan, wants work broken into steps, or needs a scoped implementation roadmap saved under `./plans/`.
 ---
 
-# Plan Skill
+# Plan
 
-Plans are concrete documents. The clearly describe what needs to be done to archive a specific goal.
+Use this skill to write concise, implementation-ready plans.
 
-Unless otherwise stated create a `PLAN.md` with the following contents.
+## When to Use This Skill
 
-## Plan Structure
+- The user asks to "make a plan"
+- The user wants implementation work split into steps
+- The user wants a roadmap saved in `./plans/`
 
-```markdown
-# <Title>
+## Core Rules
 
-## Goal
+- Do not draft the plan immediately unless the user explicitly wants a rough draft.
+- First gather code and project context.
+- Ask clarifying questions for any unresolved structural or sequencing decision.
+- Rewrite plans to match user feedback; do not patch a bad structure incrementally.
+- Final plans must follow the template exactly.
+- Prefer 2–5 top-level numbered steps over long narrative subsections.
+- Each step should be small, actionable, and independently verifiable.
+- Be concrete about files, changes, and acceptance criteria.
 
-<What this achieves and why — 2-3 sentences max>
+## Workflow
 
-## Tasks
+1. Confirm the planning target and any constraints.
+2. Explore the codebase to verify the current state.
+3. Ask clarifying questions until sequencing and scope are clear.
+4. Sketch the affected modules and choose the smallest sensible step breakdown.
+5. Write the final plan in `./plans/YY-MM-DD-<slug>.md` using the template.
+6. Re-read the plan and check it against the validation list before finishing.
 
-Numbered steps, each small and actionable:
+## Validation and Iteration
 
-1. **Task 1**: Description
-   - File: `path/to/file.ts`
-   - Changes: What to modify
-   - Acceptance: How to verify
+Before finishing a plan:
 
-2. **Task 2**: Description
-   ...
+- verify the file name matches `YY-MM-DD-<slug>.md`
+- verify the required headings are present
+- verify every step includes files, changes, and acceptance criteria
+- verify the structure reflects the user's latest feedback exactly
+- if the structure is wrong, rewrite the plan cleanly instead of patching it
 
-## Files to Modify
-- `path/to/file.rb` - what changes. 
-- code samples for non-trivial changes
+## References
 
-## New Files (if any)
-- `path/to/new.rb` - purpose
+Use the focused reference that matches the task:
 
-## What We're NOT Doing
-
-<Explicitly scope out things that might seem related but are deferred or out of scope.>
-
-## Risks & Edge Cases
-
-<Things that could go wrong or need special handling.>
-
-```
-
+| Topic    | Description                                                             | Reference                          |
+| -------- | ----------------------------------------------------------------------- | ---------------------------------- |
+| workflow | Required planning process, questions, and decision gates before writing | [workflow](references/workflow.md) |
+| template | Exact plan structure, naming, and validation checklist                  | [template](references/template.md) |

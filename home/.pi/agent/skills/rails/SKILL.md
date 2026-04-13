@@ -32,16 +32,18 @@ Regardless of what you change these core principles always apply.
 
 Use the focused reference that matches the task:
 
-- `references/models` 
-- `references/controllers.md` 
-- `references/policies.md` - for authorization logic
-- `references/migrations-and-data.md` 
-- `references/testing.md` - when writing tests
-- `references/views.md` - when writing views
-- `references/hotwire.md` - when using Hotwire/Turbo for improving views
-- `references/routing.md` 
-- `references/inertia.md` - when using Inertia
-- `references/i18n.md`
+| Topic | Path | Reference |
+| --- | --- | --- |
+| models | `app/models/**/*` | [models](references/models.md) |
+| controllers | `app/controllers/**/*` | [controllers](references/controllers.md) |
+| policies | `app/policies/**/*` | [policies](references/policies.md) |
+| migrations and data | `db/migrate/**/*`, `db/schema.rb`, `db/seeds.rb` | [migrations-and-data](references/migrations-and-data.md) |
+| testing | `test/**/*` | [testing](references/testing.md) |
+| views | `app/views/**/*` | [views](references/views.md) |
+| hotwire | `app/views/**/*`, `aep/javascript/controllers/**/*` | [hotwire](references/hotwire.md) |
+| routing | `config/routes.rb` | [routing](references/routing.md) |
+| inertia | `app/controllers/**/*`, `app/javascript/**/*` | [inertia](references/inertia.md) |
+| i18n | `config/locales/**/*` | [i18n](references/i18n.md) |
 
 ## Related Skills
 

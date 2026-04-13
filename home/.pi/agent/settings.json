@@ -1,6 +1,6 @@
 {
   "quietStartup": true,
-  "lastChangelogVersion": "0.63.1",
+  "lastChangelogVersion": "0.66.1",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4",
   "theme": "tokyo-night",
@@ -8,7 +8,8 @@
     "npm:pi-mcp-adapter",
     "npm:pi-prompt-template-model",
     "npm:pi-subagents",
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:pi-annotate"
   ],
   "formatters": {
     "standardrb": {
@@ -163,8 +164,8 @@
       }
     }
   },
-  "defaultThinkingLevel": "off",
-  "hideThinkingBlock": false,
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": true,
   "enabledModels": [
     "anthropic/claude-sonnet-4-6",
     "anthropic/claude-opus-4-6",

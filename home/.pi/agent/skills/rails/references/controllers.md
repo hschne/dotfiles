@@ -2,9 +2,47 @@
 
 Use this reference when writing or refactoring controllers.
 
-## Keep Controllers Extremely Thin
+## Order
 
-**Target: 5-10 lines per action.** No business logic.
+Always follow this order in controller files:
+
+```ruby
+class ProjectsController < ApplicationController
+  # 1. Concerns in alphabetical order
+  include Authentication,
+  include Maptiler
+  include Pundit::Authorization
+
+  # 2. Various Framework & Utility methods
+  allow_browser versions: Browserslist.browsers
+  allow_unauthenticated_access only: %i[index show]
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  # 3. Callbacks
+  before_action :set_project
+
+  # 4. Layout
+  layout "app"
+
+  # 5. Actions
+  def index
+  end
+
+  def show
+  end
+
+  # 6. Private helpers and setters
+  private
+
+  def set_project
+    @project = Project.find(params[:id])
+  end
+end
+```
+
+## Keep Controllers Thin
+
+Controller actions should contain 5-10 lines per action and not contain business logic.
 
 ```ruby
 class Participant::CloudsController < Participant::ApplicationController
@@ -39,21 +77,17 @@ class Participant::CloudsController < Participant::ApplicationController
 end
 ```
 
-**Action breakdown:**
-
-- Guard clauses (early returns)
-- Simple model operations (create, update)
-- Job enqueueing
-- Redirect/render
-
-**No:**
-
+They must not contain:
 - Business logic
 - Complex conditionals
-- Multiple model operations (use Form Object instead)
+- Multiple model operations 
 - Data transformation
 
-## Use Namespace Controllers for Authentication/Scoping
+## Avoid Custom Actions.
+
+Prefer a nested CRUD controller over a custom action like ProjectsController#archive.
+
+## Use Namespace Controllers for Scoping
 
 **Pattern:**
 

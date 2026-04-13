@@ -4,7 +4,7 @@
 
 **Good**:
 
-```
+```erb
 <%= tag.div class: class_names(item: true, item__complete: item.completed?, item__over_due: !item.completed? && item.over_due?) do %>
   <%= item.name %>
 <% end %>
@@ -113,6 +113,49 @@ Why:
 - Templates are easier to read and modify
 - Follows Rails convention (views belong in views/)
 - Easier to test and debug
+
+### Never Nest `button_to` Inside `form_with`
+
+`button_to` renders its own `<form>` element. Placing it inside a `form_with` block creates nested `<form>` tags, which is invalid HTML. Browsers silently discard the inner form and submit the outer one instead — so a Delete button triggers Save, not delete.
+
+**Bad — nested forms, delete triggers update:**
+
+```erb
+<%= form_with model: block do |f| %>
+  <article>...</article>
+
+  <div class="modal-action">
+    <%# DON'T: button_to inside form_with renders a nested <form> %>
+    <%= button_to block_path(block), method: :delete, class: "btn btn-ghost text-error" do %>
+      Delete
+    <% end %>
+
+    <%= f.submit "Save Changes" %>
+  </div>
+<% end %>
+```
+
+**Good — delete form is a sibling, not a child:**
+
+```erb
+<%= form_with model: block do |f| %>
+  <article>...</article>
+
+  <div class="modal-action">
+    <%= f.submit "Save Changes" %>
+  </div>
+<% end %>
+
+<%# button_to lives outside form_with, at the same level %>
+<% if block.persisted? %>
+  <%= button_to block_path(block), method: :delete, class: "btn btn-ghost text-error",
+      data: { turbo_confirm: "Delete this block?" } do %>
+    Delete
+  <% end %>
+<% end %>
+```
+
+When working inside a Turbo Frame (e.g. a modal), both the `form_with` and the `button_to` can still be children of the same `turbo_frame_tag` — just not nested inside each other.
 
 ### Database Queries from Views
 

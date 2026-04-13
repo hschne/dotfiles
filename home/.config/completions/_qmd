@@ -1,0 +1,289 @@
+#compdef qmd
+
+_qmd_collections() {
+  local -a collections
+  collections=(${${(f)$(qmd collection list 2>/dev/null | sed -n 's/^\([[:alnum:]_.-]\+\).*/\1/p')}})
+  (( $#collections )) && _describe -t collections 'qmd collections' collections
+}
+
+_qmd_output_formats() {
+  local -a formats
+  formats=(
+    '--json:JSON output'
+    '--csv:CSV output'
+    '--md:Markdown output'
+    '--xml:XML output'
+    '--files:Files-only output'
+  )
+  _describe -t formats 'output formats' formats
+}
+
+_qmd_query_types() {
+  local -a types
+  types=(
+    'lex:Keyword/BM25 query line'
+    'vec:Vector/semantic query line'
+    'hyde:Hypothetical answer query line'
+    'intent:Intent line for structured query documents'
+    'expand:Explicit query expansion prefix'
+  )
+  _describe -t query_types 'query prefixes' types
+}
+
+_qmd_collection_subcommands() {
+  local -a commands
+  commands=(
+    'add:Add a collection'
+    'list:List collections'
+    'remove:Remove a collection'
+    'rename:Rename a collection'
+    'show:Show a collection'
+    'update-cmd:Set update command for a collection'
+  )
+  _describe -t commands 'collection commands' commands
+}
+
+_qmd_context_subcommands() {
+  local -a commands
+  commands=(
+    'add:Add context'
+    'list:List contexts'
+    'rm:Remove context'
+  )
+  _describe -t commands 'context commands' commands
+}
+
+_qmd_skill_subcommands() {
+  local -a commands
+  commands=(
+    'show:Print packaged QMD skill'
+    'install:Install packaged QMD skill'
+  )
+  _describe -t commands 'skill commands' commands
+}
+
+_qmd_mcp_subcommands() {
+  local -a commands
+  commands=(
+    'stop:Stop HTTP daemon'
+    'status:Show MCP daemon status'
+  )
+  _describe -t commands 'mcp commands' commands
+}
+
+_qmd_common_search_args() {
+  _arguments -s \
+    '(-n)-n+[Maximum number of results]:count:' \
+    '--all[Return all matches]' \
+    '--min-score[Minimum similarity score]:score:' \
+    '--full[Output full document instead of snippet]' \
+    '(-C --candidate-limit)'{-C,--candidate-limit}'[Maximum rerank candidates]:count:' \
+    '--line-numbers[Include line numbers in output]' \
+    '--explain[Include retrieval score traces]' \
+    '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections' \
+    '(- 1 *)--json[JSON output]' \
+    '(- 1 *)--csv[CSV output]' \
+    '(- 1 *)--md[Markdown output]' \
+    '(- 1 *)--xml[XML output]' \
+    '(- 1 *)--files[Files-only output]'
+}
+
+_qmd() {
+  local curcontext="$curcontext" state line ret=1
+  typeset -A opt_args
+
+  local -a commands
+  commands=(
+    'query:Hybrid search with auto expansion + reranking'
+    'search:Full-text BM25 keyword search'
+    'vsearch:Vector similarity search'
+    'get:Get a single document by file/docid/path[:line]'
+    'multi-get:Get multiple documents by glob or comma-separated list'
+    'skill:Show or install the packaged skill'
+    'mcp:Start or manage the MCP server'
+    'collection:Manage indexed folders'
+    'context:Manage context entries'
+    'ls:List indexed files'
+    'status:View index and collection health'
+    'update:Re-index collections'
+    'embed:Generate or refresh embeddings'
+    'cleanup:Clear caches and vacuum DB'
+  )
+
+  _arguments -C \
+    '--index[Use a named index]:index name:' \
+    '1:command:->command' \
+    '*::args:->args' && ret=0
+
+  case $state in
+    command)
+      _describe -t commands 'qmd commands' commands
+      return
+      ;;
+    args)
+      case $words[2] in
+        query)
+          _arguments -s \
+            '1:query text or structured query:_qmd_query_types' \
+            '(-n)-n+[Maximum number of results]:count:' \
+            '--all[Return all matches]' \
+            '--min-score[Minimum similarity score]:score:' \
+            '--full[Output full document instead of snippet]' \
+            '(-C --candidate-limit)'{-C,--candidate-limit}'[Maximum rerank candidates]:count:' \
+            '--line-numbers[Include line numbers in output]' \
+            '--explain[Include retrieval score traces]' \
+            '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections' \
+            '(- 1 *)--json[JSON output]' \
+            '(- 1 *)--csv[CSV output]' \
+            '(- 1 *)--md[Markdown output]' \
+            '(- 1 *)--xml[XML output]' \
+            '(- 1 *)--files[Files-only output]'
+          ;;
+        search|vsearch)
+          _arguments -s \
+            '1:query text: ' \
+            '(-n)-n+[Maximum number of results]:count:' \
+            '--all[Return all matches]' \
+            '--min-score[Minimum similarity score]:score:' \
+            '--full[Output full document instead of snippet]' \
+            '--line-numbers[Include line numbers in output]' \
+            '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections' \
+            '(- 1 *)--json[JSON output]' \
+            '(- 1 *)--csv[CSV output]' \
+            '(- 1 *)--md[Markdown output]' \
+            '(- 1 *)--xml[XML output]' \
+            '(- 1 *)--files[Files-only output]'
+          ;;
+        get)
+          _arguments -s \
+            '1:document path/docid:_files' \
+            '(-l)-l+[Maximum number of lines]:count:' \
+            '--full[Output full document]' \
+            '--line-numbers[Include line numbers in output]' \
+            '(- 1 *)--json[JSON output]' \
+            '(- 1 *)--csv[CSV output]' \
+            '(- 1 *)--md[Markdown output]' \
+            '(- 1 *)--xml[XML output]' \
+            '(- 1 *)--files[Files-only output]'
+          ;;
+        multi-get)
+          _arguments -s \
+            '1:pattern or comma-separated list: ' \
+            '(-l)-l+[Maximum number of lines per file]:count:' \
+            '--max-bytes[Skip files larger than N bytes]:bytes:' \
+            '(- 1 *)--json[JSON output]' \
+            '(- 1 *)--csv[CSV output]' \
+            '(- 1 *)--md[Markdown output]' \
+            '(- 1 *)--xml[XML output]' \
+            '(- 1 *)--files[Files-only output]'
+          ;;
+        ls)
+          _arguments -s \
+            '1:collection or collection/path:_qmd_collections'
+          ;;
+        status|cleanup)
+          _arguments -s \
+            '(- 1 *)--json[JSON output]' \
+            '(- 1 *)--csv[CSV output]' \
+            '(- 1 *)--md[Markdown output]' \
+            '(- 1 *)--xml[XML output]' \
+            '(- 1 *)--files[Files-only output]'
+          ;;
+        update)
+          _arguments -s \
+            '--pull[Run update command/git pull before re-indexing]' \
+            '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections'
+          ;;
+        embed)
+          _arguments -s \
+            '(-f --force)'{-f,--force}'[Force regenerate embeddings]' \
+            '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections'
+          ;;
+        skill)
+          if (( CURRENT == 3 )); then
+            _qmd_skill_subcommands
+          else
+            case $words[3] in
+              install)
+                _arguments -s \
+                  '--global[Install into ~/.agents/skills/qmd]' \
+                  '--yes[Also create the .claude/skills/qmd symlink]' \
+                  '(-f --force)'{-f,--force}'[Replace existing install or symlink]'
+                ;;
+              show)
+                _arguments -s ;;
+            esac
+          fi
+          ;;
+        mcp)
+          if (( CURRENT == 3 )); then
+            _alternative \
+              'commands:command:_qmd_mcp_subcommands' \
+              'options:option:((--http\:"Use HTTP transport" --daemon\:"Run as daemon" --port\:"Port"))'
+          else
+            _arguments -s \
+              '--http[Use HTTP transport]' \
+              '--daemon[Run as background daemon]' \
+              '--port[Port for HTTP transport]:port:'
+          fi
+          ;;
+        collection)
+          if (( CURRENT == 3 )); then
+            _qmd_collection_subcommands
+          else
+            case $words[3] in
+              add)
+                _arguments -s \
+                  '1:directory:_directories' \
+                  '--name[Collection name]:name:' \
+                  '--pattern[Glob pattern]:pattern:' \
+                  '--update-cmd[Command to refresh source before update]:command:_command_names'
+                ;;
+              list)
+                _arguments -s ;;
+              remove|show)
+                _arguments -s \
+                  '1:collection:_qmd_collections'
+                ;;
+              rename)
+                _arguments -s \
+                  '1:existing collection:_qmd_collections' \
+                  '2:new name:'
+                ;;
+              update-cmd)
+                _arguments -s \
+                  '1:collection:_qmd_collections' \
+                  '2:update command:_command_names'
+                ;;
+            esac
+          fi
+          ;;
+        context)
+          if (( CURRENT == 3 )); then
+            _qmd_context_subcommands
+          else
+            case $words[3] in
+              add)
+                _arguments -s \
+                  '1:path or qmd URI:_files' \
+                  '2:context text: '
+                ;;
+              list)
+                _arguments -s \
+                  '*'{-c,--collection}'[Filter by collection]:collection:_qmd_collections'
+                ;;
+              rm)
+                _arguments -s \
+                  '1:path or qmd URI: '
+                ;;
+            esac
+          fi
+          ;;
+      esac
+      ;;
+  esac
+
+  return ret
+}
+
+_qmd "$@"

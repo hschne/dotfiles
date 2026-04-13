@@ -1,9 +1,8 @@
 local formatter = vim.g.lazyvim_ruby_formatter
 
-vim.lsp.config("herb_ls", {
-  filetypes = { "html", "eruby" },
-})
-vim.lsp.enable("herb_ls")
+local function mise(name)
+  return vim.fn.expand("~/.local/share/mise/shims/" .. name)
+end
 
 return {
   {
@@ -12,9 +11,14 @@ return {
     opts = {
       servers = {
         cssls = { settings = { css = { lint = { unknownAtRules = "ignore" } } } },
+        herb_ls = {
+          mason = false,
+          cmd = { mise("herb-language-server"), "--stdio" },
+          filetypes = { "html", "eruby" },
+        },
         ruby_lsp = {
           mason = false,
-          cmd = { vim.fn.expand("~/.local/share/mise/shims/ruby-lsp") },
+          cmd = { mise("ruby-lsp") },
           init_options = {
             formatter = formatter,
             linters = { formatter },
@@ -23,12 +27,12 @@ return {
         rubocop = {
           mason = false,
           enabled = formatter == "rubocop",
-          cmd = { vim.fn.expand("~/.local/share/mise/shims/rubocop"), "--lsp" },
+          cmd = { mise("rubocop"), "--lsp" },
         },
         standardrb = {
           mason = false,
           enabled = formatter == "standard",
-          cmd = { vim.fn.expand("~/.local/share/mise/shims/standardrb"), "--lsp" },
+          cmd = { mise("standardrb"), "--lsp" },
         },
         jsonls = {
           settings = {
@@ -38,7 +42,21 @@ return {
             },
           },
         },
+        svelte = {
+          mason = false,
+          cmd = { mise("svelteserver"), "--stdio" },
+        },
+        stimulus_ls = {
+          mason = false,
+          cmd = { mise("stimulus-language-server"), "--stdio" },
+        },
+        stylelint_lsp = {
+          mason = false,
+          cmd = { mise("stylelint-language-server"), "--stdio" },
+        },
         yamlls = {
+          mason = false,
+          cmd = { mise("yaml-language-server"), "--stdio" },
           settings = {
             yaml = {
               schemaStore = {

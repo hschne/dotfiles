@@ -106,6 +106,8 @@ alias -- -='cd -'
 alias ll='ls -lh'
 alias la='ls -lAh'
 
+alias pclip='pwd | clip'
+
 # Pandock!
 alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/extra'
 

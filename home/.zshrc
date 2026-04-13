@@ -29,9 +29,6 @@ export EDITOR='nvim'
 # Set manpager to neovim
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
-
-# Load global environment variables
-source "$HOME/.env"
 #: }}}
 
 #: ALIASES  {{{
@@ -207,11 +204,13 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 #: }}}
 
 #: MISE {{{
+eval "$(mise activate zsh)"
+#: }}}
 #
-eval "$(~/.local/bin/mise activate zsh)"
-
-# Add shared npm global packages to PATH (appended so project-local takes precedence)
-export PATH="$PATH:$HOME/.local/share/mise/npm-global/bin"
+#: MISE {{{
+export FNOX_SHELL_OUTPUT=none
+export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
+eval "$(fnox activate zsh)"
 #: }}}
 
 #: ATUIN {{{
@@ -299,4 +298,3 @@ eval "$(starship init zsh)"
 eval "$(starship init zsh)"
 
 #: }}}
-

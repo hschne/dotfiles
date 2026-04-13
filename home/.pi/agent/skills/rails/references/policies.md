@@ -1,4 +1,6 @@
-## Policies
+# Policies
+
+## Record Type
 
 Policies should receive their own record type. Do not pass a different record and branch with `is_a?`.
 

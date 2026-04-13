@@ -1,6 +1,6 @@
 ---
 name: c7
-description: "Fetch up-to-date library documentation using Context7. Use when the user asks to look up docs, check API usage, or says 'use context7'."
+description: Fetch up-to-date library documentation. Use when the user asks to look up docs, documentation, check API usage, or tells you to use context7.
 ---
 
 # Context7 Skill

@@ -366,6 +366,28 @@ assert GuestSession.exists?(email: "guest@example.com")
 assert PendingEntry.exists?(guest_session: form.new_guest_session, project: @project)
 ```
 
+## Don't Widen Visibility for Tests
+
+Never make a method `public` solely so tests can assert on it. If a method is only called internally, keep it private and assert through the public API or the database.
+
+**Bad**:
+
+```ruby
+class Importer
+  # Only used internally, but public so tests can check intermediate state
+  def parsed_rows
+    @parsed_rows
+  end
+end
+```
+
+**Good:**
+
+```ruby
+assert importer.save
+assert_equal 3, Entry.count
+```
+
 ## Don't Test Framework Behavior
 
 **Skip these tests:**
