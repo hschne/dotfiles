@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "raindrop": {
-      "url": "https://api.raindrop.io/rest/v2/ai/mcp",
-      "auth": "bearer",
-      "bearerTokenEnv": "RAINDROP_API_KEY"
-    }
-  }
-}
