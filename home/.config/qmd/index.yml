@@ -1,0 +1,39 @@
+collections:
+  projects:
+    path: /home/hschne/Documents/Wiki/projects
+    pattern: "**/*.md"
+    context:
+      "": Active software projects — specs, planning notes, logs. Includes client work (apollonia, hera) and personal projects (mapit, zeitblok, finanz, sakya, karpo).
+      mapit: "Mapit: participatory planning tool. Rails backend, Svelte frontend. Feature specs and planning notes."
+      apollonia: "Apollonia: client project. Rails app. Invoicing, surcharges, absence management."
+      hera: "Hera: client project. Rails workforce management app. ZUGFeRD invoicing research."
+      finanz: "Finanz: personal finance tracking Rails app."
+      zeitblok: "Zeitblok: time tracking app (formerly zeitlos)."
+      sakya: "Sakya: personal project."
+      karpo: "Karpo: personal server / home infrastructure."
+      hansschnedlitz-com: "hansschnedlitz.com: personal website and blog."
+      rails-mini-profiler: "rails-mini-profiler: open source Rails gem."
+  areas:
+    path: /home/hschne/Documents/Wiki/areas
+    pattern: "**/*.md"
+    context:
+      "": Ongoing responsibilities with no end date — ruby community, writing, personal life.
+      ruby-community: Ruby community work — Vienna.rb meetup organization, Baltic Ruby, Ruby Europe, conference talks, sponsorships.
+      writing: Writing pipeline — AppSignal blog posts, ror-vs-wild series, personal blog drafts, talk proposals and CFPs.
+      life: Personal life — diary, goals, retrospectives, coaching sessions, planning.
+  resources:
+    path: /home/hschne/Documents/Wiki/resources
+    pattern: "**/*.md"
+    context:
+      "": Reference knowledge — runbooks (how to do X), research investigations, reference lists.
+      runbooks: Step-by-step operational notes — server setup, Syncthing, SSH, deployment procedures.
+      research: Technical research with conclusions — architecture decisions, technology evaluations.
+      lists: Reference lists — books, quotes, project ideas, media.
+  archive:
+    path: /home/hschne/Documents/Wiki/archive
+    pattern: "**/*.md"
+    context:
+      "": Inactive or completed work — old Meister notes, past job searches, old projects.
+      meister: "Meister: past employer. Engineering leadership notes, 1on1s, meetings, technical work."
+      old: Old miscellaneous notes from 2021-2023.
+      job-search: Past job application notes — GitLab, Recrubo.

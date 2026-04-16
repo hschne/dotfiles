@@ -213,15 +213,6 @@ export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
 eval "$(fnox activate zsh)"
 #: }}}
 
-#: ATUIN {{{
-#
-# Atuin is a better shell history.
-#
-# See https://github.com/atuinsh/atuin
-export ATUIN_NOBIND="true"
-zi load "atuinsh/atuin"
-#: }}}
-
 #: ZOXIDE {{{
 #
 # Autojump alternative. Use zo as command to avoid conflicts with zinit, see .aliases
@@ -247,14 +238,6 @@ zo() {
 function lk {
   cd "$(walk --icons "$@")"
 }
-#: }}}
-
-#: NAVI {{{
-#
-# Cheatsheets for the command line.
-#
-# See https://github.com/denisidoro/navi
-[[ $(command -v "navi") != "" ]] && eval "$(navi widget zsh)"
 #: }}}
 
 #: GCLOUD SDK {{{

@@ -51,7 +51,6 @@ alias src="cd ~/Source"
 alias docs="cd ~/Documents"
 alias pic="cd ~/Pictures"
 alias wiki="cd ~/Documents/Wiki"
-alias cheats="cd ~/.local/share/navi/cheats/hschne__cheats/cheats"
 alias piagent="cd ~/.pi/agent"
 
 # Notes

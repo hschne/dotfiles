@@ -1,0 +1,35 @@
+experimental_monorepo_root = true
+
+[settings]
+experimental = true
+idiomatic_version_file_enable_tools = ["ruby"]
+
+[settings.ruby]
+compile = false
+
+[settings.npm]
+package_manager = "npm"
+
+[tools]
+node = "lts"
+ruby = "latest"
+golang = 'latest'
+python = 'latest'
+pnpm = "latest"
+
+"npm:@devcontainers/cli" = "latest"
+"npm:@herb-tools/formatter" = "latest"
+"npm:@mariozechner/pi-coding-agent" = "latest"
+"npm:@stylelint/language-server" = "latest"
+"npm:@tobilu/qmd" = "latest"
+"npm:@herb-tools/language-server" = "latest"
+"npm:prettier" = "latest"
+"npm:stimulus-language-server" = "latest"
+"npm:svelte-language-server" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:yaml-language-server" = "latest"
+
+fnox = "latest"
+usage = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+"npm:surf-cli" = "latest"
