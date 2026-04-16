@@ -1,4 +1,0 @@
-action = [copy]
-files = [emojis]
-skin-tone = black
-clipboarder = xclip
