@@ -91,14 +91,23 @@ alias mr="mise run"
 # Close terminal window
 alias :q='exit'
 
+# Clip
+alias pc='pwd | clip'
+
+# YAMD
+alias yas="yadm status"
+alias yaa="yadm add -u"
+alias yacm="yadm commit -m"
+
 # Other
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -- -='cd -'
+alias lsa='ls -lah'
+alias l='ls -lah'
 alias ll='ls -lh'
 alias la='ls -lAh'
 
-alias pclip='pwd | clip'
 
 # Pandock!
 alias pandock='docker run --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/extra'
