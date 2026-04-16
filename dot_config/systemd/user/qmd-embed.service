@@ -1,0 +1,6 @@
+[Unit]
+Description=QMD vector embedding rebuild (slow)
+
+[Service]
+Type=oneshot
+ExecStart=/home/hschne/.local/share/mise/shims/qmd embed
