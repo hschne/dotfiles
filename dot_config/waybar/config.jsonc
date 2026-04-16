@@ -1,0 +1,175 @@
+[
+  {
+    "name": "top",
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+    "modules-left": [
+      "hyprland/workspaces"
+    ],
+    "modules-center": [],
+    "modules-right": [
+      "pulseaudio",
+      "backlight",
+      "network",
+      "battery",
+      "custom/recording",
+      "custom/voxtype",
+      "tray"
+    ],
+    "hyprland/workspaces": {
+      "format": "{icon}",
+      "format-icons": {
+        "1": "󰞷",
+        "2": "󰈹",
+        "3": "󰗀",
+        "4": "󰉖",
+        "5": "󰝚",
+        "6": "󰍥",
+        "7": "󱘲",
+        "8": "󱥸",
+        "default": "󰣇"
+      },
+      "persistent-workspaces": {
+        "*": 8
+      },
+      "on-click": "activate"
+    },
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-muted": "󰖁 muted",
+      "format-icons": {
+        "default": [
+          "󰕿 ",
+          "󰖀 ",
+          "󰕾"
+        ]
+      },
+      "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+      "on-click-right": "pavucontrol",
+      "scroll-step": 5
+    },
+    "backlight": {
+      "format": "{icon} {percent}%",
+      "format-icons": [
+        "󰃠 ",
+        "󰃟 ",
+        "󰃞 "
+      ],
+      "on-scroll-up": "brightnessctl set +5%",
+      "on-scroll-down": "brightnessctl set 5%-"
+    },
+    "network": {
+      "format-wifi": "{icon} {essid}",
+      "format-ethernet": "󰈀 {ipaddr}",
+      "format-disconnected": "󱚵 disconnected",
+      "format-icons": [
+        "󰤯 ",
+        "󰤟 ",
+        "󰤢 ",
+        "󰤥 ",
+        "󰤨 "
+      ],
+      "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{signalStrength}% signal",
+      "on-click": "alacritty -e impala"
+    },
+    "battery": {
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{icon} {capacity}%",
+      "format-charging": "{icon} {capacity}%",
+      "format-plugged": "󰂄 {capacity}%",
+      "format-icons": [
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"
+      ]
+    },
+    "custom/recording": {
+      "exec": "~/.scripts/screen-record status",
+      "return-type": "json",
+      "interval": 1,
+      "format": "{icon}",
+      "format-icons": {
+        "idle": "",
+        "recording": ""
+      },
+      "tooltip": true,
+      "on-click": "~/.scripts/screen-record"
+    },
+    "custom/voxtype": {
+      "exec": "voxtype status --follow --format json",
+      "return-type": "json",
+      "format": "{icon}",
+      "format-icons": {
+        "idle": "󰍬",
+        "recording": "󰍫",
+        "transcribing": "󰔟",
+        "stopped": "󰍭"
+      },
+      "tooltip": true,
+      "on-click": "systemctl --user restart voxtype"
+    },
+    "tray": {
+      "spacing": 10
+    }
+  },
+  {
+    "name": "bottom",
+    "layer": "top",
+    "position": "bottom",
+    "height": 30,
+    "spacing": 8,
+    "modules-left": [
+      "cpu",
+      "memory",
+      "temperature"
+    ],
+    "modules-center": [],
+    "modules-right": [
+      "custom/updates",
+      "custom/progress",
+      "clock"
+    ],
+    "cpu": {
+      "format": "\udb81\ude1a {usage}%",
+      "interval": 1
+    },
+    "memory": {
+      "format": "\udb80\udf5b {used:0.1f}G",
+      "interval": 1
+    },
+    "temperature": {
+      "format": "\udb80\ude38 {temperatureC}\u00b0C",
+      "critical-threshold": 60,
+      "format-critical": "\udb80\ude38 {temperatureC}\u00b0C"
+    },
+    "custom/updates": {
+      "format": "\udb81\udeb0 {}",
+      "exec": "~/.scripts/updates 2>/dev/null || echo '?'",
+      "interval": 90,
+      "tooltip": false
+    },
+    "custom/progress": {
+      "format": "\udb82\udf67 {}",
+      "exec": "~/.scripts/progress 2>/dev/null || echo ''",
+      "interval": 60,
+      "tooltip": false
+    },
+    "clock": {
+      "format": " {:%Y-%m-%d %H:%M}",
+      "format-alt": " {:%Y-%m-%d %H:%M:%S}",
+      "tooltip-format": "<tt>{calendar}</tt>"
+    }
+  }
+]
