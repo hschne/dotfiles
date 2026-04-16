@@ -1,3 +1,11 @@
 tags
 
-home/.config/nvim/lazy-lock.json
+.config/nvim/lazy-lock.json
+
+# Ignore Local IRB History
+.irb-history
+
+# Ignore Worktrees
+worktrees/
+.specstory/
+.tmuxinator.yml
