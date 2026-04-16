@@ -35,19 +35,14 @@ alias wto="worktree open"
 alias wtd="worktree destroy"
 
 # Config Files
-alias alacrittyrc="$EDITOR ~/.config/alacritty/alacritty.toml"
 alias aliases="$EDITOR ~/.aliases"
 alias hyprrc="$EDITOR ~/.config/hypr/hyprland.conf"
-alias i3rc="$EDITOR ~/.config/i3/config"
 alias lfrc="$EDITOR ~/.config/lf/lfrc"
 alias miserc="$EDITOR ~/.config/mise/config.toml"
 alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
 alias pirc="$EDITOR ~/.pi/agent/settings.json"
-alias polybarrc="$EDITOR ~/.config/polybar/config"
-alias rangerrc="$EDITOR ~/.config/ranger/rc.conf"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias walkerrc="$EDITOR ~/.config/walker/config.toml"
-alias waybarrc="$EDITOR ~/.config/waybar/config.jsonc"
 alias zshrc="$EDITOR ~/.zshrc"
 
 # Directories
@@ -71,8 +66,6 @@ alias media="$EDITOR ~/Documents/Wiki/resources/lists/media.md"
 alias places="$EDITOR ~/Documents/Wiki/resources/lists/places.md"
 alias projects="$EDITOR ~/Documents/Wiki/resources/lists/projects.md"
 alias tweets="$EDITOR ~/Documents/Wiki/resources/lists/tweets.md"
-
-# Homeshick — see ~/.scripts/homeshick.zsh
 
 # Git
 alias gmt="git mergetool"
