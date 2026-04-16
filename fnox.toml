@@ -1,0 +1,5 @@
+default_provider = "protonpass"
+
+[providers.protonpass]
+type = "proton-pass"
+vault = "Personal"

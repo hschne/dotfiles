@@ -95,9 +95,13 @@ alias :q='exit'
 alias pc='pwd | clip'
 
 # YAMD
+alias ya="yadm add"
 alias yas="yadm status"
 alias yaa="yadm add -u"
-alias yacm="yadm commit -m"
+alias yac="yadm commit -m"
+alias yaacm="yadm add -u && yadm commit -m"
+alias yap="yadm push"
+alias yad="yadm diff"
 
 # Other
 alias -g ...='../..'
