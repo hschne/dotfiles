@@ -1,2 +1,25 @@
 gui:
   skipDiscardChangeWarning: true
+  theme:
+    activeBorderColor:
+      - "#7aa2f7"
+      - bold
+    inactiveBorderColor:
+      - "#414868"
+    searchingActiveBorderColor:
+      - "#e0af68"
+      - bold
+    optionsTextColor:
+      - "#7dcfff"
+    selectedLineBgColor:
+      - "#28344a"
+    selectedRangeBgColor:
+      - "#28344a"
+    cherryPickedCommitBgColor:
+      - "#2f334d"
+    cherryPickedCommitFgColor:
+      - "#7aa2f7"
+    unstagedChangesColor:
+      - "#f7768e"
+    defaultFgColor:
+      - "#a9b1d6"

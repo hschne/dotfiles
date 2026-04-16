@@ -97,11 +97,9 @@ alias pc='pwd | clip'
 # YAMD
 alias ya="yadm add"
 alias yas="yadm status"
-alias yaa="yadm add -u"
-alias yac="yadm commit -m"
 alias yaacm="yadm add -u && yadm commit -m"
 alias yap="yadm push"
-alias yad="yadm diff"
+alias yag='GIT_DIR=$(yadm introspect repo) GIT_WORK_TREE=$HOME lazygit'
 
 # Other
 alias -g ...='../..'
