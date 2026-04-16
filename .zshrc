@@ -127,20 +127,6 @@ zi ice lucid wait
 zi load zsh-users/zsh-syntax-highlighting
 #: }}}
 
-#: Homeshick {{{
-#
-# Homeshick is a dotfile manager written in Bash. Useful for 
-# keeping your settings backed up.
-#
-# Website: https://github.com/andsens/homeshick
-zi ice pick"homeshick.sh"; zi load "andsens/homeshick"
-zi ice pick"completions"; zi load "andsens/homeshick"
-source "$HOME/.scripts/homeshick.zsh"
-
-# Refresh homeshick every two days
-homeshick --quiet refresh 2
-#: }}}
-
 #: KAMAL COMPLETE {{{
 # zi ice lucid wait as'completion' blockf has'kamal' mv'kamal.zsh -> _kamal'
 # zi snippet https://github.com/hschne/kamal-complete/blob/main/completions/kamal.zsh

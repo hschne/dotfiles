@@ -1,7 +1,0 @@
-# Ignore Local IRB History
-.irb-history
-
-# Ignore Worktrees
-worktrees/
-.specstory/
-.tmuxinator.yml
