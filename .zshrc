@@ -6,13 +6,8 @@
 #
 # Website: https://z-shell.pages.dev/
 typeset -A ZI
-if [ -f /run/current-system/sw/share/zinit/zinit.zsh ]; then
-  ZI[BIN_DIR]="/run/current-system/sw/share/zinit"
-  source /run/current-system/sw/share/zinit/zinit.zsh
-elif [ -f "${HOME}/.zi/bin/zi.zsh" ]; then
-  ZI[BIN_DIR]="${HOME}/.zi/bin"
-  source "${ZI[BIN_DIR]}/zi.zsh"
-fi
+ZI[BIN_DIR]="${ZI_BIN_DIR:-${HOME}/.zi/bin}"
+source "${ZI[BIN_DIR]}/zinit.zsh" 2>/dev/null || source "${ZI[BIN_DIR]}/zi.zsh"
 (( ${+_comps} )) && _comps[zi]=_zi
 
 #: }}}
@@ -197,8 +192,8 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 #: MISE {{{
 eval "$(mise activate zsh)"
 #: }}}
-#
-#: MISE {{{
+
+#: FNOX {{{
 export FNOX_SHELL_OUTPUT=none
 export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
 eval "$(fnox activate zsh)"
@@ -221,21 +216,6 @@ zo() {
         --bind 'enter:become:echo {2..}'
   ) && cd "$dir"
 }
-#: }}}
-
-#: WALK {{{
-#
-# See https://github.com/antonmedv/walk 
-function lk {
-  cd "$(walk --icons "$@")"
-}
-#: }}}
-
-#: GCLOUD SDK {{{
-zi ice pick"bin/gcloud" as"program"
-zi load "$HOME/Programs/google-cloud-sdk"
-zi ice pick"completion.zsh.inc" as"snippet"
-zi load "$HOME/Programs/google-cloud-sdk"
 #: }}}
 
 # pnpm
