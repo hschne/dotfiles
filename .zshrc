@@ -251,14 +251,6 @@ zi cdreplay -q
 complete -C '/usr/local/bin/aws_completer' aws
 #: }}}
 
-#: ZEITBLOK {{{
-#
-# Tiny, simple, time tracking 
-eval "$(starship init zsh)"
-
-#: }}}
-#
-
 #: STARSHIP PROMPT {{{
 #
 # Minimal fast prompt. The spiritual successor to spaceship prompt.  

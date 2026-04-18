@@ -16,20 +16,21 @@ ruby = "latest"
 golang = 'latest'
 python = 'latest'
 pnpm = "latest"
+fnox = "latest"
+usage = "latest"
 
+# NPM Tools
 "npm:@devcontainers/cli" = "latest"
-"npm:@herb-tools/formatter" = "latest"
 "npm:@mariozechner/pi-coding-agent" = "latest"
-"npm:@stylelint/language-server" = "latest"
 "npm:@tobilu/qmd" = "latest"
-"npm:@herb-tools/language-server" = "latest"
+
+# LSP & Lint
+"npm:@herb-tools/formatter" = "latest"
+"npm:@herb-tools/language-server" = "latest" 
+"npm:@stylelint/language-server" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
 "npm:prettier" = "latest"
 "npm:stimulus-language-server" = "latest"
 "npm:svelte-language-server" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
-
-fnox = "latest"
-usage = "latest"
-"npm:@tailwindcss/language-server" = "latest"
-"npm:surf-cli" = "latest"
