@@ -6,8 +6,13 @@
 #
 # Website: https://z-shell.pages.dev/
 typeset -A ZI
-ZI[BIN_DIR]="${HOME}/.zi/bin"
-source "${ZI[BIN_DIR]}/zi.zsh"
+if [ -f /run/current-system/sw/share/zinit/zinit.zsh ]; then
+  ZI[BIN_DIR]="/run/current-system/sw/share/zinit"
+  source /run/current-system/sw/share/zinit/zinit.zsh
+elif [ -f "${HOME}/.zi/bin/zi.zsh" ]; then
+  ZI[BIN_DIR]="${HOME}/.zi/bin"
+  source "${ZI[BIN_DIR]}/zi.zsh"
+fi
 (( ${+_comps} )) && _comps[zi]=_zi
 
 #: }}}
