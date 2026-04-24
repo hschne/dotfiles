@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+#
+# pi-sandbox.sh - Secure, multi-workspace wrapper for Pi coding agent
+#
+# Usage: ./pi-sandbox.sh -w ./my-project -w ~/other-project
+
+set -euo pipefail
+
+readonly PI_BIN_NAME="pi"
+readonly YELLOW='\033[1;33m'
+readonly RED='\033[0;31m'
+readonly NC='\033[0m' # No Color
+
+function main() {
+  local workspaces=()
+  local args=()
+  local net_share="--share-net" # Default to network enabled
+  local fs_bind="--bind"        # Default to read-write
+  local allow_git=false
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      usage
+      ;;
+    -w | --workspace)
+      if [[ $# -lt 2 || "${2:-}" == -* ]]; then
+        die "Error: Option $1 requires an argument."
+      fi
+      workspaces+=("$(realpath "$2")")
+      shift 2
+      ;;
+    --ro)
+      fs_bind="--ro-bind"
+      shift
+      ;;
+    --no-net)
+      net_share="--unshare-net"
+      shift
+      ;;
+    --allow-git)
+      allow_git=true
+      shift
+      ;;
+    --)
+      shift
+      args+=("$@")
+      break
+      ;;
+    -*)
+      die "Unknown option: $1"
+      ;;
+    *)
+      args+=("$1")
+      shift
+      ;;
+    esac
+  done
+
+  if [[ ${#workspaces[@]} -eq 0 ]]; then
+    local current
+    current="$(pwd)"
+    workspaces+=("$current")
+    warn "No workspace specified, using: $current"
+  fi
+
+  if ! command -v "$PI_BIN_NAME" >/dev/null 2>&1; then
+    die "Error: $PI_BIN_NAME not found in PATH"
+  fi
+  local pi_path
+  pi_path="$(command -v "$PI_BIN_NAME")"
+
+  local bwrap_args=(
+    --die-with-parent
+    --unshare-all
+    "$net_share"
+  )
+
+  # Base System (Read-Only)
+  bwrap_args+=(
+    --ro-bind /usr /usr
+    --ro-bind /bin /bin
+    --ro-bind /sbin /sbin
+    --ro-bind /lib /lib
+    --ro-bind /etc/resolv.conf /etc/resolv.conf
+    --ro-bind /etc/hosts /etc/hosts
+    --ro-bind /etc/ssl /etc/ssl
+    --ro-bind-try /etc/ca-certificates /etc/ca-certificates
+    --proc /proc
+    --dev /dev
+    --tmpfs /tmp
+    --tmpfs /run
+  )
+
+  # Identity System (Read-Only)
+  # Necessary for tools to know "who" the user is
+  bwrap_args+=(
+    --ro-bind /etc/passwd /etc/passwd
+    --ro-bind /etc/group /etc/group
+    --ro-bind /etc/nsswitch.conf /etc/nsswitch.conf
+    --ro-bind /etc/localtime /etc/localtime
+  )
+
+  if [[ -d "/lib64" ]]; then
+    bwrap_args+=(--ro-bind /lib64 /lib64)
+  fi
+
+  # Setup Safe Home Directory
+  # We mount a tmpfs at $HOME to hide user secrets (.ssh, .aws, etc)
+  bwrap_args+=(
+    --tmpfs "$HOME"
+    --setenv HOME "$HOME"
+    --setenv SHELL "$SHELL"
+    --setenv TERM "$TERM"
+  )
+
+  # Essential Pi Data (Read-Write)
+  # Pi stores all data in ~/.pi/agent/ including:
+  # - sessions/     Session history
+  # - extensions/   User extensions
+  # - themes/       Custom themes
+  # - mcp.json      MCP server configuration
+  # - mcp-cache.json    MCP server metadata cache
+  # - mcp-npx-cache.json NPX cache for local MCP servers
+  # - settings.json User settings
+  # - auth.json     Authentication tokens
+  bind_if_exists bwrap_args "--bind" "$HOME/.pi"
+
+  # Noti config for notifications
+  bind_if_exists bwrap_args "--bind" "$HOME/.config/noti"
+
+  # D-Bus & Display Support (for notifications)
+  if [[ -n "${DBUS_SESSION_BUS_ADDRESS:-}" ]]; then
+    bwrap_args+=(--setenv DBUS_SESSION_BUS_ADDRESS "$DBUS_SESSION_BUS_ADDRESS")
+    # Extract socket path (e.g., unix:path=/run/user/1000/bus)
+    if [[ "$DBUS_SESSION_BUS_ADDRESS" =~ unix:path=([^,]+) ]]; then
+      bind_if_exists bwrap_args "--bind" "${BASH_REMATCH[1]}"
+    fi
+  fi
+  [[ -n "${DISPLAY:-}" ]] && bwrap_args+=(--setenv DISPLAY "$DISPLAY")
+  [[ -n "${XDG_RUNTIME_DIR:-}" ]] && bwrap_args+=(--setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR")
+
+  # Toolchains (Go, Mise)
+  bind_if_exists bwrap_args "--bind" "$HOME/go"                   # Go Workspace
+  bind_if_exists bwrap_args "--ro-bind" "$HOME/.local/share/mise" # Mise installs
+  bind_if_exists bwrap_args "--ro-bind" "$HOME/.config/mise"      # Mise config
+
+  # MCP Support
+  # Local MCP servers (e.g., playwright) use npx which needs:
+  # - npm cache for package downloads
+  # - Node.js from mise (already bound above)
+  bind_if_exists bwrap_args "--bind" "$HOME/.npm"       # npm cache (for npx)
+  bind_if_exists bwrap_args "--bind" "$HOME/.cache/npm" # Alternative npm cache location
+
+  for ws in "${workspaces[@]}"; do
+    if [[ -d "$ws" ]]; then
+      # Ensure parent exists
+      bwrap_args+=(--dir "$(dirname "$ws")")
+
+      bwrap_args+=("$fs_bind" "$ws" "$ws")
+
+      # Git Safety: Mask .git as Read-Only unless explicitly allowed
+      if [[ "$allow_git" == "false" && -d "$ws/.git" ]]; then
+        bwrap_args+=(--ro-bind "$ws/.git" "$ws/.git")
+      fi
+    else
+      warn "Workspace $ws does not exist, skipping."
+    fi
+  done
+
+  # Set Working Directory (Default to the first workspace)
+  bwrap_args+=(--chdir "${workspaces[0]}")
+
+  exec bwrap "${bwrap_args[@]}" "$pi_path" "${args[@]}"
+}
+
+# Helper to bind a path if it exists
+bind_if_exists() {
+  local -n arr=$1
+  local mode="$2" # --bind or --ro-bind
+  local path="$3"
+
+  if [[ -e "$path" ]]; then
+    local parent
+    parent=$(dirname "$path")
+    # redundant --dir calls are fine in bwrap
+    arr+=(--dir "$parent" "$mode" "$path" "$path")
+  fi
+}
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS] [PI_ARGS]
+
+Securely run Pi coding agent in a sandboxed environment using bubblewrap.
+
+Options:
+  -h, --help            Show this help message and exit
+  -w, --workspace DIR   Add a workspace directory (can be used multiple times)
+  --ro                  Mount workspaces read-only
+  --no-net              Disable network access
+  --allow-git           Allow write access to .git directories (dangerous)
+
+Features:
+  - Isolated environment with read-only system files
+  - MCP server support (local MCP servers via npx)
+
+Examples:
+  $(basename "$0") -w ~/Source/project -w ~/Source/lib -- --verbose
+  $(basename "$0") --ro -w ~/Source/audit-target
+
+EOF
+  exit 0
+}
+
+die() {
+  local message=$1
+  local code=${2:-1}
+  echo -e "${RED}Error: $message${NC}" >&2
+  exit "$code"
+}
+
+warn() {
+  local message=$1
+  echo -e "${YELLOW}Warning: $message${NC}" >&2
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

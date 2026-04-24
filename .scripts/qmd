@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Route QMD through mise to use globally installed version using the correct node runtime
+exec "$(mise which qmd)" "$@"

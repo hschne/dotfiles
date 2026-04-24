@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+usage() {
+  cat <<'EOF'
+Usage: set-tmux-pane-title --pane-id <pane-id> [--title <title> | --clear]
+
+Set or clear the @pi_title user option for a tmux pane and refresh clients.
+
+Options:
+  --pane-id <pane-id>  Target pane id (for example %3)
+  --title <title>      Title to set
+  --clear              Clear the pane title
+  -h, --help           Show this help
+EOF
+}
+
+escape_tmux() {
+  local value="${1}"
+  printf "%s" "${value//\'/\'\\\'\'}"
+}
+
+require_tmux() {
+  command -v tmux >/dev/null 2>&1 || die "tmux is not installed"
+}
+
+main() {
+  local pane_id=""
+  local title=""
+  local mode=""
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --pane-id)
+        [[ $# -ge 2 ]] || die "--pane-id requires a value"
+        pane_id="$2"
+        shift 2
+        ;;
+      --title)
+        [[ $# -ge 2 ]] || die "--title requires a value"
+        title="$2"
+        mode="set"
+        shift 2
+        ;;
+      --clear)
+        mode="clear"
+        shift
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        die "Unknown argument: $1"
+        ;;
+    esac
+  done
+
+  [[ -n "$pane_id" ]] || die "--pane-id is required"
+  [[ -n "$mode" ]] || die "Specify either --title or --clear"
+
+  require_tmux
+
+  if [[ "$mode" == "set" ]]; then
+    local escaped_title
+    escaped_title="$(escape_tmux "$title")"
+    tmux set-option -p -t "$pane_id" @pi_title "$escaped_title"
+  else
+    tmux set-option -p -u -t "$pane_id" @pi_title
+  fi
+
+  tmux refresh-client
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

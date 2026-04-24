@@ -7,7 +7,7 @@
 # Website: https://z-shell.pages.dev/
 typeset -A ZI
 ZI[BIN_DIR]="${ZI_BIN_DIR:-${HOME}/.zi/bin}"
-source "${ZI[BIN_DIR]}/zinit.zsh" 2>/dev/null || source "${ZI[BIN_DIR]}/zi.zsh"
+source "${ZI[BIN_DIR]}/share/zinit/zinit.zsh" 2>/dev/null || source "${ZI[BIN_DIR]}/zi.zsh"
 (( ${+_comps} )) && _comps[zi]=_zi
 
 #: }}}
