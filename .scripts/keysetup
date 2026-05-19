@@ -61,9 +61,7 @@ pull_gpg_key() {
   [[ -n "$private_key" && "$private_key" != "null" ]] || die "GPG key '$GPG_ITEM' not found in Proton Pass"
 
   echo "$private_key" | gpg --batch --import 2>&1
-  git config --global user.signingkey "$GPG_FINGERPRINT"
-  git config --global commit.gpgsign true
-  info "GPG key imported and Git signing configured"
+  info "GPG key imported"
 }
 
 usage() {
