@@ -36,7 +36,8 @@ setup_pi_agent() {
     info "Cloning pi agent config"
     rm -rf "$HOME/.pi/agent"
     mkdir -p "$HOME/.pi"
-    git clone git@github.com:hschne/pi-stuff.git "$HOME/.pi/agent"
+    git clone https://github.com/hschne/pi-stuff.git "$HOME/.pi/agent"
+    git -C "$HOME/.pi/agent" remote set-url origin git@github.com:hschne/pi-stuff.git
   fi
 
   local lsp_dir="$HOME/.pi/agent/extensions/lsp"
