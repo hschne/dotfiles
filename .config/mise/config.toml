@@ -3,6 +3,7 @@ experimental_monorepo_root = true
 [settings]
 experimental = true
 idiomatic_version_file_enable_tools = ["ruby"]
+all_compile = false
 
 [env]
 # pi-prompt-template-model expects a pi-subagents runtime root containing agents.ts.
@@ -11,6 +12,10 @@ PI_SUBAGENT_RUNTIME_ROOT = { value = "{{ tools.node.path }}/lib/node_modules/pi-
 
 [settings.ruby]
 compile = false
+
+[settings.python]
+compile = false
+precompiled_flavor = "install_only"
 
 [settings.npm]
 package_manager = "npm"
