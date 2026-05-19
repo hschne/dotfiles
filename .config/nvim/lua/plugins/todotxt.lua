@@ -1,8 +1,7 @@
 return {
   {
-    "hschne/todo.nvim",
+    "hschne/todox.nvim",
     lazy = false,
-    dir = "~/Source/todox.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter", "ibhagwan/fzf-lua" },
     config = function()
       require("todox").setup({
