@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+VAULT="Personal"
+SSH_DIR="$HOME/.ssh"
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+info() {
+  echo "==> $1"
+}
+
+usage() {
+  cat <<EOF
+Usage: pssh <key>
+
+Push or pull SSH keys to/from Proton Pass.
+
+  pssh ~/.ssh/key@name     Upload key to Proton Pass (push)
+  pssh key@name            Download key from Proton Pass to ~/.ssh/ (pull)
+
+The item title in Proton Pass matches the key filename (e.g. "hschne@github.com").
+
+Examples:
+  pssh ~/.ssh/hschne@github.com        # push to Proton Pass
+  pssh ~/.ssh/deploy@sakya             # push to Proton Pass
+  pssh hschne@github.com               # pull to ~/.ssh/hschne@github.com
+  pssh deploy@sakya                    # pull to ~/.ssh/deploy@sakya
+
+EOF
+}
+
+push_key() {
+  local path="$1"
+  local name
+  name="$(basename "$path")"
+
+  [[ -f "$path" ]] || die "Key file not found: $path"
+
+  local existing
+  existing="$(pass-cli item list "$VAULT" --output json 2>/dev/null \
+    | jq -r ".items[] | select(.content.title == \"$name\" and .content.content.SshKey != null) | .id" 2>/dev/null || true)"
+
+  if [[ -n "$existing" ]]; then
+    local share_id
+    share_id="$(pass-cli item list "$VAULT" --output json 2>/dev/null \
+      | jq -r ".items[] | select(.id == \"$existing\") | .share_id")"
+    info "Replacing existing key '$name' in Proton Pass"
+    pass-cli item delete --share-id "$share_id" --item-id "$existing"
+  fi
+
+  info "Uploading $name to Proton Pass"
+  pass-cli item create ssh-key import \
+    --vault-name "$VAULT" \
+    --title "$name" \
+    --from-private-key "$path"
+
+  info "Done"
+}
+
+pull_key() {
+  local name="$1"
+  local dest="$SSH_DIR/$name"
+
+  if [[ -f "$dest" ]]; then
+    die "Key already exists: $dest (remove it first)"
+  fi
+
+  info "Fetching $name from Proton Pass"
+
+  local item
+  item="$(pass-cli item list "$VAULT" --output json 2>/dev/null \
+    | jq -r ".items[] | select(.content.title == \"$name\" and .content.content.SshKey != null) | .content.content.SshKey" 2>/dev/null)"
+
+  [[ -n "$item" && "$item" != "null" ]] || die "SSH key '$name' not found in Proton Pass"
+
+  local private_key public_key
+  private_key="$(echo "$item" | jq -r '.private_key')"
+  public_key="$(echo "$item" | jq -r '.public_key')"
+
+  [[ -n "$private_key" && "$private_key" != "null" ]] || die "No private key in item '$name'"
+
+  mkdir -p "$SSH_DIR"
+  printf '%s\n' "$private_key" > "$dest"
+  chmod 600 "$dest"
+
+  if [[ -n "$public_key" && "$public_key" != "null" ]]; then
+    printf '%s\n' "$public_key" > "${dest}.pub"
+    chmod 644 "${dest}.pub"
+  fi
+
+  info "Wrote $dest"
+}
+
+main() {
+  if [[ $# -eq 0 || "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+    exit 0
+  fi
+
+  local arg="$1"
+
+  if [[ "$arg" == */* ]]; then
+    push_key "$arg"
+  else
+    pull_key "$arg"
+  fi
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

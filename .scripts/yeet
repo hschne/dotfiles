@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2029
+
+set -euo pipefail
+
+IDENTITY_KEY="$HOME/.ssh/id_ed25519"
+NIXFILES_REPO="https://github.com/hschne/nixfiles.git"
+DOTFILES_REPO="https://github.com/hschne/dotfiles.git"
+
+usage() {
+  cat <<EOF
+Usage: yeet <host> [nixos-host]
+
+Bootstrap a fresh NixOS machine.
+
+Arguments:
+  host          SSH target (hostname, IP, or user@host)
+  nixos-host    NixOS flake host name (default: same as host)
+
+Examples:
+  yeet anubis
+  yeet 192.168.50.14 anubis
+
+EOF
+}
+
+main() {
+  if [[ $# -eq 0 || "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+    exit 0
+  fi
+
+  local host="$1"
+  local nixos_host="${2:-$host}"
+
+  scp "$IDENTITY_KEY" "${IDENTITY_KEY}.pub" "${host}:~/.ssh/"
+  ssh "$host" "chmod 600 ~/.ssh/id_ed25519"
+
+  ssh "$host" "mkdir -p ~/Source && git clone '${NIXFILES_REPO}' ~/Source/nixfiles"
+  ssh "$host" "cd ~/Source/nixfiles && sudo nixos-rebuild switch --flake '.#${nixos_host}'"
+
+  ssh "$host" "yadm clone --bootstrap '${DOTFILES_REPO}'"
+
+  cat <<EOF
+
+Done. Remaining manual steps:
+  ssh $host "tailscale up"
+  ssh $host "pass-cli auth login"
+
+EOF
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
