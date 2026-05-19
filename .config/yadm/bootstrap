@@ -29,6 +29,16 @@ setup_yadm_remote() {
   yadm remote set-url origin "git@github.com:hschne/dotfiles.git"
 }
 
+setup_pi_agent() {
+  if [[ ! -d "$HOME/.pi/agent/.git" ]]; then
+    info "Cloning pi agent config"
+    mkdir -p "$HOME/.pi"
+    git clone git@github.com:hschne/pi-stuff.git "$HOME/.pi/agent"
+  else
+    info "pi agent config already present"
+  fi
+}
+
 setup_mise() {
   mise install
 }
@@ -37,6 +47,7 @@ main() {
   setup_dirs
   setup_ssh
   setup_yadm_remote
+  setup_pi_agent
   setup_mise
   info "Bootstrap complete"
 }
