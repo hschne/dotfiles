@@ -38,6 +38,12 @@ setup_pi_agent() {
     mkdir -p "$HOME/.pi"
     git clone git@github.com:hschne/pi-stuff.git "$HOME/.pi/agent"
   fi
+
+  local lsp_dir="$HOME/.pi/agent/extensions/lsp"
+  if [[ -f "$lsp_dir/package.json" && ! -d "$lsp_dir/node_modules" ]]; then
+    info "Installing pi agent LSP extension dependencies"
+    npm install --prefix "$lsp_dir"
+  fi
 }
 
 setup_mise() {
