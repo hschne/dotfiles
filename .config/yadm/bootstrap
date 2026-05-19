@@ -30,12 +30,13 @@ setup_yadm_remote() {
 }
 
 setup_pi_agent() {
-  if [[ ! -d "$HOME/.pi/agent/.git" ]]; then
+  if git -C "$HOME/.pi/agent" rev-parse --git-dir &>/dev/null; then
+    info "pi agent config already present"
+  else
     info "Cloning pi agent config"
+    rm -rf "$HOME/.pi/agent"
     mkdir -p "$HOME/.pi"
     git clone git@github.com:hschne/pi-stuff.git "$HOME/.pi/agent"
-  else
-    info "pi agent config already present"
   fi
 }
 
