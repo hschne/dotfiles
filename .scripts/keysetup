@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+VAULT="Personal"
+SSH_DIR="$HOME/.ssh"
+GPG_ITEM="gpg-hschne@personal"
+GPG_FINGERPRINT="EB0D264F5DCBFD6744DCA9C8E90CCFE9DBF10EB3"
+PSSH_BIN="${PSSH_BIN:-$HOME/.scripts/pssh}"
+
+SSH_KEYS=(
+  "hschne@github.com"
+  "hschne@gitlab.com"
+)
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+info() {
+  echo "==> $1"
+}
+
+check_auth() {
+  pass-cli test &>/dev/null || die "Not logged in to Proton Pass. Run: pass-cli auth login"
+}
+
+pull_ssh_key() {
+  local name="$1"
+  local dest="$SSH_DIR/$name"
+
+  if [[ -f "$dest" ]]; then
+    info "Skip $name (already exists)"
+    return
+  fi
+
+  info "Pulling SSH key: $name"
+  [[ -x "$PSSH_BIN" ]] || die "pssh not found at $PSSH_BIN"
+  "$PSSH_BIN" "$name"
+}
+
+pull_gpg_key() {
+  if gpg --batch --list-secret-keys "$GPG_FINGERPRINT" &>/dev/null; then
+    info "Skip GPG key (already have secret key $GPG_FINGERPRINT)"
+    return
+  fi
+
+  info "Pulling GPG key: $GPG_ITEM"
+
+  local private_key
+  private_key=$(pass-cli item list "$VAULT" --output json 2>/dev/null \
+    | jq -r "
+      .items[]
+      | select(.content.title == \"$GPG_ITEM\")
+      | .content.content.Custom.sections[].section_fields[]
+      | select(.name == \"private_key\")
+      | .content.Hidden
+    " 2>/dev/null)
+
+  [[ -n "$private_key" && "$private_key" != "null" ]] || die "GPG key '$GPG_ITEM' not found in Proton Pass"
+
+  echo "$private_key" | gpg --batch --import 2>&1
+  git config --global user.signingkey "$GPG_FINGERPRINT"
+  git config --global commit.gpgsign true
+  info "GPG key imported and Git signing configured"
+}
+
+usage() {
+  cat <<EOF
+Usage: keysetup
+
+Pull essential keys from Proton Pass for a fresh machine.
+
+Requires: pass-cli auth login
+
+Pulls:
+  SSH:  ${SSH_KEYS[*]}
+  GPG:  $GPG_ITEM
+
+EOF
+}
+
+main() {
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    usage
+    exit 0
+  fi
+
+  check_auth
+
+  info "Setting up keys from Proton Pass"
+
+  mkdir -p "$SSH_DIR"
+  chmod 700 "$SSH_DIR"
+
+  for key in "${SSH_KEYS[@]}"; do
+    pull_ssh_key "$key"
+  done
+
+  pull_gpg_key
+
+  info "Key setup complete"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
