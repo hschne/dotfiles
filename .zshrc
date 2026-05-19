@@ -162,7 +162,6 @@ export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:togg
 export FZF_TMUX_OPTS='-p80%,50%'
 
 # Default key bindings for FZF
-zi pack src"shell/key-bindings.zsh" for fzf 
 
 # Load custom FZF Widgets
 # source ~/.scripts/custom-fzf-widgets.zsh
