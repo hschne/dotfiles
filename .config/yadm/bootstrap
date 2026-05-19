@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+info() {
+  echo "==> $1"
+}
+
+setup_dirs() {
+  info "Creating standard directories"
+  mkdir -p "$HOME/Source"
+  touch "$HOME/.env"
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+}
+
+setup_ssh() {
+  if [[ ! -f "$HOME/.ssh/known_hosts" ]]; then
+    ssh-keyscan github.com >>"$HOME/.ssh/known_hosts" 2>/dev/null || true
+    chmod 600 "$HOME/.ssh/known_hosts"
+  fi
+}
+
+setup_yadm_remote() {
+  yadm remote set-url origin "git@github.com:hschne/dotfiles.git"
+}
+
+setup_mise() {
+  mise install
+}
+
+main() {
+  setup_dirs
+  setup_ssh
+  setup_yadm_remote
+  setup_mise
+  info "Bootstrap complete"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
