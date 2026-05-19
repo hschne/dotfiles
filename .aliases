@@ -1,32 +1,18 @@
-# Nvim
-alias vim="nvim"
-alias vi="nvim"
-
-# Bat
+# Programs
 alias cat="bat"
 alias ccat="cat"
-
-# Find
-alias find="fd"
-alias ffind="find"
-
-# Ls
-alias ls="eza"
-alias lls="ls"
-
-# Tmuxinator
-alias mux="tmuxinator"
-
-# Clipboard
 alias clip="wl-copy"
-
-# Open
+alias ffind="find"
+alias find="fd"
+alias lls="ls"
+alias ls="eza"
+alias mux="tmuxinator"
 alias open="xdg-open"
-
-# Realpath
-alias rlp="realpath"
-
 alias pass="pass-cli"
+alias rlp="realpath"
+alias vi="nvim"
+alias vim="nvim"
+alias vd="nvdiff"
 
 # Worktrees
 alias wt="worktree"

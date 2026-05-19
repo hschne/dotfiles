@@ -1,3 +1,14 @@
+[[input.prepend_keymap]]
+on   = "<Esc>"
+run  = "close"
+desc = "Cancel input"
+
+[[mgr.prepend_keymap]]
+on   = "!"
+for  = "unix"
+run  = 'shell "$SHELL" --block'
+desc = "Open $SHELL here"
+
 [[mgr.prepend_keymap]]
 on   = [ "g", "l" ]
 run  = 'shell "lazygit" --block'

@@ -181,10 +181,9 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':fzf-tab:*' popup-min-size 150 10
-# For some reason we have to set height extra, it's ignored otherwise?
-zstyle ':fzf-tab:*' fzf-flags --height=50%
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':fzf-tab:*' popup-min-size 150 20
+zstyle ':fzf-tab:*' use-fzf-default-opts no
+zstyle ':fzf-tab:*' fzf-flags --color=fg:#c0caf5,hl:#bb9af7,bg+:#414868,selected-bg:#7aa2f7,gutter:#24283b,border:#414868,fg+:#c0caf5,hl+:#7aa2f7,info:#7aa2f7,prompt:#7aa2f7,pointer:#7aa2f7,marker:#73daca,spinner:#73daca,header:#73daca
 zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview ${(Q)realpath}'
 
 #: }}}
@@ -236,6 +235,21 @@ zi cdreplay -q
 complete -C '/usr/local/bin/aws_completer' aws
 #: }}}
 
+#: YAZI {{{
+#
+# Wrapper to cd into Yazi's last directory on exit.
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+  yazi "$@" --cwd-file="$tmp"
+
+  if local cwd="$(cat -- "$tmp" 2>/dev/null)" && [[ -n "$cwd" && "$cwd" != "$PWD" ]]; then
+    builtin cd -- "$cwd"
+  fi
+
+  rm -f -- "$tmp"
+}
+#: }}}
+
 #: STARSHIP PROMPT {{{
 #
 # Minimal fast prompt. The spiritual successor to spaceship prompt.  
@@ -244,3 +258,6 @@ complete -C '/usr/local/bin/aws_completer' aws
 eval "$(starship init zsh)"
 
 #: }}}
+
+# sentry
+fpath=("/home/hschne/.local/share/zsh/site-functions" $fpath)

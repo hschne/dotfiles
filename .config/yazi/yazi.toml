@@ -4,6 +4,13 @@ sort_dir_first = true
 show_symlink = true
 linemode = "size"
 
+[open]
+prepend_rules = [
+  { mime = "text/html", use = [ "open", "edit" ] },
+  { mime = "application/xhtml+xml", use = [ "open", "edit" ] },
+  { url = "*.{html,htm,xhtml}", use = [ "open", "edit" ] },
+]
+
 [[plugin.prepend_fetchers]]
 id    = "git"
 url   = "*"

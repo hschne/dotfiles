@@ -4,6 +4,11 @@ experimental_monorepo_root = true
 experimental = true
 idiomatic_version_file_enable_tools = ["ruby"]
 
+[env]
+# pi-prompt-template-model expects a pi-subagents runtime root containing agents.ts.
+# Resolve it from mise's active Node install so it follows Node version changes.
+PI_SUBAGENT_RUNTIME_ROOT = { value = "{{ tools.node.path }}/lib/node_modules/pi-subagents/src/agents", tools = true }
+
 [settings.ruby]
 compile = false
 
@@ -21,7 +26,7 @@ usage = "latest"
 
 # NPM Tools
 "npm:@devcontainers/cli" = "latest"
-"npm:@mariozechner/pi-coding-agent" = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@tobilu/qmd" = "latest"
 
 # LSP & Lint
