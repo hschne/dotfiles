@@ -196,7 +196,7 @@ eval "$(mise activate zsh)"
 
 #: FNOX {{{
 export FNOX_SHELL_OUTPUT=none
-export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
+[[ -f "$HOME/.ssh/id_rsa" ]] && export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
 eval "$(fnox activate zsh)"
 #: }}}
 
