@@ -94,8 +94,11 @@ export KEYTIMEOUT=1
 #: VI SYSTEM CLIPBOARD {{{
 #
 # See https://github.com/kutsan/zsh-system-clipboard
-zi ice lucid wait
-zi load "kutsan/zsh-system-clipboard"
+# Only load on desktop (clipboard managers not available on headless servers)
+if [[ -n "$DISPLAY" || -n "$WAYLAND_DISPLAY" ]]; then
+  zi ice lucid wait
+  zi load "kutsan/zsh-system-clipboard"
+fi
 #: }}}
 
 #: OH MY ZSH PLUGINS {{{
