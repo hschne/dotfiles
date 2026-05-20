@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+# openrouter-balance — check your OpenRouter credit balance
+# Reads the API key from ~/.picoclaw/.security.yml
+
+set -euo pipefail
+
+readonly SECURITY_FILE="${PICOCLAW_SECURITY:-$HOME/.picoclaw/.security.yml}"
+
+usage() {
+  cat <<EOF
+Usage: openrouter-balance
+
+Check your OpenRouter API credit balance. Reads the API key from
+\$PICOCLAW_SECURITY or ~/.picoclaw/.security.yml.
+
+Examples:
+  openrouter-balance
+
+EOF
+}
+
+die() {
+  local message=$1
+  local code=${2:-1}
+  echo "Error: $message" >&2
+  exit "$code"
+}
+
+fetch_key() {
+  local file=$1
+
+  if [[ ! -f "$file" ]]; then
+    die "Security file not found at $file"
+  fi
+
+  grep -oP 'sk-or-v1\S+' "$file" | head -1
+}
+
+fetch_json() {
+  local url=$1
+  local key=$2
+
+  curl -sS --max-time 10 -H "Authorization: Bearer $key" "$url"
+}
+
+extract() {
+  local json=$1
+  local field=$2
+
+  python3 -c "import json,sys; print(json.load(sys.stdin)['data']['$field'])" <<<"$json"
+}
+
+main() {
+  if [[ $# -gt 0 && "$1" == "-h" || "$1" == "--help" ]]; then
+    usage
+    exit 0
+  fi
+
+  local key
+  key=$(fetch_key "$SECURITY_FILE")
+
+  if [[ -z "$key" ]]; then
+    die "No OpenRouter API key (sk-or-v1-...) found in $SECURITY_FILE"
+  fi
+
+  echo "🔍 Checking OpenRouter balance..."
+  echo
+
+  local credits details
+  credits=$(fetch_json "https://openrouter.ai/api/v1/credits" "$key")
+  details=$(fetch_json "https://openrouter.ai/api/v1/auth/key" "$key")
+
+  if grep -q '"error"' <<<"$credits"; then
+    die "OpenRouter API error: $(python3 -m json.tool <<<"$credits")"
+  fi
+
+  local total usage remaining daily weekly monthly
+  total=$(extract "$credits" "total_credits")
+  usage=$(extract "$credits" "total_usage")
+  remaining=$(python3 -c "print(round($total - $usage, 2))")
+  daily=$(extract "$details" "usage_daily")
+  weekly=$(extract "$details" "usage_weekly")
+  monthly=$(extract "$details" "usage_monthly")
+
+  cat <<EOF
+╔════════════════════════════╗
+║   OpenRouter Balance       ║
+╠════════════════════════════╣
+║ Total Credits:  \$ $(printf "%6.2f" "$total")  ║
+║ Total Usage:    \$ $(printf "%6.2f" "$usage")  ║
+║ Remaining:      \$ $(printf "%6.2f" "$remaining")  ║
+╠════════════════════════════╣
+║ Today:          \$ $(printf "%6.2f" "$daily")  ║
+║ This Week:      \$ $(printf "%6.2f" "$weekly")  ║
+║ This Month:     \$ $(printf "%6.2f" "$monthly")  ║
+╚════════════════════════════╝
+EOF
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
