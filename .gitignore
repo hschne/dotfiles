@@ -1,5 +1,8 @@
 tags
 
+# PicoClaw workspace (not synced)
+.picoclaw/workspace/
+
 # Repo/local workflow
 worktrees/
 .specstory/
