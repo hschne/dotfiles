@@ -25,7 +25,7 @@ node = "lts"
 ruby = "latest"
 golang = 'latest'
 python = 'latest'
-pnpm = "latest"
+"npm:pnpm" = "latest"
 fnox = "latest"
 usage = "latest"
 

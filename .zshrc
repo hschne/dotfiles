@@ -161,10 +161,14 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3:wrap --bind 'ctrl-/:toggle-preview'"
 # Use tmux popup of in tmux
 export FZF_TMUX_OPTS='-p80%,50%'
 
-# Default key bindings for FZF
+# Default key bindings for FZF (Ctrl-R history, Ctrl-T files, Alt-C cd)
+# Source the system fzf shell integration with Zi, but do not install Zi's fzf binary pack.
+zi ice lucid pick"key-bindings.zsh"
+zi light /usr/share/fzf
 
 # Load custom FZF Widgets
 # source ~/.scripts/custom-fzf-widgets.zsh
