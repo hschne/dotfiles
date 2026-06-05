@@ -7,8 +7,10 @@ all_compile = false
 
 [env]
 # pi-prompt-template-model expects a pi-subagents runtime root containing agents.ts.
-# Resolve it from mise's active Node install so it follows Node version changes.
-PI_SUBAGENT_RUNTIME_ROOT = { value = "{{ tools.node.path }}/lib/node_modules/pi-subagents/src/agents", tools = true }
+# Pi user packages installed via `pi install npm:*` live under the Pi agent dir,
+# independent of the active project Node version.
+PI_CODING_AGENT_DIR = "{{ env.HOME }}/.pi/agent"
+PI_SUBAGENT_RUNTIME_ROOT = "{{ env.PI_CODING_AGENT_DIR }}/npm/node_modules/pi-subagents/src/agents"
 
 [settings.ruby]
 compile = false
@@ -25,14 +27,18 @@ node = "lts"
 ruby = "latest"
 golang = 'latest'
 python = 'latest'
-"npm:pnpm" = "latest"
+
+# Others
 fnox = "latest"
+hk = "latest"
+shellcheck = "latest"
 usage = "latest"
 
 # NPM Tools
 "npm:@devcontainers/cli" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@tobilu/qmd" = "latest"
+"npm:pnpm" = "latest"
 
 # LSP & Lint
 "npm:@herb-tools/formatter" = "latest"
@@ -44,4 +50,3 @@ usage = "latest"
 "npm:svelte-language-server" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
-shellcheck = "latest"

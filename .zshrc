@@ -124,9 +124,7 @@ zi snippet OMZP::rails/_rails
 # Website: https://github.com/zsh-users
 zi ice lucid wait
 zi load zsh-users/zsh-completions
-zi ice lucid wait
 zi load zsh-users/zsh-autosuggestions
-zi ice lucid wait
 zi load zsh-users/zsh-syntax-highlighting
 #: }}}
 
@@ -227,7 +225,7 @@ zo() {
 export PNPM_HOME="/home/hschne/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
 # pnpm end
 
