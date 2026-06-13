@@ -6,6 +6,8 @@ idiomatic_version_file_enable_tools = ["ruby"]
 all_compile = false
 
 [env]
+HK_MISE = "1"
+
 # pi-prompt-template-model expects a pi-subagents runtime root containing agents.ts.
 # Pi user packages installed via `pi install npm:*` live under the Pi agent dir,
 # independent of the active project Node version.
@@ -31,6 +33,7 @@ python = 'latest'
 # Others
 fnox = "latest"
 hk = "latest"
+pkl = "latest"
 shellcheck = "latest"
 usage = "latest"
 

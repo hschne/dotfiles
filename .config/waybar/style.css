@@ -138,6 +138,7 @@ window#waybar.bottom {
 #memory,
 #temperature,
 #custom-updates,
+#custom-codexbar,
 #custom-progress,
 #clock {
   padding: 0 10px;
@@ -147,11 +148,19 @@ window#waybar.bottom {
   color: #f7768e;
 }
 
-#tray>.passive {
+#custom-codexbar.warning {
+  color: #e0af68;
+}
+
+#custom-codexbar.critical {
+  color: #f7768e;
+}
+
+#tray > .passive {
   -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
+#tray > .needs-attention {
   -gtk-icon-effect: highlight;
 }
 

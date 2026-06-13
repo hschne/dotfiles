@@ -138,6 +138,7 @@
     "modules-center": [],
     "modules-right": [
       "custom/updates",
+      "custom/codexbar",
       "custom/progress",
       "clock"
     ],
@@ -159,6 +160,13 @@
       "exec": "~/.scripts/updates 2>/dev/null || echo '?'",
       "interval": 90,
       "tooltip": false
+    },
+    "custom/codexbar": {
+      "exec": "~/.config/waybar/scripts/codexbar.sh",
+      "return-type": "json",
+      "interval": 60,
+      "tooltip": true,
+      "escape": false
     },
     "custom/progress": {
       "format": "\udb82\udf67 {}",
