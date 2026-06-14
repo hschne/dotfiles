@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly WIKI_DIR="$HOME/Documents/Wiki"
+
+function main() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      usage
+      ;;
+    -*)
+      die "Unknown option: $1"
+      ;;
+    *)
+      break
+      ;;
+    esac
+  done
+
+  command -v rg >/dev/null 2>&1 || die "rg (ripgrep) is required but not installed"
+  command -v fzf >/dev/null 2>&1 || die "fzf is required but not installed"
+  command -v bat >/dev/null 2>&1 || die "bat is required but not installed"
+
+  local query="${1:-}"
+
+  local selected
+  selected=$(
+    index | fzf --ansi \
+      --query="$query" \
+      --delimiter=$'\t' \
+      --with-nth=1 \
+      --nth=1.. \
+      --prompt="Wiki> " \
+      --preview="bat --color=always --style=numbers '$WIKI_DIR'/{1}" \
+      --preview-window="right:60%"
+  )
+
+  [[ -z "$selected" ]] && exit 0
+
+  local rel file
+  rel=${selected%%$'\t'*}
+  file="$WIKI_DIR/$rel"
+
+  (cd "$(dirname "$file")" && exec "${EDITOR:-vi}" "$(basename "$file")")
+}
+
+index() {
+  local file rel content
+  while IFS= read -r file; do
+    rel=${file#"$WIKI_DIR"/}
+    content=$(tr '\n\t' '  ' <"$file")
+    printf '%s\t%s\n' "$rel" "$content"
+  done < <(rg --files --type md --glob '!.*' --glob '!**/memory/**' "$WIKI_DIR")
+}
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [QUERY]
+
+Fuzzy search titles and contents of the Wiki at $WIKI_DIR.
+Searches only Markdown files, excluding hidden files and memory/ notes.
+
+Matches are fuzzy-filtered over file path and contents, but only the
+(shortened) path is shown. Each file appears once. Selecting a match opens
+it in \$EDITOR with the working directory set to the note's folder.
+
+Options:
+  -h, --help    Show this help message
+EOF
+  exit 0
+}
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
