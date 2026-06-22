@@ -1,0 +1,5312 @@
+#compdef pass-cli
+
+autoload -U is-at-least
+
+_pass-cli() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+":: :_pass-cli_commands" \
+"*::: :->Proton Pass CLI" \
+&& ret=0
+    case $state in
+    (Proton Pass CLI)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-command-$line[1]:"
+        case $line[1] in
+            (agent)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__agent_commands" \
+"*::: :->agent" \
+&& ret=0
+
+    case $state in
+    (agent)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-agent-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+'--expiration=[Expiration (1d, 1w, 1m, 3m, 6m, 1y)]:EXPIRATION:(1d 1w 1m 3m 6m 1y)' \
+'*--vault=[Vault name to grant access to (can be repeated)]:VAULTS:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+':name -- Agent name:_default' \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':name -- Agent name:_default' \
+&& ret=0
+;;
+(monitor)
+_arguments "${_arguments_options[@]}" : \
+'--limit=[Maximum number of records to show]:LIMIT:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::name -- Agent name (required when logged in as a user account):_default' \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__agent__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-agent-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to grant access to]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to grant access to]:VAULT_NAME:_default' \
+'--item-id=[Specific item ID to grant access to]:ITEM_ID:_default' \
+'--item-title=[Specific item title to grant access to]:ITEM_TITLE:_default' \
+'--role=[]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':name -- Agent name:_default' \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID to revoke access from]:SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+':name -- Agent name:_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__agent__subcmd__access__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-agent-access-help-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+'--expiration=[New expiration (1d, 1w, 1m, 3m, 6m, 1y)]:EXPIRATION:(1d 1w 1m 3m 6m 1y)' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':name -- Agent name:_default' \
+&& ret=0
+;;
+(instructions)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__agent__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-agent-help-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(monitor)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__agent__subcmd__help__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-agent-help-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(instructions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(login)
+_arguments "${_arguments_options[@]}" : \
+'--pat=[Personal access token (format\: pst_<token>\:\:<key>)]:PAT:_default' \
+'--interactive[Use interactive login mode]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::username -- The username to log in with (for interactive mode):_default' \
+&& ret=0
+;;
+(logout)
+_arguments "${_arguments_options[@]}" : \
+'--force[Force logout even if remote logout fails]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(test)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(info)
+_arguments "${_arguments_options[@]}" : \
+'-o+[Output format]:OUTPUT:(human json)' \
+'--output=[Output format]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(inject)
+_arguments "${_arguments_options[@]}" : \
+'--file-mode=[Set filemode for the output file (Unix systems only). It is ignored without the --out-file flag.]:FILE_MODE:_default' \
+'-i+[The filename of a template file to inject]:IN_FILE:_default' \
+'--in-file=[The filename of a template file to inject]:IN_FILE:_default' \
+'-o+[Write the injected template to a file instead of stdout]:OUT_FILE:_default' \
+'--out-file=[Write the injected template to a file instead of stdout]:OUT_FILE:_default' \
+'-f[Do not prompt for confirmation]' \
+'--force[Do not prompt for confirmation]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(run)
+_arguments "${_arguments_options[@]}" : \
+'*--env-file=[Enable Dotenv integration with specific Dotenv files to parse]:ENV_FILES:_default' \
+'--no-masking[Disable masking of secrets on stdout and stderr]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'*::command -- The command and arguments to execute:_default' \
+&& ret=0
+;;
+(vault)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__vault_commands" \
+"*::: :->vault" \
+&& ret=0
+
+    case $state in
+    (vault)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-vault-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+'--name=[Name of the vault]:NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault]:VAULT_NAME:_default' \
+'--name=[New name of the vault]:NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__vault__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-vault-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault]:VAULT_NAME:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault]:VAULT_NAME:_default' \
+'--member-share-id=[Member share ID]:MEMBER_SHARE_ID:_default' \
+'--role=[New role for the member]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault]:VAULT_NAME:_default' \
+'--member-share-id=[Member share ID]:MEMBER_SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__vault__subcmd__member__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-vault-member-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to delete]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to delete]:VAULT_NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to share]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to share]:VAULT_NAME:_default' \
+'--role=[]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':email -- Email address to share with:_default' \
+&& ret=0
+;;
+(transfer)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to transfer ownership]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to to transfer ownership]:VAULT_NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+':member_share_id -- Member Share ID of the new owner of the vault:_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__vault__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-vault-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__vault__subcmd__help__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-vault-help-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(transfer)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(item)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item_commands" \
+"*::: :->item" \
+&& ret=0
+
+    case $state in
+    (item)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to list items from]:SHARE_ID:_default' \
+'--filter-type=[Filter items by type (note, login, alias, credit-card, identity, ssh-key, wifi, custom)]:FILTER_TYPE:_default' \
+'--filter-state=[Filter items by state (active, trashed)]:FILTER_STATE:_default' \
+'--sort-by=[Sort items (alphabetic-asc, alphabetic-desc, created-asc, created-desc)]:SORT_BY:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'--show-secrets[Include full item content in JSON output (requires --output json, not allowed with agent sessions)]' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::vault_name -- Name of the vault to list items from:_default' \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item__subcmd__create_commands" \
+"*::: :->create" \
+&& ret=0
+
+    case $state in
+    (create)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-create-command-$line[1]:"
+        case $line[1] in
+            (login)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Path to template file, or '\''-'\'' for stdin]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID of the vault to create the login item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the login item in]:VAULT_NAME:_default' \
+'--title=[Title of the login item]:TITLE:_default' \
+'--username=[Username for the login]:USERNAME:_default' \
+'--email=[Email for the login]:EMAIL:_default' \
+'--password=[Password for the login]:PASSWORD:_default' \
+'--generate-password=[Generate a random password (optionally with custom settings\: "length,uppercase,symbols")]::SETTINGS:_default' \
+'--generate-passphrase=[Generate a passphrase (optionally with custom word count)]::WORD_COUNT:_default' \
+'*--url=[URLs associated with the login (can be specified multiple times)]:URL:_default' \
+'--get-template[Output a JSON template structure]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(note)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Path to template file, or '\''-'\'' for stdin]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID of the vault to create the note item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the note item in]:VAULT_NAME:_default' \
+'--title=[Title of the note item]:TITLE:_default' \
+'--note=[Note content]:NOTE:_default' \
+'--get-template[Output a JSON template structure]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(credit-card)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Path to template file, or '\''-'\'' for stdin]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID of the vault to create the credit card item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the credit card item in]:VAULT_NAME:_default' \
+'--title=[Title of the credit card item]:TITLE:_default' \
+'--cardholder-name=[Cardholder name]:CARDHOLDER_NAME:_default' \
+'--number=[Card number]:NUMBER:_default' \
+'--cvv=[CVV/CVC security code]:CVV:_default' \
+'--expiration-date=[Expiration date in format YYYY-MM (e.g., 2027-12)]:EXPIRATION_DATE:_default' \
+'--pin=[Card PIN]:PIN:_default' \
+'--note=[Note content]:NOTE:_default' \
+'--get-template[Output a JSON template structure]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(wifi)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Create from template file (use '\''-'\'' for stdin)]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the WiFi item in]:VAULT_NAME:_default' \
+'--title=[Item title]:TITLE:_default' \
+'--ssid=[Network SSID (name)]:SSID:_default' \
+'--password=[Network password (leave empty for open networks)]:PASSWORD:_default' \
+'--security=[Security type (wpa, wpa2, wpa3, wep, open, none)]:SECURITY:_default' \
+'--note=[Note]:NOTE:_default' \
+'(--from-template --share-id --title --ssid --password --security --note)--get-template[Display a template]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(custom)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Create from template file (use '\''-'\'' for stdin)]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID of the vault to create the custom item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the custom item in]:VAULT_NAME:_default' \
+'(--from-template --share-id)--get-template[Display a template JSON structure for creating custom items]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(identity)
+_arguments "${_arguments_options[@]}" : \
+'--from-template=[Create from template file (use '\''-'\'' for stdin)]:FROM_TEMPLATE:_default' \
+'--share-id=[Share ID of the vault to create the identity item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the identity item in]:VAULT_NAME:_default' \
+'(--from-template --share-id)--get-template[Display a template JSON structure for creating identity items]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(ssh-key)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key_commands" \
+"*::: :->ssh-key" \
+&& ret=0
+
+    case $state in
+    (ssh-key)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-create-ssh-key-command-$line[1]:"
+        case $line[1] in
+            (import)
+_arguments "${_arguments_options[@]}" : \
+'--from-private-key=[Path to the private key file]:PRIVATE_KEY_FILE:_files' \
+'--share-id=[Share ID of the vault to create the SSH key item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the SSH key item in]:VAULT_NAME:_default' \
+'--title=[Title of the SSH key item]:TITLE:_default' \
+'--password[Enable passphrase for the SSH key]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+'--comment=[Comment for the SSH key]:COMMENT:_default' \
+'--key-type=[Type of SSH key to generate]:KEY_TYPE:(ed25519 rsa2048 rsa4096)' \
+'--share-id=[Share ID of the vault to create the SSH key item in]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to create the SSH key item in]:VAULT_NAME:_default' \
+'--title=[Title of the SSH key item]:TITLE:_default' \
+'--password[Enable passphrase for the SSH key]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-create-ssh-key-help-command-$line[1]:"
+        case $line[1] in
+            (import)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__create__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-create-help-command-$line[1]:"
+        case $line[1] in
+            (login)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(note)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(credit-card)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(wifi)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(custom)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(identity)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(ssh-key)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key_commands" \
+"*::: :->ssh-key" \
+&& ret=0
+
+    case $state in
+    (ssh-key)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-create-help-ssh-key-command-$line[1]:"
+        case $line[1] in
+            (import)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--item-id=[ID of the item to delete]:ITEM_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID that contains the item]:SHARE_ID:_default' \
+'--item-id=[ID of the item to share]:ITEM_ID:_default' \
+'--role=[]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':email -- Email address to share with:_default' \
+&& ret=0
+;;
+(view)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault containing the item]:VAULT_NAME:_default' \
+'--item-id=[ID of the item to view]:ITEM_ID:_default' \
+'--item-title=[Title of the item to view]:ITEM_TITLE:_default' \
+'--field=[Specific field to view]:FIELD:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::uri -- Pass URI in format pass\://SHARE_ID/ITEM_ID\[/FIELD\]:_default' \
+&& ret=0
+;;
+(move)
+_arguments "${_arguments_options[@]}" : \
+'--from-share-id=[Share ID of the source vault]:FROM_SHARE_ID:_default' \
+'--from-vault-name=[Name of the source vault]:FROM_VAULT_NAME:_default' \
+'--item-id=[ID of the item to move]:ITEM_ID:_default' \
+'--item-title=[Title of the item to move]:ITEM_TITLE:_default' \
+'--to-share-id=[Share ID of the destination vault]:TO_SHARE_ID:_default' \
+'--to-vault-name=[Name of the destination vault]:TO_VAULT_NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(attachment)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item__subcmd__attachment_commands" \
+"*::: :->attachment" \
+&& ret=0
+
+    case $state in
+    (attachment)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-attachment-command-$line[1]:"
+        case $line[1] in
+            (download)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--item-id=[ID of the item containing the attachment]:ITEM_ID:_default' \
+'--attachment-id=[ID of the attachment to download]:ATTACHMENT_ID:_default' \
+'--output=[Output path for the downloaded attachment]:OUTPUT:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__attachment__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-attachment-help-command-$line[1]:"
+        case $line[1] in
+            (download)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(alias)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item__subcmd__alias_commands" \
+"*::: :->alias" \
+&& ret=0
+
+    case $state in
+    (alias)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-alias-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault where the alias will be created]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault where the alias will be created]:VAULT_NAME:_default' \
+'--prefix=[Prefix of the alias. The resulting email will be \[prefix\].\[suffix\]]:PREFIX:_default' \
+'--output=[Output format]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__alias__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-alias-help-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__item__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--item-id=[ID of the item]:ITEM_ID:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--member-share-id=[Member share ID]:MEMBER_SHARE_ID:_default' \
+'--role=[New role for the member]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--member-share-id=[Member share ID]:MEMBER_SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__member__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-member-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(totp)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault containing the item]:VAULT_NAME:_default' \
+'--item-id=[ID of the item]:ITEM_ID:_default' \
+'--item-title=[Title of the item]:ITEM_TITLE:_default' \
+'--field=[Specific TOTP field to generate code for]:FIELD:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+'::uri -- Pass URI in format pass\://SHARE_ID/ITEM_ID\[/FIELD\]:_default' \
+&& ret=0
+;;
+(trash)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault containing the item]:VAULT_NAME:_default' \
+'--item-id=[ID of the item to trash]:ITEM_ID:_default' \
+'--item-title=[Title of the item to trash]:ITEM_TITLE:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(untrash)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault containing the item]:VAULT_NAME:_default' \
+'--item-id=[ID of the item to restore]:ITEM_ID:_default' \
+'--item-title=[Title of the item to restore]:ITEM_TITLE:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault containing the item]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault containing the item]:VAULT_NAME:_default' \
+'--item-id=[ID of the item to update]:ITEM_ID:_default' \
+'--item-title=[Title of the item to update]:ITEM_TITLE:_default' \
+'*--field=[Field to update in format field_name=field_value (can be specified multiple times)]:FIELDS:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help__subcmd__create_commands" \
+"*::: :->create" \
+&& ret=0
+
+    case $state in
+    (create)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-create-command-$line[1]:"
+        case $line[1] in
+            (login)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(note)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(credit-card)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(wifi)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(custom)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(identity)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(ssh-key)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key_commands" \
+"*::: :->ssh-key" \
+&& ret=0
+
+    case $state in
+    (ssh-key)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-create-ssh-key-command-$line[1]:"
+        case $line[1] in
+            (import)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(view)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(move)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(attachment)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help__subcmd__attachment_commands" \
+"*::: :->attachment" \
+&& ret=0
+
+    case $state in
+    (attachment)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-attachment-command-$line[1]:"
+        case $line[1] in
+            (download)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(alias)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help__subcmd__alias_commands" \
+"*::: :->alias" \
+&& ret=0
+
+    case $state in
+    (alias)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-alias-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__item__subcmd__help__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-item-help-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(totp)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(trash)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(untrash)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(invite)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__invite_commands" \
+"*::: :->invite" \
+&& ret=0
+
+    case $state in
+    (invite)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-invite-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':invite_id -- ID of the invite to accept:_default' \
+&& ret=0
+;;
+(reject)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':invite_id -- ID of the invite to reject:_default' \
+&& ret=0
+;;
+(group)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__invite__subcmd__group_commands" \
+"*::: :->group" \
+&& ret=0
+
+    case $state in
+    (group)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-invite-group-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':invite_id:_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__invite__subcmd__group__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-invite-group-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__invite__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-invite-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(reject)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(group)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__invite__subcmd__help__subcmd__group_commands" \
+"*::: :->group" \
+&& ret=0
+
+    case $state in
+    (group)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-invite-help-group-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(password)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__password_commands" \
+"*::: :->password" \
+&& ret=0
+
+    case $state in
+    (password)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-password-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__password__subcmd__generate_commands" \
+"*::: :->generate" \
+&& ret=0
+
+    case $state in
+    (generate)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-password-generate-command-$line[1]:"
+        case $line[1] in
+            (random)
+_arguments "${_arguments_options[@]}" : \
+'--length=[Length of the random password]:LENGTH:_default' \
+'--numbers=[Whether to include numbers]:NUMBERS:(true false)' \
+'--uppercase=[Whether to include uppercase letters]:UPPERCASE_LETTERS:(true false)' \
+'--symbols=[Whether to include Symbols]:SYMBOLS:(true false)' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(passphrase)
+_arguments "${_arguments_options[@]}" : \
+'--separator=[Which word separator to use]:SEPARATOR:(hyphens spaces periods commas underscores numbers numbers-and-symbols)' \
+'--capitalise=[Whether to capitalise words]:CAPITALISE:(true false)' \
+'--capitalize=[Whether to capitalise words]:CAPITALISE:(true false)' \
+'--numbers=[Whether to include numbers]:INCLUDE_NUMBERS:(true false)' \
+'--count=[How many words to use in the passphrase]:COUNT:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__password__subcmd__generate__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-password-generate-help-command-$line[1]:"
+        case $line[1] in
+            (random)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(passphrase)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(score)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':password -- Password to score:_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__password__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-password-help-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__password__subcmd__help__subcmd__generate_commands" \
+"*::: :->generate" \
+&& ret=0
+
+    case $state in
+    (generate)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-password-help-generate-command-$line[1]:"
+        case $line[1] in
+            (random)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(passphrase)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(score)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(personal-access-token)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__personal-access-token_commands" \
+"*::: :->personal-access-token" \
+&& ret=0
+
+    case $state in
+    (personal-access-token)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-personal-access-token-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+'--name=[Name of the personal access token]:NAME:_default' \
+'--expiration=[Expiration for the personal access token (1d, 1w, 1m, 3m, 6m, 1y)]:EXPIRATION:(1d 1w 1m 3m 6m 1y)' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+'--personal-access-token-id=[Personal access token ID to delete]:PERSONAL_ACCESS_TOKEN_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+'--personal-access-token-id=[Personal access token ID]:PERSONAL_ACCESS_TOKEN_ID:_default' \
+'--personal-access-token-name=[Personal access token name]:PERSONAL_ACCESS_TOKEN_NAME:_default' \
+'--expiration=[New expiration for the personal access token (1d, 1w, 1m, 3m, 6m, 1y)]:EXPIRATION:(1d 1w 1m 3m 6m 1y)' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__personal-access-token__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-personal-access-token-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+'--personal-access-token-id=[Personal access token ID]:PERSONAL_ACCESS_TOKEN_ID:_default' \
+'--personal-access-token-name=[Personal access token name]:PERSONAL_ACCESS_TOKEN_NAME:_default' \
+'--share-id=[Share ID of the vault to grant access to]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to grant access to]:VAULT_NAME:_default' \
+'--item-id=[Specific item ID to grant access to]:ITEM_ID:_default' \
+'--item-title=[Specific item title to grant access to]:ITEM_TITLE:_default' \
+'--role=[]:ROLE:(viewer editor manager)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+'--personal-access-token-id=[Personal access token ID]:PERSONAL_ACCESS_TOKEN_ID:_default' \
+'--personal-access-token-name=[Personal access token name]:PERSONAL_ACCESS_TOKEN_NAME:_default' \
+'--share-id=[Share ID to revoke access from]:SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(list-access)
+_arguments "${_arguments_options[@]}" : \
+'--personal-access-token-id=[Personal access token ID]:PERSONAL_ACCESS_TOKEN_ID:_default' \
+'--personal-access-token-name=[Personal access token name]:PERSONAL_ACCESS_TOKEN_NAME:_default' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-personal-access-token-access-help-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list-access)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__personal-access-token__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-personal-access-token-help-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-personal-access-token-help-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list-access)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(totp)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__totp_commands" \
+"*::: :->totp" \
+&& ret=0
+
+    case $state in
+    (totp)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-totp-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+':secret_or_uri -- TOTP secret (base32) or URI (otpauth\://...):_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__totp__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-totp-help-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__share_commands" \
+"*::: :->share" \
+&& ret=0
+
+    case $state in
+    (share)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-share-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+'--only-items=[Only display item shares]:ONLY_ITEMS:(true false)' \
+'--only-vaults=[Only display vault shares]:ONLY_VAULTS:(true false)' \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__share__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-share-help-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(user)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__user_commands" \
+"*::: :->user" \
+&& ret=0
+
+    case $state in
+    (user)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-user-command-$line[1]:"
+        case $line[1] in
+            (info)
+_arguments "${_arguments_options[@]}" : \
+'--output=[]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__user__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-user-help-command-$line[1]:"
+        case $line[1] in
+            (info)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(ssh-agent)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__ssh-agent_commands" \
+"*::: :->ssh-agent" \
+&& ret=0
+
+    case $state in
+    (ssh-agent)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-ssh-agent-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+'--socket-path=[Path to the SSH agent socket (Unix) or named pipe identifier (Windows)]:SOCKET_PATH:_default' \
+'--share-id=[Share ID of the vault to load keys from]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to load keys from]:VAULT_NAME:_default' \
+'--refresh-interval=[Interval in seconds to check for new SSH keys in Proton Pass]:REFRESH_INTERVAL:_default' \
+'--create-new-identities=[Automatically create new SSH key items in the specified vault when identities are added via ssh-add. Specify either a vault name or share ID.]:VAULT_NAME_OR_SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(load)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to load keys from]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to load keys from]:VAULT_NAME:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(debug)
+_arguments "${_arguments_options[@]}" : \
+'--share-id=[Share ID of the vault to check]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to check]:VAULT_NAME:_default' \
+'--item-id=[Item ID to check (instead of checking all items)]:ITEM_ID:_default' \
+'--item-title=[Item title to check (instead of checking all items)]:ITEM_TITLE:_default' \
+'-o+[Output format]:OUTPUT:(human json)' \
+'--output=[Output format]:OUTPUT:(human json)' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(daemon)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__ssh-agent__subcmd__daemon_commands" \
+"*::: :->daemon" \
+&& ret=0
+
+    case $state in
+    (daemon)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-ssh-agent-daemon-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+'--socket-path=[Path to the SSH agent socket (Unix) or named pipe identifier (Windows)]:SOCKET_PATH:_default' \
+'--share-id=[Share ID of the vault to load keys from]:SHARE_ID:_default' \
+'--vault-name=[Name of the vault to load keys from]:VAULT_NAME:_default' \
+'--refresh-interval=[Interval in seconds to check for new SSH keys in Proton Pass]:REFRESH_INTERVAL:_default' \
+'--create-new-identities=[Automatically create new SSH key items in the specified vault when identities are added via ssh-add. Specify either a vault name or share ID.]:VAULT_NAME_OR_SHARE_ID:_default' \
+'--pid-file=[Path to the PID file (default\: ~/.ssh/proton-pass-agent.pid)]:PID_FILE:_files' \
+'--log-file=[Redirect daemon stdout/stderr to this file instead of discarding them]:LOG_FILE:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+'--pid-file=[Path to the PID file (default\: ~/.ssh/proton-pass-agent.pid)]:PID_FILE:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+'--pid-file=[Path to the PID file (default\: ~/.ssh/proton-pass-agent.pid)]:PID_FILE:_files' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-ssh-agent-daemon-help-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__ssh-agent__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-ssh-agent-help-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(load)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(debug)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(daemon)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon_commands" \
+"*::: :->daemon" \
+&& ret=0
+
+    case $state in
+    (daemon)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-ssh-agent-help-daemon-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(settings)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__settings_commands" \
+"*::: :->settings" \
+&& ret=0
+
+    case $state in
+    (settings)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-command-$line[1]:"
+        case $line[1] in
+            (view)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__settings__subcmd__set_commands" \
+"*::: :->set" \
+&& ret=0
+
+    case $state in
+    (set)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-set-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+'--vault-name=[Vault name to set as default]:VAULT_NAME:_default' \
+'--share-id=[Share ID to set as default]:SHARE_ID:_default' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':format -- Output format (human or json):_default' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__settings__subcmd__set__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-set-help-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(unset)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+":: :_pass-cli__subcmd__settings__subcmd__unset_commands" \
+"*::: :->unset" \
+&& ret=0
+
+    case $state in
+    (unset)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-unset-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__settings__subcmd__unset__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-unset-help-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__settings__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-help-command-$line[1]:"
+        case $line[1] in
+            (view)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__settings__subcmd__help__subcmd__set_commands" \
+"*::: :->set" \
+&& ret=0
+
+    case $state in
+    (set)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-help-set-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(unset)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__settings__subcmd__help__subcmd__unset_commands" \
+"*::: :->unset" \
+&& ret=0
+
+    case $state in
+    (unset)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-settings-help-unset-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+'--set-track=[Change the release track to check updates (default\: stable)]:SET_TRACK:_default' \
+'-y[Skip confirmation prompt]' \
+'--yes[Skip confirmation prompt]' \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(support)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+'-h[Print help]' \
+'--help[Print help]' \
+':shell -- Shell to generate completions for:(bash elvish fish powershell zsh)' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help_commands" \
+"*::: :->help" \
+&& ret=0
+
+    case $state in
+    (help)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-command-$line[1]:"
+        case $line[1] in
+            (agent)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__agent_commands" \
+"*::: :->agent" \
+&& ret=0
+
+    case $state in
+    (agent)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-agent-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(monitor)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__agent__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-agent-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(instructions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(login)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(logout)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(test)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(info)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(inject)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(run)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(vault)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__vault_commands" \
+"*::: :->vault" \
+&& ret=0
+
+    case $state in
+    (vault)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-vault-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__vault__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-vault-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(transfer)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(item)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item_commands" \
+"*::: :->item" \
+&& ret=0
+
+    case $state in
+    (item)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(create)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item__subcmd__create_commands" \
+"*::: :->create" \
+&& ret=0
+
+    case $state in
+    (create)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-create-command-$line[1]:"
+        case $line[1] in
+            (login)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(note)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(credit-card)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(wifi)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(custom)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(identity)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(ssh-key)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key_commands" \
+"*::: :->ssh-key" \
+&& ret=0
+
+    case $state in
+    (ssh-key)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-create-ssh-key-command-$line[1]:"
+        case $line[1] in
+            (import)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(view)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(move)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(attachment)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item__subcmd__attachment_commands" \
+"*::: :->attachment" \
+&& ret=0
+
+    case $state in
+    (attachment)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-attachment-command-$line[1]:"
+        case $line[1] in
+            (download)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(alias)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item__subcmd__alias_commands" \
+"*::: :->alias" \
+&& ret=0
+
+    case $state in
+    (alias)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-alias-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(member)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__item__subcmd__member_commands" \
+"*::: :->member" \
+&& ret=0
+
+    case $state in
+    (member)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-item-member-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(remove)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(totp)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(trash)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(untrash)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(invite)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__invite_commands" \
+"*::: :->invite" \
+&& ret=0
+
+    case $state in
+    (invite)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-invite-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(reject)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(group)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__invite__subcmd__group_commands" \
+"*::: :->group" \
+&& ret=0
+
+    case $state in
+    (group)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-invite-group-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(accept)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(password)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__password_commands" \
+"*::: :->password" \
+&& ret=0
+
+    case $state in
+    (password)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-password-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__password__subcmd__generate_commands" \
+"*::: :->generate" \
+&& ret=0
+
+    case $state in
+    (generate)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-password-generate-command-$line[1]:"
+        case $line[1] in
+            (random)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(passphrase)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(score)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(personal-access-token)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__personal-access-token_commands" \
+"*::: :->personal-access-token" \
+&& ret=0
+
+    case $state in
+    (personal-access-token)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-personal-access-token-command-$line[1]:"
+        case $line[1] in
+            (create)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(delete)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(renew)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(access)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access_commands" \
+"*::: :->access" \
+&& ret=0
+
+    case $state in
+    (access)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-personal-access-token-access-command-$line[1]:"
+        case $line[1] in
+            (grant)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(revoke)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(list-access)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(totp)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__totp_commands" \
+"*::: :->totp" \
+&& ret=0
+
+    case $state in
+    (totp)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-totp-command-$line[1]:"
+        case $line[1] in
+            (generate)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(share)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__share_commands" \
+"*::: :->share" \
+&& ret=0
+
+    case $state in
+    (share)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-share-command-$line[1]:"
+        case $line[1] in
+            (list)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(user)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__user_commands" \
+"*::: :->user" \
+&& ret=0
+
+    case $state in
+    (user)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-user-command-$line[1]:"
+        case $line[1] in
+            (info)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(ssh-agent)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__ssh-agent_commands" \
+"*::: :->ssh-agent" \
+&& ret=0
+
+    case $state in
+    (ssh-agent)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-ssh-agent-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(load)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(debug)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(daemon)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon_commands" \
+"*::: :->daemon" \
+&& ret=0
+
+    case $state in
+    (daemon)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-ssh-agent-daemon-command-$line[1]:"
+        case $line[1] in
+            (start)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(status)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(stop)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(settings)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__settings_commands" \
+"*::: :->settings" \
+&& ret=0
+
+    case $state in
+    (settings)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-settings-command-$line[1]:"
+        case $line[1] in
+            (view)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(set)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__settings__subcmd__set_commands" \
+"*::: :->set" \
+&& ret=0
+
+    case $state in
+    (set)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-settings-set-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+(unset)
+_arguments "${_arguments_options[@]}" : \
+":: :_pass-cli__subcmd__help__subcmd__settings__subcmd__unset_commands" \
+"*::: :->unset" \
+&& ret=0
+
+    case $state in
+    (unset)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:pass-cli-help-settings-unset-command-$line[1]:"
+        case $line[1] in
+            (default-vault)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(default-format)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+;;
+(update)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(support)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(completions)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" : \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_pass-cli_commands] )) ||
+_pass-cli_commands() {
+    local commands; commands=(
+'agent:Manage AI agents' \
+'login:Log in (defaults to web login)' \
+'logout:Log out of the current session' \
+'test:Test if the authenticated connection can be established' \
+'info:Show information about the current session' \
+'inject:Inject secrets into a file templated with secret references' \
+'run:Pass secrets as environment variables to an application or script' \
+'vault:Vault operations' \
+'item:Item operations' \
+'invite:Invite operations' \
+'password:Password operations' \
+'personal-access-token:Personal Access Token operations' \
+'totp:TOTP operations' \
+'share:Share operations' \
+'user:User operations' \
+'ssh-agent:SSH agent operations' \
+'settings:Manage persistent settings' \
+'update:Check for and install updates' \
+'support:Reach to us if you need help' \
+'completions:Generate shell completion scripts' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent_commands] )) ||
+_pass-cli__subcmd__agent_commands() {
+    local commands; commands=(
+'create:Create a new agent' \
+'list:List all agents' \
+'delete:Delete an agent' \
+'monitor:List monitor audit entries for an agent' \
+'access:Manage agent vault/item access' \
+'renew:Renew an agent token' \
+'instructions:Print agent usage instructions (markdown)' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli agent commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant vault or item access to an agent' \
+'revoke:Revoke vault access from an agent' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli agent access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__help_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__help_commands() {
+    local commands; commands=(
+'grant:Grant vault or item access to an agent' \
+'revoke:Revoke vault access from an agent' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli agent access help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent access help grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent access help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__help__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent access help revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__create_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help_commands() {
+    local commands; commands=(
+'create:Create a new agent' \
+'list:List all agents' \
+'delete:Delete an agent' \
+'monitor:List monitor audit entries for an agent' \
+'access:Manage agent vault/item access' \
+'renew:Renew an agent token' \
+'instructions:Print agent usage instructions (markdown)' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli agent help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__access_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant vault or item access to an agent' \
+'revoke:Revoke vault access from an agent' \
+    )
+    _describe -t commands 'pass-cli agent help access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__create_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__instructions_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__instructions_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help instructions commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__monitor_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__monitor_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help monitor commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__help__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__help__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent help renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__instructions_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__instructions_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent instructions commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__list_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__monitor_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__monitor_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent monitor commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__agent__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__agent__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli agent renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__completions_commands] )) ||
+_pass-cli__subcmd__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli completions commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help_commands] )) ||
+_pass-cli__subcmd__help_commands() {
+    local commands; commands=(
+'agent:Manage AI agents' \
+'login:Log in (defaults to web login)' \
+'logout:Log out of the current session' \
+'test:Test if the authenticated connection can be established' \
+'info:Show information about the current session' \
+'inject:Inject secrets into a file templated with secret references' \
+'run:Pass secrets as environment variables to an application or script' \
+'vault:Vault operations' \
+'item:Item operations' \
+'invite:Invite operations' \
+'password:Password operations' \
+'personal-access-token:Personal Access Token operations' \
+'totp:TOTP operations' \
+'share:Share operations' \
+'user:User operations' \
+'ssh-agent:SSH agent operations' \
+'settings:Manage persistent settings' \
+'update:Check for and install updates' \
+'support:Reach to us if you need help' \
+'completions:Generate shell completion scripts' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent_commands() {
+    local commands; commands=(
+'create:Create a new agent' \
+'list:List all agents' \
+'delete:Delete an agent' \
+'monitor:List monitor audit entries for an agent' \
+'access:Manage agent vault/item access' \
+'renew:Renew an agent token' \
+'instructions:Print agent usage instructions (markdown)' \
+    )
+    _describe -t commands 'pass-cli help agent commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__access_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant vault or item access to an agent' \
+'revoke:Revoke vault access from an agent' \
+    )
+    _describe -t commands 'pass-cli help agent access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__create_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__instructions_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__instructions_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent instructions commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__monitor_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__monitor_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent monitor commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__agent__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__help__subcmd__agent__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help agent renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__completions_commands] )) ||
+_pass-cli__subcmd__help__subcmd__completions_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help completions commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__info_commands] )) ||
+_pass-cli__subcmd__help__subcmd__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help info commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__inject_commands] )) ||
+_pass-cli__subcmd__help__subcmd__inject_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help inject commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept an invite' \
+'reject:Reject an invite' \
+'group:Operations to perform on group invites' \
+    )
+    _describe -t commands 'pass-cli help invite commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help invite accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__group_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__group_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept group invite' \
+    )
+    _describe -t commands 'pass-cli help invite group commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__group__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__group__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help invite group accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__group__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__group__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help invite group list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help invite list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__invite__subcmd__reject_commands] )) ||
+_pass-cli__subcmd__help__subcmd__invite__subcmd__reject_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help invite reject commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item_commands() {
+    local commands; commands=(
+'list:List items in a vault' \
+'create:Create a new item' \
+'delete:Delete an item' \
+'share:Share an item' \
+'view:View an item' \
+'move:Move an item to a different vault' \
+'attachment:Attachment operations' \
+'alias:Alias operations' \
+'member:Manage item members' \
+'totp:Generate TOTP code(s) for an item' \
+'trash:Move an item to trash' \
+'untrash:Restore an item from trash' \
+'update:Update an item'\''s fields' \
+    )
+    _describe -t commands 'pass-cli help item commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__alias_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__alias_commands() {
+    local commands; commands=(
+'create:Create a new alias' \
+    )
+    _describe -t commands 'pass-cli help item alias commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__alias__subcmd__create_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__alias__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item alias create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__attachment_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__attachment_commands() {
+    local commands; commands=(
+'download:Download an attachment' \
+    )
+    _describe -t commands 'pass-cli help item attachment commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__attachment__subcmd__download_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__attachment__subcmd__download_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item attachment download commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create_commands() {
+    local commands; commands=(
+'login:Create a new login item' \
+'note:Create a new note item' \
+'credit-card:Create a new credit card item' \
+'wifi:Create a new WiFi item' \
+'custom:Create a new custom item' \
+'identity:Create a new identity item' \
+'ssh-key:Create a new SSH key item' \
+    )
+    _describe -t commands 'pass-cli help item create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__credit-card_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__credit-card_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create credit-card commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__custom_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__custom_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create custom commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__identity_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__identity_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create identity commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__login_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__note_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__note_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create note commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key_commands() {
+    local commands; commands=(
+'import:Import an SSH key from a private key file' \
+'generate:Generate a new SSH key' \
+    )
+    _describe -t commands 'pass-cli help item create ssh-key commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create ssh-key generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__import_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__import_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create ssh-key import commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__wifi_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__create__subcmd__wifi_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item create wifi commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__member_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__member_commands() {
+    local commands; commands=(
+'list:List item members' \
+'update:Update an item member'\''s role' \
+'remove:Remove an item member' \
+    )
+    _describe -t commands 'pass-cli help item member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__move_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__move_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item move commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__share_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__totp_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__totp_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item totp commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__trash_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__trash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item trash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__untrash_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__untrash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item untrash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__update_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__item__subcmd__view_commands] )) ||
+_pass-cli__subcmd__help__subcmd__item__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help item view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__login_commands] )) ||
+_pass-cli__subcmd__help__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__logout_commands] )) ||
+_pass-cli__subcmd__help__subcmd__logout_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help logout commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__password_commands] )) ||
+_pass-cli__subcmd__help__subcmd__password_commands() {
+    local commands; commands=(
+'generate:Generate a password' \
+'score:Score a password' \
+    )
+    _describe -t commands 'pass-cli help password commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__password__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__help__subcmd__password__subcmd__generate_commands() {
+    local commands; commands=(
+'random:Generate a random password' \
+'passphrase:Generate a passphrase' \
+    )
+    _describe -t commands 'pass-cli help password generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__password__subcmd__generate__subcmd__passphrase_commands] )) ||
+_pass-cli__subcmd__help__subcmd__password__subcmd__generate__subcmd__passphrase_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help password generate passphrase commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__password__subcmd__generate__subcmd__random_commands] )) ||
+_pass-cli__subcmd__help__subcmd__password__subcmd__generate__subcmd__random_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help password generate random commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__password__subcmd__score_commands] )) ||
+_pass-cli__subcmd__help__subcmd__password__subcmd__score_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help password score commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token_commands() {
+    local commands; commands=(
+'create:Create a new personal access token' \
+'list:List all personal access tokens' \
+'delete:Delete a personal access token' \
+'renew:Renew a personal access token' \
+'access:Manage personal access token access' \
+    )
+    _describe -t commands 'pass-cli help personal-access-token commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant access to a personal access token' \
+'revoke:Revoke access from a personal access token' \
+'list-access:List access grants for a personal access token' \
+    )
+    _describe -t commands 'pass-cli help personal-access-token access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__list-access_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__list-access_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token access list-access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__create_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__help__subcmd__personal-access-token__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help personal-access-token renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__run_commands] )) ||
+_pass-cli__subcmd__help__subcmd__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help run commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings_commands() {
+    local commands; commands=(
+'view:View all current settings' \
+'set:Set a setting value' \
+'unset:Unset (clear) a setting' \
+    )
+    _describe -t commands 'pass-cli help settings commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__set_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__set_commands() {
+    local commands; commands=(
+'default-vault:Set the default vault' \
+'default-format:Set the default output format' \
+    )
+    _describe -t commands 'pass-cli help settings set commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__set__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__set__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help settings set default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__set__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__set__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help settings set default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__unset_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__unset_commands() {
+    local commands; commands=(
+'default-vault:Unset the default vault' \
+'default-format:Unset the default output format' \
+    )
+    _describe -t commands 'pass-cli help settings unset commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__unset__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__unset__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help settings unset default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__unset__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__unset__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help settings unset default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__settings__subcmd__view_commands] )) ||
+_pass-cli__subcmd__help__subcmd__settings__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help settings view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__share_commands] )) ||
+_pass-cli__subcmd__help__subcmd__share_commands() {
+    local commands; commands=(
+'list:List available shares' \
+    )
+    _describe -t commands 'pass-cli help share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__share__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__share__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help share list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent_commands() {
+    local commands; commands=(
+'start:Start a Proton Pass SSH agent' \
+'load:Load SSH keys from Proton Pass into the system SSH agent' \
+'debug:Debug SSH key items and show why they are or aren'\''t usable' \
+'daemon:Manage the SSH agent as a background daemon' \
+    )
+    _describe -t commands 'pass-cli help ssh-agent commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon_commands() {
+    local commands; commands=(
+'start:Start the SSH agent as a background daemon' \
+'status:Show the status of the SSH agent daemon' \
+'stop:Stop the SSH agent daemon' \
+    )
+    _describe -t commands 'pass-cli help ssh-agent daemon commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__start_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent daemon start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__status_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent daemon status commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__stop_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__daemon__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent daemon stop commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__debug_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__debug_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent debug commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__load_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__load_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent load commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__start_commands] )) ||
+_pass-cli__subcmd__help__subcmd__ssh-agent__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help ssh-agent start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__support_commands] )) ||
+_pass-cli__subcmd__help__subcmd__support_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help support commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__test_commands] )) ||
+_pass-cli__subcmd__help__subcmd__test_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help test commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__totp_commands] )) ||
+_pass-cli__subcmd__help__subcmd__totp_commands() {
+    local commands; commands=(
+'generate:Generate a TOTP token from a secret or URI' \
+    )
+    _describe -t commands 'pass-cli help totp commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__totp__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__help__subcmd__totp__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help totp generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__update_commands] )) ||
+_pass-cli__subcmd__help__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__user_commands] )) ||
+_pass-cli__subcmd__help__subcmd__user_commands() {
+    local commands; commands=(
+'info:Show user info' \
+    )
+    _describe -t commands 'pass-cli help user commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__user__subcmd__info_commands] )) ||
+_pass-cli__subcmd__help__subcmd__user__subcmd__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help user info commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault_commands() {
+    local commands; commands=(
+'list:List vaults' \
+'create:Create a new vault' \
+'update:Update a vault' \
+'member:Manage vault members' \
+'delete:Delete a vault' \
+'share:Share a vault with someone' \
+'transfer:Transfer the ownership of one of your vaults' \
+    )
+    _describe -t commands 'pass-cli help vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__create_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__member_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__member_commands() {
+    local commands; commands=(
+'list:List vault members' \
+'update:Update a vault member'\''s role' \
+'remove:Remove a vault member' \
+    )
+    _describe -t commands 'pass-cli help vault member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__share_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__transfer_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__transfer_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault transfer commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__help__subcmd__vault__subcmd__update_commands] )) ||
+_pass-cli__subcmd__help__subcmd__vault__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli help vault update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__info_commands] )) ||
+_pass-cli__subcmd__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli info commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__inject_commands] )) ||
+_pass-cli__subcmd__inject_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli inject commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite_commands] )) ||
+_pass-cli__subcmd__invite_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept an invite' \
+'reject:Reject an invite' \
+'group:Operations to perform on group invites' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli invite commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept group invite' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli invite group commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite group accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__help_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__help_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept group invite' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli invite group help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite group help accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite group help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite group help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__group__subcmd__list_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__group__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite group list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept an invite' \
+'reject:Reject an invite' \
+'group:Operations to perform on group invites' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli invite help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__group_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__group_commands() {
+    local commands; commands=(
+'list:List pending invites' \
+'accept:Accept group invite' \
+    )
+    _describe -t commands 'pass-cli invite help group commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__group__subcmd__accept_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__group__subcmd__accept_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help group accept commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__group__subcmd__list_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__group__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help group list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__help__subcmd__reject_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__help__subcmd__reject_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite help reject commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__list_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__invite__subcmd__reject_commands] )) ||
+_pass-cli__subcmd__invite__subcmd__reject_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli invite reject commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item_commands] )) ||
+_pass-cli__subcmd__item_commands() {
+    local commands; commands=(
+'list:List items in a vault' \
+'create:Create a new item' \
+'delete:Delete an item' \
+'share:Share an item' \
+'view:View an item' \
+'move:Move an item to a different vault' \
+'attachment:Attachment operations' \
+'alias:Alias operations' \
+'member:Manage item members' \
+'totp:Generate TOTP code(s) for an item' \
+'trash:Move an item to trash' \
+'untrash:Restore an item from trash' \
+'update:Update an item'\''s fields' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__alias_commands] )) ||
+_pass-cli__subcmd__item__subcmd__alias_commands() {
+    local commands; commands=(
+'create:Create a new alias' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item alias commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__alias__subcmd__create_commands] )) ||
+_pass-cli__subcmd__item__subcmd__alias__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item alias create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__alias__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__alias__subcmd__help_commands() {
+    local commands; commands=(
+'create:Create a new alias' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item alias help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__alias__subcmd__help__subcmd__create_commands] )) ||
+_pass-cli__subcmd__item__subcmd__alias__subcmd__help__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item alias help create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__alias__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__alias__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item alias help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__attachment_commands] )) ||
+_pass-cli__subcmd__item__subcmd__attachment_commands() {
+    local commands; commands=(
+'download:Download an attachment' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item attachment commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__attachment__subcmd__download_commands] )) ||
+_pass-cli__subcmd__item__subcmd__attachment__subcmd__download_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item attachment download commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__attachment__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__attachment__subcmd__help_commands() {
+    local commands; commands=(
+'download:Download an attachment' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item attachment help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__attachment__subcmd__help__subcmd__download_commands] )) ||
+_pass-cli__subcmd__item__subcmd__attachment__subcmd__help__subcmd__download_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item attachment help download commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__attachment__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__attachment__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item attachment help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create_commands() {
+    local commands; commands=(
+'login:Create a new login item' \
+'note:Create a new note item' \
+'credit-card:Create a new credit card item' \
+'wifi:Create a new WiFi item' \
+'custom:Create a new custom item' \
+'identity:Create a new identity item' \
+'ssh-key:Create a new SSH key item' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__credit-card_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__credit-card_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create credit-card commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__custom_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__custom_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create custom commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help_commands() {
+    local commands; commands=(
+'login:Create a new login item' \
+'note:Create a new note item' \
+'credit-card:Create a new credit card item' \
+'wifi:Create a new WiFi item' \
+'custom:Create a new custom item' \
+'identity:Create a new identity item' \
+'ssh-key:Create a new SSH key item' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item create help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__credit-card_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__credit-card_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help credit-card commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__custom_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__custom_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help custom commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__identity_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__identity_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help identity commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__login_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__note_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__note_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help note commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key_commands() {
+    local commands; commands=(
+'import:Import an SSH key from a private key file' \
+'generate:Generate a new SSH key' \
+    )
+    _describe -t commands 'pass-cli item create help ssh-key commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help ssh-key generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key__subcmd__import_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__ssh-key__subcmd__import_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help ssh-key import commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__wifi_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__help__subcmd__wifi_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create help wifi commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__identity_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__identity_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create identity commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__login_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__note_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__note_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create note commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key_commands() {
+    local commands; commands=(
+'import:Import an SSH key from a private key file' \
+'generate:Generate a new SSH key' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item create ssh-key commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create ssh-key generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help_commands() {
+    local commands; commands=(
+'import:Import an SSH key from a private key file' \
+'generate:Generate a new SSH key' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item create ssh-key help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create ssh-key help generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create ssh-key help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__import_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__help__subcmd__import_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create ssh-key help import commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__import_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__ssh-key__subcmd__import_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create ssh-key import commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__create__subcmd__wifi_commands] )) ||
+_pass-cli__subcmd__item__subcmd__create__subcmd__wifi_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item create wifi commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__item__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help_commands() {
+    local commands; commands=(
+'list:List items in a vault' \
+'create:Create a new item' \
+'delete:Delete an item' \
+'share:Share an item' \
+'view:View an item' \
+'move:Move an item to a different vault' \
+'attachment:Attachment operations' \
+'alias:Alias operations' \
+'member:Manage item members' \
+'totp:Generate TOTP code(s) for an item' \
+'trash:Move an item to trash' \
+'untrash:Restore an item from trash' \
+'update:Update an item'\''s fields' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__alias_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__alias_commands() {
+    local commands; commands=(
+'create:Create a new alias' \
+    )
+    _describe -t commands 'pass-cli item help alias commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__alias__subcmd__create_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__alias__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help alias create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__attachment_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__attachment_commands() {
+    local commands; commands=(
+'download:Download an attachment' \
+    )
+    _describe -t commands 'pass-cli item help attachment commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__attachment__subcmd__download_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__attachment__subcmd__download_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help attachment download commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create_commands() {
+    local commands; commands=(
+'login:Create a new login item' \
+'note:Create a new note item' \
+'credit-card:Create a new credit card item' \
+'wifi:Create a new WiFi item' \
+'custom:Create a new custom item' \
+'identity:Create a new identity item' \
+'ssh-key:Create a new SSH key item' \
+    )
+    _describe -t commands 'pass-cli item help create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__credit-card_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__credit-card_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create credit-card commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__custom_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__custom_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create custom commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__identity_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__identity_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create identity commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__login_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__note_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__note_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create note commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key_commands() {
+    local commands; commands=(
+'import:Import an SSH key from a private key file' \
+'generate:Generate a new SSH key' \
+    )
+    _describe -t commands 'pass-cli item help create ssh-key commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create ssh-key generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key__subcmd__import_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__ssh-key__subcmd__import_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create ssh-key import commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__wifi_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__create__subcmd__wifi_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help create wifi commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__member_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__member_commands() {
+    local commands; commands=(
+'list:List item members' \
+'update:Update an item member'\''s role' \
+'remove:Remove an item member' \
+    )
+    _describe -t commands 'pass-cli item help member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__move_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__move_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help move commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__share_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__totp_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__totp_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help totp commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__trash_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__trash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help trash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__untrash_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__untrash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help untrash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__update_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__help__subcmd__view_commands] )) ||
+_pass-cli__subcmd__item__subcmd__help__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item help view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__list_commands] )) ||
+_pass-cli__subcmd__item__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member_commands() {
+    local commands; commands=(
+'list:List item members' \
+'update:Update an item member'\''s role' \
+'remove:Remove an item member' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__help_commands() {
+    local commands; commands=(
+'list:List item members' \
+'update:Update an item member'\''s role' \
+'remove:Remove an item member' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli item member help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member help remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__update_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__help__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member help update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__item__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__move_commands] )) ||
+_pass-cli__subcmd__item__subcmd__move_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item move commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__share_commands] )) ||
+_pass-cli__subcmd__item__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__totp_commands] )) ||
+_pass-cli__subcmd__item__subcmd__totp_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item totp commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__trash_commands] )) ||
+_pass-cli__subcmd__item__subcmd__trash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item trash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__untrash_commands] )) ||
+_pass-cli__subcmd__item__subcmd__untrash_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item untrash commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__update_commands] )) ||
+_pass-cli__subcmd__item__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__item__subcmd__view_commands] )) ||
+_pass-cli__subcmd__item__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli item view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__login_commands] )) ||
+_pass-cli__subcmd__login_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli login commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__logout_commands] )) ||
+_pass-cli__subcmd__logout_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli logout commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password_commands] )) ||
+_pass-cli__subcmd__password_commands() {
+    local commands; commands=(
+'generate:Generate a password' \
+'score:Score a password' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli password commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate_commands() {
+    local commands; commands=(
+'random:Generate a random password' \
+'passphrase:Generate a passphrase' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli password generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__help_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__help_commands() {
+    local commands; commands=(
+'random:Generate a random password' \
+'passphrase:Generate a passphrase' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli password generate help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password generate help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__passphrase_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__passphrase_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password generate help passphrase commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__random_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__help__subcmd__random_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password generate help random commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__passphrase_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__passphrase_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password generate passphrase commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__generate__subcmd__random_commands] )) ||
+_pass-cli__subcmd__password__subcmd__generate__subcmd__random_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password generate random commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help_commands() {
+    local commands; commands=(
+'generate:Generate a password' \
+'score:Score a password' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli password help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help__subcmd__generate_commands() {
+    local commands; commands=(
+'random:Generate a random password' \
+'passphrase:Generate a passphrase' \
+    )
+    _describe -t commands 'pass-cli password help generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help__subcmd__generate__subcmd__passphrase_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help__subcmd__generate__subcmd__passphrase_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password help generate passphrase commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help__subcmd__generate__subcmd__random_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help__subcmd__generate__subcmd__random_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password help generate random commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__help__subcmd__score_commands] )) ||
+_pass-cli__subcmd__password__subcmd__help__subcmd__score_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password help score commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__password__subcmd__score_commands] )) ||
+_pass-cli__subcmd__password__subcmd__score_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli password score commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token_commands] )) ||
+_pass-cli__subcmd__personal-access-token_commands() {
+    local commands; commands=(
+'create:Create a new personal access token' \
+'list:List all personal access tokens' \
+'delete:Delete a personal access token' \
+'renew:Renew a personal access token' \
+'access:Manage personal access token access' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli personal-access-token commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant access to a personal access token' \
+'revoke:Revoke access from a personal access token' \
+'list-access:List access grants for a personal access token' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli personal-access-token access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help_commands() {
+    local commands; commands=(
+'grant:Grant access to a personal access token' \
+'revoke:Revoke access from a personal access token' \
+'list-access:List access grants for a personal access token' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli personal-access-token access help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access help grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__list-access_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__list-access_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access help list-access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__help__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access help revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__list-access_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__list-access_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access list-access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__create_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help_commands() {
+    local commands; commands=(
+'create:Create a new personal access token' \
+'list:List all personal access tokens' \
+'delete:Delete a personal access token' \
+'renew:Renew a personal access token' \
+'access:Manage personal access token access' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli personal-access-token help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access_commands() {
+    local commands; commands=(
+'grant:Grant access to a personal access token' \
+'revoke:Revoke access from a personal access token' \
+'list-access:List access grants for a personal access token' \
+    )
+    _describe -t commands 'pass-cli personal-access-token help access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__grant_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__grant_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help access grant commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__list-access_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__list-access_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help access list-access commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__revoke_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__access__subcmd__revoke_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help access revoke commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__create_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__help__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token help renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__list_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__personal-access-token__subcmd__renew_commands] )) ||
+_pass-cli__subcmd__personal-access-token__subcmd__renew_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli personal-access-token renew commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__run_commands] )) ||
+_pass-cli__subcmd__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli run commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings_commands] )) ||
+_pass-cli__subcmd__settings_commands() {
+    local commands; commands=(
+'view:View all current settings' \
+'set:Set a setting value' \
+'unset:Unset (clear) a setting' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help_commands() {
+    local commands; commands=(
+'view:View all current settings' \
+'set:Set a setting value' \
+'unset:Unset (clear) a setting' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__set_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__set_commands() {
+    local commands; commands=(
+'default-vault:Set the default vault' \
+'default-format:Set the default output format' \
+    )
+    _describe -t commands 'pass-cli settings help set commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__set__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__set__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help set default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__set__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__set__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help set default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__unset_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__unset_commands() {
+    local commands; commands=(
+'default-vault:Unset the default vault' \
+'default-format:Unset the default output format' \
+    )
+    _describe -t commands 'pass-cli settings help unset commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__unset__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__unset__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help unset default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__unset__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__unset__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help unset default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__help__subcmd__view_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__help__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings help view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set_commands() {
+    local commands; commands=(
+'default-vault:Set the default vault' \
+'default-format:Set the default output format' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings set commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings set default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings set default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__help_commands() {
+    local commands; commands=(
+'default-vault:Set the default vault' \
+'default-format:Set the default output format' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings set help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings set help default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings set help default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__set__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings set help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset_commands() {
+    local commands; commands=(
+'default-vault:Unset the default vault' \
+'default-format:Unset the default output format' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings unset commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings unset default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings unset default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__help_commands() {
+    local commands; commands=(
+'default-vault:Unset the default vault' \
+'default-format:Unset the default output format' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli settings unset help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__default-format_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__default-format_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings unset help default-format commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__default-vault_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__default-vault_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings unset help default-vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__unset__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings unset help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__settings__subcmd__view_commands] )) ||
+_pass-cli__subcmd__settings__subcmd__view_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli settings view commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__share_commands] )) ||
+_pass-cli__subcmd__share_commands() {
+    local commands; commands=(
+'list:List available shares' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__share__subcmd__help_commands] )) ||
+_pass-cli__subcmd__share__subcmd__help_commands() {
+    local commands; commands=(
+'list:List available shares' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli share help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__share__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__share__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli share help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__share__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__share__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli share help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__share__subcmd__list_commands] )) ||
+_pass-cli__subcmd__share__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli share list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent_commands] )) ||
+_pass-cli__subcmd__ssh-agent_commands() {
+    local commands; commands=(
+'start:Start a Proton Pass SSH agent' \
+'load:Load SSH keys from Proton Pass into the system SSH agent' \
+'debug:Debug SSH key items and show why they are or aren'\''t usable' \
+'daemon:Manage the SSH agent as a background daemon' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli ssh-agent commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon_commands() {
+    local commands; commands=(
+'start:Start the SSH agent as a background daemon' \
+'status:Show the status of the SSH agent daemon' \
+'stop:Stop the SSH agent daemon' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli ssh-agent daemon commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help_commands() {
+    local commands; commands=(
+'start:Start the SSH agent as a background daemon' \
+'status:Show the status of the SSH agent daemon' \
+'stop:Stop the SSH agent daemon' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli ssh-agent daemon help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__start_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon help start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__status_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon help status commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__stop_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__help__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon help stop commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__start_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__status_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon status commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__stop_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__daemon__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent daemon stop commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__debug_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__debug_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent debug commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help_commands() {
+    local commands; commands=(
+'start:Start a Proton Pass SSH agent' \
+'load:Load SSH keys from Proton Pass into the system SSH agent' \
+'debug:Debug SSH key items and show why they are or aren'\''t usable' \
+'daemon:Manage the SSH agent as a background daemon' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli ssh-agent help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon_commands() {
+    local commands; commands=(
+'start:Start the SSH agent as a background daemon' \
+'status:Show the status of the SSH agent daemon' \
+'stop:Stop the SSH agent daemon' \
+    )
+    _describe -t commands 'pass-cli ssh-agent help daemon commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__start_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help daemon start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__status_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__status_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help daemon status commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__stop_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__daemon__subcmd__stop_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help daemon stop commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__debug_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__debug_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help debug commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__load_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__load_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help load commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__start_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__help__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent help start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__load_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__load_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent load commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__ssh-agent__subcmd__start_commands] )) ||
+_pass-cli__subcmd__ssh-agent__subcmd__start_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli ssh-agent start commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__support_commands] )) ||
+_pass-cli__subcmd__support_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli support commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__test_commands] )) ||
+_pass-cli__subcmd__test_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli test commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__totp_commands] )) ||
+_pass-cli__subcmd__totp_commands() {
+    local commands; commands=(
+'generate:Generate a TOTP token from a secret or URI' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli totp commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__totp__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__totp__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli totp generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__totp__subcmd__help_commands] )) ||
+_pass-cli__subcmd__totp__subcmd__help_commands() {
+    local commands; commands=(
+'generate:Generate a TOTP token from a secret or URI' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli totp help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__totp__subcmd__help__subcmd__generate_commands] )) ||
+_pass-cli__subcmd__totp__subcmd__help__subcmd__generate_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli totp help generate commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__totp__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__totp__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli totp help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__update_commands] )) ||
+_pass-cli__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__user_commands] )) ||
+_pass-cli__subcmd__user_commands() {
+    local commands; commands=(
+'info:Show user info' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli user commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__user__subcmd__help_commands] )) ||
+_pass-cli__subcmd__user__subcmd__help_commands() {
+    local commands; commands=(
+'info:Show user info' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli user help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__user__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__user__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli user help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__user__subcmd__help__subcmd__info_commands] )) ||
+_pass-cli__subcmd__user__subcmd__help__subcmd__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli user help info commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__user__subcmd__info_commands] )) ||
+_pass-cli__subcmd__user__subcmd__info_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli user info commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault_commands] )) ||
+_pass-cli__subcmd__vault_commands() {
+    local commands; commands=(
+'list:List vaults' \
+'create:Create a new vault' \
+'update:Update a vault' \
+'member:Manage vault members' \
+'delete:Delete a vault' \
+'share:Share a vault with someone' \
+'transfer:Transfer the ownership of one of your vaults' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli vault commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__create_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help_commands() {
+    local commands; commands=(
+'list:List vaults' \
+'create:Create a new vault' \
+'update:Update a vault' \
+'member:Manage vault members' \
+'delete:Delete a vault' \
+'share:Share a vault with someone' \
+'transfer:Transfer the ownership of one of your vaults' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli vault help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__create_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__create_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help create commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__delete_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__delete_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help delete commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__member_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__member_commands() {
+    local commands; commands=(
+'list:List vault members' \
+'update:Update a vault member'\''s role' \
+'remove:Remove a vault member' \
+    )
+    _describe -t commands 'pass-cli vault help member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__share_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__transfer_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__transfer_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help transfer commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__help__subcmd__update_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__help__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault help update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__list_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member_commands() {
+    local commands; commands=(
+'list:List vault members' \
+'update:Update a vault member'\''s role' \
+'remove:Remove a vault member' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli vault member commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__help_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__help_commands() {
+    local commands; commands=(
+'list:List vault members' \
+'update:Update a vault member'\''s role' \
+'remove:Remove a vault member' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'pass-cli vault member help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__help_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member help help commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__list_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member help list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member help remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__update_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__help__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member help update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__list_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member list commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__remove_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__remove_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member remove commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__member__subcmd__update_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__member__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault member update commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__share_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__share_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault share commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__transfer_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__transfer_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault transfer commands' commands "$@"
+}
+(( $+functions[_pass-cli__subcmd__vault__subcmd__update_commands] )) ||
+_pass-cli__subcmd__vault__subcmd__update_commands() {
+    local commands; commands=()
+    _describe -t commands 'pass-cli vault update commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_pass-cli" ]; then
+    _pass-cli "$@"
+else
+    compdef _pass-cli pass-cli
+fi

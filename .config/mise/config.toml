@@ -4,6 +4,7 @@ experimental_monorepo_root = true
 experimental = true
 idiomatic_version_file_enable_tools = ["ruby"]
 all_compile = false
+minimum_release_age_excludes = ["npm:@earendil-works/pi-coding-agent"]
 
 [env]
 HK_MISE = "1"
