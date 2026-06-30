@@ -1,5 +1,15 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
+#: MUX-SOLO {{{
+#
+# Soloterm-style process status indicators in the tmux window tabs.
+# Marks panes running tracked processes (~/.tmux/mux-solo.conf) so the
+# window tabs show a colored dot + label per pane.
+#
+# See https://github.com/hschne/mux-solo
+source "$HOME/.tmux/plugins/mux-solo/shell/mux-solo.zsh"
+#: }}}
+
 #: ZI {{{
 #
 # Zi is a modern plugin manager for ZSH. 

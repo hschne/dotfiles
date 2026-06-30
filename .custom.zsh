@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 GIT_COMMAND=${GIT_COMMAND:-'git'}
-COPY_COMMAND=${COPY_COMMAND:-'xclip -sel clip'}
+COPY_COMMAND=${COPY_COMMAND:-'wl-copy'}
 
 custom::gbc() {
   [[ -z $1 ]] && { custom::fail "Branch name must not be empty"; return 1; }
@@ -15,7 +15,7 @@ custom::gbc() {
 }
 
 custom::gbnc() {
-  $GIT_COMMAND branch | grep \* | cut -d ' ' -f2 | xclip -sel clip
+  $GIT_COMMAND branch | grep \* | cut -d ' ' -f2 | wl-copy
 }
 
 custom::fail() {

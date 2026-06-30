@@ -6,23 +6,48 @@ function main() {
   command -v codexbar >/dev/null 2>&1 || fallback "codexbar missing"
   command -v jq >/dev/null 2>&1 || fallback "jq missing"
 
-  local output
   local error_file
   error_file="$(mktemp)"
   # shellcheck disable=SC2064
   trap "rm -f '$error_file'" EXIT
 
-  if ! output="$(codexbar usage --provider both --source oauth --format json --json-only 2>"$error_file")"; then
-    if [[ -z "$output" ]]; then
-      fallback "$(tr '\n' ' ' <"$error_file")"
+  # CodexBar reads the OpenRouter key from the environment; waybar does not
+  # load fnox/mise, so resolve it here for the codexbar invocation only.
+  local fnox_bin or_key=""
+  fnox_bin="$(command -v fnox 2>/dev/null || true)"
+  if [[ -z "$fnox_bin" ]] && [[ -x "$HOME/.local/share/mise/shims/fnox" ]]; then
+    fnox_bin="$HOME/.local/share/mise/shims/fnox"
+  fi
+  if [[ -n "$fnox_bin" ]]; then
+    or_key="$("$fnox_bin" get OPENROUTER_API_KEY 2>/dev/null || true)"
+  fi
+  export OPENROUTER_API_KEY="$or_key"
+
+  local both or output
+  both="$(codexbar usage --provider both --source oauth --format json --json-only 2>"$error_file")" || true
+  if [[ -z "$both" ]]; then
+    fallback "$(tr '\n' ' ' <"$error_file")"
+  fi
+
+  # codexbar does not merge multiple --provider flags, so fetch openrouter
+  # separately and concatenate the arrays.
+  output="$both"
+  if [[ -n "$or_key" ]]; then
+    or="$(codexbar usage --provider openrouter --source api --format json --json-only 2>/dev/null)" || true
+    if [[ -n "$or" ]]; then
+      output="$(jq -c -s 'add' <<<"$both $or")"
     fi
   fi
 
-  if [[ -z "$output" ]]; then
-    fallback "empty codexbar output"
-  fi
+  # lobe-icons glyphs (Plane 15, see ~/Source/lobe-icons-font/codepoints.json)
+  local claude_glyph openai_glyph openrouter_glyph
+  claude_glyph="󴀶"
+  openai_glyph="󴃐"
+  openrouter_glyph="󴃖"
 
-  jq -c -f <(jq_filter) <<<"$output"
+  jq -c --arg claude_glyph "$claude_glyph" --arg openai_glyph "$openai_glyph" \
+    --arg openrouter_glyph "$openrouter_glyph" \
+    -f <(jq_filter) <<<"$output"
 }
 
 jq_filter() {
@@ -40,8 +65,9 @@ def title:
   else (.provider // "unknown") end;
 
 def badge:
-  if .provider == "codex" then "C"
-  elif .provider == "claude" then "A"
+  if .provider == "codex" then $openai_glyph
+  elif .provider == "claude" then $claude_glyph
+  elif .provider == "openrouter" then $openrouter_glyph
   else (.provider[0:2] | ascii_upcase) end;
 
 def paint($text; $p):
@@ -50,10 +76,14 @@ def paint($text; $p):
   else $text end;
 
 def short:
-  if .error then paint((.provider[0:1] | ascii_upcase) + "!"; 100)
+  if .error then paint(badge + "-"; 100)
   elif .provider == "codex" or .provider == "claude" then
     (.usage.primary.usedPercent // 0) as $p |
     paint(badge + ($p|tostring) + "%"; $p)
+  elif .provider == "openrouter" then
+    (.usage.openRouterUsage.balance // 0) as $bal |
+    (.usage.openRouterUsage.usedPercent // 0) as $p |
+    paint(badge + "$" + (($bal*100|round/100)|tostring); $p)
   else empty end;
 
 def window($name; $w):

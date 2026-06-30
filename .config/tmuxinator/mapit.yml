@@ -7,7 +7,7 @@ windows:
   - editor:
       panes:
         - vim: nvim
-  - :
+  - π:
       panes:
         - opencode: pi
   - console:

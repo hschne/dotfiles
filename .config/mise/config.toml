@@ -43,6 +43,7 @@ usage = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@tobilu/qmd" = "latest"
 "npm:pnpm" = "latest"
+"npm:cf" = "latest"
 
 # LSP & Lint
 "npm:@herb-tools/formatter" = "latest"
