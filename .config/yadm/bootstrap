@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
-die() {
-  echo "Error: $1" >&2
-  exit "${2:-1}"
+function main() {
+  setup_dirs
+  setup_ssh
+  setup_yadm
+  setup_mise
+  setup_repos
+  setup_pi_agent
+
+  info "Bootstrap complete"
+  cat "$HOME/bootstrap.md"
 }
 
 info() {
@@ -12,54 +20,53 @@ info() {
 
 setup_dirs() {
   info "Creating standard directories"
-  mkdir -p "$HOME/Source"
-  touch "$HOME/.env"
-  mkdir -p "$HOME/.ssh"
+  mkdir -p "$HOME/Documents" "$HOME/Source" "$HOME/.local/bin" "$HOME/.ssh"
   chmod 700 "$HOME/.ssh"
+  touch "$HOME/.env" "$HOME/.ssh/known_hosts"
+  chmod 600 "$HOME/.ssh/known_hosts"
 }
 
 setup_ssh() {
-  if [[ ! -f "$HOME/.ssh/known_hosts" ]]; then
-    ssh-keyscan github.com >>"$HOME/.ssh/known_hosts" 2>/dev/null || true
-    chmod 600 "$HOME/.ssh/known_hosts"
-  fi
+  info "Adding GitHub SSH host key"
+  ssh-keygen -F github.com -f "$HOME/.ssh/known_hosts" >/dev/null || \
+    ssh-keyscan github.com >>"$HOME/.ssh/known_hosts" 2>/dev/null
 }
 
-setup_yadm_remote() {
-  yadm remote set-url origin "git@github.com:hschne/dotfiles.git"
-}
-
-setup_pi_agent() {
-  if git -C "$HOME/.pi/agent" rev-parse --git-dir &>/dev/null; then
-    info "pi agent config already present"
-  else
-    info "Cloning pi agent config"
-    rm -rf "$HOME/.pi/agent"
-    mkdir -p "$HOME/.pi"
-    git clone https://github.com/hschne/pi-stuff.git "$HOME/.pi/agent"
-    git -C "$HOME/.pi/agent" remote set-url origin git@github.com:hschne/pi-stuff.git
-  fi
-
-  local lsp_dir="$HOME/.pi/agent/extensions/lsp"
-  if [[ -f "$lsp_dir/package.json" && ! -d "$lsp_dir/node_modules" ]]; then
-    info "Installing pi agent LSP extension dependencies"
-    npm install --prefix "$lsp_dir"
-  fi
+setup_yadm() {
+  info "Setting yadm remote to SSH"
+  yadm remote set-url origin git@github.com:hschne/dotfiles.git
 }
 
 setup_mise() {
+  info "Installing mise-managed tools"
+  eval "$(mise activate bash)"
   mise install
+  mise reshim
 }
 
-main() {
-  setup_dirs
-  setup_ssh
-  setup_yadm_remote
-  setup_pi_agent
-  setup_mise
-  info "Bootstrap complete"
+setup_repos() {
+  clone_repo nixfiles https://github.com/hschne/nixfiles.git git@github.com:hschne/nixfiles.git
+}
+
+setup_pi_agent() {
+  info "Cloning Pi agent config"
+  rm -rf "$HOME/.pi/agent"
+  mkdir -p "$HOME/.pi"
+  git clone https://github.com/hschne/pi-stuff.git "$HOME/.pi/agent"
+  git -C "$HOME/.pi/agent" remote set-url origin git@github.com:hschne/pi-stuff.git
+}
+
+clone_repo() {
+  local name="$1"
+  local clone_url="$2"
+  local ssh_url="$3"
+  local dir="$HOME/Source/$name"
+
+  info "Cloning $name"
+  git clone "$clone_url" "$dir"
+  git -C "$dir" remote set-url origin "$ssh_url"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  main "$@"
+  main
 fi

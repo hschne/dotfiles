@@ -44,6 +44,7 @@ usage = "latest"
 "npm:@tobilu/qmd" = "latest"
 "npm:pnpm" = "latest"
 "npm:cf" = "latest"
+"npm:agent-browser" = "latest"
 
 # LSP & Lint
 "npm:@herb-tools/formatter" = "latest"
@@ -55,3 +56,4 @@ usage = "latest"
 "npm:svelte-language-server" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
+yt-dlp = { version = "latest", rename_exe = "yt-dlp" }

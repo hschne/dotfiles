@@ -13,6 +13,8 @@ alias rlp="realpath"
 alias vi="nvim"
 alias vim="nvim"
 alias vd="nvdiff"
+alias mup="mise upgrade"
+alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 
 # Worktrees
 alias wt="worktree"
