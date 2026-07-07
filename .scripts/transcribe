@@ -1,0 +1,231 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly API_BASE="https://api.assemblyai.com"
+readonly MODEL="universal-3-pro"
+
+function main() {
+  local input=""
+  local output=""
+  local -a prompt_parts=()
+  local -a keyterms=()
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -o | --output)
+      output="${2:?Error: --output requires a value}"
+      shift 2
+      ;;
+    -p | --prompt)
+      prompt_parts+=("${2:?Error: --prompt requires a value}")
+      shift 2
+      ;;
+    -k | --key-term | --keyterm)
+      keyterms+=("${2:?Error: $1 requires a value}")
+      shift 2
+      ;;
+    -* )
+      die "Unknown option: $1"
+      ;;
+    *)
+      if [[ -z "$input" ]]; then
+        input="$1"
+        shift
+      else
+        die "Unexpected argument: $1"
+      fi
+      ;;
+    esac
+  done
+
+  [[ -n "$input" ]] || die "Input file or URL is required" 2
+  [[ "$input" =~ ^https?:// || -f "$input" ]] || die "File not found: $input"
+  [[ -n "${ASSEMBLYAI_API_KEY:-}" ]] || die "ASSEMBLYAI_API_KEY is not set"
+
+  command -v curl >/dev/null 2>&1 || die "curl is required but not installed"
+  command -v jq >/dev/null 2>&1 || die "jq is required but not installed"
+
+  if [[ -z "$output" ]]; then
+    output="$(default_output_path "$input")"
+  fi
+
+  transcribe "$input" "$output" "$(join_by $'\n' "${prompt_parts[@]}")" keyterms
+}
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS] FILE_OR_URL
+
+Diarize an audio or video file with AssemblyAI Universal-3 Pro.
+
+Options:
+  -o, --output PATH       Write transcript to PATH (default: ./FILE.txt)
+  -p, --prompt TEXT       Context prompt; repeat to append lines
+  -k, --key-term TERM     Key term to boost; repeat for multiple terms
+  -h, --help              Show this help message
+
+Environment:
+  ASSEMBLYAI_API_KEY      Required
+EOF
+}
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+transcribe() {
+  local input="$1"
+  local output="$2"
+  local prompt="$3"
+  local keyterms_name="$4"
+  local -n keyterms_ref="$keyterms_name"
+  local audio_url
+  local transcript_id
+  local response
+  local result
+
+  if [[ "$input" =~ ^https?:// ]]; then
+    audio_url="$input"
+  else
+    echo "Uploading $input" >&2
+    audio_url="$(upload_file "$input")"
+  fi
+
+  response="$(create_transcript "$audio_url" "$prompt" keyterms_ref)"
+  transcript_id="$(jq -r '.id // empty' <<<"$response")"
+  [[ -n "$transcript_id" ]] || die "AssemblyAI did not return a transcript id: $response"
+
+  echo "Transcribing $transcript_id" >&2
+  result="$(poll_transcript "$transcript_id")"
+
+  write_transcript "$result" "$output"
+  echo "Wrote transcript: $output" >&2
+}
+
+upload_file() {
+  local input="$1"
+  local response
+
+  response="$(curl -sS --fail-with-body --retry 3 --retry-delay 2 --retry-all-errors \
+    -H "authorization: $ASSEMBLYAI_API_KEY" \
+    --data-binary "@$input" \
+    "$API_BASE/v2/upload")"
+
+  jq -r '.upload_url // empty' <<<"$response"
+}
+
+create_transcript() {
+  local audio_url="$1"
+  local prompt="$2"
+  local keyterms_name="$3"
+  local -n keyterms_ref="$keyterms_name"
+  local keyterms_json
+  local body
+
+  keyterms_json="$(jq -n '$ARGS.positional' --args "${keyterms_ref[@]}")"
+  body="$(jq -n \
+    --arg audio_url "$audio_url" \
+    --arg prompt "$prompt" \
+    --argjson keyterms "$keyterms_json" '
+      {
+        audio_url: $audio_url,
+        language_detection: true,
+        speaker_labels: true,
+        speech_models: ["universal-3-pro"]
+      }
+      + (if $prompt == "" then {} else {prompt: $prompt} end)
+      + (if ($keyterms | length) == 0 then {} else {keyterms_prompt: $keyterms} end)
+    ')"
+
+  curl -sS --fail-with-body --retry 3 --retry-delay 2 --retry-all-errors \
+    -X POST "$API_BASE/v2/transcript" \
+    -H "authorization: $ASSEMBLYAI_API_KEY" \
+    -H "content-type: application/json" \
+    -d "$body"
+}
+
+poll_transcript() {
+  local transcript_id="$1"
+  local response
+  local status
+
+  while true; do
+    response="$(curl -sS --fail-with-body \
+      -H "authorization: $ASSEMBLYAI_API_KEY" \
+      "$API_BASE/v2/transcript/$transcript_id")"
+    status="$(jq -r '.status' <<<"$response")"
+
+    case "$status" in
+    completed)
+      printf '%s' "$response"
+      return
+      ;;
+    error)
+      die "Transcription failed: $(jq -r '.error // "unknown error"' <<<"$response")"
+      ;;
+    *)
+      sleep 3
+      ;;
+    esac
+  done
+}
+
+write_transcript() {
+  local result="$1"
+  local output="$2"
+
+  mkdir -p "$(dirname "$output")"
+
+  jq -r '
+    def pad2: tostring | if length == 1 then "0" + . else . end;
+    def timestamp($ms):
+      (($ms // 0) / 1000 | floor) as $total
+      | ($total / 3600 | floor) as $hours
+      | (($total % 3600) / 60 | floor) as $minutes
+      | ($total % 60) as $seconds
+      | "\($hours | pad2):\($minutes | pad2):\($seconds | pad2)";
+
+    if ((.utterances // []) | length) > 0 then
+      (.utterances // [])[]
+      | "[\(timestamp(.start)) - \(timestamp(.end))] Speaker \(.speaker): \(.text)"
+    else
+      .text // ""
+    end
+  ' <<<"$result" >"$output"
+}
+
+default_output_path() {
+  local input="$1"
+  local name
+
+  name="$(basename "${input%%\?*}")"
+  [[ -n "$name" && "$name" != "/" ]] || name="transcript"
+
+  printf '%s/%s.txt' "$(pwd)" "${name%.*}"
+}
+
+join_by() {
+  local delimiter="$1"
+  shift || true
+  local first=true
+  local item
+
+  for item in "$@"; do
+    if [[ "$first" == true ]]; then
+      first=false
+    else
+      printf '%s' "$delimiter"
+    fi
+    printf '%s' "$item"
+  done
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
