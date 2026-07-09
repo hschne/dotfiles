@@ -100,6 +100,7 @@ window#waybar.bottom {
 #pulseaudio,
 #backlight,
 #network,
+#bluetooth,
 #battery,
 #tray,
 #custom-power {
@@ -112,6 +113,16 @@ window#waybar.bottom {
 
 #network.disconnected {
   color: #f7768e;
+}
+
+#bluetooth.connected {
+  color: #9ece6a;
+}
+
+#bluetooth.disabled,
+#bluetooth.off,
+#bluetooth.no-controller {
+  color: #6272a4;
 }
 
 #battery.warning {

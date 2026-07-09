@@ -1,7 +1,31 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-central_updates=$(checkupdates 2>/dev/null | wc -l)
-aur_updates=$(yay -Qyu 2>/dev/null | wc -l)
-updates=$((central_updates + aur_updates))
+# Count NixOS packages with available updates.
+#
+# Evaluates the host's environment.systemPackages twice: once against the
+# locked nixpkgs and once against the latest nixos-unstable (via
+# --override-input, so flake.lock is never touched), then counts packages
+# whose version differs. Eval-only: no builds, no closure downloads.
+#
+# Prints a single number, or "?" on failure.
 
-echo "$updates"
+set -euo pipefail
+
+FLAKE="${NIXFILES:-$HOME/Source/nixfiles}"
+HOST="${NIX_HOST:-$(hostname)}"
+REF="github:NixOS/nixpkgs/nixos-unstable"
+ATTR="nixosConfigurations.${HOST}.config.environment.systemPackages"
+APPLY='ps: builtins.listToAttrs (map (p: { name = p.pname or p.name or "?"; value = p.version or "?"; }) ps)'
+
+fail() { echo "?"; exit 0; }
+
+command -v nix >/dev/null 2>&1 || fail
+command -v jq >/dev/null 2>&1 || fail
+[[ -e "$FLAKE/flake.nix" ]] || fail
+
+cur="$(nix eval --json "${FLAKE}#${ATTR}" --apply "$APPLY" 2>/dev/null)" || fail
+new="$(nix eval --json "${FLAKE}#${ATTR}" --override-input nixpkgs "$REF" --apply "$APPLY" 2>/dev/null)" || fail
+[[ -n "$cur" && -n "$new" ]] || fail
+
+jq -n --argjson cur "$cur" --argjson new "$new" \
+  '[ $cur | to_entries[] | select($new[.key] != null and $new[.key] != .value) ] | length'

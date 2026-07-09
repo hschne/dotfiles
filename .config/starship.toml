@@ -39,7 +39,7 @@ symbol = "  "
 disabled = true
 
 [git_branch]
-symbol = " "
+symbol = " "
 format = '\[[$symbol$branch]($style)\]'
 
 [git_commit]

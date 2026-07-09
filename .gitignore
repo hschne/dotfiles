@@ -10,6 +10,18 @@ worktrees/
 
 .cache/
 .local/
+# .local/ is ignored wholesale, but EasyEffects hardcodes its preset dir to
+# ~/.local/share/easyeffects and has no configurable path. So re-include just
+# the input/output preset folders here (the tracked source of truth) by walking
+# the path back in; everything else under .local/ stays ignored.
+!.local/
+.local/*
+!.local/share/
+.local/share/*
+!.local/share/easyeffects/
+.local/share/easyeffects/*
+!.local/share/easyeffects/input/
+!.local/share/easyeffects/output/
 
 # Source trees and project artifacts
 Source/

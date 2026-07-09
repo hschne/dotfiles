@@ -13,6 +13,7 @@
       "pulseaudio",
       "backlight",
       "network",
+      "bluetooth",
       "battery",
       "custom/recording",
       "custom/voxtype",
@@ -72,7 +73,20 @@
         "󰤨 "
       ],
       "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{signalStrength}% signal",
-      "on-click": "alacritty -e impala"
+      "on-click": "kitty -e impala"
+    },
+    "bluetooth": {
+      "format": "󰂯",
+      "format-disabled": "󰂲",
+      "format-off": "󰂲",
+      "format-no-controller": "󰂲",
+      "format-connected": "󰂱 {device_alias}",
+      "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
+      "tooltip-format": "{controller_alias}: {status}",
+      "tooltip-format-connected": "{controller_alias}: {num_connections} connected\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}: {device_battery_percentage}%",
+      "on-click": "kitty -e bluetui"
     },
     "battery": {
       "states": {
@@ -158,7 +172,7 @@
     "custom/updates": {
       "format": "\udb81\udeb0 {}",
       "exec": "~/.scripts/updates 2>/dev/null || echo '?'",
-      "interval": 90,
+      "interval": 3600,
       "tooltip": false
     },
     "custom/codexbar": {

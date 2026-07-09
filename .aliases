@@ -1,20 +1,24 @@
+# Nix
+alias nswitch="sudo nixos-rebuild switch --flake ."
+
 # Programs
 alias cat="bat"
 alias ccat="cat"
 alias clip="wl-copy"
 alias ffind="find"
 alias find="fd"
+alias lg="lazygit"
 alias lls="ls"
 alias ls="eza"
+alias mup="mise upgrade"
 alias mux="tmuxinator"
 alias open="xdg-open"
 alias pass="pass-cli"
+alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 alias rlp="realpath"
+alias vd="nvdiff"
 alias vi="nvim"
 alias vim="nvim"
-alias vd="nvdiff"
-alias mup="mise upgrade"
-alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 
 # Worktrees
 alias wt="worktree"
@@ -25,12 +29,15 @@ alias wtd="worktree destroy"
 # Config Files
 alias aliases="$EDITOR ~/.aliases"
 alias hyprrc="$EDITOR ~/.config/hypr/hyprland.conf"
-alias lfrc="$EDITOR ~/.config/lf/lfrc"
 alias miserc="$EDITOR ~/.config/mise/config.toml"
+alias nixrc="$EDITOR ~/Source/nixfiles/"
 alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
 alias pirc="$EDITOR ~/.pi/agent/settings.json"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias walkerrc="$EDITOR ~/.config/walker/config.toml"
+alias waybarrc="$EDITOR ~/.config/waybar/config.jsonc"
+alias fnoxrc="$EDITOR ~/.config/fnox/config.toml"
+alias yazirc="$EDITOR ~/.config/yazi/yazi.toml"
 alias zshrc="$EDITOR ~/.zshrc"
 
 # Directories
@@ -62,6 +69,9 @@ alias gcl="git clone"
 # Github CLI
 alias ghcl="gh repo clone"
 alias ghpr="gh pr create --editor"
+
+# Fnox
+alias fxf="fnox exec --profile full --"
 
 # Docker
 alias dcu="docker-compose up"
