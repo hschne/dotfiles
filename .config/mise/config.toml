@@ -52,6 +52,10 @@ usage = "latest"
 "npm:@stylelint/language-server" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
 "npm:prettier" = "latest"
+# stimulus-language-server bundles @herb-tools/core, which requires @ruby/prism
+# but does not declare it as a dependency. Install it here and expose it via
+# NODE_PATH in the nvim stimulus_ls cmd so the server can load.
+"npm:@ruby/prism" = "latest"
 "npm:stimulus-language-server" = "latest"
 "npm:svelte-language-server" = "latest"
 "npm:typescript-language-server" = "latest"

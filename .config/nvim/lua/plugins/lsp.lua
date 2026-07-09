@@ -1,8 +1,10 @@
 local formatter = vim.g.lazyvim_ruby_formatter
+local mise = require("util.mise")
 
-local function mise(name)
-  return vim.fn.expand("~/.local/share/mise/shims/" .. name)
-end
+-- stimulus-language-server crashes because @herb-tools/core requires @ruby/prism
+-- without declaring it as a dependency. @ruby/prism is installed as its own mise
+-- npm tool; expose it via NODE_PATH so the server can resolve the module.
+local ruby_prism_node_path = mise.install("npm-ruby-prism", "lib/node_modules")
 
 return {
   {
@@ -13,12 +15,12 @@ return {
         cssls = { settings = { css = { lint = { unknownAtRules = "ignore" } } } },
         herb_ls = {
           mason = false,
-          cmd = { mise("herb-language-server"), "--stdio" },
+          cmd = { mise.shim("herb-language-server"), "--stdio" },
           filetypes = { "html", "eruby" },
         },
         ruby_lsp = {
           mason = false,
-          cmd = { mise("ruby-lsp") },
+          cmd = { mise.shim("ruby-lsp") },
           init_options = {
             formatter = formatter,
             linters = { formatter },
@@ -27,12 +29,12 @@ return {
         rubocop = {
           mason = false,
           enabled = formatter == "rubocop",
-          cmd = { mise("rubocop"), "--lsp" },
+          cmd = { mise.shim("rubocop"), "--lsp" },
         },
         standardrb = {
           mason = false,
           enabled = formatter == "standard",
-          cmd = { mise("standardrb"), "--lsp" },
+          cmd = { mise.shim("standardrb"), "--lsp" },
         },
         jsonls = {
           settings = {
@@ -44,19 +46,19 @@ return {
         },
         svelte = {
           mason = false,
-          cmd = { mise("svelteserver"), "--stdio" },
+          cmd = { mise.shim("svelteserver"), "--stdio" },
         },
         stimulus_ls = {
           mason = false,
-          cmd = { mise("stimulus-language-server"), "--stdio" },
+          cmd = { "env", "NODE_PATH=" .. ruby_prism_node_path, mise.shim("stimulus-language-server"), "--stdio" },
         },
         stylelint_lsp = {
           mason = false,
-          cmd = { mise("stylelint-language-server"), "--stdio" },
+          cmd = { mise.shim("stylelint-language-server"), "--stdio" },
         },
         yamlls = {
           mason = false,
-          cmd = { mise("yaml-language-server"), "--stdio" },
+          cmd = { mise.shim("yaml-language-server"), "--stdio" },
           settings = {
             yaml = {
               schemaStore = {

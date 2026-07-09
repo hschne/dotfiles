@@ -1,3 +1,5 @@
+local mise = require("util.mise")
+
 return {
   "stevearc/conform.nvim",
   opts = {
@@ -15,7 +17,7 @@ return {
     },
     formatters = {
       herb_format = {
-        command = vim.fn.expand("~/.local/share/mise/shims/herb-format"),
+        command = mise.shim("herb-format"),
         stdin = true,
       },
     },
