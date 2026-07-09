@@ -9,7 +9,7 @@ Action = "tmuxinator start '%VALUE%'"
 function GetEntries()
 	local entries = {}
 
-	local handle = io.popen("/home/hschne/.local/share/mise/installs/ruby/4.0.0/bin/tmuxinator list")
+	local handle = io.popen("/home/hschne/.local/share/mise/installs/ruby/latest/bin/tmuxinator list")
 	local output = handle:read("*a")
 	handle:close()
 

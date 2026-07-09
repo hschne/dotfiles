@@ -28,7 +28,7 @@ alias wtd="worktree destroy"
 
 # Config Files
 alias aliases="$EDITOR ~/.aliases"
-alias hyprrc="$EDITOR ~/.config/hypr/hyprland.conf"
+alias hyprrc="$EDITOR ~/.config/hypr/hyprland.lua"
 alias miserc="$EDITOR ~/.config/mise/config.toml"
 alias nixrc="$EDITOR ~/Source/nixfiles/"
 alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
