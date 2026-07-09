@@ -127,12 +127,11 @@
       "format": "{icon}",
       "format-icons": {
         "idle": "󰍬",
-        "recording": "󰍫",
+        "recording": "󰍬",
         "transcribing": "󰔟",
         "stopped": "󰍭"
       },
-      "tooltip": true,
-      "on-click": "systemctl --user restart voxtype"
+      "tooltip": true
     },
     "tray": {
       "spacing": 10

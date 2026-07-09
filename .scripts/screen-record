@@ -67,12 +67,11 @@ start_recording() {
   file="$SAVE_DIR/$(date +'%Y-%m-%d_%H-%M-%S').mp4"
 
   if [[ "$SILENT" == false ]]; then
-    local mic_src desc
-    mic_src=$(pactl info | awk -F': ' '/Default Source/ {print $2}')
-    desc=$(pactl list sources | awk -v s="$mic_src" '$2==s {getline; sub(/^\s*Description: /, ""); print; exit}')
+    local desc
+    desc=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ 2>/dev/null | awk -F' = ' '/node.description/ {gsub(/"/, "", $2); print $2; exit}')
 
-    notify-send "Recording… (source: $desc)" --expire-time=1000
-    wl-screenrec -g "$region" --audio --audio-device "$mic_src" -f "$file" &
+    notify-send "Recording… (source: ${desc:-default})" --expire-time=1000
+    wl-screenrec -g "$region" --audio -f "$file" &
   else
     notify-send "Recording… (silent mode)" --expire-time=1000
     wl-screenrec -g "$region" -f "$file" &
