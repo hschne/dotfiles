@@ -10,6 +10,12 @@ worktrees/
 
 .cache/
 .local/
+# but keep easyeffects presets
+!.local/
+.local/*
+!.local/share/
+.local/share/*
+!.local/share/easyeffects/
 
 # Source trees and project artifacts
 Source/
