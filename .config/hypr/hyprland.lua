@@ -52,8 +52,8 @@ end)
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
 
+hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "24")
-hl.env("HYPRCURSOR_SIZE", "24")
 
 -- Force all apps to use Wayland
 hl.env("GDK_BACKEND", "wayland,x11,*")
@@ -134,6 +134,10 @@ hl.config({
         disable_hyprland_logo   = true,
         key_press_enables_dpms  = true,
         mouse_move_enables_dpms = true,
+    },
+
+    cursor = {
+        enable_hyprcursor = false,
     },
 })
 
