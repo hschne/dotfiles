@@ -1,0 +1,205 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+main() {
+  if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    usage
+    return
+  fi
+
+  if ! command -v nvim >/dev/null 2>&1; then
+    die "nvim is not installed"
+  fi
+
+  local root
+  root=$(repo_root)
+
+  local base_ref
+  base_ref=$(base_ref_for_current_branch "$root")
+
+  if ! has_changes_against "$root" "$base_ref"; then
+    echo "No changes to diff against $base_ref"
+    return
+  fi
+
+  local -a intent_to_add_paths=()
+  while IFS= read -r -d '' path; do
+    intent_to_add_paths+=("$path")
+  done < <(git -C "$root" ls-files --others --exclude-standard -z)
+
+  if ((${#intent_to_add_paths[@]} > 0)); then
+    git -C "$root" add --intent-to-add -- "${intent_to_add_paths[@]}"
+  fi
+
+  local status=0
+  (cd "$root" && nvim \
+    -c 'lua pcall(function() require("lazy").load({ plugins = { "diffview.nvim" } }) end)' \
+    -c "DiffviewOpen --imply-local $base_ref...HEAD") || status=$?
+
+  cleanup_intent_to_add "$root" "${intent_to_add_paths[@]}"
+  return "$status"
+}
+
+usage() {
+  cat <<EOF
+Usage: nvdiff
+
+Open Diffview.nvim against the main baseline:
+  - on a branch: compare local files plus branch commits against main
+  - on main: compare local files plus unpushed commits against upstream main
+
+Includes unstaged, staged, committed, and untracked changes.
+
+EOF
+}
+
+base_ref_for_current_branch() {
+  local root="$1"
+  local branch
+  branch=$(current_branch "$root")
+
+  if [[ "$branch" == "$(main_branch_name "$root")" ]]; then
+    upstream_ref "$root" || remote_main_ref "$root" || echo "HEAD"
+    return
+  fi
+
+  main_ref "$root"
+}
+
+has_changes_against() {
+  local root="$1"
+  local base_ref="$2"
+  local merge_base
+
+  merge_base=$(git -C "$root" merge-base "$base_ref" HEAD 2>/dev/null) || return 0
+
+  # Committed changes (including newly created or deleted files)
+  if ! git -C "$root" diff --quiet "$merge_base" HEAD; then
+    return 0
+  fi
+
+  # Staged changes
+  if ! git -C "$root" diff --quiet --cached; then
+    return 0
+  fi
+
+  # Unstaged changes
+  if ! git -C "$root" diff --quiet; then
+    return 0
+  fi
+
+  # Untracked files
+  [[ -n "$(git -C "$root" ls-files --others --exclude-standard)" ]]
+}
+
+cleanup_intent_to_add() {
+  local root="$1"
+  shift
+
+  local -a paths_to_reset=()
+  local path
+  for path in "$@"; do
+    if is_intent_to_add "$root" "$path"; then
+      paths_to_reset+=("$path")
+    fi
+  done
+
+  if ((${#paths_to_reset[@]} > 0)); then
+    git -C "$root" reset -q -- "${paths_to_reset[@]}" || true
+  fi
+}
+
+is_intent_to_add() {
+  local root="$1"
+  local path="$2"
+  local debug
+
+  debug=$(git -C "$root" ls-files --debug -- "$path" 2>/dev/null) || return 1
+  [[ "$debug" == *"flags: 2000"* ]]
+}
+
+current_branch() {
+  local root="$1"
+  git -C "$root" symbolic-ref --quiet --short HEAD 2>/dev/null || echo "HEAD"
+}
+
+repo_root() {
+  git rev-parse --show-toplevel 2>/dev/null || die "not inside a git repository"
+}
+
+upstream_ref() {
+  local root="$1"
+  git -C "$root" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null
+}
+
+main_branch_name() {
+  local root="$1"
+  local branch
+  branch=$(git -C "$root" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@') || true
+
+  if [[ -n "$branch" ]]; then
+    echo "$branch"
+    return
+  fi
+
+  if git -C "$root" show-ref --verify --quiet refs/heads/main || \
+    git -C "$root" show-ref --verify --quiet refs/remotes/origin/main; then
+    echo "main"
+    return
+  fi
+
+  echo "master"
+}
+
+main_ref() {
+  local root="$1"
+
+  remote_main_ref "$root" && return
+
+  if git -C "$root" show-ref --verify --quiet refs/heads/main; then
+    echo "main"
+    return
+  fi
+
+  if git -C "$root" show-ref --verify --quiet refs/heads/master; then
+    echo "master"
+    return
+  fi
+
+  echo "main"
+}
+
+remote_main_ref() {
+  local root="$1"
+  local branch
+  branch=$(git -C "$root" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@') || true
+
+  if [[ -n "$branch" ]] && git -C "$root" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    echo "origin/$branch"
+    return
+  fi
+
+  if git -C "$root" show-ref --verify --quiet refs/remotes/origin/main; then
+    echo "origin/main"
+    return
+  fi
+
+  if git -C "$root" show-ref --verify --quiet refs/remotes/origin/master; then
+    echo "origin/master"
+    return
+  fi
+
+  return 1
+}
+
+die() {
+  local message="$1"
+  local code="${2:-1}"
+  echo "Error: $message" >&2
+  exit "$code"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
