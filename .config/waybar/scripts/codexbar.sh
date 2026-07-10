@@ -4,9 +4,10 @@ set -euo pipefail
 
 readonly AUTH_FILE="$HOME/.pi/agent/auth.json"
 readonly CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-codexbar"
-readonly CACHE_TTL_SECONDS=60
+readonly CACHE_TTL_SECONDS="${CODEXBAR_CACHE_TTL_SECONDS:-60}"
+readonly CLAUDE_CACHE_TTL_SECONDS="${CODEXBAR_CLAUDE_CACHE_TTL_SECONDS:-3600}"
 readonly REFRESH_SKEW_SECONDS=300
-readonly CLAUDE_RATE_LIMIT_SECONDS=300
+readonly CLAUDE_RATE_LIMIT_SECONDS="${CODEXBAR_CLAUDE_RATE_LIMIT_SECONDS:-3600}"
 readonly OPENAI_CLIENT_ID="app_EMoamEEZ73f0CkXaXp7hrann"
 readonly CLAUDE_CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 
@@ -52,7 +53,7 @@ provider_result() {
   local error_file result warning
   error_file="$(mktemp)"
 
-  if cache_is_fresh "$cache_file"; then
+  if cache_is_fresh "$cache_file" "$provider"; then
     cat "$cache_file"
     rm -f "$error_file"
     return 0
@@ -80,12 +81,22 @@ provider_result() {
 
 cache_is_fresh() {
   local file="$1"
+  local provider="${2:-}"
   [[ -s "$file" ]] || return 1
 
-  local now mtime
+  local now mtime ttl
   now="$(date +%s)"
   mtime="$(stat_mtime "$file")"
-  ((now - mtime < CACHE_TTL_SECONDS))
+  ttl="$(provider_cache_ttl_seconds "$provider")"
+  ((now - mtime < ttl))
+}
+
+provider_cache_ttl_seconds() {
+  local provider="$1"
+  case "$provider" in
+  claude) printf '%s\n' "$CLAUDE_CACHE_TTL_SECONDS" ;;
+  *) printf '%s\n' "$CACHE_TTL_SECONDS" ;;
+  esac
 }
 
 stat_mtime() {
