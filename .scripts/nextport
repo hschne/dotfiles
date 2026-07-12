@@ -50,7 +50,7 @@ die() {
 
 is_port_available() {
   local port=$1
-  ! lsof -i ":$port" >/dev/null 2>&1
+  ! ss -ltn "sport = :${port}" | grep -q LISTEN
 }
 
 find_next_port() {

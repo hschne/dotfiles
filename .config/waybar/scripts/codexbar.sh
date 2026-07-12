@@ -7,7 +7,7 @@ readonly CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-codexbar"
 readonly CACHE_TTL_SECONDS="${CODEXBAR_CACHE_TTL_SECONDS:-60}"
 readonly CLAUDE_CACHE_TTL_SECONDS="${CODEXBAR_CLAUDE_CACHE_TTL_SECONDS:-3600}"
 readonly REFRESH_SKEW_SECONDS=300
-readonly CLAUDE_RATE_LIMIT_SECONDS="${CODEXBAR_CLAUDE_RATE_LIMIT_SECONDS:-3600}"
+readonly CLAUDE_RATE_LIMIT_SECONDS="${CODEXBAR_CLAUDE_RATE_LIMIT_SECONDS:-300}"
 readonly OPENAI_CLIENT_ID="app_EMoamEEZ73f0CkXaXp7hrann"
 readonly CLAUDE_CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 
@@ -50,7 +50,7 @@ provider_result() {
   local provider="$1"
   local fetch_fn="$2"
   local cache_file="$CACHE_DIR/$provider.json"
-  local error_file result warning
+  local error_file result warning fetch_status
   error_file="$(mktemp)"
 
   if cache_is_fresh "$cache_file" "$provider"; then
@@ -59,10 +59,20 @@ provider_result() {
     return 0
   fi
 
-  if result="$($fetch_fn 2>"$error_file")" && jq -e . >/dev/null 2>&1 <<<"$result"; then
+  result="$($fetch_fn 2>"$error_file")" && fetch_status=0 || fetch_status=$?
+  if ((fetch_status == 0)) && jq -e . >/dev/null 2>&1 <<<"$result"; then
     printf '%s\n' "$result" >"$cache_file"
     rm -f "$error_file"
     printf '%s\n' "$result"
+    return 0
+  fi
+
+  # Silent backoff (exit 2): a rate-limit block is expected and transient, so
+  # serve the last-known-good cache with no warning and without refreshing its
+  # mtime, letting automatic retries resume once the block expires.
+  if ((fetch_status == 2)) && [[ -s "$cache_file" ]]; then
+    rm -f "$error_file"
+    cat "$cache_file"
     return 0
   fi
 
@@ -249,13 +259,20 @@ refresh_codex_token() {
   rm -f "$body"
 }
 
+claude_empty_usage() {
+  printf '%s\n' '{"provider":"claude","usage":{"primary":null,"secondary":null,"extraRateWindows":[]}}'
+}
+
 fetch_claude_usage() {
   local blocked_until now
   blocked_until="$(cat "$CACHE_DIR/claude.blocked_until" 2>/dev/null || true)"
   now="$(date +%s)"
   if [[ "$blocked_until" =~ ^[0-9]+$ ]] && ((blocked_until > now)); then
-    echo "Claude OAuth usage endpoint rate limited until $(date_from_epoch "$blocked_until")" >&2
-    return 1
+    if [[ -s "$CACHE_DIR/claude.json" ]]; then
+      return 2
+    fi
+    claude_empty_usage
+    return 0
   fi
 
   local access
@@ -299,8 +316,11 @@ fetch_claude_usage() {
     [[ -n "$until" ]] || until="$((now + CLAUDE_RATE_LIMIT_SECONDS))"
     printf '%s\n' "$until" >"$CACHE_DIR/claude.blocked_until"
     rm -f "$headers" "$body"
-    echo "Claude OAuth usage endpoint rate limited until $(date_from_epoch "$until")" >&2
-    return 1
+    if [[ -s "$CACHE_DIR/claude.json" ]]; then
+      return 2
+    fi
+    claude_empty_usage
+    return 0
   fi
 
   if [[ ! "$status" =~ ^2 ]]; then
@@ -580,17 +600,25 @@ JQ
 
 jq_filter() {
   cat <<'JQ'
-def pct:
-  if .provider == "openrouter" then (.usage.openRouterUsage.usedPercent // 0)
-  else [(.usage.primary.usedPercent // 0), (.usage.secondary.usedPercent // 0)] | max end;
-
-def n:
-  if type == "number" then (.*100|round/100|tostring) else "?" end;
-
 def reset_epoch:
   if type == "number" then .
   elif type == "string" then (gsub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z") | try fromdateiso8601 catch null)
   else null end;
+
+# Usage percent for a window, or null when the window is missing or has already
+# passed its reset (a stale cached value would otherwise be shown as live).
+def win_pct($w):
+  if $w == null or $w.usedPercent == null then null
+  else (($w.resetsAt // null) | reset_epoch) as $reset |
+    if $reset != null and $reset <= now then null else $w.usedPercent end
+  end;
+
+def pct:
+  if .provider == "openrouter" then (.usage.openRouterUsage.usedPercent // 0)
+  else [(win_pct(.usage.primary) // 0), (win_pct(.usage.secondary) // 0)] | max end;
+
+def n:
+  if type == "number" then (.*100|round/100|tostring) else "?" end;
 
 def duration:
   . as $seconds |
@@ -626,9 +654,9 @@ def paint($text; $p):
 def short:
   if .error then paint(badge + "-"; 100)
   elif .provider == "codex" or .provider == "claude" then
-    (.usage.primary.usedPercent // 0) as $primary |
-    (.usage.secondary.usedPercent // 0) as $weekly |
-    ([$primary, $weekly] | max) as $p |
+    win_pct(.usage.primary) as $primary |
+    win_pct(.usage.secondary) as $weekly |
+    ([($primary // 0), ($weekly // 0)] | max) as $p |
     paint(badge + "" + ($primary|n) + "%|" + ($weekly|n) + "%"; $p)
   elif .provider == "openrouter" then
     (.usage.openRouterUsage.balance // 0) as $bal |
@@ -638,7 +666,7 @@ def short:
 
 def window($name; $w):
   if $w == null or $w.usedPercent == null then empty else
-    $name + ": " + (($w.usedPercent // 0)|tostring) + "%"
+    $name + ": " + (win_pct($w)|n) + "%"
     + (if $w.resetsAt then " · resets " + reset_text($w.resetsAt)
        elif $w.resetDescription then " · resets " + $w.resetDescription else "" end)
   end;
@@ -647,7 +675,7 @@ def extra_windows:
   [(.usage.extraRateWindows // [])[] |
     select((.window.usedPercent // 0) > 0 or .window.resetDescription or .window.resetsAt) |
     (.title // .id // "Extra") + ": "
-    + ((.window.usedPercent // 0)|tostring) + "%"
+    + (win_pct(.window)|n) + "%"
     + (if .window.resetsAt then " · resets " + reset_text(.window.resetsAt)
        elif .window.resetDescription then " · resets " + .window.resetDescription else "" end)][];
 

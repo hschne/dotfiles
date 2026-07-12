@@ -86,7 +86,9 @@ ghdpbm() {
 }
 
 ghrw() {
-  noti gh run watch "$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
+  gh run watch "$(gh run list --workflow=deploy.yml --limit 1 --json databaseId --jq '.[0].databaseId')" &&
+    notify-send "Deploy done" "Workflow completed successfully" ||
+    notify-send "Deploy failed" "Workflow failed"
 }
 
 function _increment_micro() {
