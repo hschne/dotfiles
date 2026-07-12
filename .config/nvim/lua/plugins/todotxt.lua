@@ -2,7 +2,10 @@ return {
   {
     "hschne/todox.nvim",
     lazy = false,
-    dependencies = { "nvim-treesitter/nvim-treesitter", "ibhagwan/fzf-lua" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      { "folke/snacks.nvim", opts = { picker = { enabled = true } } },
+    },
     config = function()
       require("todox").setup({
         todo_files = {
