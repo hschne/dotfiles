@@ -1,5 +1,5 @@
 # Nix
-alias nswitch="sudo nixos-rebuild switch --flake ."
+alias nsw="cd ~/Sourcenixfiles && sudo nixos-rebuild switch --flake ."
 
 # Programs
 alias cat="bat"
@@ -15,6 +15,7 @@ alias mux="tmuxinator"
 alias open="xdg-open"
 alias pass="pass-cli"
 alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
+alias pic="pi -c"
 alias rlp="realpath"
 alias vd="nvdiff"
 alias vi="nvim"
@@ -43,10 +44,6 @@ alias zshrc="$EDITOR ~/.zshrc"
 # Directories
 alias dl="cd ~/Downloads"
 alias src="cd ~/Source"
-alias docs="cd ~/Documents"
-alias pic="cd ~/Pictures"
-alias wiki="cd ~/Documents/Wiki"
-alias piagent="cd ~/.pi/agent"
 
 # Notes
 alias todo="$EDITOR ~/Documents/Wiki/todo.txt"

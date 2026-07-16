@@ -4,6 +4,7 @@ return {
     opts = {
       servers = {
         lua_ls = { mason = false },
+        marksman = { mason = false },
         svelte = { mason = false },
         stimulus_ls = { mason = false },
         stylelint_lsp = { mason = false, cmd = { "stylelint-language-server", "--stdio" } },

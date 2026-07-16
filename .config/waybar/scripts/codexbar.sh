@@ -653,7 +653,10 @@ def paint($text; $p):
 
 def short:
   if .error then paint(badge + "-"; 100)
-  elif .provider == "codex" or .provider == "claude" then
+  elif .provider == "codex" then
+    win_pct(.usage.primary) as $primary |
+    paint(badge + "" + ($primary|n) + "%"; ($primary // 0))
+  elif .provider == "claude" then
     win_pct(.usage.primary) as $primary |
     win_pct(.usage.secondary) as $weekly |
     ([($primary // 0), ($weekly // 0)] | max) as $p |
