@@ -1,5 +1,5 @@
 # Nix
-alias nsw="cd ~/Sourcenixfiles && sudo nixos-rebuild switch --flake ."
+alias nsw="cd ~/Source/nixfiles && sudo nixos-rebuild switch --flake ."
 
 # Programs
 alias cat="bat"

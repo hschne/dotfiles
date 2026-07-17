@@ -288,9 +288,9 @@ hl.bind(
 )
 
 -- Voice recording (push-to-talk: hold to record, release to transcribe)
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("voxtype record start"), { description = "Voxtype start recording" })
+hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("voxtype record start"), { description = "Voxtype start recording" })
 hl.bind(
-	mainMod .. " + V",
+	mainMod .. " + Z",
 	hl.dsp.exec_cmd("voxtype record stop"),
 	{ release = true, description = "Voxtype stop recording" }
 )

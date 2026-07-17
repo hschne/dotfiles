@@ -5,7 +5,10 @@ set -euo pipefail
 readonly AUTH_FILE="$HOME/.pi/agent/auth.json"
 readonly CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-codexbar"
 readonly CACHE_TTL_SECONDS="${CODEXBAR_CACHE_TTL_SECONDS:-60}"
-readonly CLAUDE_CACHE_TTL_SECONDS="${CODEXBAR_CLAUDE_CACHE_TTL_SECONDS:-3600}"
+# CodexBar polls every two minutes after recent interaction. Waybar is always
+# visible, so use the same cadence instead of allowing Claude data to age for
+# an hour.
+readonly CLAUDE_CACHE_TTL_SECONDS="${CODEXBAR_CLAUDE_CACHE_TTL_SECONDS:-120}"
 readonly REFRESH_SKEW_SECONDS=300
 readonly CLAUDE_RATE_LIMIT_SECONDS="${CODEXBAR_CLAUDE_RATE_LIMIT_SECONDS:-300}"
 readonly OPENAI_CLIENT_ID="app_EMoamEEZ73f0CkXaXp7hrann"
@@ -61,18 +64,12 @@ provider_result() {
 
   result="$($fetch_fn 2>"$error_file")" && fetch_status=0 || fetch_status=$?
   if ((fetch_status == 0)) && jq -e . >/dev/null 2>&1 <<<"$result"; then
-    printf '%s\n' "$result" >"$cache_file"
+    local cache_tmp
+    cache_tmp="$(mktemp "$CACHE_DIR/$provider.XXXXXX")"
+    printf '%s\n' "$result" >"$cache_tmp"
+    mv "$cache_tmp" "$cache_file"
     rm -f "$error_file"
     printf '%s\n' "$result"
-    return 0
-  fi
-
-  # Silent backoff (exit 2): a rate-limit block is expected and transient, so
-  # serve the last-known-good cache with no warning and without refreshing its
-  # mtime, letting automatic retries resume once the block expires.
-  if ((fetch_status == 2)) && [[ -s "$cache_file" ]]; then
-    rm -f "$error_file"
-    cat "$cache_file"
     return 0
   fi
 
@@ -94,11 +91,12 @@ cache_is_fresh() {
   local provider="${2:-}"
   [[ -s "$file" ]] || return 1
 
-  local now mtime ttl
+  local now mtime ttl age
   now="$(date +%s)"
   mtime="$(stat_mtime "$file")"
   ttl="$(provider_cache_ttl_seconds "$provider")"
-  ((now - mtime < ttl))
+  age="$((now - mtime))"
+  ((age >= 0 && age < ttl))
 }
 
 provider_cache_ttl_seconds() {
@@ -289,6 +287,7 @@ fetch_claude_usage() {
   now="$(date +%s)"
   if [[ "$blocked_until" =~ ^[0-9]+$ ]] && ((blocked_until > now)); then
     if [[ -s "$CACHE_DIR/claude.json" ]]; then
+      echo "Claude API rate limited until $(date_from_epoch "$blocked_until")" >&2
       return 2
     fi
     claude_empty_usage
@@ -333,6 +332,7 @@ fetch_claude_usage() {
     printf '%s\n' "$until" >"$CACHE_DIR/claude.blocked_until"
     rm -f "$headers" "$body"
     if [[ -s "$CACHE_DIR/claude.json" ]]; then
+      echo "Claude API rate limited until $(date_from_epoch "$until")" >&2
       return 2
     fi
     claude_empty_usage
