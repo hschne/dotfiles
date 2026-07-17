@@ -114,6 +114,23 @@ stat_mtime() {
   stat -c %Y "$file" 2>/dev/null || stat -f %m "$file"
 }
 
+# Pi stores token expiries in milliseconds; this script compares against
+# `date +%s` (seconds). Normalize any millisecond epoch back to seconds so the
+# proactive refresh window actually fires instead of treating tokens as valid
+# forever.
+normalize_epoch_seconds() {
+  local value="$1"
+  [[ "$value" =~ ^[0-9]+$ ]] || {
+    printf '0\n'
+    return
+  }
+  if ((value > 100000000000)); then
+    printf '%s\n' "$((value / 1000))"
+  else
+    printf '%s\n' "$value"
+  fi
+}
+
 http_get() {
   local url="$1"
   local headers="$2"
@@ -193,6 +210,7 @@ codex_credentials() {
   local raw access refresh expires account_id now
   raw="$(jq -r '[."openai-codex".access // "", ."openai-codex".refresh // "", (."openai-codex".expires // 0 | tostring), ."openai-codex".accountId // ""] | @tsv' "$AUTH_FILE")"
   IFS=$'\t' read -r access refresh expires account_id <<<"$raw"
+  expires="$(normalize_epoch_seconds "$expires")"
   now="$(date +%s)"
 
   [[ -n "$access" ]] || die "missing openai-codex access token"
@@ -249,6 +267,8 @@ refresh_codex_token() {
     return 1
   }
   [[ -n "$expires" ]] || expires="$(($(date +%s) + 86400))"
+  # Store in milliseconds to match how Pi persists expiries in auth.json.
+  expires="$((expires * 1000))"
 
   # shellcheck disable=SC2016
   update_auth_token \
@@ -275,29 +295,16 @@ fetch_claude_usage() {
     return 0
   fi
 
-  local access
+  local access headers body status refreshed=0
   access="$(claude_access_token)"
-
-  local headers body status
   headers="$(mktemp)"
   body="$(mktemp)"
-  status="$(http_get https://api.anthropic.com/api/oauth/usage "$headers" "$body" 30 \
-    -H "Authorization: Bearer $access" \
-    -H "Accept: application/json" \
-    -H "Content-Type: application/json" \
-    -H "anthropic-beta: oauth-2025-04-20" \
-    -H "User-Agent: claude-code/2.1.0")" || {
-    rm -f "$headers" "$body"
-    echo "Claude OAuth network error" >&2
-    return 1
-  }
 
-  if [[ "$status" == "401" ]]; then
-    rm -f "$headers" "$body"
-    refresh_claude_token >/dev/null || return 1
-    access="$(claude_access_token false)"
-    headers="$(mktemp)"
-    body="$(mktemp)"
+  # The usage endpoint answers an expired/invalid OAuth token with either 401 or
+  # 429 (rate_limit_error), so refresh the token and retry once before treating
+  # a 429 as a genuine rate-limit backoff. Without this, an expired token wedges
+  # the module: stale token -> 429 -> hour-long backoff -> same stale token.
+  while :; do
     status="$(http_get https://api.anthropic.com/api/oauth/usage "$headers" "$body" 30 \
       -H "Authorization: Bearer $access" \
       -H "Accept: application/json" \
@@ -305,10 +312,19 @@ fetch_claude_usage() {
       -H "anthropic-beta: oauth-2025-04-20" \
       -H "User-Agent: claude-code/2.1.0")" || {
       rm -f "$headers" "$body"
-      echo "Claude OAuth network error after refresh" >&2
+      echo "Claude OAuth network error" >&2
       return 1
     }
-  fi
+
+    if [[ "$status" == "401" || "$status" == "429" ]] && ((refreshed == 0)); then
+      refreshed=1
+      if refresh_claude_token >/dev/null 2>&1; then
+        access="$(claude_access_token false)"
+        continue
+      fi
+    fi
+    break
+  done
 
   if [[ "$status" == "429" ]]; then
     local until
@@ -343,6 +359,7 @@ claude_access_token() {
   local raw access refresh expires now
   raw="$(jq -r '[.anthropic.access // "", .anthropic.refresh // "", (.anthropic.expires // 0 | tostring)] | @tsv' "$AUTH_FILE")"
   IFS=$'\t' read -r access refresh expires <<<"$raw"
+  expires="$(normalize_epoch_seconds "$expires")"
   now="$(date +%s)"
 
   [[ -n "$access" ]] || die "missing anthropic access token"
@@ -398,7 +415,8 @@ refresh_claude_token() {
   }
   [[ "$expires_in" =~ ^[0-9]+$ ]] || expires_in=3600
   ((expires_in > 0)) || expires_in=3600
-  expires="$(($(date +%s) + expires_in))"
+  # Store in milliseconds to match how Pi persists expiries in auth.json.
+  expires="$((($(date +%s) + expires_in) * 1000))"
 
   # shellcheck disable=SC2016
   update_auth_token \
