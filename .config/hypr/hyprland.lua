@@ -268,8 +268,12 @@ hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprctl reload"), { descript
 hl.bind(mainMod .. " + SHIFT + O", hl.dsp.exec_cmd("hyprlock"), { description = "Lock screen" })
 
 -- Screenshot (with satty for annotation)
-hl.bind("Print", hl.dsp.exec_cmd([[grim -g "$(slurp)" - | satty -f - --copy-command wl-copy]]), { description = "Screenshot region" })
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grim - | satty -f - --copy-command wl-copy"), { description = "Screenshot full" })
+hl.bind(
+	mainMod .. " + Print",
+	hl.dsp.exec_cmd([[grim -g "$(slurp)" - | satty -f - --copy-command wl-copy]]),
+	{ description = "Screenshot region" }
+)
+hl.bind("Print", hl.dsp.exec_cmd("grim - | satty -f - --copy-command wl-copy"), { description = "Screenshot full" })
 hl.bind(
 	mainMod .. " + SHIFT + Print",
 	hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy]]),
