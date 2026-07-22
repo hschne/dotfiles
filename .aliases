@@ -16,6 +16,7 @@ alias open="xdg-open"
 alias pass="pass-cli"
 alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 alias pic="pi -c"
+alias pi='fnox exec --profile agents --no-defaults --if-missing warn -- pi'
 alias rlp="realpath"
 alias vd="nvdiff"
 alias vi="nvim"

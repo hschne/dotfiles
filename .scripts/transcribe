@@ -3,7 +3,9 @@
 set -euo pipefail
 
 readonly API_BASE="https://api.assemblyai.com"
-readonly MODEL="universal-3-pro"
+readonly MODEL="universal-3-5-pro"
+
+temporary_audio=""
 
 function main() {
   local input=""
@@ -54,6 +56,12 @@ function main() {
     output="$(default_output_path "$input")"
   fi
 
+  if [[ ! "$input" =~ ^https?:// ]]; then
+    temporary_audio="$(extract_mono_audio "$input")"
+    trap cleanup EXIT
+    input="$temporary_audio"
+  fi
+
   transcribe "$input" "$output" "$(join_by $'\n' "${prompt_parts[@]}")" keyterms
 }
 
@@ -61,7 +69,7 @@ usage() {
   cat <<EOF
 Usage: $(basename "$0") [OPTIONS] FILE_OR_URL
 
-Diarize an audio or video file with AssemblyAI Universal-3 Pro.
+Extract mono audio and diarize it with AssemblyAI Universal-3.5 Pro.
 
 Options:
   -o, --output PATH       Write transcript to PATH (default: ./FILE.txt)
@@ -79,12 +87,36 @@ die() {
   exit "${2:-1}"
 }
 
+cleanup() {
+  [[ -z "$temporary_audio" ]] || rm -f "$temporary_audio"
+}
+
+extract_mono_audio() {
+  local input="$1"
+  local output
+
+  output="$(mktemp --suffix=.ogg transcribe.XXXXXX)"
+  echo "Extracting mono audio from $input" >&2
+
+  if command -v ffmpeg >/dev/null 2>&1; then
+    ffmpeg -y -hide_banner -loglevel error -i "$input" \
+      -map 0:a:0 -vn -ac 1 -ar 16000 -c:a libopus -b:a 32k "$output"
+  elif command -v nix >/dev/null 2>&1; then
+    nix shell nixpkgs#ffmpeg -c ffmpeg -y -hide_banner -loglevel error -i "$input" \
+      -map 0:a:0 -vn -ac 1 -ar 16000 -c:a libopus -b:a 32k "$output"
+  else
+    rm -f "$output"
+    die "ffmpeg or nix is required to extract mono audio"
+  fi
+
+  printf '%s' "$output"
+}
+
 transcribe() {
   local input="$1"
   local output="$2"
   local prompt="$3"
   local keyterms_name="$4"
-  local -n keyterms_ref="$keyterms_name"
   local audio_url
   local transcript_id
   local response
@@ -97,7 +129,7 @@ transcribe() {
     audio_url="$(upload_file "$input")"
   fi
 
-  response="$(create_transcript "$audio_url" "$prompt" keyterms_ref)"
+  response="$(create_transcript "$audio_url" "$prompt" "$keyterms_name")"
   transcript_id="$(jq -r '.id // empty' <<<"$response")"
   [[ -n "$transcript_id" ]] || die "AssemblyAI did not return a transcript id: $response"
 
@@ -131,23 +163,31 @@ create_transcript() {
   keyterms_json="$(jq -n '$ARGS.positional' --args "${keyterms_ref[@]}")"
   body="$(jq -n \
     --arg audio_url "$audio_url" \
+    --arg model "$MODEL" \
     --arg prompt "$prompt" \
     --argjson keyterms "$keyterms_json" '
       {
         audio_url: $audio_url,
         language_detection: true,
         speaker_labels: true,
-        speech_models: ["universal-3-pro"]
+        speech_models: [$model, "universal-2"]
       }
       + (if $prompt == "" then {} else {prompt: $prompt} end)
       + (if ($keyterms | length) == 0 then {} else {keyterms_prompt: $keyterms} end)
     ')"
 
-  curl -sS --fail-with-body --retry 3 --retry-delay 2 --retry-all-errors \
+  local response
+
+  if ! response="$(curl -sS --fail-with-body --retry 3 --retry-delay 2 --retry-all-errors \
     -X POST "$API_BASE/v2/transcript" \
     -H "authorization: $ASSEMBLYAI_API_KEY" \
     -H "content-type: application/json" \
-    -d "$body"
+    -d "$body")"; then
+    echo "$response" >&2
+    return 1
+  fi
+
+  printf '%s' "$response"
 }
 
 poll_transcript() {
