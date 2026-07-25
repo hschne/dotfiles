@@ -37,7 +37,6 @@ hk = "latest"
 pkl = "latest"
 shellcheck = "latest"
 usage = "latest"
-"github:tldraw/tldraw-offline" = { version = "latest", asset_pattern = "tldraw-offline-linux-x86_64.AppImage", bin = "tldraw-offline" }
 
 # NPM Tools
 "npm:@devcontainers/cli" = "latest"

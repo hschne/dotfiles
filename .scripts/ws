@@ -19,11 +19,26 @@ function main() {
     esac
   done
 
+  local arg="${1:-}"
+
+  if [[ -n "$arg" ]]; then
+    local direct=""
+    if [[ -f "$arg" ]]; then
+      direct="$arg"
+    elif [[ -f "$WIKI_DIR/$arg" ]]; then
+      direct="$WIKI_DIR/$arg"
+    fi
+    if [[ -n "$direct" ]]; then
+      open "$direct"
+      exit 0
+    fi
+  fi
+
   command -v rg >/dev/null 2>&1 || die "rg (ripgrep) is required but not installed"
   command -v fzf >/dev/null 2>&1 || die "fzf is required but not installed"
   command -v bat >/dev/null 2>&1 || die "bat is required but not installed"
 
-  local query="${1:-}"
+  local query="$arg"
 
   local selected
   selected=$(
@@ -39,10 +54,13 @@ function main() {
 
   [[ -z "$selected" ]] && exit 0
 
-  local rel file
+  local rel
   rel=${selected%%$'\t'*}
-  file="$WIKI_DIR/$rel"
+  open "$WIKI_DIR/$rel"
+}
 
+open() {
+  local file="$1"
   (cd "$(dirname "$file")" && exec "${EDITOR:-vi}" "$(basename "$file")")
 }
 
