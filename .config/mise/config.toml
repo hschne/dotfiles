@@ -39,12 +39,13 @@ shellcheck = "latest"
 usage = "latest"
 
 # NPM Tools
+"npm:@anthropic-ai/claude-code" = { version = "latest", allow_builds = ["@anthropic-ai/claude-code"] }
 "npm:@devcontainers/cli" = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:@tobilu/qmd" = "latest"
-"npm:pnpm" = "latest"
-"npm:cf" = "latest"
 "npm:agent-browser" = "latest"
+"npm:cf" = "latest"
+"npm:pnpm" = "latest"
 
 # LSP & Lint
 "npm:@herb-tools/formatter" = "latest"
