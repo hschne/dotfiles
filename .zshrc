@@ -71,6 +71,11 @@ export HISTSIZE=10000
 export SAVEHIST=10000
 #: }}}
 
+#: HISTDB {{{
+# Store command history and metadata in SQLite.
+zi load "hschne/zsh-histdb"
+#: }}}
+
 #: ZSH TWEAKS {{{
 
 # Enable advanced cd behaviour
