@@ -475,6 +475,7 @@ hl.window_rule({ match = { title = "^(Spotify.*)$" }, workspace = "5" })
 hl.window_rule({ match = { class = "^([Ss]lack.*)$" }, workspace = "6" })
 hl.window_rule({ match = { class = "^([Ss]ignal.*)$" }, workspace = "6" })
 hl.window_rule({ match = { class = "^([Dd]iscord.*)$" }, workspace = "6" })
+hl.window_rule({ match = { class = "^([Mm]attermost.*)$" }, workspace = "6" })
 
 -- Float certain windows
 hl.window_rule({ match = { class = "^(org.speedcrunch.speedcrunch)$" }, float = true })
