@@ -1,0 +1,48 @@
+{
+  "model": "opus[1m]",
+  "enabledPlugins": {
+    "canon@zarpay-canon": true,
+    "mux-solo@mux-solo": true
+  },
+  "extraKnownMarketplaces": {
+    "zarpay-canon": {
+      "source": {
+        "source": "directory",
+        "path": "/home/hschne/Source/zar/canon"
+      }
+    },
+    "mux-solo": {
+      "source": {
+        "source": "directory",
+        "path": "/home/hschne/Source/mux-solo"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "custom:tokyo-night",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/notify.sh stop",
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/notify.sh notification",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}

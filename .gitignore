@@ -48,7 +48,14 @@ Videos/
 # Local machine/app state
 .Xauthority
 .fehbg
-.claude/
+# .claude/ is mostly local state (sessions, history, caches, credentials), but
+# the config, hook scripts and themes are the tracked source of truth. Walk the
+# path back in the same way as .local/share/easyeffects above.
+!.claude/
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+!.claude/themes/
 .claude.json
 .pi/
 .cursor/
