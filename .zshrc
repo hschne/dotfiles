@@ -73,7 +73,7 @@ export SAVEHIST=10000
 
 #: HISTDB {{{
 # Store command history and metadata in SQLite.
-zi load "hschne/zsh-histdb"
+zi load "hschne/zhstdb"
 #: }}}
 
 #: ZSH TWEAKS {{{
