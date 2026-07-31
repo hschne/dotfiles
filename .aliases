@@ -2,8 +2,10 @@
 alias nsw="cd ~/Source/nixfiles && sudo nixos-rebuild switch --flake ."
 
 # Programs
+ alias qmd="$HOME/.scripts/qmd"
 alias cat="bat"
 alias ccat="cat"
+alias claude='fnox exec --profile zar --no-defaults --if-missing warn -- claude --dangerously-skip-permissions'
 alias clip="wl-copy"
 alias ffind="find"
 alias find="fd"
@@ -14,10 +16,9 @@ alias mup="mise upgrade"
 alias mux="tmuxinator"
 alias open="xdg-open"
 alias pass="pass-cli"
-alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
-alias pic="pi -c"
 alias pi='fnox exec --profile agents --no-defaults --if-missing warn -- pi'
-alias claude='claude --dangerously-skip-permissions'
+alias pic="pi -c"
+alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 alias rlp="realpath"
 alias vd="nvdiff"
 alias vi="nvim"
@@ -92,7 +93,7 @@ alias :q='exit'
 alias pc='pwd | clip'
 
 # YAMD
-alias ya="yadm add"
+alias yaa="yadm add"
 alias yas="yadm status"
 alias yaacm="yadm add -u && yadm commit -m"
 alias yap="yadm push"

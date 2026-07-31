@@ -7,6 +7,10 @@ key_file = "~/.ssh/id_ed25519"
 type = "proton-pass"
 vault = "Personal"
 
+[providers.protonpass_zar]
+type = "proton-pass"
+vault = "ZAR"
+
 [secrets]
 ANTHROPIC_API_KEY= { provider = "protonpass", value = "pass://Personal/ANTHROPIC_API_KEY/value", sync = { provider = "age", value = "YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHNzaC1lZDI1NTE5IHNhY3dIZyBxakc5dUFLVk9uNW1JQk41QzVZZUMvbm9LWUx5VkdEN0ZBMTl0d0hETDN3CmtaSTV0QVRmSVJtOVlvRXVsV2RIcHRCTTg0Q0xmcE40RTREZmxkenlPNXMKLT4gQzp5LWdyZWFzZSB6d1IgblRLdi9ICk9pdFNxZGFqV3hOY2pXb2ZBSHFjb21tdlV1TUlHM0hQU0lNaWMxVVRhUGVWL3BiNjVxcW95YU0KLS0tIFFaQ1pFUTJEcU5mNVA2QjBZam9zQVZyMlJLU3owZ25tNE1QSld6a2NQSHcKkFHIBRQvSIF9oB1rnY/Ic5n8OOneqxNoIjKJJX9lZVo8tlRXTyI35znc875VoDBr0cARp/ruF2TFTpgD+PR5ry3vj2oZ3UD489Lib7XJLfqyipGP+Lh/Lr1607MJyahF1qDEeAFTUg1KWo4xrGQ2HtK44MQIQWxzM9Ae3XCjEnAkdJ34RmOz3S3/MBM=" } }
 ASSEMBLYAI_API_KEY= { provider = "protonpass", value = "pass://Personal/ASSEMBLYAI_API_KEY/value", sync = { provider = "age", value = "YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHNzaC1lZDI1NTE5IHNhY3dIZyArdDljYkdVMkRxdjlIUXg0Y0hpdmJiYXJZc1ZaNjdTdTV0U0JXSmhvK0NzCmFndFlCUmVubWJXY3NWV0gyMVdnR254bFRleVhjSWhEem1OVHZkWU1hVmMKLT4gWH1WNEA9LWdyZWFzZQpiMGwybktRTnJXNWtIWUd6MU9zSW5vd2lwd1N1WTh1cWFiek85UXE5QXhjQzdyc0ZQZmFKRmR4WFRxQk95T3MKLS0tIHk4VWF2aWZRRFVNUFZ4a0hDb1dQaitKNzRIc0dlRWo1SjUvaHkwT0xHeEUKAPg9JqKFNcNzeZD+vrIzd9K4nXomJyK9vAdQSCNXSnR28YebF5DddNo6vPL2IImh7CsF2gbVyP3AMD6TYdAZng==" } }
@@ -18,6 +22,11 @@ GEM_HOST_API_KEY= { provider = "protonpass", value = "pass://Personal/GEM_HOST_A
 OPENROUTER_API_KEY= { provider = "protonpass", value = "pass://Personal/OPENROUTER_API_KEY/value", sync = { provider = "age", value = "YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHNzaC1lZDI1NTE5IHNhY3dIZyBvamU1TXF1MUpXaUw3UW1WYisyZkFuQ2Z2UTVRc2RPTzAxTjRGeTl3UmpRCldMU0VxV0RXNloxMER3Y3hVSFlNc2dyQlpsakRGUFZldWVyd2lOK0FSMzgKLT4gUVEvPzYtZ3JlYXNlIE9NPmt5Ogo0SHo4cm50N3FmNEF3MnpyelpNSFBkTllWb0x5TGppQStUTjRUMkJvYlcvZWpKK2F4b1NIQU54dC93SjBsZwotLS0gaitsV2tETHRQc3RtRmZXWHdxbnFOY0NCU3JrUUZnYW83d0pKVTk1elhHVQo6Jgewz1lbVcg+ascctaqf3m7fO8SCzSr4Yd8DKci5M8HxXiQlbWZmmv97r6pk0g2gmem15c/3ePJaWZe37Y1FSd3KVQ8nCKOWPsaLRsVSfEfVW31OAbpUIp+35Qpgmgbhqt8cq8dmeTA=" } }
 
 [profiles]
+
+[profiles.zar]
+
+[profiles.zar.secrets]
+NEXUS_API_KEY= { provider = "protonpass", value = "pass://ZAR/NEXUS_API_KEY/value", sync = { provider = "age", value = "YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IHNzaC1lZDI1NTE5IHNhY3dIZyA2MjI1L0NORGxRZnl6YlUwNFp4YjlUV3JudnYvdXE4Vm5PTG12eHVxS2s0ClJhVTJoV3NtOFhmQ24xcnROaTlQcndDRE1CcDEwWlZyTWozOW0vMSttUWcKLT4gWnRodSNObS1ncmVhc2UgSXJ5JkpLIF8yWV9QWSBzc0ROS2UgUGRsUCoKaVZuYTNVbVpSblJaVUNzTTRUNFVnUGFGdEtVWFQreE5oclNlTThkU0N0YTNpMXhGWnVUclBuYmVSYzlTS1oyMAorV0hGRklKNDlCUlh2WmNPcTdqdzJ0eUYKLS0tIGUwRlVmNlozK2NIRUR3Y0ZBbnNtaFhMWDM0ZkRXeGsrWmJRUXpaRjFCUjQKbHN+E6f93nGh32AA17VitMvEm8puWhGd2zKAs29ssyXmCVkmAUaNnJ4ZqdDabg5Z558XWkdGqFQOb5WmKG/9UFysMlYYmjjIfMl3K4nv" } }
 
 [profiles.agents]
 

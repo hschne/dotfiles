@@ -183,6 +183,10 @@ export FZF_TMUX_OPTS='-p80%,50%'
 zi ice lucid pick"key-bindings.zsh"
 zi light /usr/share/fzf
 
+bindkey -M emacs '^R' histdb-fzf-widget
+bindkey -M viins '^R' histdb-fzf-widget
+bindkey -M vicmd '^R' histdb-fzf-widget
+
 # Load custom FZF Widgets
 # source ~/.scripts/custom-fzf-widgets.zsh
 

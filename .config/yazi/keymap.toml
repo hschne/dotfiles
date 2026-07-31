@@ -26,7 +26,7 @@ desc = "Jump to a directory via zoxide"
 
 [[mgr.prepend_keymap]]
 on   = [ "g", "f" ]
-run  = 'search_do --via=fd --args="-d 3"'
+run  = 'search_do --via=fd --args="-d 3 --hidden --no-ignore"'
 desc = "Flat view, max depth 3"
 
 [[mgr.prepend_keymap]]

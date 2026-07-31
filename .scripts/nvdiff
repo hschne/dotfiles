@@ -32,10 +32,13 @@ main() {
     git -C "$root" add --intent-to-add -- "${intent_to_add_paths[@]}"
   fi
 
+  # Launch from the current directory, not the repo root. Diffview resolves the
+  # repo itself, and staying put keeps CWD-sensitive editor config (LSP root,
+  # linter selection) pointed at the subproject you invoked this from.
   local status=0
-  (cd "$root" && nvim \
+  nvim \
     -c 'lua pcall(function() require("lazy").load({ plugins = { "diffview.nvim" } }) end)' \
-    -c "DiffviewOpen --imply-local $base_ref...HEAD") || status=$?
+    -c "DiffviewOpen --imply-local $base_ref...HEAD" || status=$?
 
   cleanup_intent_to_add "$root" "${intent_to_add_paths[@]}"
   return "$status"

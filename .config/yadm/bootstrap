@@ -7,6 +7,7 @@ function main() {
   setup_ssh
   setup_yadm
   setup_mise
+  setup_gh_image
   setup_yazi
   setup_pi_agent
 
@@ -42,6 +43,14 @@ setup_mise() {
   eval "$(mise activate bash)"
   mise install
   mise reshim
+}
+
+setup_gh_image() {
+  info "Setting up gh-image"
+  mkdir -p "$HOME/.mozilla"
+
+  ln -sfn "$HOME/.config/mozilla/firefox" "$HOME/.mozilla/firefox"
+  gh extension install drogers0/gh-image
 }
 
 setup_yazi() {

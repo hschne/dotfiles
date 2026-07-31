@@ -11,6 +11,7 @@ return {
         todo_files = {
           "./todo.txt",
           "~/Documents/Wiki/todo.txt",
+          "~/Documents/Wiki/zar.todo.txt",
         },
       })
     end,
