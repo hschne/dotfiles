@@ -122,25 +122,23 @@ fi
 # like that.
 #
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins
+zi ice light-mode
 zi snippet OMZP::archlinux/archlinux.plugin.zsh
+zi ice light-mode
 zi snippet OMZL::git.zsh
+zi ice light-mode
 zi snippet OMZP::git/git.plugin.zsh
+zi ice light-mode
 zi snippet OMZP::npm/npm.plugin.zsh
+zi ice light-mode
 zi snippet OMZP::rails/rails.plugin.zsh
-zi ice as"completion"
+zi ice as"completion" light-mode
 zi snippet OMZP::rails/_rails
 #: }}}
 
-#: SYNTAX HIGHLIGHTING AND AUTOSUGGESTIONS {{{
-#
-# Does what it says on the tin. See site for more information. Take care
-# with those defers, these plugins tend to break other stuff.
-#
-# Website: https://github.com/zsh-users
+#: EXTRA COMPLETIONS {{{
 zi ice lucid wait
 zi load zsh-users/zsh-completions
-zi load zsh-users/zsh-autosuggestions
-zi load zsh-users/zsh-syntax-highlighting
 #: }}}
 
 #: KAMAL COMPLETE {{{
@@ -211,25 +209,36 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 
 #: }}}
 
+#: AUTOSUGGESTIONS AND SYNTAX HIGHLIGHTING {{{
+# Load after other ZLE plugins so autosuggestions only bind widgets once.
+typeset -g ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+zi ice lucid wait
+zi load zsh-users/zsh-autosuggestions
+zi ice lucid wait atload'_zsh_autosuggest_bind_widgets'
+zi load zsh-users/zsh-syntax-highlighting
+#: }}}
+
 #: MISE {{{
+# Expose mise commands before deferred activation.
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 # Activate mise after the first prompt. The preexec hook closes the small
 # Turbo-mode race so every command still receives the mise/Fnox environment.
 _mise_activate() {
   (( ${+functions[mise]} )) && return
 
   eval "$(command mise activate zsh)"
+  add-zsh-hook -d precmd _mise_hook_precmd
   add-zsh-hook -d preexec _mise_activate
 }
 
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec _mise_activate
-zi ice wait"0a" lucid nocd atload'_mise_activate; compdef _mise mise'
-zi snippet "$HOME/.config/completions/mise.zsh"
+zi ice wait"0a" lucid nocd atload'_mise_activate'
 #: }}}
 
 #: FNOX {{{
 export FNOX_SHELL_OUTPUT=none
-[[ -f "$HOME/.ssh/id_rsa" ]] && export FNOX_AGE_KEY_FILE="$HOME/.ssh/id_rsa"
 #: }}}
 
 #: ZOXIDE {{{
@@ -261,12 +270,14 @@ esac
 
 #: COMPLETIONS {{{
 #
-# Enable autocomplete and bash compatibilty
+# Enable autocomplete and bash compatibility
 fpath=(~/.config/completions $fpath)
-autoload bashcompinit && bashcompinit
 # Zinit adds completion directories after this point, invalidating compinit's
 # file-count check on every shell. Rebuild manually after changing completions.
-autoload -U +X compinit && compinit -C -i
+autoload -Uz compinit bashcompinit
+compinit -C -i
+bashcompinit
+source "$HOME/.config/completions/mise.zsh"
 # The cached dump omits the service target used by the OMZ Rails plugin.
 (( ${+_comps[rails]} )) || compdef _rails rails
 zi cdreplay -q
