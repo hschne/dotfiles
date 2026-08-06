@@ -5,6 +5,7 @@ set -euo pipefail
 function main() {
   command -v hyprctl >/dev/null 2>&1 || die "hyprctl is required"
   command -v jq >/dev/null 2>&1 || die "jq is required"
+  command -v notify-send >/dev/null 2>&1 || die "notify-send is required"
 
   local workspace layout next
   workspace="$(hyprctl activeworkspace -j | jq -r '.id')"
@@ -17,6 +18,7 @@ function main() {
   fi
 
   hyprctl eval "hl.workspace_rule({ workspace = \"$workspace\", layout = \"$next\" })"
+  notify-send --app-name=Hyprland "Workspace $workspace layout" "$next"
 }
 
 usage() {

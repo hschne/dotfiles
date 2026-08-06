@@ -27,6 +27,7 @@ package_manager = "npm"
 
 [tools]
 node = "lts"
+yarn = "1.22.19"
 ruby = "latest"
 golang = 'latest'
 python = 'latest'
