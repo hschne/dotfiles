@@ -44,7 +44,6 @@ show_actions = ["alt j"]
 [providers]
 default = [
   "desktopapplications",
-  "websearch",
   "menus",
 ] 
 
@@ -69,10 +68,6 @@ provider = "files"
 [[providers.prefixes]]
 prefix = "."
 provider = "symbols"
-
-[[providers.prefixes]]
-prefix = "@"
-provider = "websearch"
 
 [[providers.prefixes]]
 prefix = ":"
@@ -101,11 +96,6 @@ dmenu = [{ action = "select", default = true, bind = "Return" }]
 
 providerlist = [
   { action = "activate", default = true, bind = "Return", after = "ClearReload" },
-]
-
-websearch = [
-  { action = "search", default = true, bind = "Return" },
-  { action = "open_url", label = "open url", default = true, bind = "Return" },
 ]
 
 desktopapplications = [
