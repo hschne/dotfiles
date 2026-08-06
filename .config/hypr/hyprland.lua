@@ -130,6 +130,15 @@ hl.config({
 		new_status = "master",
 	},
 
+	scrolling = {
+		fullscreen_on_one_column = true,
+		column_width = 0.5,
+		explicit_column_widths = "0.5, 1.0",
+		focus_fit_method = 1,
+		follow_focus = true,
+		direction = "right",
+	},
+
 	misc = {
 		force_default_wallpaper = 0,
 		disable_hyprland_logo = true,
@@ -200,6 +209,11 @@ hl.bind(
 	hl.dsp.exec_cmd(terminal .. " " .. editor .. " ~/Documents/Wiki/todo.txt"),
 	{ description = "Todo" }
 )
+hl.bind(
+	mainMod .. " + Z",
+	hl.dsp.exec_cmd(terminal .. " " .. editor .. " ~/Documents/Wiki/zar.todo.txt"),
+	{ description = "Todo" }
+)
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager), { description = "File Manager" })
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser), { description = "Browser" })
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(terminal .. " -e nvim"), { description = "Neovim" })
@@ -214,6 +228,11 @@ hl.bind(mainMod .. " + Left", hl.dsp.focus({ direction = "left" }), { descriptio
 hl.bind(mainMod .. " + Down", hl.dsp.focus({ direction = "down" }), { description = "Focus down" })
 hl.bind(mainMod .. " + Up", hl.dsp.focus({ direction = "up" }), { description = "Focus up" })
 hl.bind(mainMod .. " + Right", hl.dsp.focus({ direction = "right" }), { description = "Focus right" })
+
+-- Scrolling layout navigation (wraps between the first and last column)
+hl.bind(mainMod .. " + ALT + H", hl.dsp.layout("focus l"), { description = "Previous scrolling column" })
+hl.bind(mainMod .. " + ALT + L", hl.dsp.layout("focus r"), { description = "Next scrolling column" })
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.layout("colresize +conf"), { description = "Toggle scrolling column width" })
 
 -- Move windows
 hl.bind(mainMod .. " + SHIFT + Left", hl.dsp.window.move({ direction = "left" }), { description = "Move window left" })
@@ -241,8 +260,13 @@ hl.bind(
 	{ description = "Move workspace to right monitor" }
 )
 
--- Split orientation (dwindle)
+-- Layout controls
 hl.bind(mainMod .. " + S", hl.dsp.layout("togglesplit"), { description = "Toggle split" })
+hl.bind(
+	mainMod .. " + SHIFT + S",
+	hl.dsp.exec_cmd("~/.scripts/toggle-workspace-layout"),
+	{ description = "Toggle workspace scrolling layout" }
+)
 hl.bind(mainMod .. " + V", hl.dsp.layout("preselect d"), { description = "Preselect down" })
 
 -- Fullscreen
@@ -287,9 +311,9 @@ hl.bind(
 )
 
 -- Voice recording (push-to-talk: hold to record, release to transcribe)
-hl.bind(mainMod .. " + Z", hl.dsp.exec_cmd("voxtype record start"), { description = "Voxtype start recording" })
+hl.bind(mainMod .. " + A", hl.dsp.exec_cmd("voxtype record start"), { description = "Voxtype start recording" })
 hl.bind(
-	mainMod .. " + Z",
+	mainMod .. " + A",
 	hl.dsp.exec_cmd("voxtype record stop"),
 	{ release = true, description = "Voxtype stop recording" }
 )
@@ -470,6 +494,7 @@ hl.window_rule({
 })
 
 -- Workspace assignments
+hl.workspace_rule({ workspace = "1", layout = "scrolling" })
 hl.window_rule({ match = { class = "^([Ff]irefox.*)$" }, workspace = "2" })
 hl.window_rule({ match = { title = "^(Spotify.*)$" }, workspace = "5" })
 hl.window_rule({ match = { class = "^([Ss]lack.*)$" }, workspace = "6" })
