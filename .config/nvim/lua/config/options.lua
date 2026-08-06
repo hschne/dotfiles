@@ -19,16 +19,3 @@ vim.g.root_spec = { "cwd" }
 vim.g.lazyvim_prettier_needs_config = true
 vim.g.lazyvim_eslint_auto_format = false
 
--- Project-dependent ruby formatter. If a standardrb config
--- is present we use standard. Otherwise, Rubocop.
-local function ruby_formatter()
-  local rubocop_config = vim.fn.findfile(".rubocop.yml")
-  if rubocop_config ~= "" then
-    return "rubocop"
-  end
-
-  return "standard"
-end
-
-vim.g.lazyvim_ruby_formatter = ruby_formatter()
-

@@ -212,7 +212,19 @@ zstyle ':fzf-tab:complete:(cd|eza|bat|nvim|lk):*' fzf-preview 'fzf-tab-preview $
 #: }}}
 
 #: MISE {{{
-eval "$(mise activate zsh)"
+# Activate mise after the first prompt. The preexec hook closes the small
+# Turbo-mode race so every command still receives the mise/Fnox environment.
+_mise_activate() {
+  (( ${+functions[mise]} )) && return
+
+  eval "$(command mise activate zsh)"
+  add-zsh-hook -d preexec _mise_activate
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec _mise_activate
+zi ice wait"0a" lucid nocd atload'_mise_activate; compdef _mise mise'
+zi snippet "$HOME/.config/completions/mise.zsh"
 #: }}}
 
 #: FNOX {{{
@@ -252,7 +264,11 @@ esac
 # Enable autocomplete and bash compatibilty
 fpath=(~/.config/completions $fpath)
 autoload bashcompinit && bashcompinit
-autoload -U +X compinit && compinit -i
+# Zinit adds completion directories after this point, invalidating compinit's
+# file-count check on every shell. Rebuild manually after changing completions.
+autoload -U +X compinit && compinit -C -i
+# The cached dump omits the service target used by the OMZ Rails plugin.
+(( ${+_comps[rails]} )) || compdef _rails rails
 zi cdreplay -q
 complete -C '/usr/local/bin/aws_completer' aws
 #: }}}

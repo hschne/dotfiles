@@ -1,4 +1,3 @@
-local formatter = vim.g.lazyvim_ruby_formatter
 local mise = require("util.mise")
 
 -- stimulus-language-server crashes because @herb-tools/core requires @ruby/prism
@@ -21,21 +20,9 @@ return {
         ruby_lsp = {
           mason = false,
           cmd = { mise.shim("ruby-lsp") },
-          init_options = {
-            formatter = formatter,
-            linters = { formatter },
-          },
         },
-        rubocop = {
-          mason = false,
-          enabled = formatter == "rubocop",
-          cmd = { mise.shim("rubocop"), "--lsp" },
-        },
-        standardrb = {
-          mason = false,
-          enabled = formatter == "standard",
-          cmd = { mise.shim("standardrb"), "--lsp" },
-        },
+        rubocop = { enabled = false },
+        standardrb = { enabled = false },
         jsonls = {
           settings = {
             json = {

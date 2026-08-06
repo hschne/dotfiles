@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-main() {
+function main() {
   if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
     usage
     return
@@ -48,9 +48,10 @@ usage() {
   cat <<EOF
 Usage: nvdiff
 
-Open Diffview.nvim against the main baseline:
-  - on a branch: compare local files plus branch commits against main
-  - on main: compare local files plus unpushed commits against upstream main
+Open Diffview.nvim against the branch's effective baseline:
+  - on a stacked branch: compare against the nearest parent branch
+  - on a regular branch: compare against main
+  - on main: compare against upstream main
 
 Includes unstaged, staged, committed, and untracked changes.
 
@@ -67,7 +68,45 @@ base_ref_for_current_branch() {
     return
   fi
 
-  main_ref "$root"
+  local main
+  main=$(main_ref "$root")
+
+  stack_parent_ref "$root" "$branch" "$main" || echo "$main"
+}
+
+stack_parent_ref() {
+  local root="$1"
+  local branch="$2"
+  local main="$3"
+  local main_merge_base
+  main_merge_base=$(git -C "$root" merge-base "$main" HEAD 2>/dev/null) || return 1
+
+  local head_oid
+  head_oid=$(git -C "$root" rev-parse HEAD)
+
+  local best_ref=""
+  local best_distance=""
+  local ref oid fork_point distance
+  while IFS= read -r ref; do
+    [[ "$ref" == "$branch" || "$ref" == "origin/$branch" ]] && continue
+    [[ "$ref" == "origin" || "$ref" == */HEAD ]] && continue
+
+    oid=$(git -C "$root" rev-parse "$ref" 2>/dev/null) || continue
+    [[ "$oid" == "$head_oid" ]] && continue
+
+    fork_point=$(git -C "$root" merge-base "$ref" HEAD 2>/dev/null) || continue
+    [[ "$fork_point" == "$main_merge_base" ]] && continue
+    git -C "$root" merge-base --is-ancestor "$main_merge_base" "$fork_point" 2>/dev/null || continue
+
+    distance=$(git -C "$root" rev-list --count "$fork_point"..HEAD)
+    if [[ -z "$best_distance" || "$distance" -lt "$best_distance" ]]; then
+      best_ref="$ref"
+      best_distance="$distance"
+    fi
+  done < <(git -C "$root" for-each-ref --format='%(refname:short)' refs/heads refs/remotes)
+
+  [[ -n "$best_ref" ]] || return 1
+  echo "$best_ref"
 }
 
 has_changes_against() {
