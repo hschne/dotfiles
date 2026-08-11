@@ -260,13 +260,8 @@ hl.bind(
 	{ description = "Move workspace to right monitor" }
 )
 
--- Layout controls
+-- Split orientation (dwindle)
 hl.bind(mainMod .. " + S", hl.dsp.layout("togglesplit"), { description = "Toggle split" })
-hl.bind(
-	mainMod .. " + SHIFT + S",
-	hl.dsp.exec_cmd("~/.scripts/toggle-workspace-layout"),
-	{ description = "Toggle workspace scrolling layout" }
-)
 hl.bind(mainMod .. " + V", hl.dsp.layout("preselect d"), { description = "Preselect down" })
 
 -- Fullscreen

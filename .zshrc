@@ -223,7 +223,7 @@ zi load zsh-users/zsh-syntax-highlighting
 export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 # Activate mise after the first prompt. The preexec hook closes the small
-# Turbo-mode race so every command still receives the mise/Fnox environment.
+# Turbo-mode race so every command still receives the mise environment.
 _mise_activate() {
   (( ${+functions[mise]} )) && return
 
@@ -239,6 +239,7 @@ zi ice wait"0a" lucid nocd atload'_mise_activate'
 
 #: FNOX {{{
 export FNOX_SHELL_OUTPUT=none
+eval "$(fnox activate zsh)"
 #: }}}
 
 #: ZOXIDE {{{

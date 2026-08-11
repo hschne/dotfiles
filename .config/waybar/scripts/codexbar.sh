@@ -5,6 +5,9 @@ set -euo pipefail
 readonly AUTH_FILE="$HOME/.pi/agent/auth.json"
 readonly CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/waybar-codexbar"
 readonly CACHE_TTL_SECONDS="${CODEXBAR_CACHE_TTL_SECONDS:-60}"
+# Keep dormant providers implemented so they can be restored without rewriting
+# their integrations. Set this to "codex claude openrouter" to restore Claude.
+readonly ENABLED_PROVIDERS="${CODEXBAR_PROVIDERS:-codex openrouter}"
 # CodexBar polls every two minutes after recent interaction. Waybar is always
 # visible, so use the same cadence instead of allowing Claude data to age for
 # an hour.
@@ -36,15 +39,26 @@ function main() {
 }
 
 collect_provider_results() {
-  local items=()
-  items+=("$(provider_result codex fetch_codex_usage)")
-  items+=("$(provider_result claude fetch_claude_usage)")
+  local items=() providers provider or_key
+  read -r -a providers <<<"$ENABLED_PROVIDERS"
 
-  local or_key
-  or_key="$(openrouter_api_key)"
-  if [[ -n "$or_key" ]]; then
-    items+=("$(OPENROUTER_API_KEY="$or_key" provider_result openrouter fetch_openrouter_usage)")
-  fi
+  for provider in "${providers[@]}"; do
+    case "$provider" in
+    codex)
+      items+=("$(provider_result codex fetch_codex_usage)")
+      ;;
+    claude)
+      items+=("$(provider_result claude fetch_claude_usage)")
+      ;;
+    openrouter)
+      or_key="$(openrouter_api_key)"
+      if [[ -n "$or_key" ]]; then
+        items+=("$(OPENROUTER_API_KEY="$or_key" provider_result openrouter fetch_openrouter_usage)")
+      fi
+      ;;
+    *) die "unknown provider: $provider" ;;
+    esac
+  done
 
   printf '%s\n' "${items[@]}" | jq -cs '.'
 }
@@ -757,7 +771,11 @@ usage() {
   cat <<EOF
 Usage: $(basename "$0")
 
-Print Claude, Codex, and OpenRouter usage as Waybar JSON without CodexBar.
+Print configured provider usage as Waybar JSON without CodexBar.
+
+Environment:
+  CODEXBAR_PROVIDERS  Space-separated providers (default: codex openrouter).
+                      Add claude to re-enable Anthropic usage.
 EOF
 }
 
