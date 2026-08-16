@@ -48,6 +48,7 @@ usage = "latest"
 "npm:agent-browser" = "latest"
 "npm:cf" = "latest"
 "npm:pnpm" = "latest"
+"npm:sentry" = "latest"
 
 # LSP & Lint
 "npm:@herb-tools/formatter" = "latest"
