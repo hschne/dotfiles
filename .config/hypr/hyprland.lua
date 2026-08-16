@@ -499,6 +499,14 @@ hl.window_rule({ match = { class = "^([Mm]attermost.*)$" }, workspace = "6" })
 hl.window_rule({ match = { class = "^([Ee]mulator)$" }, workspace = "3" })
 
 -- Float certain windows
+hl.window_rule({
+	name = "emulator-main",
+	match = { class = "^([Ee]mulator)$", title = "^(Android Emulator).*$" },
+	float = true,
+	size = "540 1200",
+	move = "60 60",
+})
+hl.window_rule({ match = { class = "^([Ee]mulator)$", title = "^(Emulator)$" }, float = true })
 hl.window_rule({ match = { class = "^(org.speedcrunch.speedcrunch)$" }, float = true })
 hl.window_rule({ match = { class = "^(org.pulseaudio.pavucontrol)$" }, float = true })
 hl.window_rule({ match = { class = "^(nm-connection-editor)$" }, float = true })
