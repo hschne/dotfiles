@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Run QMD with the Node runtime used to build its native dependencies
+exec mise exec node@lts -- "$(mise which qmd)" "$@"

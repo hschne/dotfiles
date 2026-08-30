@@ -147,6 +147,7 @@ window#waybar.bottom {
 
 /* Bottom bar modules */
 #cpu,
+#disk,
 #memory,
 #temperature,
 #custom-updates,
@@ -156,6 +157,11 @@ window#waybar.bottom {
   padding: 0 10px;
 }
 
+#disk.warning {
+  color: #ff9e64;
+}
+
+#disk.critical,
 #temperature.critical {
   color: #f7768e;
 }

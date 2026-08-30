@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+readonly DEFAULT_SOURCE_DIR="$HOME/.pi/agent/skills"
+readonly DEFAULT_TARGET_DIR="$HOME/.claude/skills"
+
+function main() {
+  local dry_run=false
+  local source_dir="${PI_SKILLS_DIR:-$DEFAULT_SOURCE_DIR}"
+  local target_dir="${CLAUDE_SKILLS_DIR:-$DEFAULT_TARGET_DIR}"
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -n | --dry-run)
+      dry_run=true
+      shift
+      ;;
+    -h | --help)
+      usage
+      return
+      ;;
+    *)
+      die "Unknown option: $1"
+      ;;
+    esac
+  done
+
+  [[ -d "$source_dir" ]] || die "Pi skills directory not found: $source_dir"
+
+  if [[ "$dry_run" == false ]]; then
+    mkdir -p "$target_dir"
+  fi
+
+  sync_skills "$source_dir" "$target_dir" "$dry_run"
+}
+
+sync_skills() {
+  local source_dir="$1"
+  local target_dir="$2"
+  local dry_run="$3"
+  local linked=0
+  local unchanged=0
+  local removed=0
+  local conflicts=0
+  local source=""
+  local target=""
+  local name=""
+  local resolved=""
+  local link_target=""
+  local sources=()
+  local targets=()
+
+  shopt -s nullglob
+  sources=("$source_dir"/*)
+
+  for source in "${sources[@]}"; do
+    [[ -d "$source" && -f "$source/SKILL.md" ]] || continue
+
+    name=$(basename "$source")
+    target="$target_dir/$name"
+
+    if [[ -L "$target" ]]; then
+      resolved=$(readlink -f "$target" 2>/dev/null || true)
+      if [[ "$resolved" == "$source" ]]; then
+        unchanged=$((unchanged + 1))
+      else
+        echo "Conflict: $target is linked to $(readlink "$target")" >&2
+        conflicts=$((conflicts + 1))
+      fi
+    elif [[ -e "$target" ]]; then
+      echo "Conflict: $target already exists" >&2
+      conflicts=$((conflicts + 1))
+    else
+      echo "Link: $target -> $source"
+      if [[ "$dry_run" == false ]]; then
+        ln -s "$source" "$target"
+      fi
+      linked=$((linked + 1))
+    fi
+  done
+
+  if [[ -d "$target_dir" ]]; then
+    targets=("$target_dir"/*)
+    for target in "${targets[@]}"; do
+      [[ -L "$target" ]] || continue
+
+      link_target=$(readlink "$target")
+      [[ "$link_target" == "$source_dir/"* ]] || continue
+
+      name=$(basename "$target")
+      if [[ ! -f "$source_dir/$name/SKILL.md" ]]; then
+        echo "Remove stale link: $target"
+        if [[ "$dry_run" == false ]]; then
+          rm "$target"
+        fi
+        removed=$((removed + 1))
+      fi
+    done
+  fi
+
+  printf 'Linked: %d, unchanged: %d, removed: %d, conflicts: %d\n' \
+    "$linked" "$unchanged" "$removed" "$conflicts"
+
+  if [[ "$conflicts" -gt 0 ]]; then
+    return 1
+  fi
+}
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTIONS]
+
+Symlink Pi skills into Claude Code's personal skills directory.
+Existing files and unrelated links are reported as conflicts and left untouched.
+Stale links previously created from the Pi skills directory are removed.
+
+Options:
+  -n, --dry-run    Show changes without applying them
+  -h, --help       Show this help message
+
+Environment:
+  PI_SKILLS_DIR       Pi skills source (default: ~/.pi/agent/skills)
+  CLAUDE_SKILLS_DIR   Claude skills target (default: ~/.claude/skills)
+EOF
+}
+
+die() {
+  local message="$1"
+  local code="${2:-1}"
+  echo "Error: $message" >&2
+  exit "$code"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

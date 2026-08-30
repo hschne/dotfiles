@@ -1,6 +1,9 @@
 return {
   {
     "mvllow/modes.nvim",
+    -- Later commits use :redraw on mode changes, which breaks Snacks picker input.
+    -- See https://github.com/folke/snacks.nvim/issues/2810
+    commit = "2badf87",
     config = function()
       require("modes").setup({
         colors = {

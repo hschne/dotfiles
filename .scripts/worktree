@@ -2,52 +2,24 @@
 
 set -euo pipefail
 
-WORKTREES_DIR="./worktrees"
-
 function main() {
-  if [[ $# -eq 0 ]]; then
-    usage
-    exit 1
-  fi
+  [[ $# -gt 0 ]] || { usage; exit 1; }
 
-  case "$1" in
-  new)
-    if [[ $# -lt 2 ]]; then
-      _die "'new' command requires a feature description"
-    fi
-    shift
-    create_worktree "$1"
-    ;;
-  setup)
-    if [[ $# -lt 2 ]]; then
-      _die "'setup' command requires a worktree directory name"
-    fi
-    setup_worktree "$2"
-    ;;
-  diff)
-    if [[ $# -lt 2 ]]; then
-      _die "'diff' command requires a worktree directory name"
-    fi
-    diff_worktree "$2"
-    ;;
-  destroy)
-    if [[ $# -lt 2 ]]; then
-      _die "'destroy' command requires a worktree directory name"
-    fi
-    destroy_worktree "$2"
-    ;;
-  open)
-    if [[ $# -lt 2 ]]; then
-      _die "'open' command requires a worktree directory name"
-    fi
-    open_worktree "$2"
-    ;;
-  -h | --help)
-    usage
-    ;;
-  *)
-    _die "Unknown command: $1"
-    ;;
+  local command="$1"
+  shift
+
+  case "$command" in
+  new) new_worktree "$@" ;;
+  create) create_worktree "$@" ;;
+  root) worktrees_root ;;
+  path) worktree_path_command "$@" ;;
+  list) list_worktrees ;;
+  setup) setup_worktree "$@" ;;
+  diff) diff_worktree "$@" ;;
+  destroy) destroy_worktree "$@" ;;
+  open) open_worktree "$@" ;;
+  -h | --help) usage ;;
+  *) die "Unknown command: $command" ;;
   esac
 }
 
@@ -56,141 +28,239 @@ usage() {
 Usage: worktree COMMAND [OPTIONS]
 
 Commands:
-  new "feature description"      Create new worktree folder only
-  setup DIRECTORY                 Run setup script in worktree
-  diff DIRECTORY                  Open nvim Diffview against main
-  destroy DIRECTORY               Remove worktree and clean up
-  open DIRECTORY                  Open worktree using tmuxinator template
+  new "FEATURE"                    Create a dated worktree from a description
+  create NAME [--branch BRANCH]   Create a named worktree and branch
+  root                            Print the configured worktree root
+  path NAME                       Print the path for a named worktree
+  list                            Print configured names and paths as TSV
+  setup NAME                      Run bin/worktree-setup in a worktree
+  diff NAME                       Open nvim Diffview against the main branch
+  destroy NAME [--force]          Remove a worktree
+  open NAME                       Open a worktree using the tmuxinator template
 
-Examples:
-  worktree new "Add user authentication"
-  worktree setup 26-03-add-user-authentication
-  worktree diff 26-03-add-user-authentication
-  worktree destroy 26-03-add-user-authentication
-  worktree open 26-03-add-user-authentication
+Repository-local configuration:
+  git config worktree-manager.root ../worktrees
+  git config worktree-manager.prefix core-
 
+Environment overrides:
+  WORKTREE_ROOT                   Worktree root, absolute or relative to repo
+  WORKTREE_PREFIX                 Prefix added to each worktree directory
 EOF
 }
 
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+new_worktree() {
+  [[ $# -eq 1 ]] || die "'new' requires one quoted feature description"
+
+  local text="$1" slug
+  text="${text// /-}"
+  slug="$(printf '%s' "$text" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]-')"
+  [[ -n "$slug" ]] || die "Feature description produced an empty name"
+
+  create_worktree "$(date +'%y-%m')-$slug"
+}
+
 create_worktree() {
-  local feature_description="$1"
+  local name="" branch="" base=""
 
-  mkdir -p "$WORKTREES_DIR"
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --branch) branch="${2:?Error: --branch requires a value}"; shift 2 ;;
+    --base) base="${2:?Error: --base requires a value}"; shift 2 ;;
+    -*) die "Unknown option: $1" ;;
+    *)
+      [[ -z "$name" ]] || die "Unexpected argument: $1"
+      name="$1"
+      shift
+      ;;
+    esac
+  done
 
-  local text=${feature_description// /-}
-  text=$(echo "$text" | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]-')
-  local date
-  date=$(date +"%y-%m")
-  local branch_name="$date-$text"
-  local worktree_path="$WORKTREES_DIR/$branch_name"
-  local base_branch
-  base_branch=$(_main_branch)
+  [[ -n "$name" ]] || die "'create' requires a name"
+  assert_name "$name"
 
-  if [[ -d "$worktree_path" ]]; then
-    _die "Worktree already exists: $worktree_path"
+  local repo path
+  repo="$(repo_root)"
+  path="$(worktree_path "$repo" "$name")"
+  branch="${branch:-$name}"
+  base="${base:-$(main_branch "$repo")}"
+
+  git check-ref-format --branch "$branch" >/dev/null 2>&1 ||
+    die "Invalid branch name: $branch"
+  [[ ! -e "$path" ]] || die "Worktree already exists: $path"
+
+  mkdir -p "$(dirname "$path")"
+  git -C "$repo" worktree add -b "$branch" "$path" "$base" ||
+    die "git worktree add failed"
+  echo "Created worktree: $path"
+}
+
+worktrees_root() {
+  local repo
+  repo="$(repo_root)"
+  configured_root "$repo"
+}
+
+worktree_path_command() {
+  [[ $# -eq 1 ]] || die "'path' requires a name"
+  assert_name "$1"
+
+  local repo
+  repo="$(repo_root)"
+  worktree_path "$repo" "$1"
+}
+
+configured_root() {
+  local repo="$1" root
+  root="${WORKTREE_ROOT:-}"
+  if [[ -z "$root" ]]; then
+    root="$(git -C "$repo" config --local --get worktree-manager.root 2>/dev/null || true)"
   fi
+  root="${root:-$repo/worktrees}"
 
-  git worktree add "$worktree_path" -b "$branch_name" "$base_branch"
-  echo "Created worktree: $worktree_path"
+  if [[ "$root" != /* ]]; then
+    root="$repo/$root"
+  fi
+  realpath -m "$root"
+}
+
+configured_prefix() {
+  local repo="$1" prefix
+  if [[ "${WORKTREE_PREFIX+x}" == x ]]; then
+    prefix="$WORKTREE_PREFIX"
+  else
+    prefix="$(git -C "$repo" config --local --get worktree-manager.prefix 2>/dev/null || true)"
+  fi
+  printf '%s' "$prefix"
+}
+
+worktree_path() {
+  local repo="$1" name="$2"
+  printf '%s/%s%s\n' "$(configured_root "$repo")" "$(configured_prefix "$repo")" "$name"
+}
+
+list_worktrees() {
+  local repo root prefix line path directory name
+  repo="$(repo_root)"
+  root="$(configured_root "$repo")"
+  prefix="$(configured_prefix "$repo")"
+
+  while IFS= read -r line; do
+    [[ "$line" == "worktree "* ]] || continue
+    path="${line#worktree }"
+    [[ "$path" == "$root/"* ]] || continue
+    directory="$(basename "$path")"
+    [[ "$directory" == "$prefix"* ]] || continue
+    name="${directory#"$prefix"}"
+    [[ -n "$name" ]] && printf '%s\t%s\n' "$name" "$path"
+  done < <(git -C "$repo" worktree list --porcelain)
 }
 
 setup_worktree() {
-  local directory_name="$1"
-  local worktree_path="$WORKTREES_DIR/$directory_name"
+  [[ $# -eq 1 ]] || die "'setup' requires a worktree name"
+  local path script
+  path="$(worktree_path_command "$1")"
+  [[ -d "$path" ]] || die "Worktree does not exist: $path"
 
-  if [[ ! -d "$worktree_path" ]]; then
-    _die "Worktree does not exist: $worktree_path"
+  script="$path/bin/worktree-setup"
+  if [[ ! -x "$script" ]]; then
+    local main_checkout
+    main_checkout="$(dirname "$(git -C "$path" rev-parse --path-format=absolute --git-common-dir)")"
+    script="$main_checkout/bin/worktree-setup"
   fi
 
-  if [[ -f "$worktree_path/bin/worktree-setup" ]]; then
-    echo "Running setup in $worktree_path..."
-    (cd "$worktree_path" && ./bin/worktree-setup)
+  if [[ -x "$script" ]]; then
+    echo "Running setup in $path..."
+    (cd "$path" && "$script")
   else
-    echo "No setup script found in $worktree_path/bin/worktree-setup"
+    echo "No executable setup script found at $path/bin/worktree-setup"
   fi
 }
 
 diff_worktree() {
-  local directory_name="$1"
-  local root
-  root=$(_repo_root)
-  local worktree_path="$root/$WORKTREES_DIR/$directory_name"
-  local base_branch
-  base_branch=$(_main_branch)
+  [[ $# -eq 1 ]] || die "'diff' requires a worktree name"
+  command -v nvim >/dev/null 2>&1 || die "nvim is not installed"
 
-  if [[ ! -d "$worktree_path" ]]; then
-    _die "Worktree does not exist: $worktree_path"
-  fi
+  local repo path base
+  repo="$(repo_root)"
+  path="$(worktree_path "$repo" "$1")"
+  base="$(main_branch "$repo")"
+  [[ -d "$path" ]] || die "Worktree does not exist: $path"
 
-  if ! command -v nvim >/dev/null 2>&1; then
-    _die "nvim is not installed"
-  fi
-
-  if ! git -C "$worktree_path" diff --quiet || ! git -C "$worktree_path" diff --cached --quiet; then
-    (cd "$worktree_path" && nvim -c "DiffviewOpen")
-  elif ! git -C "$worktree_path" diff --quiet "refs/heads/$base_branch" --; then
-    (cd "$worktree_path" && nvim -c "DiffviewOpen $base_branch")
+  if ! git -C "$path" diff --quiet || ! git -C "$path" diff --cached --quiet; then
+    (cd "$path" && nvim -c "DiffviewOpen")
+  elif ! git -C "$path" diff --quiet "refs/heads/$base" --; then
+    (cd "$path" && nvim -c "DiffviewOpen $base")
   else
-    echo "No changes to diff against $base_branch"
+    echo "No changes to diff against $base"
   fi
 }
 
 destroy_worktree() {
-  local directory_name="$1"
-  local worktree_path="$WORKTREES_DIR/$directory_name"
+  local name="" force=false
 
-  if [[ ! -d "$worktree_path" ]]; then
-    _die "Worktree does not exist: $worktree_path"
-  fi
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --force) force=true; shift ;;
+    -*) die "Unknown option: $1" ;;
+    *)
+      [[ -z "$name" ]] || die "Unexpected argument: $1"
+      name="$1"
+      shift
+      ;;
+    esac
+  done
 
-  git worktree remove --force "$worktree_path"
-  rm -rf "$worktree_path"
+  [[ -n "$name" ]] || die "'destroy' requires a worktree name"
+  assert_name "$name"
+
+  local repo root path resolved
+  repo="$(repo_root)"
+  root="$(configured_root "$repo")"
+  path="$(worktree_path "$repo" "$name")"
+  [[ -d "$path" ]] || die "Worktree does not exist: $path"
+
+  resolved="$(realpath "$path")"
+  [[ "$resolved" == "$root/"* ]] || die "Refusing to remove path outside $root: $resolved"
+
+  local -a args=()
+  [[ "$force" == true ]] && args=(--force)
+  git -C "$repo" worktree remove "${args[@]}" "$path" ||
+    die "git worktree remove failed"
 }
 
 open_worktree() {
-  local directory_name="$1"
-  local worktree_path="$WORKTREES_DIR/$directory_name"
-
-  if [[ ! -d "$worktree_path" ]]; then
-    _die "Worktree does not exist: $worktree_path"
-  fi
+  [[ $# -eq 1 ]] || die "'open' requires a worktree name"
+  command -v tmuxinator >/dev/null 2>&1 || die "tmuxinator is not installed"
 
   local path
-  path=$(realpath "$worktree_path")
-  tmuxinator start --append worktree "$directory_name" "$path"
+  path="$(worktree_path_command "$1")"
+  [[ -d "$path" ]] || die "Worktree does not exist: $path"
+  tmuxinator start --append worktree "$(basename "$path")" "$path"
 }
 
-_repo_root() {
-  git rev-parse --show-toplevel
+assert_name() {
+  local name="$1"
+  [[ "$name" =~ ^[a-z0-9][a-z0-9-]*$ ]] ||
+    die "Invalid name: $name (lowercase letters, digits and hyphens only)"
 }
 
-_main_branch() {
-  local branch
-  branch=$(git symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@') || true
-
-  if [[ -n "$branch" ]]; then
-    echo "$branch"
-    return
-  fi
-
-  if git show-ref --verify --quiet refs/heads/main; then
-    echo "main"
-    return
-  fi
-
-  if git show-ref --verify --quiet refs/heads/master; then
-    echo "master"
-    return
-  fi
-
-  echo "main"
+repo_root() {
+  git rev-parse --show-toplevel 2>/dev/null || die "Not inside a git repository"
 }
 
-_die() {
-  local message=$1
-  local code=${2:-1}
-  echo "Error: $message" >&2
-  exit "$code"
+main_branch() {
+  local repo="$1" branch
+  branch="$(git -C "$repo" symbolic-ref --quiet refs/remotes/origin/HEAD 2>/dev/null |
+    sed 's@^refs/remotes/origin/@@')" || true
+  [[ -n "$branch" ]] && { echo "$branch"; return; }
+  git -C "$repo" show-ref --verify --quiet refs/heads/main && { echo main; return; }
+  git -C "$repo" show-ref --verify --quiet refs/heads/master && { echo master; return; }
+  echo main
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

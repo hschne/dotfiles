@@ -177,9 +177,7 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window up:3:wrap --bind 'c
 export FZF_TMUX_OPTS='-p80%,50%'
 
 # Default key bindings for FZF (Ctrl-R history, Ctrl-T files, Alt-C cd)
-# Source the system fzf shell integration with Zi, but do not install Zi's fzf binary pack.
-zi ice lucid pick"key-bindings.zsh"
-zi light /usr/share/fzf
+source "$(fzf-share)/key-bindings.zsh"
 
 bindkey -M emacs '^R' histdb-fzf-widget
 bindkey -M viins '^R' histdb-fzf-widget

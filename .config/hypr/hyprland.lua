@@ -132,8 +132,7 @@ hl.config({
 
 	scrolling = {
 		fullscreen_on_one_column = true,
-		column_width = 0.5,
-		explicit_column_widths = "0.5, 1.0",
+		column_width = 1.0,
 		focus_fit_method = 1,
 		follow_focus = true,
 		direction = "right",
@@ -232,7 +231,6 @@ hl.bind(mainMod .. " + Right", hl.dsp.focus({ direction = "right" }), { descript
 -- Scrolling layout navigation (wraps between the first and last column)
 hl.bind(mainMod .. " + ALT + H", hl.dsp.layout("focus l"), { description = "Previous scrolling column" })
 hl.bind(mainMod .. " + ALT + L", hl.dsp.layout("focus r"), { description = "Next scrolling column" })
-hl.bind(mainMod .. " + SHIFT + C", hl.dsp.layout("colresize +conf"), { description = "Toggle scrolling column width" })
 
 -- Move windows
 hl.bind(mainMod .. " + SHIFT + Left", hl.dsp.window.move({ direction = "left" }), { description = "Move window left" })
