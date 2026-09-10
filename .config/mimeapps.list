@@ -18,6 +18,8 @@ image/png=imv.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=writer.desktop
 x-scheme-handler/slack=slack.desktop
+application/vnd.oasis.opendocument.text=writer.desktop
+x-scheme-handler/tldraw-offline=tldraw-offline.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;librewolf.desktop;
@@ -32,3 +34,4 @@ application/x-extension-xhtml=firefox.desktop;librewolf.desktop;
 application/x-extension-xht=firefox.desktop;librewolf.desktop;
 image/jpeg=nsxiv.desktop;org.gnome.eog.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=libreoffice-writer.desktop;writer.desktop;
+application/vnd.oasis.opendocument.text=writer.desktop;

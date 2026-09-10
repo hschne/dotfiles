@@ -33,7 +33,7 @@ Commands:
   root                            Print the configured worktree root
   path NAME                       Print the path for a named worktree
   list                            Print configured names and paths as TSV
-  setup NAME                      Run bin/worktree-setup in a worktree
+  setup NAME                      Run bin/worktree create in a worktree
   diff NAME                       Open nvim Diffview against the main branch
   destroy NAME [--force]          Remove a worktree
   open NAME                       Open a worktree using the tmuxinator template
@@ -94,9 +94,16 @@ create_worktree() {
   [[ ! -e "$path" ]] || die "Worktree already exists: $path"
 
   mkdir -p "$(dirname "$path")"
-  git -C "$repo" worktree add -b "$branch" "$path" "$base" ||
-    die "git worktree add failed"
+  if git -C "$repo" show-ref --verify --quiet "refs/heads/$branch"; then
+    git -C "$repo" worktree add "$path" "$branch" ||
+      die "git worktree add failed"
+  else
+    git -C "$repo" worktree add -b "$branch" "$path" "$base" ||
+      die "git worktree add failed"
+  fi
   echo "Created worktree: $path"
+
+  setup_worktree "$name"
 }
 
 worktrees_root() {
@@ -166,19 +173,27 @@ setup_worktree() {
   path="$(worktree_path_command "$1")"
   [[ -d "$path" ]] || die "Worktree does not exist: $path"
 
-  script="$path/bin/worktree-setup"
+  script="$(repo_hook "$path")"
+
+  if [[ -n "$script" ]]; then
+    echo "Running setup in $path..."
+    (cd "$path" && "$script" create)
+  else
+    echo "No executable setup script found at $path/bin/worktree"
+  fi
+}
+
+repo_hook() {
+  local path="$1" script main_checkout
+
+  script="$path/bin/worktree"
   if [[ ! -x "$script" ]]; then
-    local main_checkout
     main_checkout="$(dirname "$(git -C "$path" rev-parse --path-format=absolute --git-common-dir)")"
-    script="$main_checkout/bin/worktree-setup"
+    script="$main_checkout/bin/worktree"
   fi
 
-  if [[ -x "$script" ]]; then
-    echo "Running setup in $path..."
-    (cd "$path" && "$script")
-  else
-    echo "No executable setup script found at $path/bin/worktree-setup"
-  fi
+  [[ -x "$script" ]] && echo "$script"
+  return 0
 }
 
 diff_worktree() {
@@ -226,6 +241,14 @@ destroy_worktree() {
 
   resolved="$(realpath "$path")"
   [[ "$resolved" == "$root/"* ]] || die "Refusing to remove path outside $root: $resolved"
+
+  local hook
+  hook="$(repo_hook "$path")"
+  if [[ -n "$hook" ]]; then
+    echo "Running cleanup in $path..."
+    (cd "$path" && "$hook" destroy) ||
+      die "Cleanup failed; worktree retained: $path"
+  fi
 
   local -a args=()
   [[ "$force" == true ]] && args=(--force)

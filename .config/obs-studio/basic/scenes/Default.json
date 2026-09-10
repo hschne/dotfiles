@@ -4,13 +4,13 @@
         {
             "prev_ver": 536936450,
             "name": "Microphone",
-            "uuid": "23fcc877-2bfa-4b87-b079-bca502b8fbd1",
+            "uuid": "1d59cc7e-f1b5-4d74-bd8d-3e0a8ac97360",
             "id": "pulse_input_capture",
             "versioned_id": "pulse_input_capture",
             "settings": {
-                "device_id": "default"
+                "device_id": "alsa_input.usb-R__DE_Wireless_GO_II_RX_2159275C-01.analog-stereo"
             },
-            "mixers": 5,
+            "mixers": 255,
             "sync": 0,
             "flags": 0,
             "volume": 1.0,
@@ -29,134 +29,21 @@
             },
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "private_settings": {},
-            "filters": [
-                {
-                    "prev_ver": 536936450,
-                    "name": "Noise Suppression (light)",
-                    "uuid": "fce4c096-9b61-4d96-b3c0-53872783c09f",
-                    "id": "noise_suppress_filter",
-                    "versioned_id": "noise_suppress_filter",
-                    "settings": {
-                        "suppress_level": -12,
-                        "method": "speex"
-                    },
-                    "mixers": 0,
-                    "sync": 0,
-                    "flags": 0,
-                    "volume": 1.0,
-                    "balance": 0.5,
-                    "enabled": true,
-                    "muted": false,
-                    "push-to-mute": false,
-                    "push-to-mute-delay": 0,
-                    "push-to-talk": false,
-                    "push-to-talk-delay": 0,
-                    "hotkeys": {},
-                    "deinterlace_mode": 0,
-                    "deinterlace_field_order": 0,
-                    "monitoring_type": 0,
-                    "private_settings": {}
-                },
-                {
-                    "prev_ver": 536936450,
-                    "name": "Expander (light room noise gate)",
-                    "uuid": "a4efe2e2-f140-41fa-96ff-9c26f3f58783",
-                    "id": "expander_filter",
-                    "versioned_id": "expander_filter",
-                    "settings": {
-                        "ratio": 2.0,
-                        "threshold": -45.0,
-                        "attack_time": 10,
-                        "release_time": 120,
-                        "output_gain": 0.0,
-                        "detector": "RMS"
-                    },
-                    "mixers": 0,
-                    "sync": 0,
-                    "flags": 0,
-                    "volume": 1.0,
-                    "balance": 0.5,
-                    "enabled": true,
-                    "muted": false,
-                    "push-to-mute": false,
-                    "push-to-mute-delay": 0,
-                    "push-to-talk": false,
-                    "push-to-talk-delay": 0,
-                    "hotkeys": {},
-                    "deinterlace_mode": 0,
-                    "deinterlace_field_order": 0,
-                    "monitoring_type": 0,
-                    "private_settings": {}
-                },
-                {
-                    "prev_ver": 536936450,
-                    "name": "Compressor (very light)",
-                    "uuid": "8c4db748-0bf9-49b0-9c07-fbc79b097c71",
-                    "id": "compressor_filter",
-                    "versioned_id": "compressor_filter",
-                    "settings": {
-                        "ratio": 2.0,
-                        "threshold": -18.0,
-                        "attack_time": 6,
-                        "release_time": 100,
-                        "output_gain": 1.0
-                    },
-                    "mixers": 0,
-                    "sync": 0,
-                    "flags": 0,
-                    "volume": 1.0,
-                    "balance": 0.5,
-                    "enabled": true,
-                    "muted": false,
-                    "push-to-mute": false,
-                    "push-to-mute-delay": 0,
-                    "push-to-talk": false,
-                    "push-to-talk-delay": 0,
-                    "hotkeys": {},
-                    "deinterlace_mode": 0,
-                    "deinterlace_field_order": 0,
-                    "monitoring_type": 0,
-                    "private_settings": {}
-                },
-                {
-                    "prev_ver": 536936450,
-                    "name": "Safety Limiter (-3 dB)",
-                    "uuid": "7d183362-4e3a-4f7e-9656-3c205024a0b6",
-                    "id": "limiter_filter",
-                    "versioned_id": "limiter_filter",
-                    "settings": {
-                        "threshold": -3.0,
-                        "release_time": 60
-                    },
-                    "mixers": 0,
-                    "sync": 0,
-                    "flags": 0,
-                    "volume": 1.0,
-                    "balance": 0.5,
-                    "enabled": true,
-                    "muted": false,
-                    "push-to-mute": false,
-                    "push-to-mute-delay": 0,
-                    "push-to-talk": false,
-                    "push-to-talk-delay": 0,
-                    "hotkeys": {},
-                    "deinterlace_mode": 0,
-                    "deinterlace_field_order": 0,
-                    "monitoring_type": 0,
-                    "private_settings": {}
-                }
-            ]
+            "monitoring_type": 2,
+            "private_settings": {}
         },
         {
             "prev_ver": 536936450,
-            "name": "Local Screen Capture",
-            "uuid": "1029112b-1479-48c3-bec9-6b25c8db8291",
-            "id": "pipewire-screen-capture-source",
-            "versioned_id": "pipewire-screen-capture-source",
+            "name": "Webcam",
+            "uuid": "cbf7f42e-3ae2-4887-844a-a78ee51666ab",
+            "id": "v4l2_input",
+            "versioned_id": "v4l2_input",
             "settings": {
-                "RestoreToken": ""
+                "device_id": "/dev/video2",
+                "input": 0,
+                "pixelformat": 875967048,
+                "resolution": 8246337209400,
+                "framerate": 30
             },
             "mixers": 0,
             "sync": 0,
@@ -177,14 +64,45 @@
         },
         {
             "prev_ver": 536936450,
-            "name": "Incoming/Desktop Audio",
-            "uuid": "c617f844-fa81-47d0-87ce-3b492191ecb9",
-            "id": "pulse_output_capture",
-            "versioned_id": "pulse_output_capture",
+            "name": "Cam Link",
+            "uuid": "9e6b2581-473a-409c-b08c-6bcf8b813a4a",
+            "id": "v4l2_input",
+            "versioned_id": "v4l2_input",
             "settings": {
-                "device_id": "default"
+                "device_id": "/dev/video2",
+                "input": 0,
+                "pixelformat": 1448695129,
+                "resolution": -1,
+                "auto_reset": true,
+                "timeout_frames": 60
             },
-            "mixers": 3,
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936450,
+            "name": "Cam Link (Audio)",
+            "uuid": "d0f6a480-9c86-4406-8444-3194a2a823ad",
+            "id": "pulse_input_capture",
+            "versioned_id": "pulse_input_capture",
+            "settings": {
+                "device_id": "alsa_input.usb-Elgato_Cam_Link_4K_000758F9B6000-03.analog-stereo"
+            },
+            "mixers": 255,
             "sync": 0,
             "flags": 0,
             "volume": 1.0,
@@ -204,56 +122,27 @@
             "deinterlace_mode": 0,
             "deinterlace_field_order": 0,
             "monitoring_type": 0,
-            "private_settings": {},
-            "filters": [
-                {
-                    "prev_ver": 536936450,
-                    "name": "Safety Limiter (-3 dB)",
-                    "uuid": "4ce38511-426e-4cf0-9b0e-5a3c7c954b30",
-                    "id": "limiter_filter",
-                    "versioned_id": "limiter_filter",
-                    "settings": {
-                        "threshold": -3.0,
-                        "release_time": 60
-                    },
-                    "mixers": 0,
-                    "sync": 0,
-                    "flags": 0,
-                    "volume": 1.0,
-                    "balance": 0.5,
-                    "enabled": true,
-                    "muted": false,
-                    "push-to-mute": false,
-                    "push-to-mute-delay": 0,
-                    "push-to-talk": false,
-                    "push-to-talk-delay": 0,
-                    "hotkeys": {},
-                    "deinterlace_mode": 0,
-                    "deinterlace_field_order": 0,
-                    "monitoring_type": 0,
-                    "private_settings": {}
-                }
-            ]
+            "private_settings": {}
         },
         {
             "prev_ver": 536936450,
-            "name": "Call Recording",
+            "name": "Mixed",
             "uuid": "671e1feb-aec5-4a7e-9baf-65c85b4ab6f2",
             "id": "scene",
             "versioned_id": "scene",
             "settings": {
-                "id_counter": 4,
+                "id_counter": 8,
                 "custom_size": false,
                 "items": [
                     {
                         "name": "Microphone",
-                        "source_uuid": "23fcc877-2bfa-4b87-b079-bca502b8fbd1",
+                        "source_uuid": "1d59cc7e-f1b5-4d74-bd8d-3e0a8ac97360",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
                         "scale_ref": {
                             "x": 1920.0,
-                            "y": 1280.0
+                            "y": 1080.0
                         },
                         "align": 5,
                         "bounds_type": 0,
@@ -263,10 +152,10 @@
                         "crop_top": 0,
                         "crop_right": 0,
                         "crop_bottom": 0,
-                        "id": 2,
+                        "id": 5,
                         "group_item_backup": false,
                         "pos": {
-                            "x": -178.0,
+                            "x": 0.0,
                             "y": 0.0
                         },
                         "pos_rel": {
@@ -301,14 +190,14 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "Incoming/Desktop Audio",
-                        "source_uuid": "c617f844-fa81-47d0-87ce-3b492191ecb9",
+                        "name": "Webcam",
+                        "source_uuid": "cbf7f42e-3ae2-4887-844a-a78ee51666ab",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
                         "scale_ref": {
                             "x": 1920.0,
-                            "y": 1280.0
+                            "y": 1080.0
                         },
                         "align": 5,
                         "bounds_type": 0,
@@ -318,14 +207,69 @@
                         "crop_top": 0,
                         "crop_right": 0,
                         "crop_bottom": 0,
-                        "id": 4,
+                        "id": 6,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 1436.0,
+                            "y": 777.0
+                        },
+                        "pos_rel": {
+                            "x": 0.8814814686775208,
+                            "y": 0.43888890743255615
+                        },
+                        "scale": {
+                            "x": 0.37812501192092896,
+                            "y": 0.3787499964237213
+                        },
+                        "scale_rel": {
+                            "x": 0.37812501192092896,
+                            "y": 0.3787499964237213
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "Cam Link",
+                        "source_uuid": "9e6b2581-473a-409c-b08c-6bcf8b813a4a",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 7,
                         "group_item_backup": false,
                         "pos": {
                             "x": 0.0,
                             "y": 0.0
                         },
                         "pos_rel": {
-                            "x": -1.5,
+                            "x": -1.7777777910232544,
                             "y": -1.0
                         },
                         "scale": {
@@ -356,31 +300,31 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "Local Screen Capture",
-                        "source_uuid": "1029112b-1479-48c3-bec9-6b25c8db8291",
+                        "name": "Cam Link (Audio)",
+                        "source_uuid": "d0f6a480-9c86-4406-8444-3194a2a823ad",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
                         "scale_ref": {
                             "x": 1920.0,
-                            "y": 1280.0
+                            "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 2,
+                        "bounds_type": 0,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
                         "crop_top": 0,
                         "crop_right": 0,
                         "crop_bottom": 0,
-                        "id": 3,
+                        "id": 8,
                         "group_item_backup": false,
                         "pos": {
                             "x": 0.0,
                             "y": 0.0
                         },
                         "pos_rel": {
-                            "x": -1.5,
+                            "x": -1.7777777910232544,
                             "y": -1.0
                         },
                         "scale": {
@@ -392,12 +336,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 1920.0,
-                            "y": 1280.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "bounds_rel": {
-                            "x": 3.0,
-                            "y": 2.0
+                            "x": 0.0,
+                            "y": 0.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -425,10 +369,215 @@
             "push-to-talk-delay": 0,
             "hotkeys": {
                 "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.5": [],
+                "libobs.hide_scene_item.5": [],
+                "libobs.show_scene_item.6": [],
+                "libobs.hide_scene_item.6": [],
+                "libobs.show_scene_item.7": [],
+                "libobs.hide_scene_item.7": [],
+                "libobs.show_scene_item.8": [],
+                "libobs.hide_scene_item.8": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 536936450,
+            "name": "Speaker",
+            "uuid": "96daa48d-783e-4853-af2d-66f2b2fdd32a",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "id_counter": 3,
+                "custom_size": false,
+                "items": [
+                    {
+                        "name": "Webcam",
+                        "source_uuid": "cbf7f42e-3ae2-4887-844a-a78ee51666ab",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 2,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "bounds_rel": {
+                            "x": 3.555555582046509,
+                            "y": 2.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "Microphone",
+                        "source_uuid": "1d59cc7e-f1b5-4d74-bd8d-3e0a8ac97360",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "Cam Link (Audio)",
+                        "source_uuid": "d0f6a480-9c86-4406-8444-3194a2a823ad",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
                 "libobs.show_scene_item.2": [],
                 "libobs.hide_scene_item.2": [],
-                "libobs.show_scene_item.4": [],
-                "libobs.hide_scene_item.4": [],
                 "libobs.show_scene_item.3": [],
                 "libobs.hide_scene_item.3": []
             },
@@ -442,11 +591,14 @@
     "groups": [],
     "scene_order": [
         {
-            "name": "Call Recording"
+            "name": "Mixed"
+        },
+        {
+            "name": "Speaker"
         }
     ],
-    "current_scene": "Call Recording",
-    "current_program_scene": "Call Recording",
+    "current_scene": "Mixed",
+    "current_program_scene": "Mixed",
     "canvases": [],
     "current_transition": "Fade",
     "transition_duration": 300,
@@ -477,7 +629,7 @@
     "saved_projectors": [],
     "preview_locked": false,
     "scaling_enabled": true,
-    "scaling_level": -14,
+    "scaling_level": 0,
     "scaling_off_x": 0.0,
     "scaling_off_y": 0.0,
     "virtual-camera": {
