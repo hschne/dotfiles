@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+function main() {
+  local format="${1:-}"
+  local extension=""
+  local command_name=""
+  local archive_name=""
+  local default_name=""
+
+  if [[ -z "$format" ]]; then
+    usage
+    exit 1
+  fi
+  shift
+
+  [[ $# -gt 0 ]] || die "Select at least one file or directory"
+
+  case "$format" in
+  zip)
+    extension="zip"
+    command_name="zip"
+    ;;
+  7z)
+    extension="7z"
+    command_name="7z"
+    ;;
+  tar)
+    extension="tar.gz"
+    command_name="tar"
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    die "Unknown archive format: $format"
+    ;;
+  esac
+
+  command -v "$command_name" >/dev/null 2>&1 || die "$command_name is required but not installed"
+
+  default_name="$(date +%y-%m-%d)-$(basename "$PWD").$extension"
+  if ! read -r -e -i "$default_name" -p "Archive name: " archive_name; then
+    printf '\n'
+    exit 0
+  fi
+
+  [[ -n "$archive_name" ]] || die "Archive name cannot be empty"
+  [[ "$archive_name" != -* ]] || die "Archive name cannot start with a hyphen"
+  [[ ! -e "$archive_name" ]] || die "Archive already exists: $archive_name"
+
+  case "$format" in
+  zip) zip -r -- "$archive_name" "$@" ;;
+  7z) 7z a -- "$archive_name" "$@" ;;
+  tar) tar -czf "$archive_name" -- "$@" ;;
+  esac
+}
+
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") FORMAT FILE...
+
+Create a zip, 7z, or tar.gz archive from selected files.
+EOF
+}
+
+die() {
+  echo "Error: $1" >&2
+  exit "${2:-1}"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi

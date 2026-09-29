@@ -25,6 +25,21 @@ run  = "plugin zoxide"
 desc = "Jump to a directory via zoxide"
 
 [[mgr.prepend_keymap]]
+on   = [ "C", "z" ]
+run  = "shell --block -- ~/.config/yazi/scripts/archive zip %s"
+desc = "Compress selected files to ZIP"
+
+[[mgr.prepend_keymap]]
+on   = [ "C", "7" ]
+run  = "shell --block -- ~/.config/yazi/scripts/archive 7z %s"
+desc = "Compress selected files to 7z"
+
+[[mgr.prepend_keymap]]
+on   = [ "C", "t" ]
+run  = "shell --block -- ~/.config/yazi/scripts/archive tar %s"
+desc = "Compress selected files to tar.gz"
+
+[[mgr.prepend_keymap]]
 on   = [ "g", "f" ]
 run  = 'search_do --via=fd --args="-d 3 --hidden --no-ignore"'
 desc = "Flat view, max depth 3"

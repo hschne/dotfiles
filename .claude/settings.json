@@ -1,26 +1,12 @@
 {
-  "model": "opus[1m]",
-  "enabledPlugins": {
-    "canon@zarpay-canon": true,
-    "mux-solo@mux-solo": true
+  "env": {
+    "DISABLE_ZOXIDE": "1"
   },
-  "extraKnownMarketplaces": {
-    "zarpay-canon": {
-      "source": {
-        "source": "directory",
-        "path": "/home/hschne/Source/zar/canon"
-      }
-    },
-    "mux-solo": {
-      "source": {
-        "source": "directory",
-        "path": "/home/hschne/Source/mux-solo"
-      }
-    }
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "disableAutoMode": "disable"
   },
-  "effortLevel": "high",
-  "skipDangerousModePermissionPrompt": true,
-  "theme": "custom:tokyo-night",
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -43,6 +29,101 @@
           }
         ]
       }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "tldraw-offline",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh '/home/hschne/skills/tldraw-offline/inject-server-context.sh' SubagentStart"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash -c 'cols=${COLUMNS:-}; case \"$cols\" in \"\"|*[!0-9]*) cols=$(stty size 2>/dev/null </dev/tty | awk '\"'\"'{print $2}'\"'\"');; esac; case \"$cols\" in \"\"|*[!0-9]*) cols=120;; esac; export COLUMNS=$(( cols > 4 ? cols - 4 : 1 )); plugin_dir=$(ls -d \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}\"/plugins/cache/*/claude-hud/*/ 2>/dev/null | awk -F/ '\"'\"'{ print $(NF-1) \"\\t\" $(0) }'\"'\"' | grep -E '\"'\"'^[0-9]+\\.[0-9]+\\.[0-9]+[[:space:]]'\"'\"' | sort -t. -k1,1n -k2,2n -k3,3n -k4,4n | tail -1 | cut -f2-); exec \"/home/hschne/.local/share/mise/installs/node/22.17.0/bin/node\" \"${plugin_dir}dist/index.js\"'",
+    "refreshInterval": 5
+  },
+  "enabledPlugins": {
+    "canon@zarpay-canon": true,
+    "mux-solo@mux-solo": true,
+    "fizzy@37signals": true,
+    "claude-hud@claude-hud": true,
+    "figma@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "zarpay-canon": {
+      "source": {
+        "source": "directory",
+        "path": "/home/hschne/Source/zar/canon"
+      }
+    },
+    "mux-solo": {
+      "source": {
+        "source": "directory",
+        "path": "/home/hschne/Source/mux-solo"
+      }
+    },
+    "37signals": {
+      "source": {
+        "source": "github",
+        "repo": "basecamp/claude-plugins"
+      }
+    },
+    "claude-hud": {
+      "source": {
+        "source": "github",
+        "repo": "jarrodwatts/claude-hud"
+      }
+    }
+  },
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "high"
+    },
+    "claude-fable-5": {
+      "effortLevel": "xhigh"
+    }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "custom:tokyo-night",
+  "crossSessionInbound": "accept",
+  "useAutoModeDuringPlan": false,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(aws elbv2 modify-rule:*) in infra/ — ALB ListenerRule/LiveTrafficRule changes are called out in CLAUDE.md as a production-outage risk requiring explicit confirmation",
+      "git commit touching backend/db/schema.rb without an accompanying backend/db/migrate/ change — schema.rb picks up unrelated drift in dev; the right move is reverting the file or dropping the drifted object in the dev database, not committing it"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: zarpay (GitHub org hosting this repo's remote)",
+      "**Cloud provider(s)**: AWS (ECS, Aurora, ElastiCache — per infra/CDK and CLAUDE.md)",
+      "**Repository visibility**: Private (zarpay/core, confirmed via gh)",
+      "**Internal sharing / snippet hosting**: mattermost.zarhq.dev, nexus.internal.zarhq.dev (contacted in recent transcripts)",
+      "**Secrets management**: fnox (~/.config/fnox/config.toml; sourced into agent job environments via the repo's .mob/hooks/env), Proton Pass via pass-cli for personal secrets",
+      "**Default / protected branches**: main (default; ruleset active on main per gh; protected branches: main)",
+      "**CI/CD deploy targets**: Backend Docker image on merge to main (staging) or release tag (production), per CI/CD in CLAUDE.md",
+      "**Network posture**: None configured",
+      "**Source control**: zarpay/core (github.com:zarpay/core.git) and its remote(s) only — no additional orgs configured",
+      "**Trusted internal domains**: mattermost.zarhq.dev, nexus.internal.zarhq.dev",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: linear.app (issue tracking), zar-hk.sentry.io (error tracking), CloudWatch log groups /aws/ecs/zar-core/web-service and /aws/ecs/zar-core/worker-service in eu-central-1",
+      "**Internal package registry**: npm.pkg.github.com",
+      "**Sensitive data locations & audiences**: backend/.devcontainer/.env.sample, backend/bin/dc-credentials, backend/bin/edit_encrypted_file, backend/bin/init_encrypted_file, backend/tmp/map_secrets.rb, infra/lib/secrets/secrets.ts; share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container carrying `prod` or `production` as a whole word or name segment; zar.production AWS SSO profile (from cloudwatch-logs skill) is explicitly production",
+      "**Protected deployment namespaces / environments**: zar.production (AWS SSO profile); production ECS services (web-service, worker-service); the web LiveTrafficRule ALB listener rule in infra/lib/ecs/web-service.ts is flagged as a production-outage risk in CLAUDE.md",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production`; the ALB ListenerRule / LiveTrafficRule change-set called out in CLAUDE.md",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (ZAR Core monorepo — Rails backend, React Native mobile, AWS CDK infra)",
+      "**Trusted repo**: /home/hschne/Source/zar/core (zarpay/core, github.com:zarpay/core.git) — private, so confidential material is fine to commit there, but secrets/credentials still require confirmation per the Definitions carve-out",
+      "**Org-specific CLIs**: mob, sentry (sentry-cli), mise, mm (Mattermost CLI), fnox",
+      "**Routine access**: backend/, mobile-rn/, infra/ prefixes within this repo — no cross-repo routine access configured"
     ]
   }
 }
