@@ -65,3 +65,4 @@ usage = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:yaml-language-server" = "latest"
 yt-dlp = { version = "latest", rename_exe = "yt-dlp" }
+"github:runkids/skillshare" = "latest"
