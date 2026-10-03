@@ -1,5 +1,6 @@
 # Nix
-alias nsw="cd ~/Source/nixfiles && sudo nixos-rebuild switch --flake ."
+alias nxs="cd ~/Source/nixfiles && sudo nixos-rebuild switch --flake ."
+alias nxu="cd ~/Source/nixfiles && nix flake update && sudo nixos-rebuild switch --flake ."
 
 # Programs
  alias qmd="$HOME/.scripts/qmd"
@@ -19,6 +20,7 @@ alias pass="pass-cli"
 alias pic="pi -c"
 alias pup="mise upgrade npm:earendil-works/pi-coding-agent && pi update --extensions"
 alias rlp="realpath"
+alias sks="skillshare sync"
 alias vd="nvdiff"
 alias vi="nvim"
 alias vim="nvim"
@@ -36,6 +38,7 @@ alias miserc="$EDITOR ~/.config/mise/config.toml"
 alias nixrc="$EDITOR ~/Source/nixfiles/"
 alias nvimrc="cd ~/.config/nvim; $EDITOR ~/.config/nvim/lua"
 alias pirc="$EDITOR ~/.pi/agent/settings.json"
+alias sko="$EDITOR ~/.config/skillshare/"
 alias tmuxrc="$EDITOR ~/.tmux.conf"
 alias walkerrc="$EDITOR ~/.config/walker/config.toml"
 alias waybarrc="$EDITOR ~/.config/waybar/config.jsonc"
@@ -53,12 +56,8 @@ alias scratch="$EDITOR ~/Documents/Wiki/scratchpad.md"
 
 ## Lists
 alias lists="$EDITOR ~/Documents/Wiki/resources/lists/"
-alias books="$EDITOR ~/Documents/Wiki/resources/lists/books.md"
 alias gifts="$EDITOR ~/Documents/Wiki/resources/lists/gifts.md"
-alias media="$EDITOR ~/Documents/Wiki/resources/lists/media.md"
-alias places="$EDITOR ~/Documents/Wiki/resources/lists/places.md"
 alias projects="$EDITOR ~/Documents/Wiki/resources/lists/projects.md"
-alias tweets="$EDITOR ~/Documents/Wiki/resources/lists/tweets.md"
 
 # Git
 alias gmt="git mergetool"
